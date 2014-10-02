@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/currentflow.iml" filepath="$PROJECT_DIR$/currentflow.iml" />
+      <module fileurl="file://$PROJECT_DIR$/current-flow.iml" filepath="$PROJECT_DIR$/current-flow.iml" />
+      <module fileurl="file://$PROJECT_DIR$/currentflows.iml" filepath="$PROJECT_DIR$/currentflows.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
       <module fileurl="file://$PROJECT_DIR$/sample/sample.iml" filepath="$PROJECT_DIR$/sample/sample.iml" />
     </modules>
