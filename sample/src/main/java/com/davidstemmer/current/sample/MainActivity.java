@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.davidstemmer.current.sample.module.ActivityModule;
-import com.davidstemmer.current.sample.screen.HomeScreen;
 import com.davidstemmer.current.sample.screen.WelcomeScreen;
 import com.davidstemmer.flowcurrent.Current;
 
 import javax.inject.Inject;
 
-import flow.Flow;
 import mortar.Blueprint;
 import mortar.Mortar;
 import mortar.MortarScope;
@@ -32,7 +30,7 @@ public class MainActivity extends Activity implements Blueprint{
         activityScope = Mortar.requireActivityScope(parentScope, this);
         Mortar.inject(this, this);
 
-        current.split(welcomeScreen);
+        current.switchFlow(welcomeScreen);
 
     }
 

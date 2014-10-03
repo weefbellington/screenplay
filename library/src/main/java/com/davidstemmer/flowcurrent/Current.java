@@ -26,11 +26,11 @@ public class Current {
         this.container = container;
     }
 
-    public void split(Object screen) {
-        split(screen, new PagedFlowListener(this));
+    public void switchFlow(Object screen) {
+        switchFlow(screen, new PagedFlowListener(this));
     }
 
-    public void split(Object screen, Flow.Listener listener) {
+    public void switchFlow(Object screen, Flow.Listener listener) {
 
         Flow flow;
         if (flows.isEmpty()) {

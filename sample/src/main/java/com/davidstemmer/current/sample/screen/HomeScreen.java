@@ -56,7 +56,7 @@ public class HomeScreen implements Screen {
         }
 
         @OnClick(R.id.floating_example) void onNextClicked() {
-            current.split(popupScreen, new ModalFlowListener(current));
+            current.switchFlow(popupScreen, new ModalFlowListener(current));
         }
     }
 }
