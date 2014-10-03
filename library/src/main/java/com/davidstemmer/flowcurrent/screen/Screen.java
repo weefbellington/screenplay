@@ -21,7 +21,7 @@ public interface Screen {
     }
 
     public static interface Transformer {
-        public void transform(Flow.Direction direction, Screen nextScreen, Screen previousScreen);
+        public void transform(Flow.Direction direction, Flow.Callback callback, Screen nextScreen, Screen previousScreen);
     }
 
 }

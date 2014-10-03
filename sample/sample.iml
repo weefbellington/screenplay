@@ -84,7 +84,7 @@
     <orderEntry type="library" exported="" name="javawriter-2.3.0" level="project" />
     <orderEntry type="library" exported="" name="dagger-1.2.1" level="project" />
     <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
-    <orderEntry type="library" exported="" name="flow-0.7" level="project" />
+    <orderEntry type="library" exported="" name="flow-0.8" level="project" />
     <orderEntry type="library" exported="" name="mortar-0.16" level="project" />
     <orderEntry type="library" exported="" name="dagger-compiler-1.2.1" level="project" />
     <orderEntry type="library" exported="" name="butterknife-5.1.2" level="project" />

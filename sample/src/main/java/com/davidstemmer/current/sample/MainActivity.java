@@ -10,6 +10,7 @@ import com.davidstemmer.flowcurrent.Current;
 
 import javax.inject.Inject;
 
+import flow.Flow;
 import mortar.Blueprint;
 import mortar.Mortar;
 import mortar.MortarScope;

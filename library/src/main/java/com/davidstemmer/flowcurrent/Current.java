@@ -42,7 +42,7 @@ public class Current {
         Backstack newBackstack = backstackBuilder.build();
 
         Flow flow = new Flow(newBackstack, listener);
-        listener.go(newBackstack, Flow.Direction.FORWARD);
+        flow.resetTo(screen);
 
         flows.add(flow);
     }

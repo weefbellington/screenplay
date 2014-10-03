@@ -31,7 +31,7 @@ public class ModalFlowListener implements Flow.Listener {
     }
 
     @Override
-    public final void go(Backstack entries, Flow.Direction direction) {
+    public final void go(Backstack entries, Flow.Direction direction, Flow.Callback callback) {
 
         Screen nextScreen = (Screen) entries.current().getScreen();
 
@@ -45,7 +45,9 @@ public class ModalFlowListener implements Flow.Listener {
         }
 
         if (previousScreen != null) {
-            ScreenTransformations.start(direction, nextScreen, previousScreen);
+            ScreenTransformations.start(direction, callback, nextScreen, previousScreen);
+        } else {
+            callback.onComplete();
         }
 
         if (direction == Flow.Direction.BACKWARD) {

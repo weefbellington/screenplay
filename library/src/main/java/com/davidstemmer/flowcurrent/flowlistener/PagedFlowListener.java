@@ -31,19 +31,22 @@ public class PagedFlowListener implements Flow.Listener {
     }
 
     @Override
-    public final void go(Backstack entries, Flow.Direction direction) {
+    public final void go(Backstack entries, Flow.Direction direction, Flow.Callback callback) {
 
         Screen nextScreen = (Screen) entries.current().getScreen();
 
         View newChild = nextScreen.getDirector().create(context, nextScreen, container);
 
         if (previousScreen != null) {
-            ScreenTransformations.start(direction, nextScreen, previousScreen);
+            ScreenTransformations.start(direction, callback, nextScreen, previousScreen);
             View oldChild = previousScreen.getDirector().destroy(context, previousScreen, container);
             container.removeView(oldChild);
+        } else {
+            callback.onComplete();
         }
 
         container.addView(newChild);
         previousScreen = nextScreen;
+
     }
 }
