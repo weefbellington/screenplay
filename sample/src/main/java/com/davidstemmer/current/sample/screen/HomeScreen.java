@@ -2,12 +2,14 @@ package com.davidstemmer.current.sample.screen;
 
 import com.davidstemmer.current.sample.R;
 import com.davidstemmer.current.sample.screen.transformer.HorizontalSlideTransformer;
+import com.davidstemmer.current.sample.view.HomeView;
 import com.davidstemmer.flowcurrent.screen.Screen;
 import com.davidstemmer.flowcurrent.screen.directors.FlowDirector;
 
 import javax.inject.Inject;
 
 import flow.Layout;
+import mortar.ViewPresenter;
 
 /**
  * Created by weefbellington on 10/2/14.
@@ -32,5 +34,9 @@ public class HomeScreen implements Screen {
     @Override
     public Screen.Transformer getTransformer() {
         return transformer;
+    }
+
+    public static class Presenter extends ViewPresenter<HomeView> {
+
     }
 }
