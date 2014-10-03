@@ -3,7 +3,7 @@ package com.davidstemmer.current.sample.screen.transformer;
 import android.app.Application;
 
 import com.davidstemmer.current.sample.R;
-import com.davidstemmer.flowcurrent.transformation.TweenTransformer;
+import com.davidstemmer.flowcurrent.transformer.TweenTransformer;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
