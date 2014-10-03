@@ -6,7 +6,10 @@ import android.widget.RelativeLayout;
 import com.davidstemmer.current.sample.MainActivity;
 import com.davidstemmer.current.sample.R;
 import com.davidstemmer.current.sample.screen.HomeScreen;
+import com.davidstemmer.current.sample.screen.PopupScreen;
 import com.davidstemmer.current.sample.screen.WelcomeScreen;
+import com.davidstemmer.current.sample.view.HomeView;
+import com.davidstemmer.current.sample.view.PopupView;
 import com.davidstemmer.current.sample.view.WelcomeView;
 import com.davidstemmer.flowcurrent.Current;
 
@@ -21,10 +24,15 @@ import dagger.Provides;
 @Module(addsTo = ApplicationModule.class,
         injects = {
                 HomeScreen.class,
+                HomeScreen.Presenter.class,
+                HomeView.class,
                 MainActivity.class,
+                PopupScreen.class,
+                PopupScreen.Presenter.class,
+                PopupView.class,
                 WelcomeScreen.class,
-                WelcomeView.class,
-                WelcomeScreen.Presenter.class
+                WelcomeScreen.Presenter.class,
+                WelcomeView.class
         })
 public class ActivityModule {
 
@@ -34,7 +42,7 @@ public class ActivityModule {
         this.activity = activity;
     }
 
-    @Provides
+    @Provides @Singleton
     Activity provideActivity() {
         return activity;
     }

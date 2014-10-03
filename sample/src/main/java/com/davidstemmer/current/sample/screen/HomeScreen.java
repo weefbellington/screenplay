@@ -1,13 +1,20 @@
 package com.davidstemmer.current.sample.screen;
 
+import android.os.Bundle;
+
 import com.davidstemmer.current.sample.R;
 import com.davidstemmer.current.sample.screen.transformer.HorizontalSlideTransformer;
 import com.davidstemmer.current.sample.view.HomeView;
+import com.davidstemmer.flowcurrent.Current;
+import com.davidstemmer.flowcurrent.flowlistener.ModalFlowListener;
 import com.davidstemmer.flowcurrent.screen.Screen;
 import com.davidstemmer.flowcurrent.screen.directors.FlowDirector;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import flow.Layout;
 import mortar.ViewPresenter;
 
@@ -36,7 +43,20 @@ public class HomeScreen implements Screen {
         return transformer;
     }
 
+    @Singleton
     public static class Presenter extends ViewPresenter<HomeView> {
 
+        @Inject Current current;
+        @Inject PopupScreen popupScreen;
+
+        @Override
+        protected void onLoad(Bundle savedInstanceState) {
+            super.onLoad(savedInstanceState);
+            ButterKnife.inject(this, getView());
+        }
+
+        @OnClick(R.id.floating_example) void onNextClicked() {
+            current.split(popupScreen, new ModalFlowListener(current));
+        }
     }
 }

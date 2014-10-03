@@ -32,19 +32,22 @@ public class Current {
 
     public void split(Object screen, Flow.Listener listener) {
 
-        Backstack.Builder backstackBuilder = Backstack.emptyBuilder();
-        // make the last screen of the previous backstack the root of the new backstack
-        if (!flows.isEmpty()) {
-            Flow previousFlow = flows.peekLast();
-            backstackBuilder.push(previousFlow.getBackstack().current().getScreen());
+        Flow flow;
+        if (flows.isEmpty()) {
+            Backstack backstack = Backstack.single(screen);
+            flow = new Flow(backstack, listener);
+            flow.resetTo(screen);
         }
-        backstackBuilder.push(screen);
-        Backstack newBackstack = backstackBuilder.build();
-
-        Flow flow = new Flow(newBackstack, listener);
-        flow.resetTo(screen);
+        else {
+            // make the last screen of the previous backstack the root of the new backstack
+            Flow previousFlow = flows.peekLast();
+            Backstack backstack = Backstack.single(previousFlow.getBackstack().current().getScreen());
+            flow = new Flow(backstack, listener);
+            flow.goTo(screen);
+        }
 
         flows.add(flow);
+
     }
 
     public void goForward(Object screen) {

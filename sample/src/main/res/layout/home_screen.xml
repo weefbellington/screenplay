@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.davidstemmer.current.sample.view.HomeView
+    xmlns:android="http://schemas.android.com/apk/res/android"
               android:background="@android:color/holo_red_light"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <Button
-        android:id="@+id/floating_modal"
+        android:id="@+id/floating_example"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
-        android:text="Floating modal"/>
-
-</LinearLayout>
+        android:text="Floating example"/>
+</com.davidstemmer.current.sample.view.HomeView>

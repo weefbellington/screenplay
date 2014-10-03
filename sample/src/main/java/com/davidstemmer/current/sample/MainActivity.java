@@ -38,7 +38,7 @@ public class MainActivity extends Activity implements Blueprint{
 
     @Override public void onBackPressed() {
         if (!current.goBack()) {
-            finish();
+            super.onBackPressed();
         }
     }
 
