@@ -51,7 +51,7 @@ public class ModalFlowListener implements Flow.Listener {
         }
 
         if (direction == Flow.Direction.BACKWARD) {
-            View oldChild = nextScreen.getDirector().destroy(context, previousScreen, container);
+            View oldChild = previousScreen.getDirector().destroy(context, previousScreen, container);
             container.removeView(oldChild);
         }
 
