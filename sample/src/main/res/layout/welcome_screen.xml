@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.davidstemmer.current.sample.view.WelcomeView
+<com.davidstemmer.screenplay.sample.view.WelcomeView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,4 +22,4 @@
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:text="Next"/>
-</com.davidstemmer.current.sample.view.WelcomeView>
+</com.davidstemmer.screenplay.sample.view.WelcomeView>

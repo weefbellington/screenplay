@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<com.davidstemmer.current.sample.view.PopupView
+<com.davidstemmer.screenplay.sample.view.PopupView
     xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="300dp"
-                android:layout_height="200dp"
-                android:layout_centerInParent="true"
-                android:background="@android:color/holo_purple">
+    android:layout_width="300dp"
+    android:layout_height="200dp"
+    android:layout_centerInParent="true"
+    android:background="@android:color/holo_purple">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,4 +21,4 @@
         android:textSize="30sp"
         android:textColor="@android:color/white"
         android:text="OK"/>
-</com.davidstemmer.current.sample.view.PopupView>
+</com.davidstemmer.screenplay.sample.view.PopupView>
