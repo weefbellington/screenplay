@@ -21,7 +21,7 @@ import mortar.ViewPresenter;
  * Created by weefbellington on 10/2/14.
  */
 
-@Layout(R.layout.welcome_screen)
+@Layout(R.layout.welcome)
 public class WelcomeScene implements Scene {
 
     private final SimpleDirector director;

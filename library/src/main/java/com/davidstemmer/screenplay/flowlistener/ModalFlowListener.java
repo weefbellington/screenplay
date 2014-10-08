@@ -38,6 +38,7 @@ public class ModalFlowListener implements Flow.Listener {
         this.blockTouchesOutside = blockTouchesOutside;
     }
 
+
     @Override
     public final void go(Backstack entries, Flow.Direction direction, Flow.Callback callback) {
 

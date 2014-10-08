@@ -20,7 +20,7 @@ import mortar.ViewPresenter;
 /**
  * Created by weefbellington on 10/2/14.
  */
-@Layout(R.layout.popup_screen)
+@Layout(R.layout.popup)
 public class PopupScene implements Scene {
 
     @Inject PopupTransition transformer;
