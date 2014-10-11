@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.davidstemmer.screenplay.SceneState;
 import com.davidstemmer.screenplay.Screenplay;
-import com.davidstemmer.screenplay.flowlistener.ModalFlowListener;
+import com.davidstemmer.screenplay.ModalFlowListener;
 import com.davidstemmer.screenplay.sample.module.ActivityModule;
 import com.davidstemmer.screenplay.sample.scene.NavigationDrawerScene;
 import com.davidstemmer.screenplay.sample.scene.WelcomeScene;
@@ -37,7 +38,10 @@ public class MainActivity extends Activity implements Blueprint {
         Mortar.inject(this, this);
 
         screenplay.changeFlow(welcomeScreen);
+    }
 
+    private boolean isNavigationDrawerOpen() {
+        return findViewById(R.id.navigation_drawer) != null;
     }
 
     @Override public void onBackPressed() {
@@ -48,10 +52,17 @@ public class MainActivity extends Activity implements Blueprint {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (screenplay.getSceneState() == SceneState.TRANSITIONING) return true;
+
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                screenplay.changeFlow(navigationDrawerScene, new ModalFlowListener(screenplay));
+                if (isNavigationDrawerOpen()) {
+                    screenplay.goBack();
+                } else {
+                    screenplay.changeFlow(navigationDrawerScene, new ModalFlowListener(screenplay));
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -81,4 +92,6 @@ public class MainActivity extends Activity implements Blueprint {
     public Object getDaggerModule() {
         return new ActivityModule(this);
     }
+
+
 }

@@ -2,7 +2,7 @@ package com.davidstemmer.screenplay.sample.module;
 
 import android.app.Application;
 
-import com.davidstemmer.screenplay.sample.scene.transition.HorizontalSlideTransition;
+import com.davidstemmer.screenplay.sample.scene.transition.HorizontalSlideTransformer;
 
 import dagger.Module;
 import dagger.Provides;
@@ -11,7 +11,7 @@ import dagger.Provides;
  * Created by weefbellington on 10/2/14.
  */
 @Module(injects = {
-        HorizontalSlideTransition.class
+        HorizontalSlideTransformer.class
 })
 public class ApplicationModule {
 

@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.davidstemmer.screenplay.sample.R;
-import com.davidstemmer.screenplay.sample.scene.transition.HorizontalSlideTransition;
+import com.davidstemmer.screenplay.sample.scene.transition.HorizontalSlideTransformer;
 import com.davidstemmer.screenplay.Screenplay;
 import com.davidstemmer.screenplay.scene.Scene;
 import com.davidstemmer.screenplay.scene.director.SimpleDirector;
@@ -25,10 +25,10 @@ import mortar.ViewPresenter;
 public class WelcomeScene implements Scene {
 
     private final SimpleDirector director;
-    private final HorizontalSlideTransition transformer;
+    private final HorizontalSlideTransformer transformer;
 
     @Inject
-    public WelcomeScene(SimpleDirector director, HorizontalSlideTransition transformer) {
+    public WelcomeScene(SimpleDirector director, HorizontalSlideTransformer transformer) {
         this.director = director;
         this.transformer = transformer;
     }
@@ -39,7 +39,7 @@ public class WelcomeScene implements Scene {
     }
 
     @Override
-    public Transition getTransition() {
+    public Transformer getTransformer() {
         return transformer;
     }
 

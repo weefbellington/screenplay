@@ -3,8 +3,6 @@ package com.davidstemmer.screenplay;
 import android.content.Context;
 import android.view.ViewGroup;
 
-import com.davidstemmer.screenplay.flowlistener.PagedFlowListener;
-
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -16,10 +14,11 @@ import flow.Flow;
  */
 public class Screenplay {
 
-    private final Context context;
-    private final ViewGroup container;
-
+    public final Context context;
+    public final ViewGroup container;
     private final Deque<Flow> flows = new ArrayDeque<Flow>();
+
+    private SceneState sceneState;
 
     public Screenplay(Context context, ViewGroup container) {
         this.context = context;
@@ -55,22 +54,30 @@ public class Screenplay {
     }
 
     public boolean goBack() {
-        while(!flows.isEmpty() ) {
-            Flow activeFlow = flows.peekLast();
-            if (activeFlow.goBack()) {
-                return true;
-            } else {
-                flows.removeLast();
-            }
+        Flow delegate;
+        if (shouldPopToPreviousFlow()) {
+            delegate = flows.removeLast();
+        } else {
+            delegate = flows.peekLast();
         }
-        return false;
+        return delegate.goBack();
     }
 
-    public Context getContext() {
-        return context;
+    public SceneState getSceneState() {
+        return sceneState;
     }
 
-    public ViewGroup getContainer() {
-        return container;
+    void setSceneState(SceneState state) {
+        this.sceneState = state;
     }
+
+    private boolean shouldPopToPreviousFlow() {
+        Flow currentFlow = flows.peekLast();
+        return !isRootFlow(currentFlow) && currentFlow.getBackstack().size() == 2;
+    }
+
+    private boolean isRootFlow(Flow flow) {
+        return flows.peekFirst().equals(flow);
+    }
+
 }

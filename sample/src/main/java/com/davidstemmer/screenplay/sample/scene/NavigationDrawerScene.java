@@ -1,7 +1,7 @@
 package com.davidstemmer.screenplay.sample.scene;
 
 import com.davidstemmer.screenplay.sample.R;
-import com.davidstemmer.screenplay.sample.scene.transition.NavigationDrawerTransition;
+import com.davidstemmer.screenplay.sample.scene.transition.NavigationDrawerTransformer;
 import com.davidstemmer.screenplay.scene.Scene;
 import com.davidstemmer.screenplay.scene.director.SimpleDirector;
 
@@ -17,10 +17,10 @@ import flow.Layout;
 public class NavigationDrawerScene implements Scene {
 
     private final SimpleDirector director;
-    private final NavigationDrawerTransition transition;
+    private final NavigationDrawerTransformer transition;
 
     @Inject
-    public NavigationDrawerScene(SimpleDirector director, NavigationDrawerTransition transition) {
+    public NavigationDrawerScene(SimpleDirector director, NavigationDrawerTransformer transition) {
         this.director = director;
         this.transition = transition;
     }
@@ -31,7 +31,7 @@ public class NavigationDrawerScene implements Scene {
     }
 
     @Override
-    public Transition getTransition() {
+    public Transformer getTransformer() {
         return transition;
     }
 }

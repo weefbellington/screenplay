@@ -7,13 +7,16 @@ import flow.Flow;
  */
 public class ScreenTransitions {
 
-    public static void start(Flow.Direction direction, Flow.Callback callback, Scene nextScene, Scene previousScene) {
-        Scene.Transition transition = switchOnDirection(direction, nextScene, previousScene);
-        transition.transform(direction, callback, nextScene, previousScene);
+    public static void start(Scene.Transition transition) {
+        Scene.Transformer transformer = switchOnDirection(transition);
+        transformer.transform(transition);
     }
 
-    private static Scene.Transition switchOnDirection(Flow.Direction direction, Scene nextScene, Scene previousScene) {
-        Scene incomingScene = direction == Flow.Direction.FORWARD ? nextScene : previousScene;
-        return incomingScene.getTransition();
+    private static Scene.Transformer switchOnDirection(Scene.Transition transition) {
+        Scene incomingScene =
+                transition.direction == Flow.Direction.FORWARD ?
+                transition.nextScene :
+                transition.previousScene;
+        return incomingScene.getTransformer();
     }
 }

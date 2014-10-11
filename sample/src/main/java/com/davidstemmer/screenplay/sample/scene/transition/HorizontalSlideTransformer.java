@@ -3,7 +3,7 @@ package com.davidstemmer.screenplay.sample.scene.transition;
 import android.app.Application;
 
 import com.davidstemmer.screenplay.sample.R;
-import com.davidstemmer.screenplay.scene.transition.TweenTransition;
+import com.davidstemmer.screenplay.scene.transition.TweenTransformer;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -13,7 +13,7 @@ import javax.inject.Singleton;
  */
 
 @Singleton
-public class HorizontalSlideTransition extends TweenTransition {
+public class HorizontalSlideTransformer extends TweenTransformer {
 
     private static final Params params = new Params();
 
@@ -25,7 +25,7 @@ public class HorizontalSlideTransition extends TweenTransition {
     }
 
     @Inject
-    public HorizontalSlideTransition(Application context) {
+    public HorizontalSlideTransformer(Application context) {
         super(context, params);
     }
 }
