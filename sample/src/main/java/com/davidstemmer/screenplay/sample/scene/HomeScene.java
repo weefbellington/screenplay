@@ -48,7 +48,7 @@ public class HomeScene implements Scene {
 
         @Inject Screenplay screenplay;
         @Inject PopupScene popupScreen;
-        @Inject ModalFlow.Creator modalFlow;
+        @Inject ModalFlow.Creator modalSwitcher;
 
         @Override
         protected void onLoad(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class HomeScene implements Scene {
         }
 
         @OnClick(R.id.floating_example) void onNextClicked() {
-            screenplay.changeFlow(popupScreen, modalFlow);
+            screenplay.changeFlow(popupScreen, modalSwitcher);
         }
     }
 }

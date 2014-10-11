@@ -29,9 +29,9 @@ public class Screenplay {
         changeFlow(screen, new PagedFlow.Creator());
     }
 
-    public void changeFlow(Object screen, FlowCreator flowCreator) {
+    public void changeFlow(Object screen, FlowListenerFactory flowListenerFactory) {
 
-        Flow.Listener listener = flowCreator.create(this);
+        Flow.Listener listener = flowListenerFactory.create(this);
         Flow flow;
 
         if (flows.isEmpty()) {

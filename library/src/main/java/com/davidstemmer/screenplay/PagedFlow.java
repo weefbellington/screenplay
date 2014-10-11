@@ -13,7 +13,7 @@ import flow.Flow;
  */
 public class PagedFlow implements Flow.Listener, Scene.TransitionListener {
 
-    public static class Creator implements FlowCreator {
+    public static class Creator implements FlowListenerFactory {
         @Override
         public Flow.Listener create(Screenplay screenplay) {
             return new PagedFlow(screenplay);

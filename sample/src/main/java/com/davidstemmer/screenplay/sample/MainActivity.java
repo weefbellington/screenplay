@@ -22,7 +22,7 @@ public class MainActivity extends Activity implements Blueprint {
     @Inject Screenplay screenplay;
     @Inject WelcomeScene welcomeScreen;
     @Inject NavigationDrawerScene navigationDrawerScene;
-    @Inject ModalFlow.Creator modalFlow;
+    @Inject ModalFlow.Creator modalSwitcher;
 
     private MortarScope activityScope;
 
@@ -62,7 +62,7 @@ public class MainActivity extends Activity implements Blueprint {
                 if (isNavigationDrawerOpen()) {
                     screenplay.goBack();
                 } else {
-                    screenplay.changeFlow(navigationDrawerScene, modalFlow);
+                    screenplay.changeFlow(navigationDrawerScene, modalSwitcher);
                 }
                 return true;
         }

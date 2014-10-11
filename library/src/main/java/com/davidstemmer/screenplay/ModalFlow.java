@@ -22,14 +22,14 @@ public class ModalFlow implements Flow.Listener, Scene.TransitionListener {
 
     private Scene previousScene;
 
-    public static class Creator implements FlowCreator {
+    public static class Creator implements FlowListenerFactory {
 
         private boolean blocksTouchesOutside = true;
 
         @Inject
         public Creator() {}
 
-        public FlowCreator blocksTouchesOutside(boolean block) {
+        public FlowListenerFactory blocksTouchesOutside(boolean block) {
             this.blocksTouchesOutside = block;
             return this;
         }
