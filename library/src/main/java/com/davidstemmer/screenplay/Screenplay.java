@@ -26,12 +26,14 @@ public class Screenplay {
     }
 
     public void changeFlow(Object screen) {
-        changeFlow(screen, new PagedFlowListener(this));
+        changeFlow(screen, new PagedFlow.Creator());
     }
 
-    public void changeFlow(Object screen, Flow.Listener listener) {
+    public void changeFlow(Object screen, FlowCreator flowCreator) {
 
+        Flow.Listener listener = flowCreator.create(this);
         Flow flow;
+
         if (flows.isEmpty()) {
             Backstack backstack = Backstack.single(screen);
             flow = new Flow(backstack, listener);

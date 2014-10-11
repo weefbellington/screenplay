@@ -2,11 +2,11 @@ package com.davidstemmer.screenplay.sample.scene;
 
 import android.os.Bundle;
 
+import com.davidstemmer.screenplay.ModalFlow;
 import com.davidstemmer.screenplay.sample.R;
 import com.davidstemmer.screenplay.sample.scene.transition.HorizontalSlideTransformer;
 import com.davidstemmer.screenplay.sample.view.HomeView;
 import com.davidstemmer.screenplay.Screenplay;
-import com.davidstemmer.screenplay.ModalFlowListener;
 import com.davidstemmer.screenplay.scene.Scene;
 import com.davidstemmer.screenplay.scene.director.SimpleDirector;
 
@@ -28,7 +28,7 @@ public class HomeScene implements Scene {
     private final HorizontalSlideTransformer transformer;
 
     @Inject
-    public HomeScene(SimpleDirector director, HorizontalSlideTransformer transformer) {
+    public HomeScene(SimpleDirector director, HorizontalSlideTransformer transformer, ModalFlow.Creator modalFlow) {
         this.director = director;
         this.transformer = transformer;
     }
@@ -48,6 +48,7 @@ public class HomeScene implements Scene {
 
         @Inject Screenplay screenplay;
         @Inject PopupScene popupScreen;
+        @Inject ModalFlow.Creator modalFlow;
 
         @Override
         protected void onLoad(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class HomeScene implements Scene {
         }
 
         @OnClick(R.id.floating_example) void onNextClicked() {
-            screenplay.changeFlow(popupScreen, new ModalFlowListener(screenplay));
+            screenplay.changeFlow(popupScreen, modalFlow);
         }
     }
 }

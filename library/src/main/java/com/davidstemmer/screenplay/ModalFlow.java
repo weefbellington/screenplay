@@ -7,24 +7,40 @@ import android.widget.RelativeLayout;
 import com.davidstemmer.screenplay.scene.Scene;
 import com.davidstemmer.screenplay.scene.ScreenTransitions;
 
+import javax.inject.Inject;
+
 import flow.Backstack;
 import flow.Flow;
 
 /**
  * Created by weefbellington on 10/2/14.
  */
-public class ModalFlowListener implements Flow.Listener, Scene.TransitionListener {
+public class ModalFlow implements Flow.Listener, Scene.TransitionListener {
 
     private final Screenplay screenplay;
     private final boolean blockTouchesOutside;
 
     private Scene previousScene;
 
-    public ModalFlowListener(Screenplay screenplay) {
-        this(screenplay, true);
+    public static class Creator implements FlowCreator {
+
+        private boolean blocksTouchesOutside = true;
+
+        @Inject
+        public Creator() {}
+
+        public FlowCreator blocksTouchesOutside(boolean block) {
+            this.blocksTouchesOutside = block;
+            return this;
+        }
+
+        @Override
+        public Flow.Listener create(Screenplay screenplay) {
+            return new ModalFlow(screenplay, blocksTouchesOutside);
+        }
     }
 
-    public ModalFlowListener(Screenplay screenplay, boolean blockTouchesOutside) {
+    public ModalFlow(Screenplay screenplay, boolean blockTouchesOutside) {
         this.screenplay = screenplay;
         this.blockTouchesOutside = blockTouchesOutside;
     }

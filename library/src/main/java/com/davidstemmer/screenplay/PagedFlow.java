@@ -11,13 +11,19 @@ import flow.Flow;
 /**
  * Created by weefbellington on 10/1/14.
  */
-public class PagedFlowListener implements Flow.Listener, Scene.TransitionListener {
+public class PagedFlow implements Flow.Listener, Scene.TransitionListener {
+
+    public static class Creator implements FlowCreator {
+        @Override
+        public Flow.Listener create(Screenplay screenplay) {
+            return new PagedFlow(screenplay);
+        }
+    }
 
     private Scene previousScene;
-
     private final Screenplay screenplay;
 
-    public PagedFlowListener(Screenplay screenplay) {
+    private PagedFlow(Screenplay screenplay) {
         this.screenplay = screenplay;
     }
 

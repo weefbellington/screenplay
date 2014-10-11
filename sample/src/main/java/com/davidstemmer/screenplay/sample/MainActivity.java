@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.davidstemmer.screenplay.ModalFlow;
 import com.davidstemmer.screenplay.SceneState;
 import com.davidstemmer.screenplay.Screenplay;
-import com.davidstemmer.screenplay.ModalFlowListener;
 import com.davidstemmer.screenplay.sample.module.ActivityModule;
 import com.davidstemmer.screenplay.sample.scene.NavigationDrawerScene;
 import com.davidstemmer.screenplay.sample.scene.WelcomeScene;
@@ -22,6 +22,7 @@ public class MainActivity extends Activity implements Blueprint {
     @Inject Screenplay screenplay;
     @Inject WelcomeScene welcomeScreen;
     @Inject NavigationDrawerScene navigationDrawerScene;
+    @Inject ModalFlow.Creator modalFlow;
 
     private MortarScope activityScope;
 
@@ -61,7 +62,7 @@ public class MainActivity extends Activity implements Blueprint {
                 if (isNavigationDrawerOpen()) {
                     screenplay.goBack();
                 } else {
-                    screenplay.changeFlow(navigationDrawerScene, new ModalFlowListener(screenplay));
+                    screenplay.changeFlow(navigationDrawerScene, modalFlow);
                 }
                 return true;
         }
