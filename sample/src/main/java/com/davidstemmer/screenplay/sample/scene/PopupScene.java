@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.davidstemmer.screenplay.sample.R;
-import com.davidstemmer.screenplay.sample.scene.transition.PopupTransition;
+import com.davidstemmer.screenplay.sample.scene.transition.PopupTransformer;
 import com.davidstemmer.screenplay.Screenplay;
 import com.davidstemmer.screenplay.scene.Scene;
 import com.davidstemmer.screenplay.scene.director.SimpleDirector;
@@ -20,10 +20,10 @@ import mortar.ViewPresenter;
 /**
  * Created by weefbellington on 10/2/14.
  */
-@Layout(R.layout.popup_screen)
+@Layout(R.layout.popup)
 public class PopupScene implements Scene {
 
-    @Inject PopupTransition transformer;
+    @Inject PopupTransformer transformer;
     @Inject SimpleDirector director;
 
     @Override
@@ -32,7 +32,7 @@ public class PopupScene implements Scene {
     }
 
     @Override
-    public Transition getTransition() {
+    public Transformer getTransformer() {
         return transformer;
     }
 

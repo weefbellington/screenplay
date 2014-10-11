@@ -6,6 +6,7 @@ import android.widget.RelativeLayout;
 import com.davidstemmer.screenplay.sample.MainActivity;
 import com.davidstemmer.screenplay.sample.R;
 import com.davidstemmer.screenplay.sample.scene.HomeScene;
+import com.davidstemmer.screenplay.sample.scene.NavigationDrawerScene;
 import com.davidstemmer.screenplay.sample.scene.PopupScene;
 import com.davidstemmer.screenplay.sample.scene.WelcomeScene;
 import com.davidstemmer.screenplay.sample.view.HomeView;
@@ -27,6 +28,7 @@ import dagger.Provides;
                 HomeScene.Presenter.class,
                 HomeView.class,
                 MainActivity.class,
+                NavigationDrawerScene.class,
                 PopupScene.class,
                 PopupScene.Presenter.class,
                 PopupView.class,

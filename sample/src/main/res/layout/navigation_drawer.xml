@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/navigation_drawer"
+    android:orientation="vertical"
+    android:layout_width="250dp"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:dividerPadding="2dp"
+    android:showDividers="middle|end"
+    android:divider="@android:drawable/divider_horizontal_textfield">
+    <TextView
+        android:layout_width="match_parent"
+        android:textSize="30sp"
+        android:padding="5dp"
+        android:layout_height="wrap_content"
+        android:text="Welcome"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:textSize="30sp"
+        android:padding="5dp"
+        android:layout_height="wrap_content"
+        android:text="Paged flows"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:textSize="30sp"
+        android:padding="5dp"
+        android:layout_height="wrap_content"
+        android:text="Modal flows"/>
+
+</LinearLayout>

@@ -3,15 +3,15 @@ package com.davidstemmer.screenplay.sample.scene.transition;
 import android.app.Application;
 
 import com.davidstemmer.screenplay.sample.R;
-import com.davidstemmer.screenplay.scene.transition.TweenTransition;
+import com.davidstemmer.screenplay.scene.transition.TweenTransformer;
 
 import javax.inject.Inject;
 
 /**
  * Created by weefbellington on 10/2/14.
  */
-public class PopupTransition extends TweenTransition {
-    private static final TweenTransition.Params params = new TweenTransition.Params();
+public class PopupTransformer extends TweenTransformer {
+    private static final TweenTransformer.Params params = new TweenTransformer.Params();
 
     static {
         params.forwardIn    = R.anim.pop_in;
@@ -21,7 +21,7 @@ public class PopupTransition extends TweenTransition {
     }
 
     @Inject
-    public PopupTransition(Application context) {
+    public PopupTransformer(Application context) {
         super(context, params);
     }
 

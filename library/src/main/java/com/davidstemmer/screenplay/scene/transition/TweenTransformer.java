@@ -12,7 +12,7 @@ import static android.view.animation.AnimationUtils.loadAnimation;
 /**
  * Created by weefbellington on 10/2/14.
  */
-public class TweenTransition implements Scene.Transition {
+public class TweenTransformer implements Scene.Transformer, Scene.TransitionListener {
 
     private final Params params;
     private final Context context;
@@ -25,29 +25,32 @@ public class TweenTransition implements Scene.Transition {
         public int backOut;
     }
 
-    public TweenTransition(Context context, Params params) {
+    public TweenTransformer(Context context, Params params) {
         this.context = context;
         this.params = params;
     }
 
     @Override
-    public void transform(Flow.Direction direction, Flow.Callback callback, Scene nextScene, Scene previousScene) {
-        int out = direction == Flow.Direction.FORWARD ? params.forwardOut : params.backOut;
-        int in = direction == Flow.Direction.FORWARD ? params.forwardIn : params.backIn;
+    public void transform(Scene.Transition transition) {
 
-        FlowAnimationListener animationListener = new FlowAnimationListener(callback);
+        int out = transition.direction == Flow.Direction.FORWARD ? params.forwardOut : params.backOut;
+        int in = transition.direction == Flow.Direction.FORWARD ? params.forwardIn : params.backIn;
+
+        FlowAnimationListener animationListener = new FlowAnimationListener(transition, this);
         if (out != -1) {
             Animation anim = loadAnimation(context, out);
             animationListener.addAnimation(anim);
-            previousScene.getDirector().getView().setAnimation(anim);
+            transition.previousScene.getDirector().getView().setAnimation(anim);
         }
         if (in != -1) {
             Animation anim = loadAnimation(context, in);
             animationListener.addAnimation(anim);
-            nextScene.getDirector().getView().setAnimation(anim);
+            transition.nextScene.getDirector().getView().setAnimation(anim);
         }
-
     }
 
-
+    @Override
+    public void onTransitionComplete(Scene.Transition transition) {
+        transition.listener.onTransitionComplete(transition);
+    }
 }
