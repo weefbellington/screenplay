@@ -4,26 +4,24 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.davidstemmer.warpzone.flow.ModalFlow;
 import com.davidstemmer.warpzone.WarpState;
-import com.davidstemmer.warpzone.WarpZone;
-import com.davidstemmer.warpzone.flow.PageFlow;
+import com.davidstemmer.warpzone.flow.WarpZone;
 import com.davidstemmer.warpzone.sample.module.ActivityModule;
 import com.davidstemmer.warpzone.sample.stage.NavigationDrawerStage;
 import com.davidstemmer.warpzone.sample.stage.WelcomeStage;
 
 import javax.inject.Inject;
 
+import flow.Flow;
 import mortar.Blueprint;
 import mortar.Mortar;
 import mortar.MortarScope;
 
 public class MainActivity extends Activity implements Blueprint {
 
+    @Inject Flow flow;
     @Inject WarpZone warpZone;
     @Inject NavigationDrawerStage navigationDrawerScene;
-    @Inject ModalFlow.Whistle modalWhistle;
-    @Inject PageFlow.Whistle pageWhistle;
     @Inject WelcomeStage welcomeStage;
 
     private MortarScope activityScope;
@@ -40,7 +38,7 @@ public class MainActivity extends Activity implements Blueprint {
         activityScope = Mortar.requireActivityScope(parentScope, this);
         Mortar.inject(this, this);
 
-        warpZone.forkFlow(welcomeStage, pageWhistle);
+        flow.replaceTo(welcomeStage);
     }
 
     private boolean isNavigationDrawerOpen() {
@@ -48,7 +46,7 @@ public class MainActivity extends Activity implements Blueprint {
     }
 
     @Override public void onBackPressed() {
-        if (!warpZone.goBack()) {
+        if (!flow.goBack()) {
             super.onBackPressed();
         }
     }
@@ -62,9 +60,9 @@ public class MainActivity extends Activity implements Blueprint {
         switch (item.getItemId()) {
             case android.R.id.home:
                 if (isNavigationDrawerOpen()) {
-                    warpZone.goBack();
+                    flow.goBack();
                 } else {
-                    warpZone.forkFlow(navigationDrawerScene, modalWhistle);
+                    flow.goTo(navigationDrawerScene);
                 }
                 return true;
         }

@@ -3,8 +3,8 @@ package com.davidstemmer.warpzone.stage.transformer;
 import android.content.Context;
 import android.view.animation.Animation;
 
-import com.davidstemmer.warpzone.WarpListener;
 import com.davidstemmer.warpzone.WarpPipe;
+import com.davidstemmer.warpzone.flow.WarpZone;
 import com.davidstemmer.warpzone.stage.Stage;
 
 import flow.Flow;
@@ -33,21 +33,22 @@ public class TweenTransformer implements Stage.Transformer {
     }
 
     @Override
-    public void transform(WarpPipe transition, WarpListener warpListener) {
+    public void applyAnimations(WarpPipe pipe, WarpZone warpZone) {
 
-        int out = transition.direction == Flow.Direction.FORWARD ? params.forwardOut : params.backOut;
-        int in = transition.direction == Flow.Direction.FORWARD ? params.forwardIn : params.backIn;
+        int out = pipe.direction == Flow.Direction.FORWARD ? params.forwardOut : params.backOut;
+        int in = pipe.direction == Flow.Direction.FORWARD ? params.forwardIn : params.backIn;
 
-        TweenAnimationListener animationListener = new TweenAnimationListener(transition, warpListener);
-        if (out != -1) {
+        TweenAnimationListener animationListener = new TweenAnimationListener(pipe, warpZone);
+        if (out != -1 && pipe.previousStage != null) {
             Animation anim = loadAnimation(context, out);
             animationListener.addAnimation(anim);
-            transition.previousStage.getDirector().getView().setAnimation(anim);
+            pipe.previousStage.getDirector().getView().startAnimation(anim);
         }
-        if (in != -1) {
+        if (in != -1 && pipe.nextStage != null) {
             Animation anim = loadAnimation(context, in);
             animationListener.addAnimation(anim);
-            transition.nextStage.getDirector().getView().setAnimation(anim);
+            pipe.nextStage.getDirector().getView().startAnimation(anim);
         }
+
     }
 }

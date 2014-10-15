@@ -3,7 +3,7 @@ package com.davidstemmer.warpzone.sample.module;
 import android.app.Activity;
 import android.widget.RelativeLayout;
 
-import com.davidstemmer.warpzone.WarpZone;
+import com.davidstemmer.warpzone.flow.WarpZone;
 import com.davidstemmer.warpzone.sample.MainActivity;
 import com.davidstemmer.warpzone.sample.R;
 import com.davidstemmer.warpzone.sample.stage.HomeStage;
@@ -18,6 +18,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import flow.Backstack;
+import flow.Flow;
 
 /**
  * Created by weefbellington on 10/2/14.
@@ -49,9 +51,13 @@ public class ActivityModule {
         return activity;
     }
 
+    @Provides @Singleton WarpZone provideWarpZone(Activity activity) {
+        RelativeLayout container = (RelativeLayout) activity.findViewById(R.id.main);
+        return new WarpZone(activity, container) ;
+    }
+
     @Provides @Singleton
-    WarpZone provideWarpZone(Activity activity) {
-        RelativeLayout content = (RelativeLayout) activity.findViewById(R.id.main);
-        return new WarpZone(activity, content);
+    Flow provideFlow(WelcomeStage welcomeStage, WarpZone warpZone) {
+        return new Flow(Backstack.single(welcomeStage), warpZone);
     }
 }

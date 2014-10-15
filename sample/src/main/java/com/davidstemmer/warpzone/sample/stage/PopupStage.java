@@ -3,17 +3,17 @@ package com.davidstemmer.warpzone.sample.stage;
 import android.os.Bundle;
 import android.view.View;
 
-import com.davidstemmer.warpzone.WarpZone;
 import com.davidstemmer.warpzone.sample.R;
 import com.davidstemmer.warpzone.sample.stage.transformer.PopupTransformer;
 import com.davidstemmer.warpzone.stage.Stage;
-import com.davidstemmer.warpzone.stage.director.SimpleDirector;
+import com.davidstemmer.warpzone.stage.director.ModalDirector;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import flow.Flow;
 import flow.Layout;
 import mortar.ViewPresenter;
 
@@ -24,7 +24,7 @@ import mortar.ViewPresenter;
 public class PopupStage implements Stage {
 
     @Inject PopupTransformer transformer;
-    @Inject SimpleDirector director;
+    @Inject ModalDirector director;
 
     @Override
     public Director getDirector() {
@@ -39,7 +39,7 @@ public class PopupStage implements Stage {
     @Singleton
     public static class Presenter extends ViewPresenter<View> {
 
-        @Inject WarpZone warpZone;
+        @Inject Flow flow;
 
         @Override
         protected void onLoad(Bundle savedInstanceState) {
@@ -48,7 +48,7 @@ public class PopupStage implements Stage {
         }
 
         @OnClick(R.id.ok) void dismiss() {
-            warpZone.goBack();
+            flow.goBack();
         }
     }
 }

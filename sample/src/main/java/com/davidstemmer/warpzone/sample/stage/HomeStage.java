@@ -2,19 +2,18 @@ package com.davidstemmer.warpzone.sample.stage;
 
 import android.os.Bundle;
 
-import com.davidstemmer.warpzone.flow.ModalFlow;
-import com.davidstemmer.warpzone.WarpZone;
 import com.davidstemmer.warpzone.sample.R;
 import com.davidstemmer.warpzone.sample.stage.transformer.HorizontalSlideTransformer;
 import com.davidstemmer.warpzone.sample.view.HomeView;
 import com.davidstemmer.warpzone.stage.Stage;
-import com.davidstemmer.warpzone.stage.director.SimpleDirector;
+import com.davidstemmer.warpzone.stage.director.PagedDirector;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import flow.Flow;
 import flow.Layout;
 import mortar.ViewPresenter;
 
@@ -24,11 +23,11 @@ import mortar.ViewPresenter;
 @Layout(R.layout.home)
 public class HomeStage implements Stage {
 
-    private final SimpleDirector director;
+    private final PagedDirector director;
     private final HorizontalSlideTransformer transformer;
 
     @Inject
-    public HomeStage(SimpleDirector director, HorizontalSlideTransformer transformer, ModalFlow.Whistle modalFlow) {
+    public HomeStage(PagedDirector director, HorizontalSlideTransformer transformer) {
         this.director = director;
         this.transformer = transformer;
     }
@@ -46,9 +45,8 @@ public class HomeStage implements Stage {
     @Singleton
     public static class Presenter extends ViewPresenter<HomeView> {
 
-        @Inject WarpZone warpZone;
+        @Inject Flow flow;
         @Inject PopupStage popupScreen;
-        @Inject ModalFlow.Whistle modalWhistle;
 
         @Override
         protected void onLoad(Bundle savedInstanceState) {
@@ -57,7 +55,7 @@ public class HomeStage implements Stage {
         }
 
         @OnClick(R.id.floating_example) void onNextClicked() {
-            warpZone.forkFlow(popupScreen, modalWhistle);
+            flow.goTo(popupScreen);
         }
     }
 }

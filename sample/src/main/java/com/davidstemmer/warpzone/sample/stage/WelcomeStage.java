@@ -3,17 +3,17 @@ package com.davidstemmer.warpzone.sample.stage;
 import android.os.Bundle;
 import android.view.View;
 
-import com.davidstemmer.warpzone.WarpZone;
 import com.davidstemmer.warpzone.sample.R;
 import com.davidstemmer.warpzone.sample.stage.transformer.HorizontalSlideTransformer;
 import com.davidstemmer.warpzone.stage.Stage;
-import com.davidstemmer.warpzone.stage.director.SimpleDirector;
+import com.davidstemmer.warpzone.stage.director.PagedDirector;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import flow.Flow;
 import flow.Layout;
 import mortar.ViewPresenter;
 
@@ -24,11 +24,11 @@ import mortar.ViewPresenter;
 @Layout(R.layout.welcome)
 public class WelcomeStage implements Stage {
 
-    private final SimpleDirector director;
+    private final PagedDirector director;
     private final HorizontalSlideTransformer transformer;
 
     @Inject
-    public WelcomeStage(SimpleDirector director, HorizontalSlideTransformer transformer) {
+    public WelcomeStage(PagedDirector director, HorizontalSlideTransformer transformer) {
         this.director = director;
         this.transformer = transformer;
     }
@@ -46,7 +46,7 @@ public class WelcomeStage implements Stage {
     @Singleton
     public static class Presenter extends ViewPresenter<View> {
 
-        @Inject WarpZone warpZone;
+        @Inject Flow flow;
         @Inject HomeStage homeScreen;
         
         @Override
@@ -56,7 +56,7 @@ public class WelcomeStage implements Stage {
         }
 
         @OnClick(R.id.next) void onNextClicked() {
-            warpZone.goForward(homeScreen);
+            flow.goTo(homeScreen);
         }
     }
 
