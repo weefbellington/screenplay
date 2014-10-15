@@ -1,12 +1,10 @@
-warpzone
+screenplay
 ==========
 
-Warpzone is a library for creating single-page Android applications with animated transitions.
+Screenplay is a library for creating single-activity Android applications with animated transitions.
 It is a companion library to Flow: navigation between screens is powered by the Flow backstack,
-while Warpzone does the work of attaching and detaching views from the layout, animating
-transitions between screens, and keeping track of screen state. Multiple navigation modes are
-supported, making it it possible to shift fluidly between full-screen and modal navigation while
-maintaining consistent back button behavior.
+while Screenplay does the work of attaching and detaching views from the layout, animating
+cuts between screens, and keeping track of screen state.
 
 ##WELCOME TO THE WARP ZONE
 
