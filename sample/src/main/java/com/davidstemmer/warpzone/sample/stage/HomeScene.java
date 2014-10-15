@@ -5,7 +5,8 @@ import android.os.Bundle;
 import com.davidstemmer.warpzone.sample.R;
 import com.davidstemmer.warpzone.sample.stage.transformer.HorizontalSlideTransformer;
 import com.davidstemmer.warpzone.sample.view.HomeView;
-import com.davidstemmer.warpzone.stage.Stage;
+import com.davidstemmer.warpzone.stage.Scene;
+import com.davidstemmer.warpzone.stage.StandardScene;
 import com.davidstemmer.warpzone.stage.director.PagedDirector;
 
 import javax.inject.Inject;
@@ -21,19 +22,19 @@ import mortar.ViewPresenter;
  * Created by weefbellington on 10/2/14.
  */
 @Layout(R.layout.home)
-public class HomeStage implements Stage {
+public class HomeScene extends StandardScene {
 
     private final PagedDirector director;
     private final HorizontalSlideTransformer transformer;
 
     @Inject
-    public HomeStage(PagedDirector director, HorizontalSlideTransformer transformer) {
+    public HomeScene(PagedDirector director, HorizontalSlideTransformer transformer) {
         this.director = director;
         this.transformer = transformer;
     }
 
     @Override
-    public Stage.Director getDirector() {
+    public Scene.Director getDirector() {
         return director;
     }
 
@@ -46,7 +47,7 @@ public class HomeStage implements Stage {
     public static class Presenter extends ViewPresenter<HomeView> {
 
         @Inject Flow flow;
-        @Inject PopupStage popupScreen;
+        @Inject PopupScene popupScreen;
 
         @Override
         protected void onLoad(Bundle savedInstanceState) {

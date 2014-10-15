@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.davidstemmer.warpzone.WarpState;
-import com.davidstemmer.warpzone.flow.WarpZone;
+import com.davidstemmer.warpzone.SceneState;
+import com.davidstemmer.warpzone.flow.Screenplay;
 import com.davidstemmer.warpzone.sample.module.ActivityModule;
-import com.davidstemmer.warpzone.sample.stage.NavigationDrawerStage;
-import com.davidstemmer.warpzone.sample.stage.WelcomeStage;
+import com.davidstemmer.warpzone.sample.stage.NavigationDrawerScene;
+import com.davidstemmer.warpzone.sample.stage.WelcomeScene;
 
 import javax.inject.Inject;
 
@@ -20,9 +20,9 @@ import mortar.MortarScope;
 public class MainActivity extends Activity implements Blueprint {
 
     @Inject Flow flow;
-    @Inject WarpZone warpZone;
-    @Inject NavigationDrawerStage navigationDrawerScene;
-    @Inject WelcomeStage welcomeStage;
+    @Inject Screenplay screenplay;
+    @Inject NavigationDrawerScene navigationDrawerScene;
+    @Inject WelcomeScene welcomeStage;
 
     private MortarScope activityScope;
 
@@ -55,7 +55,7 @@ public class MainActivity extends Activity implements Blueprint {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         // Ignore menu click if stage is transitioning
-        if (warpZone.getWarpState() == WarpState.WARPING) return true;
+        if (screenplay.getScreenplay() == SceneState.WARPING) return true;
 
         switch (item.getItemId()) {
             case android.R.id.home:

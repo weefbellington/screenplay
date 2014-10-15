@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
-import com.davidstemmer.warpzone.sample.stage.HomeStage;
+import com.davidstemmer.warpzone.sample.stage.HomeScene;
 
 import javax.inject.Inject;
 
@@ -15,7 +15,7 @@ import mortar.Mortar;
  */
 public class HomeView extends LinearLayout{
 
-    @Inject HomeStage.Presenter presenter;
+    @Inject HomeScene.Presenter presenter;
 
     public HomeView(Context context, AttributeSet attrs) {
         super(context, attrs);

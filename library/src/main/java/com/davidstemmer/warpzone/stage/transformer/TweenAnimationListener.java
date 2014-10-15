@@ -2,8 +2,8 @@ package com.davidstemmer.warpzone.stage.transformer;
 
 import android.view.animation.Animation;
 
-import com.davidstemmer.warpzone.WarpPipe;
-import com.davidstemmer.warpzone.flow.WarpZone;
+import com.davidstemmer.warpzone.SceneCut;
+import com.davidstemmer.warpzone.flow.Screenplay;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,13 +13,13 @@ import java.util.Set;
  */
 public class TweenAnimationListener implements Animation.AnimationListener {
 
-    private final WarpPipe pipe;
-    private final WarpZone listener;
+    private final SceneCut cut;
+    private final Screenplay listener;
 
     private Set<Animation> animationSet = new HashSet<Animation>();
 
-    public TweenAnimationListener(WarpPipe pipe, WarpZone listener) {
-        this.pipe = pipe;
+    public TweenAnimationListener(SceneCut cut, Screenplay listener) {
+        this.cut = cut;
         this.listener = listener;
     }
 
@@ -35,7 +35,7 @@ public class TweenAnimationListener implements Animation.AnimationListener {
     public void onAnimationEnd(Animation animation) {
         animationSet.remove(animation);
         if (animationSet.isEmpty()) {
-            listener.notifyWarpComplete(pipe);
+            listener.endCut(cut);
         }
     }
 

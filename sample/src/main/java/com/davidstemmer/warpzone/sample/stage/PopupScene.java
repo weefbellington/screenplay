@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.davidstemmer.warpzone.sample.R;
 import com.davidstemmer.warpzone.sample.stage.transformer.PopupTransformer;
-import com.davidstemmer.warpzone.stage.Stage;
+import com.davidstemmer.warpzone.stage.StandardScene;
 import com.davidstemmer.warpzone.stage.director.ModalDirector;
 
 import javax.inject.Inject;
@@ -21,7 +21,7 @@ import mortar.ViewPresenter;
  * Created by weefbellington on 10/2/14.
  */
 @Layout(R.layout.popup)
-public class PopupStage implements Stage {
+public class PopupScene extends StandardScene {
 
     @Inject PopupTransformer transformer;
     @Inject ModalDirector director;

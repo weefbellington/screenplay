@@ -3,9 +3,9 @@ package com.davidstemmer.warpzone.stage.transformer;
 import android.content.Context;
 import android.view.animation.Animation;
 
-import com.davidstemmer.warpzone.WarpPipe;
-import com.davidstemmer.warpzone.flow.WarpZone;
-import com.davidstemmer.warpzone.stage.Stage;
+import com.davidstemmer.warpzone.SceneCut;
+import com.davidstemmer.warpzone.flow.Screenplay;
+import com.davidstemmer.warpzone.stage.Scene;
 
 import flow.Flow;
 
@@ -14,7 +14,7 @@ import static android.view.animation.AnimationUtils.loadAnimation;
 /**
  * Created by weefbellington on 10/2/14.
  */
-public class TweenTransformer implements Stage.Transformer {
+public class TweenTransformer implements Scene.Transformer {
 
     private final Params params;
     private final Context context;
@@ -33,21 +33,21 @@ public class TweenTransformer implements Stage.Transformer {
     }
 
     @Override
-    public void applyAnimations(WarpPipe pipe, WarpZone warpZone) {
+    public void applyAnimations(SceneCut cut, Screenplay screenplay) {
 
-        int out = pipe.direction == Flow.Direction.FORWARD ? params.forwardOut : params.backOut;
-        int in = pipe.direction == Flow.Direction.FORWARD ? params.forwardIn : params.backIn;
+        int out = cut.direction == Flow.Direction.FORWARD ? params.forwardOut : params.backOut;
+        int in = cut.direction == Flow.Direction.FORWARD ? params.forwardIn : params.backIn;
 
-        TweenAnimationListener animationListener = new TweenAnimationListener(pipe, warpZone);
-        if (out != -1 && pipe.previousStage != null) {
+        TweenAnimationListener animationListener = new TweenAnimationListener(cut, screenplay);
+        if (out != -1 && cut.previousScene != null) {
             Animation anim = loadAnimation(context, out);
             animationListener.addAnimation(anim);
-            pipe.previousStage.getDirector().getView().startAnimation(anim);
+            cut.previousScene.getView().startAnimation(anim);
         }
-        if (in != -1 && pipe.nextStage != null) {
+        if (in != -1 && cut.nextScene != null) {
             Animation anim = loadAnimation(context, in);
             animationListener.addAnimation(anim);
-            pipe.nextStage.getDirector().getView().startAnimation(anim);
+            cut.nextScene.getView().startAnimation(anim);
         }
 
     }

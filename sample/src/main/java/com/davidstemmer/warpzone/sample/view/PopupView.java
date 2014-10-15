@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
-import com.davidstemmer.warpzone.sample.stage.PopupStage;
+import com.davidstemmer.warpzone.sample.stage.PopupScene;
 
 import javax.inject.Inject;
 
@@ -16,7 +16,7 @@ import mortar.Mortar;
 
 public class PopupView extends RelativeLayout {
 
-    @Inject PopupStage.Presenter presenter;
+    @Inject PopupScene.Presenter presenter;
 
     public PopupView(Context context, AttributeSet attrs) {
         super(context, attrs);

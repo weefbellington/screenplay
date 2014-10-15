@@ -3,13 +3,13 @@ package com.davidstemmer.warpzone.sample.module;
 import android.app.Activity;
 import android.widget.RelativeLayout;
 
-import com.davidstemmer.warpzone.flow.WarpZone;
+import com.davidstemmer.warpzone.flow.Screenplay;
 import com.davidstemmer.warpzone.sample.MainActivity;
 import com.davidstemmer.warpzone.sample.R;
-import com.davidstemmer.warpzone.sample.stage.HomeStage;
-import com.davidstemmer.warpzone.sample.stage.NavigationDrawerStage;
-import com.davidstemmer.warpzone.sample.stage.PopupStage;
-import com.davidstemmer.warpzone.sample.stage.WelcomeStage;
+import com.davidstemmer.warpzone.sample.stage.HomeScene;
+import com.davidstemmer.warpzone.sample.stage.NavigationDrawerScene;
+import com.davidstemmer.warpzone.sample.stage.PopupScene;
+import com.davidstemmer.warpzone.sample.stage.WelcomeScene;
 import com.davidstemmer.warpzone.sample.view.HomeView;
 import com.davidstemmer.warpzone.sample.view.PopupView;
 import com.davidstemmer.warpzone.sample.view.WelcomeView;
@@ -26,16 +26,16 @@ import flow.Flow;
  */
 @Module(addsTo = ApplicationModule.class,
         injects = {
-                HomeStage.class,
-                HomeStage.Presenter.class,
+                HomeScene.class,
+                HomeScene.Presenter.class,
                 HomeView.class,
                 MainActivity.class,
-                NavigationDrawerStage.class,
-                PopupStage.class,
-                PopupStage.Presenter.class,
+                NavigationDrawerScene.class,
+                PopupScene.class,
+                PopupScene.Presenter.class,
                 PopupView.class,
-                WelcomeStage.class,
-                WelcomeStage.Presenter.class,
+                WelcomeScene.class,
+                WelcomeScene.Presenter.class,
                 WelcomeView.class
         })
 public class ActivityModule {
@@ -51,13 +51,14 @@ public class ActivityModule {
         return activity;
     }
 
-    @Provides @Singleton WarpZone provideWarpZone(Activity activity) {
+    @Provides @Singleton
+    Screenplay provideWarpZone(Activity activity) {
         RelativeLayout container = (RelativeLayout) activity.findViewById(R.id.main);
-        return new WarpZone(activity, container) ;
+        return new Screenplay(activity, container) ;
     }
 
     @Provides @Singleton
-    Flow provideFlow(WelcomeStage welcomeStage, WarpZone warpZone) {
-        return new Flow(Backstack.single(welcomeStage), warpZone);
+    Flow provideFlow(WelcomeScene welcomeStage, Screenplay screenplay) {
+        return new Flow(Backstack.single(welcomeStage), screenplay);
     }
 }
