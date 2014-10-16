@@ -1,8 +1,10 @@
 <resources>
-
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <!-- Customize your theme here. -->
     </style>
-
+    <style name="NavigationDrawerItem">
+        <item name="android:textSize">28sp</item>
+        <item name="android:padding">10dp</item>
+    </style>
 </resources>

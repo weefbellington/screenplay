@@ -11,8 +11,9 @@
         android:layout_centerInParent="true"
         android:gravity="center"
         android:textSize="30sp"
+        android:padding="10dp"
         android:textColor="@android:color/white"
-        android:text="Welcome to the Current sample!"/>
+        android:text="@string/welcome_text"/>
     <Button
         android:id="@+id/next"
         android:layout_width="match_parent"

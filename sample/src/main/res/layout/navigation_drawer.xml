@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/navigation_drawer"
     android:orientation="vertical"
-    android:layout_width="250dp"
+    android:layout_width="@dimen/navigation_drawer_width"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:dividerPadding="2dp"
@@ -12,21 +12,17 @@
     android:divider="@android:drawable/divider_horizontal_textfield">
     <TextView
         android:layout_width="match_parent"
-        android:textSize="30sp"
-        android:padding="5dp"
         android:layout_height="wrap_content"
-        android:text="Welcome"/>
+        android:text="Welcome"
+        style="@style/NavigationDrawerItem"/>
     <TextView
         android:layout_width="match_parent"
-        android:textSize="30sp"
-        android:padding="5dp"
         android:layout_height="wrap_content"
-        android:text="Paged flows"/>
+        android:text="Paged flows"
+        style="@style/NavigationDrawerItem"/>
     <TextView
         android:layout_width="match_parent"
-        android:textSize="30sp"
-        android:padding="5dp"
         android:layout_height="wrap_content"
-        android:text="Modal flows"/>
-
+        android:text="Modal flows"
+        style="@style/NavigationDrawerItem"/>
 </LinearLayout>
