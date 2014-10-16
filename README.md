@@ -75,7 +75,7 @@ not remove the previous Scene from the layout, allowing you to layer Scenes on t
 This is useful for creating dialog, drawers and other partial-screen containers that you want to be
 added to the backstack.
 
-Both the `PagedDirector` and the `ModalDirector` remove the Scene when `Flow.goBack()` is called.
+Both the `PagedDirector` and the `ModalDirector` remove the topmost Scene when `Flow.goBack()` is called.
 
 ```java
 @Layout(R.layout.navigation_drawer)
