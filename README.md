@@ -65,14 +65,17 @@ public boolean onOptionsItemSelected(MenuItem item) {
 ###Directors and Transformers
 
 In a Screenplay app, the application calls `Flow.goTo()` or `Flow.goBack()`, the type of layout
-change that is applied depends on the type of Screen.Director that is associated with the next
-scene. Screenplay provides two concrete `Director` implementations. The `PageDirector` manages
-full-screen layout changes. After all animations complete, the PageDirector removes the previous
-screen from its parent layout. The `ModalDirector` manages partial-screen layout changes. It does
+change that is applied depends on the type of ``Screen.Director`` that is associated with the next
+scene. Screenplay provides two concrete `Director` implementations.
+
+- The `PageDirector` manages full-screen layout changes. After all animations complete, the PageDirector
+removes the previous screen from its parent layout.
+- The `ModalDirector` manages partial-screen layout changes. It does
 not remove the previous Scene from the layout, allowing you to layer Scenes on top of each other.
 This is useful for creating dialog, drawers and other partial-screen containers that you want to be
-added to the backstack. Both the `PagedDirector` and the `ModalDirector` remove the Scene when
-`Flow.goBack()` is called.
+added to the backstack.
+
+Both the `PagedDirector` and the `ModalDirector` remove the Scene when `Flow.goBack()` is called.
 
 ```java
 @Layout(R.layout.navigation_drawer)
@@ -99,7 +102,7 @@ public class NavigationDrawerScene extends StandardScene {
 }
 ```
 
-A Transformer is responsible for applying animations between Stages. The Transformer receives
+A `Transformer` is responsible for applying animations between Stages. The `Transformer` receives
 a `SceneCut` object, which contains the data that the Transformer needs to create animations,
 including the `Flow.Direction`, and the next (incoming) and previous (outgoing) stages.
 
@@ -123,9 +126,9 @@ public class HorizontalSlideTransformer extends TweenTransformer {
 }
 ```
 
-Screenplay provides two Transformer implementations to extend from: `TweenTransformer`
-and `AnimatorTransformer`. TweenTransformer uses the older [Animation](www.example.com) class, while
-the AnimatorTransformer uses the newer [Animator](www.example.com) class \[note: not yet complete\].
+Screenplay provides two `Transformer` implementations to extend from: `TweenTransformer`
+and `AnimatorTransformer`. `TweenTransformer` uses the older [Animation](www.example.com) class, while
+the `AnimatorTransformer` uses the newer [Animator](www.example.com) class \[note: not yet complete\].
 
 ###That's, all folks!
 
