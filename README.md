@@ -1,7 +1,7 @@
 Screenplay
 ==========
 
-The artsy cousin to Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html). Where Flow provides
+Screenplay is the artsy cousin to Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html). Where Flow provides
 the basic tools for building a View-based navigation flow -- backstack management, view inflation --
 Screenplay is concerned with the narrative details: scene transitions, layout management and a
 lifecycle for each.
