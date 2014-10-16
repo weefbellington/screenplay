@@ -17,12 +17,12 @@ import flow.Layout;
 public class NavigationDrawerScene extends StandardScene {
 
     private final ModalDirector director;
-    private final NavigationDrawerTransformer transition;
+    private final NavigationDrawerTransformer transformer;
 
     @Inject
-    public NavigationDrawerScene(ModalDirector director, NavigationDrawerTransformer transition) {
+    public NavigationDrawerScene(ModalDirector director, NavigationDrawerTransformer transformer) {
         this.director = director;
-        this.transition = transition;
+        this.transformer = transformer;
     }
 
     @Override
@@ -32,6 +32,6 @@ public class NavigationDrawerScene extends StandardScene {
 
     @Override
     public Transformer getTransformer() {
-        return transition;
+        return transformer;
     }
 }
