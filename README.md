@@ -48,17 +48,19 @@ public boolean onOptionsItemSelected(MenuItem item) {
 The Screenplay object also exposes a `getScreenState()` method, which returns a `FlowState` object. This is
 useful for preventing multiple button presses while two Scenes are in transition:
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+```java
+@Override
+public boolean onOptionsItemSelected(MenuItem item) {
 
-        // Ignore menu click if stage is transitioning
-        if (screenplay.getScreenState() == SceneState.TRANSITIONING) return true;
+    // Ignore menu click if stage is transitioning
+    if (screenplay.getScreenState() == SceneState.TRANSITIONING) return true;
 
-        switch (item.getItemId()) {
-            ...
-        }
-
+    switch (item.getItemId()) {
+        ...
     }
+
+}
+```
 
 ###Directors and Transformers
 
