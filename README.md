@@ -45,7 +45,7 @@ public boolean onOptionsItemSelected(MenuItem item) {
 ```
 
 
-The Screenplay object also exposes a `getScreenState()` method, which returns a `FlowState` object. This is
+The `Screenplay` object also exposes a `getScreenState()` method, which returns a `FlowState` object. This is
 useful for preventing multiple button presses while two Scenes are in transition:
 
 ```java
@@ -103,7 +103,7 @@ public class NavigationDrawerScene extends StandardScene {
 ```
 
 A `Transformer` is responsible for applying animations between Stages. The `Transformer` receives
-a `SceneCut` object, which contains the data that the Transformer needs to create animations,
+a `SceneCut` object, which contains the data that the `Transformer` needs to create animations,
 including the `Flow.Direction`, and the next (incoming) and previous (outgoing) stages.
 
 ```java
@@ -127,8 +127,8 @@ public class HorizontalSlideTransformer extends TweenTransformer {
 ```
 
 Screenplay provides two `Transformer` implementations to extend from: `TweenTransformer`
-and `AnimatorTransformer`. `TweenTransformer` uses the older [Animation](www.example.com) class, while
-the `AnimatorTransformer` uses the newer [Animator](www.example.com) class \[note: not yet complete\].
+and `AnimatorTransformer`. TweenTransformer uses the older [Animation](www.example.com) class, while
+the AnimatorTransformer uses the newer [Animator](www.example.com) class \[note: not yet complete\].
 
 ###That's, all folks!
 
@@ -137,3 +137,5 @@ Dagger, Flow and Mortar. You can see them all together in the [sample project](w
 
 Many thanks to the team at Square for their work on Flow, without which this project wouldn't be
 possible.
+
+Maven artifact is coming soon!
