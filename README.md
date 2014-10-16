@@ -4,7 +4,7 @@ screenplay
 Screenplay is the artsy cousin to Square's [Flow](www.example.com). Where Flow provides
 the basic tools for building a View-based navigation flow -- backstack management, view inflation --
 Screenplay is concerned with the narrative details: scene transitions, layout management and a
-lifecycle for managing each.
+lifecycle for each.
 
 ###Setting the stage
 
