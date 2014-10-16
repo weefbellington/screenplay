@@ -84,7 +84,6 @@ public class NavigationDrawerScene extends StandardScene {
     private final ModalDirector director;
     private final NavigationDrawerTransformer transformer;
 
-    @Inject
     public NavigationDrawerScene() {
         this.director = new ModalDirector();
         this.transformer = new NavigationDrawerTransformer();
@@ -119,7 +118,6 @@ public class HorizontalSlideTransformer extends TweenTransformer {
         params.forwardOut   = R.anim.slide_out_left;
     }
 
-    @Inject
     public HorizontalSlideTransformer(Application context) {
         super(context, params);
     }
