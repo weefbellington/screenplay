@@ -1,7 +1,7 @@
 Screenplay
 ==========
 
-**Screenplay** is the artsy cousin to Square's [Flow](www.example.com). Where Flow provides
+**Screenplay** is the artsy cousin to Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html). Where Flow provides
 the basic tools for building a View-based navigation flow -- backstack management, view inflation --
 Screenplay is concerned with the narrative details: scene transitions, layout management and a
 lifecycle for each.
@@ -127,13 +127,13 @@ public class HorizontalSlideTransformer extends TweenTransformer {
 ```
 
 Screenplay provides two `Transformer` implementations to extend from: `TweenTransformer`
-and `AnimatorTransformer`. TweenTransformer uses the older [Animation](www.example.com) class, while
-the AnimatorTransformer uses the newer [Animator](www.example.com) class \[note: not yet complete\].
+and `AnimatorTransformer`. TweenTransformer uses the older [Animation](http://developer.android.com/reference/android/view/animation/Animation.html) class, while
+the AnimatorTransformer uses the newer [Animator](http://developer.android.com/reference/android/animation/Animator.html) class \[_coming soon_\].
 
 ###That's, all folks!
 
 Screenplay is designed to be very simple and extensible. It works well in concert with its friends
-Dagger, Flow and Mortar. You can see them all together in the [sample project](www.example.com).
+Dagger, Flow and Mortar. You can see them all together in the [sample project](https://github.com/weefbellington/screenplay/tree/master/sample/src/main).
 
 Many thanks to the team at Square for their work on Flow, without which this project wouldn't be
 possible.
