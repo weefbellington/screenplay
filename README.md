@@ -1,7 +1,7 @@
-screenplay
+Screenplay
 ==========
 
-Screenplay is the artsy cousin to Square's [Flow](www.example.com). Where Flow provides
+**Screenplay** is the artsy cousin to Square's [Flow](www.example.com). Where Flow provides
 the basic tools for building a View-based navigation flow -- backstack management, view inflation --
 Screenplay is concerned with the narrative details: scene transitions, layout management and a
 lifecycle for each.
@@ -21,6 +21,7 @@ passing it to a Flow:
     HomeScene homeScreen = new HomeScreen();
     RelativeLayout container = (RelativeLayout) activity.findViewById(R.id.main);
     Screenplay screenplay = Screenplay(activity, container);
+
     Flow flow = new Flow(Backstack.single(homeScreen), screenplay);
     flow.resetTo(homeScreen);
 ```
@@ -47,29 +48,34 @@ public boolean onOptionsItemSelected(MenuItem item) {
 The Screenplay object also exposes a `getScreenState()` method, which returns a `FlowState` object. This is
 useful for preventing multiple button presses while two Scenes are in transition:
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+```java
+@Override
+public boolean onOptionsItemSelected(MenuItem item) {
 
-        // Ignore menu click if stage is transitioning
-        if (screenplay.getScreenState() == SceneState.TRANSITIONING) return true;
+    // Ignore menu click if stage is transitioning
+    if (screenplay.getScreenState() == SceneState.TRANSITIONING) return true;
 
-        switch (item.getItemId()) {
-            ...
-        }
-
+    switch (item.getItemId()) {
+        ...
     }
+
+}
+```
 
 ###Directors and Transformers
 
 In a Screenplay app, the application calls `Flow.goTo()` or `Flow.goBack()`, the type of layout
-change that is applied depends on the type of Screen.Director that is associated with the next
-scene. Screenplay provides two concrete `Director` implementations. The `PageDirector` manages
-full-screen layout changes. After all animations complete, the PageDirector removes the previous
-screen from its parent layout. The `ModalDirector` manages partial-screen layout changes. It does
+change that is applied depends on the type of ``Screen.Director`` that is associated with the next
+scene. Screenplay provides two concrete `Director` implementations.
+
+- The `PageDirector` manages full-screen layout changes. After all animations complete, the PageDirector
+removes the previous screen from its parent layout.
+- The `ModalDirector` manages partial-screen layout changes. It does
 not remove the previous Scene from the layout, allowing you to layer Scenes on top of each other.
 This is useful for creating dialog, drawers and other partial-screen containers that you want to be
-added to the backstack. Both the `PagedDirector` and the `ModalDirector` remove the Scene when
-`Flow.goBack()` is called.
+added to the backstack.
+
+Both the `PagedDirector` and the `ModalDirector` remove the Scene when `Flow.goBack()` is called.
 
 ```java
 @Layout(R.layout.navigation_drawer)
@@ -96,7 +102,7 @@ public class NavigationDrawerScene extends StandardScene {
 }
 ```
 
-A Transformer is responsible for applying animations between Stages. The Transformer receives
+A `Transformer` is responsible for applying animations between Stages. The `Transformer` receives
 a `SceneCut` object, which contains the data that the Transformer needs to create animations,
 including the `Flow.Direction`, and the next (incoming) and previous (outgoing) stages.
 
@@ -120,9 +126,9 @@ public class HorizontalSlideTransformer extends TweenTransformer {
 }
 ```
 
-Screenplay provides two Transformer implementations to extend from: `TweenTransformer`
-and `AnimatorTransformer`. TweenTransformer uses the older [Animation](www.example.com) class, while
-the AnimatorTransformer uses the newer [Animator](www.example.com) class \[note: not yet complete\].
+Screenplay provides two `Transformer` implementations to extend from: `TweenTransformer`
+and `AnimatorTransformer`. `TweenTransformer` uses the older [Animation](www.example.com) class, while
+the `AnimatorTransformer` uses the newer [Animator](www.example.com) class \[note: not yet complete\].
 
 ###That's, all folks!
 
