@@ -6,7 +6,7 @@ the basic tools for building a View-based navigation flow -- backstack managemen
 Screenplay is concerned with the narrative details: scene transitions, layout management and a
 lifecycle for each.
 
-###Setting the stage
+###Setting the Scene
 
 The building block of a Screenplay app is a `Scene`. The Scene knows how to do
 only a few things by itself: create a View (`Scene.setUp`), destroy a View (`Scene.tearDown`) and get
