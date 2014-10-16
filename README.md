@@ -72,7 +72,7 @@ scene. Screenplay provides two concrete `Director` implementations.
 removes the previous screen from its parent layout.
 - The `ModalDirector` manages partial-screen layout changes. It does
 not remove the previous Scene from the layout, allowing you to layer Scenes on top of each other.
-This is useful for creating dialog, drawers and other partial-screen containers that you want to be
+This is useful for creating dialogs, drawers and other partial-screen containers that you want to be
 added to the backstack.
 
 Both the `PagedDirector` and the `ModalDirector` remove the topmost Scene when `Flow.goBack()` is called.
