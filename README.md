@@ -21,6 +21,7 @@ passing it to a Flow:
     HomeScene homeScreen = new HomeScreen();
     RelativeLayout container = (RelativeLayout) activity.findViewById(R.id.main);
     Screenplay screenplay = Screenplay(activity, container);
+    
     Flow flow = new Flow(Backstack.single(homeScreen), screenplay);
     flow.resetTo(homeScreen);
 ```
