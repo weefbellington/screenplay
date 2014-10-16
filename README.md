@@ -1,7 +1,7 @@
-screenplay
+Screenplay
 ==========
 
-Screenplay is the artsy cousin to Square's [Flow](www.example.com). Where Flow provides
+**Screenplay** is the artsy cousin to Square's [Flow](www.example.com). Where Flow provides
 the basic tools for building a View-based navigation flow -- backstack management, view inflation --
 Screenplay is concerned with the narrative details: scene transitions, layout management and a
 lifecycle for each.
@@ -21,7 +21,7 @@ passing it to a Flow:
     HomeScene homeScreen = new HomeScreen();
     RelativeLayout container = (RelativeLayout) activity.findViewById(R.id.main);
     Screenplay screenplay = Screenplay(activity, container);
-    
+
     Flow flow = new Flow(Backstack.single(homeScreen), screenplay);
     flow.resetTo(homeScreen);
 ```
