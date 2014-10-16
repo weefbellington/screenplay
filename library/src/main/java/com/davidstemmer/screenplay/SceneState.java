@@ -5,5 +5,5 @@ package com.davidstemmer.screenplay;
 */
 public enum SceneState {
     NORMAL,
-    WARPING
+    TRANSITIONING
 }

@@ -29,7 +29,7 @@ public class Screenplay implements Flow.Listener {
     @Override
     public void go(Backstack nextBackstack, Flow.Direction direction, Flow.Callback callback) {
 
-        screenplay = SceneState.WARPING;
+        screenplay = SceneState.TRANSITIONING;
 
         Scene nextScene = (Scene) nextBackstack.current().getScreen();
 
@@ -60,7 +60,7 @@ public class Screenplay implements Flow.Listener {
         screenplay = SceneState.NORMAL;
     }
 
-    public SceneState getScreenplay() {
+    public SceneState getScreenState() {
         return screenplay;
     }
 }

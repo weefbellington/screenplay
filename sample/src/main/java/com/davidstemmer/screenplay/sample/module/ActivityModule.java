@@ -54,7 +54,7 @@ public class ActivityModule {
     @Provides @Singleton
     Screenplay provideWarpZone(Activity activity) {
         RelativeLayout container = (RelativeLayout) activity.findViewById(R.id.main);
-        return new Screenplay(activity, container) ;
+        return new Screenplay(activity, container);
     }
 
     @Provides @Singleton

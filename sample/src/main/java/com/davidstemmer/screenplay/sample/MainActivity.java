@@ -38,7 +38,7 @@ public class MainActivity extends Activity implements Blueprint {
         activityScope = Mortar.requireActivityScope(parentScope, this);
         Mortar.inject(this, this);
 
-        flow.replaceTo(welcomeStage);
+        flow.resetTo(welcomeStage);
     }
 
     private boolean isNavigationDrawerOpen() {
@@ -55,7 +55,7 @@ public class MainActivity extends Activity implements Blueprint {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         // Ignore menu click if stage is transitioning
-        if (screenplay.getScreenplay() == SceneState.WARPING) return true;
+        if (screenplay.getScreenState() == SceneState.TRANSITIONING) return true;
 
         switch (item.getItemId()) {
             case android.R.id.home:

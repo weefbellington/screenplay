@@ -27,5 +27,4 @@ public class NavigationDrawerTransformer extends TweenTransformer {
     public NavigationDrawerTransformer(Application context) {
         super(context, params);
     }
-
 }
