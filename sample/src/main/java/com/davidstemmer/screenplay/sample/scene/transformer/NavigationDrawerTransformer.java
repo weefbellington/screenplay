@@ -17,9 +17,9 @@ public class NavigationDrawerTransformer extends TweenTransformer {
     private static final Params params = new Params();
 
     static {
-        params.forwardIn    = R.anim.slide_in_left;
+        params.forwardIn    = R.anim.slide_in_left_drawer;
         params.backIn       = -1;
-        params.backOut      = R.anim.slide_out_left;
+        params.backOut      = R.anim.slide_out_left_drawer;
         params.forwardOut   = -1;
     }
 

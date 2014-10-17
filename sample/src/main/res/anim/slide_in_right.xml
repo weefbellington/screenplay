@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-/* //device/apps/common/res/anim/slide_out_right.xml
+/* //device/apps/common/res/anim/slide_in_right_tween_tween.xml
 **
 ** Copyright 2007, The Android Open Source Project
 **
@@ -18,7 +18,8 @@
 */
 -->
 
-<set xmlns:android="http://schemas.android.com/apk/res/android">
-  <translate android:fromXDelta="0" android:toXDelta="100%p"
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+     android:interpolator="@android:anim/accelerate_decelerate_interpolator">
+  <translate android:fromXDelta="100%p" android:toXDelta="0"
       android:duration="@android:integer/config_mediumAnimTime"/>
 </set>
