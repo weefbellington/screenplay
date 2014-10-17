@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.davidstemmer.screenplay.sample.R;
-import com.davidstemmer.screenplay.sample.scene.transformer.HorizontalSlideTransformer;
+import com.davidstemmer.screenplay.sample.scene.transformer.NoAnimationTransformer;
 import com.davidstemmer.screenplay.stage.StandardScene;
 import com.davidstemmer.screenplay.stage.director.PagedDirector;
 
@@ -25,10 +25,10 @@ import mortar.ViewPresenter;
 public class WelcomeScene extends StandardScene {
 
     private final PagedDirector director;
-    private final HorizontalSlideTransformer transformer;
+    private final NoAnimationTransformer transformer;
 
     @Inject
-    public WelcomeScene(PagedDirector director, HorizontalSlideTransformer transformer) {
+    public WelcomeScene(PagedDirector director, NoAnimationTransformer transformer) {
         this.director = director;
         this.transformer = transformer;
     }

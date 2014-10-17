@@ -3,8 +3,8 @@ Screenplay
 
 Screenplay is the artsy cousin to Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html). Where Flow provides
 the basic tools for building a View-based navigation flow -- backstack management, view inflation --
-Screenplay is concerned with the narrative details: scene transitions, layout management and a
-lifecycle for each.
+Screenplay is concerned with the narrative details: scene transitions, paging and multi-pane
+layouts.
 
 ###Setting the Scene
 
@@ -72,8 +72,7 @@ scene. Screenplay provides two concrete `Director` implementations.
 removes the previous screen from its parent layout.
 - The `ModalDirector` manages partial-screen layout changes. It does
 not remove the previous Scene from the layout, allowing you to layer Scenes on top of each other.
-This is useful for creating dialogs, drawers and other partial-screen containers that you want to be
-added to the backstack.
+This is useful for creating dialogs, drawers and multi-pane layouts.
 
 Both the `PagedDirector` and the `ModalDirector` remove the topmost Scene when `Flow.goBack()` is called.
 

@@ -21,10 +21,10 @@ public class TweenTransformer implements Scene.Transformer {
 
     public static class Params {
         public Params() {}
-        public int forwardIn;
-        public int forwardOut;
-        public int backIn;
-        public int backOut;
+        public int forwardIn = -1;
+        public int forwardOut = -1;
+        public int backIn = -1;
+        public int backOut = -1;
     }
 
     public TweenTransformer(Context context, Params params) {

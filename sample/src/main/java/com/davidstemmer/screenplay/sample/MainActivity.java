@@ -38,7 +38,7 @@ public class MainActivity extends Activity implements Blueprint {
         activityScope = Mortar.requireActivityScope(parentScope, this);
         Mortar.inject(this, this);
 
-        flow.resetTo(welcomeStage);
+        flow.replaceTo(welcomeStage);
     }
 
     private boolean isNavigationDrawerOpen() {

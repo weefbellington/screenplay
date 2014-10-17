@@ -25,7 +25,7 @@ public interface Scene {
     }
 
     public static interface Transformer {
-        public void applyAnimations(SceneCut pipe, Screenplay listener);
+        public void applyAnimations(SceneCut cut, Screenplay listener);
     }
 
 }
