@@ -7,6 +7,7 @@
         <item name="android:textSize">28sp</item>
         <item name="android:padding">10dp</item>
         <item name="android:clickable">true</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
     <style name="TutorialText">
         <item name="android:textSize">28sp</item>
