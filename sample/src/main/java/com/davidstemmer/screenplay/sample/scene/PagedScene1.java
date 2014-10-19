@@ -1,14 +1,19 @@
 package com.davidstemmer.screenplay.sample.scene;
 
-import android.widget.LinearLayout;
+import android.os.Bundle;
 
 import com.davidstemmer.screenplay.sample.R;
 import com.davidstemmer.screenplay.sample.scene.transformer.HorizontalSlideTransformer;
+import com.davidstemmer.screenplay.sample.view.PagedView1;
 import com.davidstemmer.screenplay.stage.StandardScene;
 import com.davidstemmer.screenplay.stage.director.PagedDirector;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import flow.Flow;
 import flow.Layout;
 import mortar.ViewPresenter;
 
@@ -38,9 +43,20 @@ public class PagedScene1 extends StandardScene {
         return transformer;
     }
 
-    public static class Presenter extends ViewPresenter<LinearLayout> {
+    @Singleton
+    public static class Presenter extends ViewPresenter<PagedView1> {
 
+        @Inject PagedScene2 nextScene;
+        @Inject Flow flow;
 
+        @Override
+        protected void onLoad(Bundle savedInstanceState) {
+            super.onLoad(savedInstanceState);
+            ButterKnife.inject(this, getView());
+        }
 
+        @OnClick(R.id.next) void nextClicked() {
+            flow.goTo(nextScene);
+        }
     }
 }

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.davidstemmer.screenplay.sample.view.WelcomeView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_light">
+    android:background="@android:color/holo_green_light">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:gravity="center"
-        android:textSize="30sp"
-        android:padding="10dp"
+        android:text="Each scene also has a Transformer, which animates transitions.\n\nThe previous scene had a horizontal transformer. This scene has a vertical transformer."
         android:textColor="@android:color/white"
-        android:text="@string/welcome_text"/>
-</com.davidstemmer.screenplay.sample.view.WelcomeView>
+        style="@style/TutorialText"/>
+
+</RelativeLayout>

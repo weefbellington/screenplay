@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
+<com.davidstemmer.screenplay.sample.view.PagedView1
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -13,4 +13,13 @@
         android:text="@string/paged_scene_1_text"
         android:textColor="@android:color/white"
         style="@style/TutorialText"/>
-</RelativeLayout>
+    <Button
+        android:id="@+id/next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:text="Next"/>
+</com.davidstemmer.screenplay.sample.view.PagedView1>

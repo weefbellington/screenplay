@@ -12,7 +12,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import flow.Flow;
 import flow.Layout;
 import mortar.ViewPresenter;
@@ -54,10 +53,6 @@ public class WelcomeScene extends StandardScene {
         protected void onLoad(Bundle savedInstanceState) {
             super.onLoad(savedInstanceState);
             ButterKnife.inject(this, getView());
-        }
-
-        @OnClick(R.id.next) void onNextClicked() {
-            flow.goTo(homeScreen);
         }
     }
 

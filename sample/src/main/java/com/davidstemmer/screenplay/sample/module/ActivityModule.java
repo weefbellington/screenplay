@@ -9,10 +9,12 @@ import com.davidstemmer.screenplay.sample.R;
 import com.davidstemmer.screenplay.sample.scene.HomeScene;
 import com.davidstemmer.screenplay.sample.scene.NavigationDrawerScene;
 import com.davidstemmer.screenplay.sample.scene.PagedScene1;
+import com.davidstemmer.screenplay.sample.scene.PagedScene2;
 import com.davidstemmer.screenplay.sample.scene.PopupScene;
 import com.davidstemmer.screenplay.sample.scene.WelcomeScene;
 import com.davidstemmer.screenplay.sample.view.HomeView;
 import com.davidstemmer.screenplay.sample.view.NavigationDrawerView;
+import com.davidstemmer.screenplay.sample.view.PagedView1;
 import com.davidstemmer.screenplay.sample.view.PopupView;
 import com.davidstemmer.screenplay.sample.view.WelcomeView;
 
@@ -36,6 +38,9 @@ import flow.Flow;
                 NavigationDrawerScene.Presenter.class,
                 NavigationDrawerView.class,
                 PagedScene1.class,
+                PagedScene1.Presenter.class,
+                PagedView1.class,
+                PagedScene2.class,
                 PopupScene.class,
                 PopupScene.Presenter.class,
                 PopupView.class,
