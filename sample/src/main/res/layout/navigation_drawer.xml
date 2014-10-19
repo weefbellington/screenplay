@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<com.davidstemmer.screenplay.sample.view.NavigationDrawerView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/navigation_drawer"
     android:orientation="vertical"
@@ -11,18 +11,21 @@
     android:showDividers="middle|end"
     android:divider="@android:drawable/divider_horizontal_textfield">
     <TextView
+        android:id="@+id/nav_item_welcome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Welcome"
+        android:text="Welcome scene"
         style="@style/NavigationDrawerItem"/>
     <TextView
+        android:id="@+id/nav_item_paged_scenes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Paged flows"
+        android:text="Paged scenes"
         style="@style/NavigationDrawerItem"/>
     <TextView
+        android:id="@+id/nav_item_multipane_scenes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Modal flows"
+        android:text="Multipane scenes"
         style="@style/NavigationDrawerItem"/>
-</LinearLayout>
+</com.davidstemmer.screenplay.sample.view.NavigationDrawerView>

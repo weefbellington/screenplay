@@ -4,5 +4,6 @@
     <string name="app_name">Screenplay</string>
     <string name="hello_world">Hello world!</string>
     <string name="welcome_text">Weclome to Screenplay!\n\nThis is the initial Scene. Press the home button to navigate the other sample Scenes.</string>
+    <string name="paged_scene_1_text">This Scene uses a PagedDirector. When entering the scene, the PagedDirector adds the new Scene to the layout. After the transition completes, the previous scene is removed from the layout.</string>
 
 </resources>

@@ -6,5 +6,11 @@
     <style name="NavigationDrawerItem">
         <item name="android:textSize">28sp</item>
         <item name="android:padding">10dp</item>
+        <item name="android:clickable">true</item>
+    </style>
+    <style name="TutorialText">
+        <item name="android:textSize">28sp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:gravity">center</item>
     </style>
 </resources>

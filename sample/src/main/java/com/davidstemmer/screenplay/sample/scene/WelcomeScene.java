@@ -22,6 +22,7 @@ import mortar.ViewPresenter;
  */
 
 @Layout(R.layout.welcome)
+@Singleton
 public class WelcomeScene extends StandardScene {
 
     private final PagedDirector director;
