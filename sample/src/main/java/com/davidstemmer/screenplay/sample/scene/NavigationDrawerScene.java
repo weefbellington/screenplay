@@ -123,11 +123,9 @@ public class NavigationDrawerScene extends StandardScene implements Blueprint {
 
         @Override
         protected void onExitScope() {
-            if (nextScene == welcomeScene) {
+
+            if (flow.getBackstack().current().getScreen() != nextScene) {
                 flow.resetTo(nextScene);
-            }
-            else if (flow.getBackstack().current().getScreen() != nextScene) {
-                flow.goTo(nextScene);
             }
         }
     }

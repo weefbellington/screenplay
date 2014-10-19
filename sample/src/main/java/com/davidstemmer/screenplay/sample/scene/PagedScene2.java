@@ -8,6 +8,7 @@ import com.davidstemmer.screenplay.stage.StandardScene;
 import com.davidstemmer.screenplay.stage.director.PagedDirector;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import flow.Layout;
 import mortar.ViewPresenter;
@@ -17,6 +18,7 @@ import mortar.ViewPresenter;
  */
 
 @Layout(R.layout.paged_scene_2)
+@Singleton
 public class PagedScene2 extends StandardScene {
 
     private final PagedDirector director;
