@@ -1,8 +1,17 @@
 <resources>
-
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <!-- Customize your theme here. -->
     </style>
-
+    <style name="NavigationDrawerItem">
+        <item name="android:textSize">28sp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+    <style name="TutorialText">
+        <item name="android:textSize">28sp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>
