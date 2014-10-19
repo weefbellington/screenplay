@@ -39,10 +39,14 @@ public class Screenplay implements Flow.Listener {
                 .setPreviousScene(previousScene)
                 .setCallback(callback).build();
 
-        if (direction == Flow.Direction.FORWARD || direction == Flow.Direction.REPLACE) {
+        if (nextScene == previousScene) {
+            callback.onComplete();
+        }
+        else if (direction == Flow.Direction.FORWARD || direction == Flow.Direction.REPLACE) {
             nextScene.getDirector().layoutNext(context, container, pipe);
             nextScene.getTransformer().applyAnimations(pipe, this);
-        } else {
+        }
+        else {
             previousScene.getDirector().layoutNext(context, container, pipe);
             previousScene.getTransformer().applyAnimations(pipe, this);
         }
