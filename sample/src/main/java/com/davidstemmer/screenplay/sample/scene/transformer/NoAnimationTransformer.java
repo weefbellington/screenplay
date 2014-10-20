@@ -2,7 +2,7 @@ package com.davidstemmer.screenplay.sample.scene.transformer;
 
 import com.davidstemmer.screenplay.SceneCut;
 import com.davidstemmer.screenplay.flow.Screenplay;
-import com.davidstemmer.screenplay.stage.Scene;
+import com.davidstemmer.screenplay.scene.Scene;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

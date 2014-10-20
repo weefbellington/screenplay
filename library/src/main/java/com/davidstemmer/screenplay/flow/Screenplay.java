@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 
 import com.davidstemmer.screenplay.SceneCut;
 import com.davidstemmer.screenplay.SceneState;
-import com.davidstemmer.screenplay.stage.Scene;
+import com.davidstemmer.screenplay.scene.Scene;
 
 import flow.Backstack;
 import flow.Flow;

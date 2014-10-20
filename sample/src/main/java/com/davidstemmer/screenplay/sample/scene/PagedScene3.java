@@ -1,6 +1,6 @@
 package com.davidstemmer.screenplay.sample.scene;
 
-import com.davidstemmer.screenplay.stage.StandardScene;
+import com.davidstemmer.screenplay.scene.StandardScene;
 
 /**
  * Created by weefbellington on 10/17/14.

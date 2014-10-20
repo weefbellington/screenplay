@@ -1,10 +1,10 @@
-package com.davidstemmer.screenplay.stage.director;
+package com.davidstemmer.screenplay.scene.director;
 
 import android.content.Context;
 import android.view.ViewGroup;
 
 import com.davidstemmer.screenplay.SceneCut;
-import com.davidstemmer.screenplay.stage.Scene;
+import com.davidstemmer.screenplay.scene.Scene;
 
 import javax.inject.Inject;
 

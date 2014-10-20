@@ -4,8 +4,8 @@ import android.widget.LinearLayout;
 
 import com.davidstemmer.screenplay.sample.R;
 import com.davidstemmer.screenplay.sample.scene.transformer.VerticalSlideTransformer;
-import com.davidstemmer.screenplay.stage.StandardScene;
-import com.davidstemmer.screenplay.stage.director.PagedDirector;
+import com.davidstemmer.screenplay.scene.StandardScene;
+import com.davidstemmer.screenplay.scene.director.PagedDirector;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

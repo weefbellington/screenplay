@@ -1,4 +1,4 @@
-package com.davidstemmer.screenplay.stage;
+package com.davidstemmer.screenplay.scene;
 
 import android.content.Context;
 import android.view.View;

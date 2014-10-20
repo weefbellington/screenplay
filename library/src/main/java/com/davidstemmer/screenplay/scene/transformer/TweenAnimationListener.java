@@ -1,4 +1,4 @@
-package com.davidstemmer.screenplay.stage.transformer;
+package com.davidstemmer.screenplay.scene.transformer;
 
 import android.view.animation.Animation;
 

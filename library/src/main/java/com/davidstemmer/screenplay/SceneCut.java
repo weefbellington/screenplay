@@ -1,6 +1,6 @@
 package com.davidstemmer.screenplay;
 
-import com.davidstemmer.screenplay.stage.Scene;
+import com.davidstemmer.screenplay.scene.Scene;
 
 import flow.Flow;
 
