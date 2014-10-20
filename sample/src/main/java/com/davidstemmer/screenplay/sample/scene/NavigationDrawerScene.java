@@ -57,8 +57,6 @@ public class NavigationDrawerScene extends StandardScene {
             this.flow = flow;
             this.welcomeScene = welcomeScene;
             this.pagedScene = pagedScene;
-
-            this.nextScene = welcomeScene;
         }
 
         @OnClick(R.id.nav_item_welcome)
@@ -80,6 +78,9 @@ public class NavigationDrawerScene extends StandardScene {
         }
 
         public void showNextScene() {
+            if (nextScene == null) {
+                return;
+            }
             if (flow.getBackstack().current().getScreen() != nextScene) {
                 flow.resetTo(nextScene);
             }
