@@ -5,9 +5,9 @@ import android.os.Bundle;
 import com.davidstemmer.screenplay.sample.R;
 import com.davidstemmer.screenplay.sample.scene.transformer.HorizontalSlideTransformer;
 import com.davidstemmer.screenplay.sample.view.HomeView;
-import com.davidstemmer.screenplay.stage.Scene;
-import com.davidstemmer.screenplay.stage.StandardScene;
-import com.davidstemmer.screenplay.stage.director.PagedDirector;
+import com.davidstemmer.screenplay.scene.Scene;
+import com.davidstemmer.screenplay.scene.StandardScene;
+import com.davidstemmer.screenplay.scene.director.PagedDirector;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

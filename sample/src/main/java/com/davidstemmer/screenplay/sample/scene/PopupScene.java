@@ -5,8 +5,8 @@ import android.view.View;
 
 import com.davidstemmer.screenplay.sample.R;
 import com.davidstemmer.screenplay.sample.scene.transformer.PopupTransformer;
-import com.davidstemmer.screenplay.stage.StandardScene;
-import com.davidstemmer.screenplay.stage.director.ModalDirector;
+import com.davidstemmer.screenplay.scene.StandardScene;
+import com.davidstemmer.screenplay.scene.director.ModalDirector;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

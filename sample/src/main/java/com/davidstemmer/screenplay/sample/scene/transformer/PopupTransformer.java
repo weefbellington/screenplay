@@ -3,7 +3,7 @@ package com.davidstemmer.screenplay.sample.scene.transformer;
 import android.app.Application;
 
 import com.davidstemmer.screenplay.sample.R;
-import com.davidstemmer.screenplay.stage.transformer.TweenTransformer;
+import com.davidstemmer.screenplay.scene.transformer.TweenTransformer;
 
 import javax.inject.Inject;
 

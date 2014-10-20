@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import com.davidstemmer.screenplay.sample.R;
 import com.davidstemmer.screenplay.sample.scene.transformer.NavigationDrawerTransformer;
 import com.davidstemmer.screenplay.sample.view.NavigationDrawerView;
-import com.davidstemmer.screenplay.stage.Scene;
-import com.davidstemmer.screenplay.stage.StandardScene;
-import com.davidstemmer.screenplay.stage.director.ModalDirector;
+import com.davidstemmer.screenplay.scene.Scene;
+import com.davidstemmer.screenplay.scene.StandardScene;
+import com.davidstemmer.screenplay.scene.director.ModalDirector;
 
 import javax.inject.Inject;
 
