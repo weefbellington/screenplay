@@ -8,7 +8,7 @@ import com.davidstemmer.screenplay.SceneState;
 import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.sample.module.ActivityModule;
 import com.davidstemmer.screenplay.sample.scene.NavigationDrawerScene;
-import com.davidstemmer.screenplay.sample.scene.WelcomeScene;
+import com.davidstemmer.screenplay.sample.scene.SimpleScene;
 
 import javax.inject.Inject;
 
@@ -22,7 +22,7 @@ public class MainActivity extends Activity implements Blueprint {
     @Inject Flow flow;
     @Inject Screenplay screenplay;
     @Inject NavigationDrawerScene navigationDrawerScene;
-    @Inject WelcomeScene welcomeStage;
+    @Inject SimpleScene welcomeStage;
 
     private MortarScope activityScope;
 

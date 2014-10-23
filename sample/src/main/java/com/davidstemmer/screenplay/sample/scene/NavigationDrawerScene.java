@@ -47,27 +47,39 @@ public class NavigationDrawerScene extends StandardScene {
     public static class Presenter extends ViewPresenter<NavigationDrawerView> {
 
         private final Flow flow;
-        private final WelcomeScene welcomeScene;
+        private final SimpleScene simpleScene;
         private final PagedScene1 pagedScene;
+        private final ModalScene modalScene;
 
         private Scene nextScene;
 
         @Inject
-        public Presenter(Flow flow, WelcomeScene welcomeScene, PagedScene1 pagedScene) {
+        public Presenter(Flow flow,
+                         SimpleScene simpleScene,
+                         PagedScene1 pagedScene,
+                         ModalScene modalScene) {
+
             this.flow = flow;
-            this.welcomeScene = welcomeScene;
+            this.simpleScene = simpleScene;
             this.pagedScene = pagedScene;
+            this.modalScene = modalScene;
         }
 
-        @OnClick(R.id.nav_item_welcome)
+        @OnClick(R.id.nav_item_simple_scene)
         void welcomeClicked() {
-            nextScene = welcomeScene;
+            nextScene = simpleScene;
             flow.goBack();
         }
 
         @OnClick(R.id.nav_item_paged_scenes)
         void pagedScenesClicked() {
             nextScene = pagedScene;
+            flow.goBack();
+        }
+
+        @OnClick(R.id.nav_item_modal_scenes)
+        void modalScenesClicked() {
+            nextScene = modalScene;
             flow.goBack();
         }
 

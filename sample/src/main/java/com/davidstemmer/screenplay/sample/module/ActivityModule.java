@@ -6,16 +6,18 @@ import android.widget.RelativeLayout;
 import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.sample.MainActivity;
 import com.davidstemmer.screenplay.sample.R;
-import com.davidstemmer.screenplay.sample.scene.HomeScene;
+import com.davidstemmer.screenplay.sample.scene.ActionDrawerScene;
+import com.davidstemmer.screenplay.sample.scene.DialogScene;
+import com.davidstemmer.screenplay.sample.scene.ModalScene;
 import com.davidstemmer.screenplay.sample.scene.NavigationDrawerScene;
 import com.davidstemmer.screenplay.sample.scene.PagedScene1;
 import com.davidstemmer.screenplay.sample.scene.PagedScene2;
-import com.davidstemmer.screenplay.sample.scene.PopupScene;
-import com.davidstemmer.screenplay.sample.scene.WelcomeScene;
-import com.davidstemmer.screenplay.sample.view.HomeView;
+import com.davidstemmer.screenplay.sample.scene.SimpleScene;
+import com.davidstemmer.screenplay.sample.view.ActionDrawerView;
+import com.davidstemmer.screenplay.sample.view.ModalSceneView;
 import com.davidstemmer.screenplay.sample.view.NavigationDrawerView;
 import com.davidstemmer.screenplay.sample.view.PagedView1;
-import com.davidstemmer.screenplay.sample.view.PopupView;
+import com.davidstemmer.screenplay.sample.view.DialogSceneView;
 import com.davidstemmer.screenplay.sample.view.WelcomeView;
 
 import javax.inject.Singleton;
@@ -30,9 +32,12 @@ import flow.Flow;
  */
 @Module(addsTo = ApplicationModule.class,
         injects = {
-                HomeScene.class,
-                HomeScene.Presenter.class,
-                HomeView.class,
+                ActionDrawerScene.class,
+                ActionDrawerScene.Presenter.class,
+                ActionDrawerView.class,
+                ModalScene.class,
+                ModalScene.Presenter.class,
+                ModalSceneView.class,
                 MainActivity.class,
                 NavigationDrawerScene.class,
                 NavigationDrawerScene.Presenter.class,
@@ -41,11 +46,11 @@ import flow.Flow;
                 PagedScene1.Presenter.class,
                 PagedView1.class,
                 PagedScene2.class,
-                PopupScene.class,
-                PopupScene.Presenter.class,
-                PopupView.class,
-                WelcomeScene.class,
-                WelcomeScene.Presenter.class,
+                DialogScene.class,
+                DialogScene.Presenter.class,
+                DialogSceneView.class,
+                SimpleScene.class,
+                SimpleScene.Presenter.class,
                 WelcomeView.class
         })
 public class ActivityModule {
@@ -68,7 +73,7 @@ public class ActivityModule {
     }
 
     @Provides @Singleton
-    Flow provideFlow(WelcomeScene welcomeStage, Screenplay screenplay) {
+    Flow provideFlow(SimpleScene welcomeStage, Screenplay screenplay) {
         return new Flow(Backstack.single(welcomeStage), screenplay);
     }
 }

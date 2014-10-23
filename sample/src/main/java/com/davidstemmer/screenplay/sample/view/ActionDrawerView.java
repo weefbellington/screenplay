@@ -4,21 +4,22 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
-import com.davidstemmer.screenplay.sample.scene.HomeScene;
+import com.davidstemmer.screenplay.sample.scene.ActionDrawerScene;
 
 import javax.inject.Inject;
 
 import mortar.Mortar;
 
 /**
- * Created by weefbellington on 10/2/14.
+ * Created by weefbellington on 10/22/14.
  */
-public class HomeView extends LinearLayout{
+public class ActionDrawerView extends LinearLayout {
 
-    @Inject HomeScene.Presenter presenter;
+    @Inject ActionDrawerScene.Presenter presenter;
 
-    public HomeView(Context context, AttributeSet attrs) {
+    public ActionDrawerView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        if (isInEditMode()) return;;
         Mortar.inject(context, this);
     }
 
@@ -26,12 +27,12 @@ public class HomeView extends LinearLayout{
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         presenter.takeView(this);
-
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         presenter.dropView(this);
+        presenter.executeCallback();
     }
 }

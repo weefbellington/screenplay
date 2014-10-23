@@ -11,21 +11,21 @@
     android:showDividers="middle|end"
     android:divider="@android:drawable/divider_horizontal_textfield">
     <TextView
-        android:id="@+id/nav_item_welcome"
+        android:id="@+id/nav_item_simple_scene"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Welcome scene"
+        android:text="@string/nav_item_simple_screen"
         style="@style/NavigationDrawerItem"/>
     <TextView
         android:id="@+id/nav_item_paged_scenes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Paged scenes"
+        android:text="@string/nav_item_paged_scenes"
         style="@style/NavigationDrawerItem"/>
     <TextView
-        android:id="@+id/nav_item_multipane_scenes"
+        android:id="@+id/nav_item_modal_scenes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Multipane scenes (TODO)"
+        android:text="@string/nav_item_modal_scenes"
         style="@style/NavigationDrawerItem"/>
 </com.davidstemmer.screenplay.sample.view.NavigationDrawerView>

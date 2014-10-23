@@ -2,9 +2,9 @@ package com.davidstemmer.screenplay.sample.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 
-import com.davidstemmer.screenplay.sample.scene.PopupScene;
+import com.davidstemmer.screenplay.sample.scene.ModalScene;
 
 import javax.inject.Inject;
 
@@ -13,12 +13,11 @@ import mortar.Mortar;
 /**
  * Created by weefbellington on 10/2/14.
  */
+public class ModalSceneView extends LinearLayout {
 
-public class PopupView extends RelativeLayout {
+    @Inject ModalScene.Presenter presenter;
 
-    @Inject PopupScene.Presenter presenter;
-
-    public PopupView(Context context, AttributeSet attrs) {
+    public ModalSceneView(Context context, AttributeSet attrs) {
         super(context, attrs);
         Mortar.inject(context, this);
     }
@@ -27,6 +26,7 @@ public class PopupView extends RelativeLayout {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         presenter.takeView(this);
+
     }
 
     @Override

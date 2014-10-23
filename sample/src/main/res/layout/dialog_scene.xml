@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.davidstemmer.screenplay.sample.view.PopupView
+<com.davidstemmer.screenplay.sample.view.DialogSceneView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
-    android:layout_height="200dp"
+    android:layout_height="wrap_content"
     android:layout_centerInParent="true"
-    android:background="@android:color/holo_purple">
+    android:orientation="vertical"
+    android:background="@android:color/holo_blue_dark">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:gravity="center"
-        android:textSize="30sp"
         android:textColor="@android:color/white"
-        android:text="Hello world!"/>
+        android:text="@string/dialog_scene_text"
+        style="@style/TutorialText"/>
     <Button
         android:id="@+id/ok"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:textSize="30sp"
         android:textColor="@android:color/white"
-        android:text="OK"/>
-</com.davidstemmer.screenplay.sample.view.PopupView>
+        android:text="@string/ok"/>
+</com.davidstemmer.screenplay.sample.view.DialogSceneView>
