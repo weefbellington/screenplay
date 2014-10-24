@@ -67,11 +67,19 @@ public class ActionDrawerScene extends StandardScene {
         @Inject Flow flow;
 
         private Result result = Result.CANCELLED;
+        private boolean isPresenting = false;
 
         @Override
         protected void onLoad(Bundle savedInstanceState) {
             super.onLoad(savedInstanceState);
             ButterKnife.inject(this, getView());
+            isPresenting = true;
+        }
+
+        @Override
+        protected void onSave(Bundle outState) {
+            super.onSave(outState);
+            isPresenting = false;
         }
 
         @OnClick(R.id.yes) void yes() {
@@ -85,7 +93,10 @@ public class ActionDrawerScene extends StandardScene {
         }
 
         public void executeCallback() {
-            scene.callback.onComplete(result);
+            if (isPresenting) {
+                scene.callback.onComplete(result);
+            }
+            result = Result.CANCELLED;
         }
     }
 }
