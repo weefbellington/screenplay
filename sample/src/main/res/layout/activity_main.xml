@@ -1,7 +1,14 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/main"
-    tools:context="${relativePackage}.${activityClass}">
-</RelativeLayout>
+    android:layout_height="match_parent">
+    <RelativeLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/main"
+        tools:context="${relativePackage}.${activityClass}">
+    </RelativeLayout>
+</android.support.v4.widget.DrawerLayout>

@@ -1,6 +1,9 @@
 package com.davidstemmer.screenplay.sample.scene;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.view.View;
 
 import com.davidstemmer.screenplay.sample.R;
 import com.davidstemmer.screenplay.sample.scene.transformer.NavigationDrawerTransformer;
@@ -12,6 +15,7 @@ import com.davidstemmer.screenplay.scene.director.ModalDirector;
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
+import butterknife.InjectView;
 import butterknife.OnClick;
 import flow.Flow;
 import flow.Layout;
@@ -44,7 +48,9 @@ public class NavigationDrawerScene extends StandardScene {
         return transformer;
     }
 
-    public static class Presenter extends ViewPresenter<NavigationDrawerView> {
+    public static class Presenter extends ViewPresenter<NavigationDrawerView> implements DrawerLayout.DrawerListener {
+
+        @InjectView(R.id.drawer_parent) DrawerLayout drawer;
 
         private final Flow flow;
         private final SimpleScene simpleScene;
@@ -68,35 +74,55 @@ public class NavigationDrawerScene extends StandardScene {
         @OnClick(R.id.nav_item_simple_scene)
         void welcomeClicked() {
             nextScene = simpleScene;
-            flow.goBack();
+            drawer.closeDrawer(getView());
         }
 
         @OnClick(R.id.nav_item_paged_scenes)
         void pagedScenesClicked() {
             nextScene = pagedScene;
-            flow.goBack();
+            drawer.closeDrawer(getView());
         }
 
         @OnClick(R.id.nav_item_modal_scenes)
         void modalScenesClicked() {
             nextScene = modalScene;
-            flow.goBack();
+            drawer.closeDrawer(getView());
         }
 
         @Override
         protected void onLoad(Bundle savedInstanceState) {
             super.onLoad(savedInstanceState);
-            ButterKnife.inject(this, getView());
+
+            ButterKnife.inject(this, (Activity) getView().getContext());
+            drawer.setDrawerListener(this);
         }
 
-        public void showNextScene() {
+        @Override
+        public void onDrawerSlide(View view, float v) {
+
+        }
+
+        @Override
+        public void onDrawerOpened(View view) {
+
+        }
+
+        @Override
+        public void onDrawerClosed(View view) {
             if (nextScene == null) {
                 return;
             }
             if (flow.getBackstack().current().getScreen() != nextScene) {
                 flow.resetTo(nextScene);
+                nextScene = null;
             }
         }
+
+        @Override
+        public void onDrawerStateChanged(int i) {
+
+        }
+
     }
 
 

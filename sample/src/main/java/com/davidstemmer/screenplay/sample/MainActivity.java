@@ -2,7 +2,11 @@ package com.davidstemmer.screenplay.sample;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.davidstemmer.screenplay.SceneState;
 import com.davidstemmer.screenplay.flow.Screenplay;
@@ -12,37 +16,45 @@ import com.davidstemmer.screenplay.sample.scene.SimpleScene;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import flow.Flow;
 import mortar.Blueprint;
 import mortar.Mortar;
+import mortar.MortarActivityScope;
 import mortar.MortarScope;
 
 public class MainActivity extends Activity implements Blueprint {
 
     @Inject Flow flow;
     @Inject Screenplay screenplay;
-    @Inject NavigationDrawerScene navigationDrawerScene;
-    @Inject SimpleScene welcomeStage;
 
-    private MortarScope activityScope;
+    @InjectView(R.id.drawer_parent) DrawerLayout navigationDrawer;
+    @InjectView(R.id.main) RelativeLayout contentContainer;
+
+    private MortarActivityScope activityScope;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        getActionBar().setHomeButtonEnabled(true);
 
         MortarScope parentScope = Mortar.getScope(getApplication());
         activityScope = Mortar.requireActivityScope(parentScope, this);
+        activityScope.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_main);
         Mortar.inject(this, this);
 
-        flow.replaceTo(welcomeStage);
-    }
+        getActionBar().setHomeButtonEnabled(true);
+        ButterKnife.inject(this, this);
 
-    private boolean isNavigationDrawerOpen() {
-        return findViewById(R.id.navigation_drawer) != null;
+        DrawerLayout parent = (DrawerLayout) findViewById(R.id.drawer_parent);
+        getLayoutInflater().inflate(R.layout.navigation_drawer, parent);
+        parent.invalidate();
+
+        screenplay.reset(this, contentContainer);
+        screenplay.enter(flow);
     }
 
     @Override public void onBackPressed() {
@@ -54,15 +66,12 @@ public class MainActivity extends Activity implements Blueprint {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        // Ignore menu click if stage is transitioning
-        if (screenplay.getScreenState() == SceneState.TRANSITIONING) return true;
-
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (isNavigationDrawerOpen()) {
-                    flow.goBack();
+                if (navigationDrawer.isDrawerVisible(Gravity.LEFT)) {
+                    navigationDrawer.closeDrawer(Gravity.LEFT);
                 } else {
-                    flow.goTo(navigationDrawerScene);
+                    navigationDrawer.openDrawer(Gravity.LEFT);
                 }
                 return true;
         }
@@ -77,11 +86,18 @@ public class MainActivity extends Activity implements Blueprint {
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onSaveInstanceState(Bundle outState) {
+        activityScope.onSaveInstanceState(outState);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override public void onDestroy() {
         super.onDestroy();
-        MortarScope parentScope = Mortar.getScope(getApplication());
-        parentScope.destroyChild(activityScope);
-        activityScope = null;
+        if (isFinishing()) {
+            MortarScope parentScope = Mortar.getScope(getApplication());
+            parentScope.destroyChild(activityScope);
+            activityScope = null;
+        }
     }
 
     @Override
