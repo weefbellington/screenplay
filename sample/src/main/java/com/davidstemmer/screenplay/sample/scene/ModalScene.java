@@ -1,6 +1,5 @@
 package com.davidstemmer.screenplay.sample.scene;
 
-import android.app.Application;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -52,7 +51,6 @@ public class ModalScene extends StandardScene {
         @Inject Flow flow;
         @Inject DialogScene dialogScene;
         @Inject ActionDrawerScene actionDrawerScene;
-        @Inject Application application;
 
         @Override
         protected void onLoad(Bundle savedInstanceState) {
