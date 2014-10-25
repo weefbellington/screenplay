@@ -9,7 +9,7 @@ import com.davidstemmer.screenplay.sample.R;
 import com.davidstemmer.screenplay.sample.component.DrawerLockingComponent;
 import com.davidstemmer.screenplay.sample.scene.transformer.PopupTransformer;
 import com.davidstemmer.screenplay.scene.StandardScene;
-import com.davidstemmer.screenplay.scene.director.ModalDirector;
+import com.davidstemmer.screenplay.scene.rigger.ModalRigger;
 
 import java.util.ArrayList;
 
@@ -29,13 +29,13 @@ import mortar.ViewPresenter;
 public class DialogScene extends StandardScene {
 
     private final PopupTransformer transformer;
-    private final ModalDirector director;
+    private final ModalRigger rigger;
 
     @Inject
-    public DialogScene(ComponentList components, PopupTransformer transformer, ModalDirector director) {
+    public DialogScene(ComponentList components, PopupTransformer transformer, ModalRigger rigger) {
         super(components);
         this.transformer = transformer;
-        this.director = director;
+        this.rigger = rigger;
     }
 
     @Singleton
@@ -47,8 +47,8 @@ public class DialogScene extends StandardScene {
     }
 
     @Override
-    public Director getDirector() {
-        return director;
+    public Rigger getRigger() {
+        return rigger;
     }
 
     @Override

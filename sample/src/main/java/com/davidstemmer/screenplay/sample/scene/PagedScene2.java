@@ -5,7 +5,7 @@ import android.widget.LinearLayout;
 import com.davidstemmer.screenplay.sample.R;
 import com.davidstemmer.screenplay.sample.scene.transformer.VerticalSlideTransformer;
 import com.davidstemmer.screenplay.scene.StandardScene;
-import com.davidstemmer.screenplay.scene.director.PagedDirector;
+import com.davidstemmer.screenplay.scene.rigger.PageRigger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -21,18 +21,18 @@ import mortar.ViewPresenter;
 @Singleton
 public class PagedScene2 extends StandardScene {
 
-    private final PagedDirector director;
+    private final PageRigger rigger;
     private final VerticalSlideTransformer transformer;
 
     @Inject
-    public PagedScene2(PagedDirector director, VerticalSlideTransformer transformer) {
-        this.director = director;
+    public PagedScene2(PageRigger rigger, VerticalSlideTransformer transformer) {
+        this.rigger = rigger;
         this.transformer = transformer;
     }
 
     @Override
-    public Director getDirector() {
-        return director;
+    public Rigger getRigger() {
+        return rigger;
     }
 
     @Override

@@ -6,7 +6,7 @@ import com.davidstemmer.screenplay.sample.R;
 import com.davidstemmer.screenplay.sample.scene.transformer.HorizontalSlideTransformer;
 import com.davidstemmer.screenplay.sample.view.PagedView1;
 import com.davidstemmer.screenplay.scene.StandardScene;
-import com.davidstemmer.screenplay.scene.director.PagedDirector;
+import com.davidstemmer.screenplay.scene.rigger.PageRigger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -25,18 +25,18 @@ import mortar.ViewPresenter;
 @Singleton
 public class PagedScene1 extends StandardScene {
 
-    private final PagedDirector director;
+    private final PageRigger rigger;
     private final HorizontalSlideTransformer transformer;
 
     @Inject
-    public PagedScene1(PagedDirector director, HorizontalSlideTransformer transformer) {
-        this.director = director;
+    public PagedScene1(PageRigger rigger, HorizontalSlideTransformer transformer) {
+        this.rigger = rigger;
         this.transformer = transformer;
     }
 
     @Override
-    public Director getDirector() {
-        return director;
+    public Rigger getRigger() {
+        return rigger;
     }
 
     @Override

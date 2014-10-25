@@ -16,7 +16,7 @@ public interface Scene {
     public View tearDown(Context context, ViewGroup parent);
     public View getView();
 
-    public Director getDirector();
+    public Rigger getRigger();
     public Transformer getTransformer();
 
     public static interface Component {
@@ -24,7 +24,7 @@ public interface Scene {
         public void beforeTearDown(Context context, Scene scene);
     }
 
-    public static interface Director {
+    public static interface Rigger {
         public void layoutNext(Context context, ViewGroup parent, SceneCut cut);
         public void layoutPrevious(Context context, ViewGroup parent, SceneCut cut);
     }

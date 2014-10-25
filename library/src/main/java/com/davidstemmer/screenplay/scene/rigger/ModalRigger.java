@@ -1,4 +1,4 @@
-package com.davidstemmer.screenplay.scene.director;
+package com.davidstemmer.screenplay.scene.rigger;
 
 import android.content.Context;
 import android.view.View;
@@ -15,12 +15,12 @@ import flow.Flow;
 /**
  * Created by weefbellington on 10/14/14.
  */
-public class ModalDirector implements Scene.Director {
+public class ModalRigger implements Scene.Rigger {
 
     private boolean showsBackgroundOverlay = true;
 
     @Inject
-    public ModalDirector() {}
+    public ModalRigger() {}
 
     @Override
     public void layoutNext(Context context, ViewGroup parent, SceneCut cut) {

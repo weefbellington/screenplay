@@ -1,4 +1,4 @@
-package com.davidstemmer.screenplay.scene.director;
+package com.davidstemmer.screenplay.scene.rigger;
 
 import android.content.Context;
 import android.view.ViewGroup;
@@ -11,10 +11,10 @@ import javax.inject.Inject;
 /**
  * Created by weefbellington on 10/13/14.
  */
-public class PagedDirector implements Scene.Director {
+public class PageRigger implements Scene.Rigger {
 
     @Inject
-    public PagedDirector() {}
+    public PageRigger() {}
 
     @Override
     public void layoutNext(Context context, ViewGroup parent, SceneCut cut) {
