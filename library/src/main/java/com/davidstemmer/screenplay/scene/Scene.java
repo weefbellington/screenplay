@@ -19,6 +19,11 @@ public interface Scene {
     public Director getDirector();
     public Transformer getTransformer();
 
+    public static interface Component {
+        public void afterSetUp(Context context, Scene scene);
+        public void beforeTearDown(Context context, Scene scene);
+    }
+
     public static interface Director {
         public void layoutNext(Context context, ViewGroup parent, SceneCut cut);
         public void layoutPrevious(Context context, ViewGroup parent, SceneCut cut);

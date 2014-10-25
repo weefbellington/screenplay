@@ -6,7 +6,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 
 import com.davidstemmer.screenplay.sample.R;
-import com.davidstemmer.screenplay.scene.LockingScene;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -19,7 +18,7 @@ import mortar.Presenter;
  * Created by weefbellington on 10/24/14.
  */
 @Singleton
-public class DrawerPresenter extends Presenter<DrawerLayout> implements LockingScene.Lockable {
+public class DrawerPresenter extends Presenter<DrawerLayout> {
 
     private final ActivityPresenter activityPresenter;
 
@@ -41,7 +40,6 @@ public class DrawerPresenter extends Presenter<DrawerLayout> implements LockingS
         return getView();
     }
 
-    @Override
     public void setLocked(boolean locked) {
         if (locked) {
             getLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);

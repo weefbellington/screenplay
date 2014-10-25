@@ -3,11 +3,14 @@ package com.davidstemmer.screenplay.sample.scene;
 import android.os.Bundle;
 
 import com.davidstemmer.screenplay.sample.R;
-import com.davidstemmer.screenplay.sample.presenter.DrawerPresenter;
+import com.davidstemmer.screenplay.sample.component.DrawerLockingComponent;
 import com.davidstemmer.screenplay.sample.scene.transformer.ActionDrawerTransformer;
 import com.davidstemmer.screenplay.sample.view.ActionDrawerView;
-import com.davidstemmer.screenplay.scene.LockingScene;
+import com.davidstemmer.screenplay.scene.Scene;
+import com.davidstemmer.screenplay.scene.StandardScene;
 import com.davidstemmer.screenplay.scene.director.ModalDirector;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -24,7 +27,7 @@ import mortar.ViewPresenter;
 
 @Layout(R.layout.action_drawer)
 @Singleton
-public class ActionDrawerScene extends LockingScene {
+public class ActionDrawerScene extends StandardScene {
 
     public static enum Result {
         YES,
@@ -38,10 +41,18 @@ public class ActionDrawerScene extends LockingScene {
     private final ActionDrawerTransformer transformer;
 
     @Inject
-    public ActionDrawerScene(DrawerPresenter drawerPresenter, ModalDirector director, ActionDrawerTransformer transformer) {
-        super(drawerPresenter);
+    public ActionDrawerScene(ComponentList components, ModalDirector director, ActionDrawerTransformer transformer) {
+        super(components);
         this.director = director;
         this.transformer = transformer;
+    }
+
+    @Singleton
+    static class ComponentList extends ArrayList<Scene.Component> {
+        @Inject
+        public ComponentList(DrawerLockingComponent component) {
+            add(component);
+        }
     }
 
     public void setCallback(Callback callback) {
