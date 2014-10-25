@@ -56,9 +56,6 @@ public class MainActivity extends Activity implements Blueprint {
         activityPresenter.takeView(this);
         drawerPresenter.takeView(navigationDrawer);
 
-        getLayoutInflater().inflate(R.layout.navigation_drawer, navigationDrawer);
-        navigationDrawer.invalidate();
-
         screenplay.enter(flow);
     }
 
@@ -73,10 +70,10 @@ public class MainActivity extends Activity implements Blueprint {
 
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (navigationDrawer.isDrawerVisible(Gravity.LEFT)) {
-                    navigationDrawer.closeDrawer(Gravity.LEFT);
-                } else {
-                    navigationDrawer.openDrawer(Gravity.LEFT);
+                if (drawerPresenter.isDrawerVisible() && !drawerPresenter.isLockedOpen()) {
+                    drawerPresenter.close();
+                } else if (!drawerPresenter.isLockedShut()){
+                    drawerPresenter.open();
                 }
                 return true;
         }

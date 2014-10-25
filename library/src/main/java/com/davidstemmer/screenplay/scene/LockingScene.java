@@ -17,13 +17,13 @@ public abstract class LockingScene extends StandardScene {
 
     @Override
     public View setUp(Context context, ViewGroup parent) {
-        lockable.setLocked(false);
+        lockable.setLocked(true);
         return super.setUp(context, parent);
     }
 
     @Override
     public View tearDown(Context context, ViewGroup parent) {
-        lockable.setLocked(true);
+        lockable.setLocked(false);
         return super.tearDown(context, parent);
     }
 
