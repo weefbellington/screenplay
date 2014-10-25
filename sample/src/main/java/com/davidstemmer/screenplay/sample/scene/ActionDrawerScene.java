@@ -3,9 +3,10 @@ package com.davidstemmer.screenplay.sample.scene;
 import android.os.Bundle;
 
 import com.davidstemmer.screenplay.sample.R;
+import com.davidstemmer.screenplay.sample.presenter.DrawerPresenter;
 import com.davidstemmer.screenplay.sample.scene.transformer.ActionDrawerTransformer;
 import com.davidstemmer.screenplay.sample.view.ActionDrawerView;
-import com.davidstemmer.screenplay.scene.StandardScene;
+import com.davidstemmer.screenplay.scene.LockingScene;
 import com.davidstemmer.screenplay.scene.director.ModalDirector;
 
 import javax.inject.Inject;
@@ -23,7 +24,7 @@ import mortar.ViewPresenter;
 
 @Layout(R.layout.action_drawer)
 @Singleton
-public class ActionDrawerScene extends StandardScene {
+public class ActionDrawerScene extends LockingScene {
 
     public static enum Result {
         YES,
@@ -37,7 +38,8 @@ public class ActionDrawerScene extends StandardScene {
     private final ActionDrawerTransformer transformer;
 
     @Inject
-    public ActionDrawerScene(ModalDirector director, ActionDrawerTransformer transformer) {
+    public ActionDrawerScene(DrawerPresenter drawerPresenter, ModalDirector director, ActionDrawerTransformer transformer) {
+        super(drawerPresenter);
         this.director = director;
         this.transformer = transformer;
     }

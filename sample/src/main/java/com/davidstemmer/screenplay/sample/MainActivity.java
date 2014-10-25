@@ -11,6 +11,8 @@ import android.widget.RelativeLayout;
 import com.davidstemmer.screenplay.SceneState;
 import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.sample.module.ActivityModule;
+import com.davidstemmer.screenplay.sample.presenter.ActivityPresenter;
+import com.davidstemmer.screenplay.sample.presenter.DrawerPresenter;
 import com.davidstemmer.screenplay.sample.scene.NavigationDrawerScene;
 import com.davidstemmer.screenplay.sample.scene.SimpleScene;
 
@@ -28,9 +30,10 @@ public class MainActivity extends Activity implements Blueprint {
 
     @Inject Flow flow;
     @Inject Screenplay screenplay;
+    @Inject ActivityPresenter activityPresenter;
+    @Inject DrawerPresenter drawerPresenter;
 
-    @InjectView(R.id.drawer_parent) DrawerLayout navigationDrawer;
-    @InjectView(R.id.main) RelativeLayout contentContainer;
+    private DrawerLayout navigationDrawer;
 
     private MortarActivityScope activityScope;
 
@@ -49,11 +52,13 @@ public class MainActivity extends Activity implements Blueprint {
         getActionBar().setHomeButtonEnabled(true);
         ButterKnife.inject(this, this);
 
-        DrawerLayout parent = (DrawerLayout) findViewById(R.id.drawer_parent);
-        getLayoutInflater().inflate(R.layout.navigation_drawer, parent);
-        parent.invalidate();
+        navigationDrawer = (DrawerLayout) findViewById(R.id.drawer_parent);
+        activityPresenter.takeView(this);
+        drawerPresenter.takeView(navigationDrawer);
 
-        screenplay.reset(this, contentContainer);
+        getLayoutInflater().inflate(R.layout.navigation_drawer, navigationDrawer);
+        navigationDrawer.invalidate();
+
         screenplay.enter(flow);
     }
 
@@ -94,6 +99,8 @@ public class MainActivity extends Activity implements Blueprint {
     @Override public void onDestroy() {
         super.onDestroy();
         if (isFinishing()) {
+            activityPresenter.dropView(this);
+            drawerPresenter.dropView(navigationDrawer);
             MortarScope parentScope = Mortar.getScope(getApplication());
             parentScope.destroyChild(activityScope);
             activityScope = null;
@@ -107,7 +114,7 @@ public class MainActivity extends Activity implements Blueprint {
 
     @Override
     public Object getDaggerModule() {
-        return new ActivityModule(this);
+        return new ActivityModule();
     }
 
 

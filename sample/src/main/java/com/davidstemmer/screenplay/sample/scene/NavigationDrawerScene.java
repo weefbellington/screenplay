@@ -6,6 +6,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 
 import com.davidstemmer.screenplay.sample.R;
+import com.davidstemmer.screenplay.sample.presenter.DrawerPresenter;
 import com.davidstemmer.screenplay.sample.scene.transformer.NavigationDrawerTransformer;
 import com.davidstemmer.screenplay.sample.view.NavigationDrawerView;
 import com.davidstemmer.screenplay.scene.Scene;
@@ -15,7 +16,6 @@ import com.davidstemmer.screenplay.scene.director.ModalDirector;
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 import flow.Flow;
 import flow.Layout;
@@ -50,8 +50,7 @@ public class NavigationDrawerScene extends StandardScene {
 
     public static class Presenter extends ViewPresenter<NavigationDrawerView> implements DrawerLayout.DrawerListener {
 
-        @InjectView(R.id.drawer_parent) DrawerLayout drawer;
-
+        private final DrawerPresenter drawer;
         private final Flow flow;
         private final SimpleScene simpleScene;
         private final PagedScene1 pagedScene;
@@ -60,11 +59,13 @@ public class NavigationDrawerScene extends StandardScene {
         private Scene nextScene;
 
         @Inject
-        public Presenter(Flow flow,
+        public Presenter(DrawerPresenter drawerPresenter,
+                         Flow flow,
                          SimpleScene simpleScene,
                          PagedScene1 pagedScene,
                          ModalScene modalScene) {
 
+            this.drawer = drawerPresenter;
             this.flow = flow;
             this.simpleScene = simpleScene;
             this.pagedScene = pagedScene;
@@ -74,19 +75,19 @@ public class NavigationDrawerScene extends StandardScene {
         @OnClick(R.id.nav_item_simple_scene)
         void welcomeClicked() {
             nextScene = simpleScene;
-            drawer.closeDrawer(getView());
+            drawer.getLayout().closeDrawer(getView());
         }
 
         @OnClick(R.id.nav_item_paged_scenes)
         void pagedScenesClicked() {
             nextScene = pagedScene;
-            drawer.closeDrawer(getView());
+            drawer.getLayout().closeDrawer(getView());
         }
 
         @OnClick(R.id.nav_item_modal_scenes)
         void modalScenesClicked() {
             nextScene = modalScene;
-            drawer.closeDrawer(getView());
+            drawer.getLayout().closeDrawer(getView());
         }
 
         @Override
@@ -94,7 +95,7 @@ public class NavigationDrawerScene extends StandardScene {
             super.onLoad(savedInstanceState);
 
             ButterKnife.inject(this, (Activity) getView().getContext());
-            drawer.setDrawerListener(this);
+            drawer.getLayout().setDrawerListener(this);
         }
 
         @Override

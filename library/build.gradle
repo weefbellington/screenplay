@@ -25,6 +25,7 @@ dependencies {
     compile 'com.squareup.flow:flow:0.8'
     compile 'javax.inject:javax.inject:1'
     provided 'com.squareup.mortar:mortar:0.16'
+    provided 'com.android.support:support-v4:21.0.0'
 
 
 

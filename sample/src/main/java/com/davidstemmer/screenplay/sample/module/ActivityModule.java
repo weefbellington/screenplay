@@ -1,11 +1,8 @@
 package com.davidstemmer.screenplay.sample.module;
 
-import android.app.Activity;
-import android.widget.RelativeLayout;
-
 import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.sample.MainActivity;
-import com.davidstemmer.screenplay.sample.R;
+import com.davidstemmer.screenplay.sample.presenter.ActivityPresenter;
 import com.davidstemmer.screenplay.sample.scene.ActionDrawerScene;
 import com.davidstemmer.screenplay.sample.scene.DialogScene;
 import com.davidstemmer.screenplay.sample.scene.ModalScene;
@@ -14,10 +11,10 @@ import com.davidstemmer.screenplay.sample.scene.PagedScene1;
 import com.davidstemmer.screenplay.sample.scene.PagedScene2;
 import com.davidstemmer.screenplay.sample.scene.SimpleScene;
 import com.davidstemmer.screenplay.sample.view.ActionDrawerView;
+import com.davidstemmer.screenplay.sample.view.DialogSceneView;
 import com.davidstemmer.screenplay.sample.view.ModalSceneView;
 import com.davidstemmer.screenplay.sample.view.NavigationDrawerView;
 import com.davidstemmer.screenplay.sample.view.PagedView1;
-import com.davidstemmer.screenplay.sample.view.DialogSceneView;
 import com.davidstemmer.screenplay.sample.view.WelcomeView;
 
 import javax.inject.Singleton;
@@ -55,21 +52,9 @@ import flow.Flow;
         })
 public class ActivityModule {
 
-    private final Activity activity;
-
-    public ActivityModule(Activity activity) {
-        this.activity = activity;
-    }
-
     @Provides @Singleton
-    Activity provideActivity() {
-        return activity;
-    }
-
-    @Provides @Singleton
-    Screenplay provideScreenplay(Activity activity) {
-        RelativeLayout container = (RelativeLayout) activity.findViewById(R.id.main);
-        return new Screenplay(activity, container);
+    Screenplay provideScreenplay(ActivityPresenter presenter) {
+        return new Screenplay(presenter);
     }
 
     @Provides @Singleton
