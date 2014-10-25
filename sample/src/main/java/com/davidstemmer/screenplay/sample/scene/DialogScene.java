@@ -6,9 +6,12 @@ import android.view.View;
 import com.davidstemmer.screenplay.SceneState;
 import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.sample.R;
+import com.davidstemmer.screenplay.sample.component.DrawerLockingComponent;
 import com.davidstemmer.screenplay.sample.scene.transformer.PopupTransformer;
 import com.davidstemmer.screenplay.scene.StandardScene;
 import com.davidstemmer.screenplay.scene.director.ModalDirector;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -25,8 +28,23 @@ import mortar.ViewPresenter;
 @Layout(R.layout.dialog_scene)
 public class DialogScene extends StandardScene {
 
-    @Inject PopupTransformer transformer;
-    @Inject ModalDirector director;
+    private final PopupTransformer transformer;
+    private final ModalDirector director;
+
+    @Inject
+    public DialogScene(ComponentList components, PopupTransformer transformer, ModalDirector director) {
+        super(components);
+        this.transformer = transformer;
+        this.director = director;
+    }
+
+    @Singleton
+    static class ComponentList extends ArrayList<Component> {
+        @Inject
+        public ComponentList(DrawerLockingComponent component) {
+            add(component);
+        }
+    }
 
     @Override
     public Director getDirector() {
