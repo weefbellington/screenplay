@@ -3,15 +3,18 @@ package com.davidstemmer.screenplay.sample.scene;
 import android.os.Bundle;
 import android.view.View;
 
+import com.davidstemmer.screenplay.SceneState;
+import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.sample.R;
-import com.davidstemmer.screenplay.sample.scene.transformer.NoAnimationTransformer;
+import com.davidstemmer.screenplay.sample.scene.transformer.PopupTransformer;
 import com.davidstemmer.screenplay.scene.StandardScene;
-import com.davidstemmer.screenplay.scene.director.PagedDirector;
+import com.davidstemmer.screenplay.scene.director.ModalDirector;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import flow.Flow;
 import flow.Layout;
 import mortar.ViewPresenter;
@@ -19,19 +22,11 @@ import mortar.ViewPresenter;
 /**
  * Created by weefbellington on 10/2/14.
  */
+@Layout(R.layout.dialog_scene)
+public class DialogScene extends StandardScene {
 
-@Layout(R.layout.welcome)
-@Singleton
-public class WelcomeScene extends StandardScene {
-
-    private final PagedDirector director;
-    private final NoAnimationTransformer transformer;
-
-    @Inject
-    public WelcomeScene(PagedDirector director, NoAnimationTransformer transformer) {
-        this.director = director;
-        this.transformer = transformer;
-    }
+    @Inject PopupTransformer transformer;
+    @Inject ModalDirector director;
 
     @Override
     public Director getDirector() {
@@ -47,13 +42,18 @@ public class WelcomeScene extends StandardScene {
     public static class Presenter extends ViewPresenter<View> {
 
         @Inject Flow flow;
-        @Inject HomeScene homeScreen;
-        
+        @Inject Screenplay screenplay;
+
         @Override
         protected void onLoad(Bundle savedInstanceState) {
-            super.onLoad(savedInstanceState);
             ButterKnife.inject(this, getView());
+            super.onLoad(savedInstanceState);
+        }
+
+        @OnClick(R.id.ok) void dismiss() {
+            if (screenplay.getScreenState() != SceneState.TRANSITIONING) {
+                flow.goBack();
+            }
         }
     }
-
 }

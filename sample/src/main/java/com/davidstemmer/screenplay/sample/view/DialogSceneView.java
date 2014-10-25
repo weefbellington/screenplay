@@ -2,9 +2,9 @@ package com.davidstemmer.screenplay.sample.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 
-import com.davidstemmer.screenplay.sample.scene.SimpleScene;
+import com.davidstemmer.screenplay.sample.scene.DialogScene;
 
 import javax.inject.Inject;
 
@@ -13,12 +13,14 @@ import mortar.Mortar;
 /**
  * Created by weefbellington on 10/2/14.
  */
-public class WelcomeView extends RelativeLayout {
 
-    @Inject SimpleScene.Presenter presenter;
+public class DialogSceneView extends LinearLayout {
 
-    public WelcomeView(Context context, AttributeSet attrs) {
+    @Inject DialogScene.Presenter presenter;
+
+    public DialogSceneView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        if (isInEditMode()) return;
         Mortar.inject(context, this);
     }
 

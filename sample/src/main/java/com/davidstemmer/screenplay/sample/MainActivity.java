@@ -2,47 +2,61 @@ package com.davidstemmer.screenplay.sample;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.davidstemmer.screenplay.SceneState;
 import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.sample.module.ActivityModule;
+import com.davidstemmer.screenplay.sample.presenter.ActivityPresenter;
+import com.davidstemmer.screenplay.sample.presenter.DrawerPresenter;
 import com.davidstemmer.screenplay.sample.scene.NavigationDrawerScene;
-import com.davidstemmer.screenplay.sample.scene.WelcomeScene;
+import com.davidstemmer.screenplay.sample.scene.SimpleScene;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import flow.Flow;
 import mortar.Blueprint;
 import mortar.Mortar;
+import mortar.MortarActivityScope;
 import mortar.MortarScope;
 
 public class MainActivity extends Activity implements Blueprint {
 
     @Inject Flow flow;
     @Inject Screenplay screenplay;
-    @Inject NavigationDrawerScene navigationDrawerScene;
-    @Inject WelcomeScene welcomeStage;
+    @Inject ActivityPresenter activityPresenter;
+    @Inject DrawerPresenter drawerPresenter;
 
-    private MortarScope activityScope;
+    private DrawerLayout navigationDrawer;
+
+    private MortarActivityScope activityScope;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        getActionBar().setHomeButtonEnabled(true);
 
         MortarScope parentScope = Mortar.getScope(getApplication());
         activityScope = Mortar.requireActivityScope(parentScope, this);
+        activityScope.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_main);
         Mortar.inject(this, this);
 
-        flow.replaceTo(welcomeStage);
-    }
+        getActionBar().setHomeButtonEnabled(true);
+        ButterKnife.inject(this, this);
 
-    private boolean isNavigationDrawerOpen() {
-        return findViewById(R.id.navigation_drawer) != null;
+        navigationDrawer = (DrawerLayout) findViewById(R.id.drawer_parent);
+        activityPresenter.takeView(this);
+        drawerPresenter.takeView(navigationDrawer);
+
+        screenplay.enter(flow);
     }
 
     @Override public void onBackPressed() {
@@ -54,15 +68,12 @@ public class MainActivity extends Activity implements Blueprint {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        // Ignore menu click if stage is transitioning
-        if (screenplay.getScreenState() == SceneState.TRANSITIONING) return true;
-
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (isNavigationDrawerOpen()) {
-                    flow.goBack();
-                } else {
-                    flow.goTo(navigationDrawerScene);
+                if (drawerPresenter.isDrawerVisible() && !drawerPresenter.isLockedOpen()) {
+                    drawerPresenter.close();
+                } else if (!drawerPresenter.isLockedShut()){
+                    drawerPresenter.open();
                 }
                 return true;
         }
@@ -77,11 +88,20 @@ public class MainActivity extends Activity implements Blueprint {
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onSaveInstanceState(Bundle outState) {
+        activityScope.onSaveInstanceState(outState);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override public void onDestroy() {
         super.onDestroy();
-        MortarScope parentScope = Mortar.getScope(getApplication());
-        parentScope.destroyChild(activityScope);
-        activityScope = null;
+        if (isFinishing()) {
+            activityPresenter.dropView(this);
+            drawerPresenter.dropView(navigationDrawer);
+            MortarScope parentScope = Mortar.getScope(getApplication());
+            parentScope.destroyChild(activityScope);
+            activityScope = null;
+        }
     }
 
     @Override
@@ -91,7 +111,7 @@ public class MainActivity extends Activity implements Blueprint {
 
     @Override
     public Object getDaggerModule() {
-        return new ActivityModule(this);
+        return new ActivityModule();
     }
 
 

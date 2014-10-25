@@ -1,8 +1,12 @@
 package com.davidstemmer.screenplay.sample.scene;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.view.View;
 
 import com.davidstemmer.screenplay.sample.R;
+import com.davidstemmer.screenplay.sample.presenter.DrawerPresenter;
 import com.davidstemmer.screenplay.sample.scene.transformer.NavigationDrawerTransformer;
 import com.davidstemmer.screenplay.sample.view.NavigationDrawerView;
 import com.davidstemmer.screenplay.scene.Scene;
@@ -44,47 +48,82 @@ public class NavigationDrawerScene extends StandardScene {
         return transformer;
     }
 
-    public static class Presenter extends ViewPresenter<NavigationDrawerView> {
+    public static class Presenter extends ViewPresenter<NavigationDrawerView> implements DrawerLayout.DrawerListener {
 
+        private final DrawerPresenter drawer;
         private final Flow flow;
-        private final WelcomeScene welcomeScene;
+        private final SimpleScene simpleScene;
         private final PagedScene1 pagedScene;
+        private final ModalScene modalScene;
 
         private Scene nextScene;
 
         @Inject
-        public Presenter(Flow flow, WelcomeScene welcomeScene, PagedScene1 pagedScene) {
+        public Presenter(DrawerPresenter drawerPresenter,
+                         Flow flow,
+                         SimpleScene simpleScene,
+                         PagedScene1 pagedScene,
+                         ModalScene modalScene) {
+
+            this.drawer = drawerPresenter;
             this.flow = flow;
-            this.welcomeScene = welcomeScene;
+            this.simpleScene = simpleScene;
             this.pagedScene = pagedScene;
+            this.modalScene = modalScene;
         }
 
-        @OnClick(R.id.nav_item_welcome)
+        @OnClick(R.id.nav_item_simple_scene)
         void welcomeClicked() {
-            nextScene = welcomeScene;
-            flow.goBack();
+            nextScene = simpleScene;
+            drawer.getLayout().closeDrawer(getView());
         }
 
         @OnClick(R.id.nav_item_paged_scenes)
         void pagedScenesClicked() {
             nextScene = pagedScene;
-            flow.goBack();
+            drawer.getLayout().closeDrawer(getView());
+        }
+
+        @OnClick(R.id.nav_item_modal_scenes)
+        void modalScenesClicked() {
+            nextScene = modalScene;
+            drawer.getLayout().closeDrawer(getView());
         }
 
         @Override
         protected void onLoad(Bundle savedInstanceState) {
             super.onLoad(savedInstanceState);
-            ButterKnife.inject(this, getView());
+
+            ButterKnife.inject(this, (Activity) getView().getContext());
+            drawer.getLayout().setDrawerListener(this);
         }
 
-        public void showNextScene() {
+        @Override
+        public void onDrawerSlide(View view, float v) {
+
+        }
+
+        @Override
+        public void onDrawerOpened(View view) {
+
+        }
+
+        @Override
+        public void onDrawerClosed(View view) {
             if (nextScene == null) {
                 return;
             }
             if (flow.getBackstack().current().getScreen() != nextScene) {
                 flow.resetTo(nextScene);
+                nextScene = null;
             }
         }
+
+        @Override
+        public void onDrawerStateChanged(int i) {
+
+        }
+
     }
 
 

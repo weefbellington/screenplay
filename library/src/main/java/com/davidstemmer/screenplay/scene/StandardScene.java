@@ -30,4 +30,5 @@ public abstract class StandardScene implements Scene {
     public View getView() {
         return view;
     }
+
 }
