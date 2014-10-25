@@ -32,7 +32,7 @@ public class DrawerPresenter extends Presenter<DrawerLayout> {
     protected void onLoad(Bundle savedInstanceState) {
         super.onLoad(savedInstanceState);
         LayoutInflater inflater = activityPresenter.getActivity().getLayoutInflater();
-        inflater.inflate(R.layout.navigation_drawer, getLayout());
+        inflater.inflate(R.layout.navigation_menu, getLayout());
         getLayout().invalidate();
     }
 

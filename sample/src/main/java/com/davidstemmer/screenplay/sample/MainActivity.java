@@ -3,18 +3,12 @@ package com.davidstemmer.screenplay.sample;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.view.Gravity;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.RelativeLayout;
 
-import com.davidstemmer.screenplay.SceneState;
 import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.sample.module.ActivityModule;
 import com.davidstemmer.screenplay.sample.presenter.ActivityPresenter;
 import com.davidstemmer.screenplay.sample.presenter.DrawerPresenter;
-import com.davidstemmer.screenplay.sample.scene.NavigationDrawerScene;
-import com.davidstemmer.screenplay.sample.scene.SimpleScene;
 
 import javax.inject.Inject;
 

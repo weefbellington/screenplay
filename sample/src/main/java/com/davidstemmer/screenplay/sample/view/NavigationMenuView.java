@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
-import com.davidstemmer.screenplay.sample.scene.NavigationDrawerScene;
+import com.davidstemmer.screenplay.sample.presenter.NavigationMenuPresenter;
 
 import javax.inject.Inject;
 
@@ -13,11 +13,11 @@ import mortar.Mortar;
 /**
  * Created by weefbellington on 10/17/14.
  */
-public class NavigationDrawerView extends LinearLayout {
+public class NavigationMenuView extends LinearLayout {
 
-    @Inject NavigationDrawerScene.Presenter presenter;
+    @Inject NavigationMenuPresenter presenter;
 
-    public NavigationDrawerView(Context context, AttributeSet attrs) {
+    public NavigationMenuView(Context context, AttributeSet attrs) {
         super(context, attrs);
         Mortar.inject(context, this);
     }

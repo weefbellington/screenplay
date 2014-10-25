@@ -44,7 +44,9 @@ public class SimpleScene extends StandardScene {
 
     @Singleton
     public static class Presenter extends ViewPresenter<View> {
-        
+
+        @Inject public Presenter() {}
+
         @Override
         protected void onLoad(Bundle savedInstanceState) {
             super.onLoad(savedInstanceState);
