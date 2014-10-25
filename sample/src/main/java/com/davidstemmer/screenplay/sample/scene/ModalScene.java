@@ -6,9 +6,8 @@ import android.widget.Toast;
 import com.davidstemmer.screenplay.sample.R;
 import com.davidstemmer.screenplay.sample.scene.transformer.HorizontalSlideTransformer;
 import com.davidstemmer.screenplay.sample.view.ModalSceneView;
-import com.davidstemmer.screenplay.scene.Scene;
 import com.davidstemmer.screenplay.scene.StandardScene;
-import com.davidstemmer.screenplay.scene.director.PagedDirector;
+import com.davidstemmer.screenplay.scene.rigger.PageRigger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -26,18 +25,18 @@ import mortar.ViewPresenter;
 @Singleton
 public class ModalScene extends StandardScene {
 
-    private final PagedDirector director;
+    private final PageRigger rigger;
     private final HorizontalSlideTransformer transformer;
 
     @Inject
-    public ModalScene(PagedDirector director, HorizontalSlideTransformer transformer) {
-        this.director = director;
+    public ModalScene(PageRigger rigger, HorizontalSlideTransformer transformer) {
+        this.rigger = rigger;
         this.transformer = transformer;
     }
 
     @Override
-    public Scene.Director getDirector() {
-        return director;
+    public Rigger getRigger() {
+        return rigger;
     }
 
     @Override

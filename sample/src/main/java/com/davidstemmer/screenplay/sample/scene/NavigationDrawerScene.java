@@ -11,7 +11,7 @@ import com.davidstemmer.screenplay.sample.scene.transformer.NavigationDrawerTran
 import com.davidstemmer.screenplay.sample.view.NavigationDrawerView;
 import com.davidstemmer.screenplay.scene.Scene;
 import com.davidstemmer.screenplay.scene.StandardScene;
-import com.davidstemmer.screenplay.scene.director.ModalDirector;
+import com.davidstemmer.screenplay.scene.rigger.ModalRigger;
 
 import javax.inject.Inject;
 
@@ -28,19 +28,19 @@ import mortar.ViewPresenter;
 @Layout(R.layout.navigation_drawer)
 public class NavigationDrawerScene extends StandardScene {
 
-    private final ModalDirector director;
+    private final ModalRigger rigger;
     private final NavigationDrawerTransformer transformer;
 
     @Inject
-    public NavigationDrawerScene(ModalDirector director, NavigationDrawerTransformer transformer) {
-        this.director = director;
+    public NavigationDrawerScene(ModalRigger rigger, NavigationDrawerTransformer transformer) {
+        this.rigger = rigger;
         this.transformer = transformer;
     }
 
 
     @Override
-    public Director getDirector() {
-        return director;
+    public Rigger getRigger() {
+        return rigger;
     }
 
     @Override

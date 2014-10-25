@@ -6,13 +6,12 @@ import android.view.View;
 import com.davidstemmer.screenplay.sample.R;
 import com.davidstemmer.screenplay.sample.scene.transformer.NoAnimationTransformer;
 import com.davidstemmer.screenplay.scene.StandardScene;
-import com.davidstemmer.screenplay.scene.director.PagedDirector;
+import com.davidstemmer.screenplay.scene.rigger.PageRigger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import butterknife.ButterKnife;
-import flow.Flow;
 import flow.Layout;
 import mortar.ViewPresenter;
 
@@ -24,18 +23,18 @@ import mortar.ViewPresenter;
 @Singleton
 public class SimpleScene extends StandardScene {
 
-    private final PagedDirector director;
+    private final PageRigger rigger;
     private final NoAnimationTransformer transformer;
 
     @Inject
-    public SimpleScene(PagedDirector director, NoAnimationTransformer transformer) {
-        this.director = director;
+    public SimpleScene(PageRigger rigger, NoAnimationTransformer transformer) {
+        this.rigger = rigger;
         this.transformer = transformer;
     }
 
     @Override
-    public Director getDirector() {
-        return director;
+    public Rigger getRigger() {
+        return rigger;
     }
 
     @Override
@@ -45,9 +44,6 @@ public class SimpleScene extends StandardScene {
 
     @Singleton
     public static class Presenter extends ViewPresenter<View> {
-
-        @Inject Flow flow;
-        @Inject ModalScene homeScreen;
         
         @Override
         protected void onLoad(Bundle savedInstanceState) {

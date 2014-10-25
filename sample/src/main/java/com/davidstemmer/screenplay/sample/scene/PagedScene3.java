@@ -7,7 +7,7 @@ import com.davidstemmer.screenplay.scene.StandardScene;
  */
 public class PagedScene3 extends StandardScene {
     @Override
-    public Director getDirector() {
+    public Rigger getRigger() {
         return null;
     }
 

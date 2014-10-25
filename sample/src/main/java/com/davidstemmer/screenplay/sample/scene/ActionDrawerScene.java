@@ -8,7 +8,7 @@ import com.davidstemmer.screenplay.sample.scene.transformer.ActionDrawerTransfor
 import com.davidstemmer.screenplay.sample.view.ActionDrawerView;
 import com.davidstemmer.screenplay.scene.Scene;
 import com.davidstemmer.screenplay.scene.StandardScene;
-import com.davidstemmer.screenplay.scene.director.ModalDirector;
+import com.davidstemmer.screenplay.scene.rigger.ModalRigger;
 
 import java.util.ArrayList;
 
@@ -37,13 +37,13 @@ public class ActionDrawerScene extends StandardScene {
 
     private Callback callback;
 
-    private final ModalDirector director;
+    private final ModalRigger rigger;
     private final ActionDrawerTransformer transformer;
 
     @Inject
-    public ActionDrawerScene(ComponentList components, ModalDirector director, ActionDrawerTransformer transformer) {
+    public ActionDrawerScene(ComponentList components, ModalRigger rigger, ActionDrawerTransformer transformer) {
         super(components);
-        this.director = director;
+        this.rigger = rigger;
         this.transformer = transformer;
     }
 
@@ -60,8 +60,8 @@ public class ActionDrawerScene extends StandardScene {
     }
 
     @Override
-    public Director getDirector() {
-        return director;
+    public Rigger getRigger() {
+        return rigger;
     }
 
     @Override
