@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.davidstemmer.screenplay.sample.view.NavigationDrawerView
+<com.davidstemmer.screenplay.sample.view.NavigationMenuView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/navigation_drawer"
     android:orientation="vertical"
@@ -29,4 +29,4 @@
         android:layout_height="wrap_content"
         android:text="@string/nav_item_modal_scenes"
         style="@style/NavigationDrawerItem"/>
-</com.davidstemmer.screenplay.sample.view.NavigationDrawerView>
+</com.davidstemmer.screenplay.sample.view.NavigationMenuView>

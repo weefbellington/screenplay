@@ -3,17 +3,17 @@ package com.davidstemmer.screenplay.sample.module;
 import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.sample.MainActivity;
 import com.davidstemmer.screenplay.sample.presenter.ActivityPresenter;
+import com.davidstemmer.screenplay.sample.presenter.NavigationMenuPresenter;
 import com.davidstemmer.screenplay.sample.scene.ActionDrawerScene;
 import com.davidstemmer.screenplay.sample.scene.DialogScene;
 import com.davidstemmer.screenplay.sample.scene.ModalScene;
-import com.davidstemmer.screenplay.sample.scene.NavigationDrawerScene;
 import com.davidstemmer.screenplay.sample.scene.PagedScene1;
 import com.davidstemmer.screenplay.sample.scene.PagedScene2;
 import com.davidstemmer.screenplay.sample.scene.SimpleScene;
 import com.davidstemmer.screenplay.sample.view.ActionDrawerView;
 import com.davidstemmer.screenplay.sample.view.DialogSceneView;
 import com.davidstemmer.screenplay.sample.view.ModalSceneView;
-import com.davidstemmer.screenplay.sample.view.NavigationDrawerView;
+import com.davidstemmer.screenplay.sample.view.NavigationMenuView;
 import com.davidstemmer.screenplay.sample.view.PagedView1;
 import com.davidstemmer.screenplay.sample.view.WelcomeView;
 
@@ -32,20 +32,20 @@ import flow.Flow;
                 ActionDrawerScene.class,
                 ActionDrawerScene.Presenter.class,
                 ActionDrawerView.class,
+                DialogScene.class,
+                DialogScene.Presenter.class,
+                DialogSceneView.class,
                 ModalScene.class,
                 ModalScene.Presenter.class,
                 ModalSceneView.class,
                 MainActivity.class,
-                NavigationDrawerScene.class,
-                NavigationDrawerScene.Presenter.class,
-                NavigationDrawerView.class,
+                NavigationMenuPresenter.class,
+                NavigationMenuView.class,
+                NavigationMenuView.class,
                 PagedScene1.class,
                 PagedScene1.Presenter.class,
                 PagedView1.class,
                 PagedScene2.class,
-                DialogScene.class,
-                DialogScene.Presenter.class,
-                DialogSceneView.class,
                 SimpleScene.class,
                 SimpleScene.Presenter.class,
                 WelcomeView.class
