@@ -2,8 +2,7 @@ package com.davidstemmer.screenplay.sample.presenter;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.view.View;
+import android.os.Handler;
 
 import com.davidstemmer.screenplay.sample.R;
 import com.davidstemmer.screenplay.sample.scene.ModalScene;
@@ -22,7 +21,7 @@ import mortar.ViewPresenter;
 /**
  * Created by weefbellington on 10/25/14.
  */
-public class NavigationMenuPresenter extends ViewPresenter<NavigationMenuView> implements DrawerLayout.DrawerListener {
+public class NavigationMenuPresenter extends ViewPresenter<NavigationMenuView> {
 
     private final DrawerPresenter drawer;
     private final Flow flow;
@@ -48,54 +47,39 @@ public class NavigationMenuPresenter extends ViewPresenter<NavigationMenuView> i
 
     @OnClick(R.id.nav_item_simple_scene)
     void welcomeClicked() {
-        nextScene = simpleScene;
-        drawer.getLayout().closeDrawer(getView());
+        showNextSceneAfterDelay(simpleScene);
+        drawer.close();
     }
 
     @OnClick(R.id.nav_item_paged_scenes)
     void pagedScenesClicked() {
-        nextScene = pagedScene;
-        drawer.getLayout().closeDrawer(getView());
+        showNextSceneAfterDelay(pagedScene);
+        drawer.close();
     }
 
     @OnClick(R.id.nav_item_modal_scenes)
     void modalScenesClicked() {
-        nextScene = modalScene;
-        drawer.getLayout().closeDrawer(getView());
+        showNextSceneAfterDelay(modalScene);
+        drawer.close();
     }
 
     @Override
     protected void onLoad(Bundle savedInstanceState) {
         super.onLoad(savedInstanceState);
-
         ButterKnife.inject(this, (Activity) getView().getContext());
-        drawer.getLayout().setDrawerListener(this);
     }
 
-    @Override
-    public void onDrawerSlide(View view, float v) {
-
+    private final Handler mDrawerHandler = new Handler();
+    private void showNextSceneAfterDelay(final Scene nextScene) {
+        // Clears any previously posted runnables, for double clicks
+        mDrawerHandler.removeCallbacksAndMessages(null);
+        mDrawerHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                flow.replaceTo(nextScene);
+            }
+        }, 250);
+        // The millisecond delay is arbitrary and was arrived at through trial and error
+        drawer.close();
     }
-
-    @Override
-    public void onDrawerOpened(View view) {
-
-    }
-
-    @Override
-    public void onDrawerClosed(View view) {
-        if (nextScene == null) {
-            return;
-        }
-        if (flow.getBackstack().current().getScreen() != nextScene) {
-            flow.resetTo(nextScene);
-            nextScene = null;
-        }
-    }
-
-    @Override
-    public void onDrawerStateChanged(int i) {
-
-    }
-
 }
