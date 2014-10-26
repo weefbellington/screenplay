@@ -6,10 +6,10 @@ the essential elements for building a View-based navigation flow (a backstack, s
 inflation) Screenplay assembles these into higher-level components for building animated screen
 transitions. The core features that Screenplay supports are:
 
-- *Paged* (full-screen) navigation flows
-- *Modal* (pop-up) navigation flows
-- *Animated transitions *for incoming and outgoing views
-- *View state reattachment* for configuration changes
+- **Paged** (full-screen) navigation flows
+- **Modal** (pop-up) navigation flows
+- **Animated** transitionsfor incoming and outgoing views
+- **View** **state** **reattachment** for configuration changes
 
 Displaying a screen in Screenplay consists of four discrete phases:
 
