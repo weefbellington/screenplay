@@ -99,7 +99,7 @@ public class DrawerLockingComponent implements Scene.Component {
 
 ###Riggers and Transformers
 
-In a Screenplay app, the application calls `Flow.goTo()` or `Flow.goBack()`, the type of layout
+In a Screenplay app, when the application calls `Flow.goTo()` or `Flow.goBack()`, the type of layout
 change that is applied depends on the type of ``Screen.Rigger`` that is associated with the next
 scene. Screenplay provides two concrete `Rigger` implementations.
 
