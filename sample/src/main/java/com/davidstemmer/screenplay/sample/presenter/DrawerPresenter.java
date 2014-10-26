@@ -5,6 +5,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 
+import com.davidstemmer.screenplay.MortarActivityDirector;
 import com.davidstemmer.screenplay.sample.R;
 
 import javax.inject.Inject;
@@ -20,18 +21,18 @@ import mortar.Presenter;
 @Singleton
 public class DrawerPresenter extends Presenter<DrawerLayout> {
 
-    private final ActivityPresenter activityPresenter;
+    private final MortarActivityDirector director;
 
     @Inject
-    public DrawerPresenter(ActivityPresenter activityPresenter) {
-        this.activityPresenter = activityPresenter;
+    public DrawerPresenter(MortarActivityDirector director) {
+        this.director = director;
     }
 
 
     @Override
     protected void onLoad(Bundle savedInstanceState) {
         super.onLoad(savedInstanceState);
-        LayoutInflater inflater = activityPresenter.getActivity().getLayoutInflater();
+        LayoutInflater inflater = director.getActivity().getLayoutInflater();
         inflater.inflate(R.layout.navigation_menu, getLayout());
         getLayout().invalidate();
     }
@@ -70,7 +71,7 @@ public class DrawerPresenter extends Presenter<DrawerLayout> {
 
     @Override
     protected MortarScope extractScope(DrawerLayout view) {
-        return Mortar.getScope(activityPresenter.getActivity());
+        return Mortar.getScope(director.getActivity());
     }
 
 
