@@ -1,96 +1,122 @@
 Screenplay
 ==========
 
-Screenplay is the artsy cousin to Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html). Where Flow provides
-the basic tools for building a View-based navigation flow -- backstack management, view inflation --
-Screenplay is concerned with the narrative details: scene transitions, paging and multi-pane
-layouts.
+Screenplay is a companion library to Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html). Where Flow provides
+the essential elements for building a View-based navigation flow (a backstack, simplified view
+inflation) Screenplay assembles these into a higher-level components for building animated screen
+transitions. The core features that Screenplay supports are:
 
-###Setting the Scene
+- Full-screen and modal (pop-up) flows, with back button support
+- Animated transitions for incoming and outgoing views
+- View state reattachment for configuration changes
+
+Displaying a screen in Screenplay consists of four discrete phases: A `Scene` creates the view,
+`Components` add behavior to the scene as it is created, a `Rigger` attaches the scene to the
+layout, and a `Transformer` plays animations between the incoming and outgoing scene. These steps
+are applied by the `Screenplay` object, which implements the `Flow.Listener` interface. The
+Screenplay object knows how to reverse these steps when the back button is pressed, and how to
+re-attach the screen state after a configuration change (such as rotating the phone from portrait to
+landscape mode).
+
+###Setting the stage
+
+App navigation using Screenplay is very straightforward. Begin by creating a `Screenplay.Director`,
+which holds the Activity and the scene container. Then construct the `Screenplay` and create a new
+`Flow`, and call `Screenplay.enter(flow)` to initialize the screen state:
+
+```java
+    private final SimpleActivityDirector director = new SimpleActivityDirector();
+    private final Screenplay screenplay = new Screenplay(director);
+    private final Flow flow = new Flow(Backstack.single(new HomeScreen()), screenplay);
+
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.id.main);
+        RelativeLayout container = (RelativeLayout) activity.findViewById(R.id.main);
+
+        director.bind(this, container);
+        screenplay.enter(flow);
+    }
+```
+
+Once you've created your Flow, navigation is the same as in any other Flow application:
+
+```java
+    flow.goTo(new DetailScene()); // animates forward to the DetailScene
+    flow.goUp();                  // animate back to the parent of the scene
+    flow.goBack();                // animate back to the previous scene
+}
+```
+
+###Anatomy of a Scene
 
 The building block of a Screenplay app is a `Scene`. The Scene knows how to do
 only a few things by itself: create a View (`Scene.setUp`), destroy a View (`Scene.tearDown`) and get
-the current view (`Scene.getView`). It delegates other tasks to the `Director` and `Transformer`
-objects. The Director is responsible for adding Views to the parent layout. The Transformer is
-responsible for applying animations between scenes.
+the current view (`Scene.getView`).
 
-App navigation using Screenplay is very straightforward. Begin by creating a `Screenplay` object and
-passing it to a Flow:
-
-```java
-    HomeScene homeScreen = new HomeScreen();
-    RelativeLayout container = (RelativeLayout) activity.findViewById(R.id.main);
-    Screenplay screenplay = Screenplay(activity, container);
-
-    Flow flow = new Flow(Backstack.single(homeScreen), screenplay);
-    flow.resetTo(homeScreen);
-```
-
-Navigation is the same as in any other Flow application, using `Flow.goTo()`, `Flow.goBack()` and
-`Flow.goUp()`:
+The standard scene implementation uses Flow's [Layouts.createView()](https://github.com/square/flow/blob/master/flow/src/main/java/flow/Layouts.java)
+to set up the scene. You can pass a list of `Component`s to the scene constructor, which can be used
+to apply behaviors after the scene is set up and before it is torn down:
 
 ```java
-public boolean onOptionsItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-        case android.R.id.home:
-            if (isNavigationDrawerOpen()) {
-                flow.goBack();
-            } else {
-                flow.goTo(new NavigationDrawerScene());
-            }
-            return true;
+@Layout(R.layout.dialog_scene)
+public class DialogScene extends StandardScene {
+    public DialogScene(DrawerLockingComponent component) {
+        super(component);
     }
-    return super.onOptionsItemSelected(item);
 }
-```
 
+public class DrawerLockingComponent implements Scene.Component {
 
-The `Screenplay` object also exposes a `getScreenState()` method, which returns a `FlowState` object. This is
-useful for preventing multiple button presses while two Scenes are in transition:
+    private final DrawerPresenter drawer;
 
-```java
-@Override
-public boolean onOptionsItemSelected(MenuItem item) {
-
-    // Ignore menu click if stage is transitioning
-    if (screenplay.getScreenState() == SceneState.TRANSITIONING) return true;
-
-    switch (item.getItemId()) {
-        ...
+    public DrawerLockingComponent(DrawerPresenter drawer) {
+        this.drawer = drawer;
     }
 
+    @Override
+    public void afterSetUp(Context context, Scene scene) {
+        drawer.setLocked(true);
+    }
+
+    @Override
+    public void beforeTearDown(Context context, Scene scene) {
+        drawer.setLocked(false);
+    }
 }
+
 ```
 
-###Directors and Transformers
+
+###Riggers and Transformers
 
 In a Screenplay app, the application calls `Flow.goTo()` or `Flow.goBack()`, the type of layout
-change that is applied depends on the type of ``Screen.Director`` that is associated with the next
-scene. Screenplay provides two concrete `Director` implementations.
+change that is applied depends on the type of ``Screen.Rigger`` that is associated with the next
+scene. Screenplay provides two concrete `Rigger` implementations.
 
-- The `PageDirector` manages full-screen layout changes. After all animations complete, the PageDirector
+- The `PageRigger` manages full-screen layout changes. After all animations complete, the PageRigger
 removes the previous screen from its parent layout.
-- The `ModalDirector` manages partial-screen layout changes. It does
-not remove the previous Scene from the layout, allowing you to layer Scenes on top of each other.
-This is useful for creating dialogs, drawers and multi-pane layouts.
+- The `ModalRigger` manages partial-screen layout changes. It does not remove the previous Scene
+from the layout, allowing you to layer Scenes on top of each other. This is useful for creating
+dialogs, drawers and multi-pane layouts.
 
-Both the `PagedDirector` and the `ModalDirector` remove the topmost Scene when `Flow.goBack()` is called.
+Both the `PagedRigger` and the `ModalRigger` remove the Scene at the top of the stack when `Flow.goBack()` is called.
 
 ```java
 @Layout(R.layout.navigation_drawer)
 public class NavigationDrawerScene extends StandardScene {
 
-    private final ModalDirector director;
+    private final ModalRigger rigger;
     private final NavigationDrawerTransformer transformer;
 
     public NavigationDrawerScene() {
-        this.director = new ModalDirector();
+        this.rigger = new ModalRigger();
         this.transformer = new NavigationDrawerTransformer();
     }
 
     @Override
-    public Director getDirector() {
-        return director;
+    public Rigger getRigger() {
+        return rigger;
     }
 
     @Override
@@ -124,15 +150,53 @@ public class HorizontalSlideTransformer extends TweenTransformer {
 ```
 
 Screenplay provides two `Transformer` implementations to extend from: `TweenTransformer`
-and `AnimatorTransformer`. TweenTransformer uses the older [Animation](http://developer.android.com/reference/android/view/animation/Animation.html) class, while
-the AnimatorTransformer uses the newer [Animator](http://developer.android.com/reference/android/animation/Animator.html) class \[_coming soon_\].
+and `AnimatorTransformer`. TweenTransformer uses the [Animation](http://developer.android.com/reference/android/view/animation/Animation.html) class, while
+the AnimatorTransformer uses the [Animator](http://developer.android.com/reference/android/animation/Animator.html) class.
+
+###Odds and ends
+
+Because the Activity is created and destroyed several times, Screenplay drop the reference to the
+old Activity after configuration changes to avoid  memory leak. Using the SimpleActivityDirector,
+you simply have to call `unbind()` in the `onDestroy()` callback:
+
+```java
+    @Override
+    public void onDestroy() {
+        super.onDestroy()
+        director.bind(
+    }
+
+```
+
+The `Screenplay` object also exposes a `getScreenState()` method, which returns a `FlowState` object. This is
+useful for preventing multiple button presses while two Scenes are in transition:
+
+```java
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        // Ignore menu click if stage is transitioning
+        if (screenplay.getScreenState() == SceneState.TRANSITIONING) return true;
+
+        switch (item.getItemId()) {
+            ...
+        }
+
+    }
+```
+
+###Mortar support
+
+Screenplay provides support for (but does not require) Square's [Mortar](http://corner.squareup.com/2014/01/mortar-and-flow.html).
+It provides two classes, a `MortarActivityPresenter` and a `ScopedScene`, which are designed to
+support applications powered by Mortar. See the Javadocs (*coming soon*) for details on their usage.
 
 ###That's, all folks!
 
-Screenplay is designed to be very simple and extensible. It works well in concert with its friends
-Dagger, Flow and Mortar. You can see them all together in the [sample project](https://github.com/weefbellington/screenplay/tree/master/sample/src/main).
+Screenplay is designed to be simple and extensible. It works well in concert with its friends
+Dagger, Flow, Butterknife and Mortar. You can see them all together in the [sample project](https://github.com/weefbellington/screenplay/tree/master/sample/src/main).
 
-Many thanks to the team at Square for their work on Flow, without which this project wouldn't be
+Many thanks to the team at Square for their support of the open-source community, without which this project wouldn't be
 possible.
 
 Maven artifact is coming soon!

@@ -11,8 +11,6 @@ import com.davidstemmer.screenplay.sample.scene.transformer.PopupTransformer;
 import com.davidstemmer.screenplay.scene.StandardScene;
 import com.davidstemmer.screenplay.scene.rigger.ModalRigger;
 
-import java.util.ArrayList;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -32,18 +30,10 @@ public class DialogScene extends StandardScene {
     private final ModalRigger rigger;
 
     @Inject
-    public DialogScene(ComponentList components, PopupTransformer transformer, ModalRigger rigger) {
-        super(components);
+    public DialogScene(DrawerLockingComponent component, PopupTransformer transformer, ModalRigger rigger) {
+        super(component);
         this.transformer = transformer;
         this.rigger = rigger;
-    }
-
-    @Singleton
-    static class ComponentList extends ArrayList<Component> {
-        @Inject
-        public ComponentList(DrawerLockingComponent component) {
-            add(component);
-        }
     }
 
     @Override

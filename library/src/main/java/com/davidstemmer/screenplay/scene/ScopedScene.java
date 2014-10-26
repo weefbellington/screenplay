@@ -11,7 +11,7 @@ import mortar.MortarScope;
 /**
  * Created by weefbellington on 10/20/14.
  */
-public abstract class MortarScene extends StandardScene implements Blueprint {
+public abstract class ScopedScene extends StandardScene implements Blueprint {
 
     private MortarScope scope;
 

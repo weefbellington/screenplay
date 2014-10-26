@@ -1,12 +1,10 @@
-package com.davidstemmer.screenplay.sample.presenter;
+package com.davidstemmer.screenplay;
 
 import android.app.Activity;
 import android.view.ViewGroup;
 
 import com.davidstemmer.screenplay.flow.Screenplay;
-import com.davidstemmer.screenplay.sample.R;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import mortar.Mortar;
@@ -17,11 +15,14 @@ import mortar.Presenter;
  * Created by weefbellington on 10/24/14.
  */
 @Singleton
-public class ActivityPresenter extends Presenter<Activity> implements Screenplay.Presenter {
+public class MortarActivityDirector extends Presenter<Activity> implements Screenplay.Director {
 
+    private final int containerId;
     private ViewGroup container;
 
-    @Inject public ActivityPresenter() {}
+    public MortarActivityDirector(int containerId) {
+        this.containerId = containerId;
+    }
 
     @Override
     public void dropView(Activity view) {
@@ -36,7 +37,7 @@ public class ActivityPresenter extends Presenter<Activity> implements Screenplay
     @Override
     public ViewGroup getContainer() {
         if (container == null) {
-            container = (ViewGroup) getActivity().findViewById(R.id.main);
+            container = (ViewGroup) getActivity().findViewById(containerId);
         }
         return container;
     }
