@@ -2,9 +2,9 @@ Screenplay
 ==========
 
 Screenplay is a companion library to Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html). Where Flow provides
-the essential elements for building a View-based navigation flow (a backstack, simplified view
-inflation) Screenplay assembles these into higher-level components for building animated screen
-transitions. The core features that Screenplay supports are:
+the essential elements for building a View-based navigation flow, Screenplay assembles these into
+higher-level components for building animated screen transitions. The core features that Screenplay
+supports are:
 
 - **Paged** (full-screen) navigation flows
 - **Modal** (pop-up) navigation flows
