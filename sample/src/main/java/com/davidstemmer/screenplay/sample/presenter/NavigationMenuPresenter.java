@@ -29,8 +29,6 @@ public class NavigationMenuPresenter extends ViewPresenter<NavigationMenuView> {
     private final PagedScene1 pagedScene;
     private final ModalScene modalScene;
 
-    private Scene nextScene;
-
     @Inject
     public NavigationMenuPresenter(DrawerPresenter drawerPresenter,
                                    Flow flow,
@@ -76,7 +74,7 @@ public class NavigationMenuPresenter extends ViewPresenter<NavigationMenuView> {
         mDrawerHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                flow.replaceTo(nextScene);
+                flow.resetTo(nextScene);
             }
         }, 250);
         // The millisecond delay is arbitrary and was arrived at through trial and error
