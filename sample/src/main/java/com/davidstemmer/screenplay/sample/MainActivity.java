@@ -5,15 +5,17 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
+import com.davidstemmer.screenplay.MortarActivityDirector;
+import com.davidstemmer.screenplay.SimpleActivityDirector;
 import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.sample.module.ActivityModule;
-import com.davidstemmer.screenplay.sample.presenter.ActivityPresenter;
 import com.davidstemmer.screenplay.sample.presenter.DrawerPresenter;
+import com.davidstemmer.screenplay.sample.scene.SimpleScene;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import flow.Backstack;
 import flow.Flow;
 import mortar.Blueprint;
 import mortar.Mortar;
@@ -24,7 +26,7 @@ public class MainActivity extends Activity implements Blueprint {
 
     @Inject Flow flow;
     @Inject Screenplay screenplay;
-    @Inject ActivityPresenter activityPresenter;
+    @Inject MortarActivityDirector activityDirector;
     @Inject DrawerPresenter drawerPresenter;
 
     private DrawerLayout navigationDrawer;
@@ -47,7 +49,7 @@ public class MainActivity extends Activity implements Blueprint {
         ButterKnife.inject(this, this);
 
         navigationDrawer = (DrawerLayout) findViewById(R.id.drawer_parent);
-        activityPresenter.takeView(this);
+        activityDirector.takeView(this);
         drawerPresenter.takeView(navigationDrawer);
 
         screenplay.enter(flow);
@@ -90,7 +92,7 @@ public class MainActivity extends Activity implements Blueprint {
     @Override public void onDestroy() {
         super.onDestroy();
         if (isFinishing()) {
-            activityPresenter.dropView(this);
+            activityDirector.dropView(this);
             drawerPresenter.dropView(navigationDrawer);
             MortarScope parentScope = Mortar.getScope(getApplication());
             parentScope.destroyChild(activityScope);

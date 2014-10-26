@@ -6,11 +6,8 @@ import com.davidstemmer.screenplay.sample.R;
 import com.davidstemmer.screenplay.sample.component.DrawerLockingComponent;
 import com.davidstemmer.screenplay.sample.scene.transformer.ActionDrawerTransformer;
 import com.davidstemmer.screenplay.sample.view.ActionDrawerView;
-import com.davidstemmer.screenplay.scene.Scene;
 import com.davidstemmer.screenplay.scene.StandardScene;
 import com.davidstemmer.screenplay.scene.rigger.ModalRigger;
-
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -41,18 +38,10 @@ public class ActionDrawerScene extends StandardScene {
     private final ActionDrawerTransformer transformer;
 
     @Inject
-    public ActionDrawerScene(ComponentList components, ModalRigger rigger, ActionDrawerTransformer transformer) {
-        super(components);
+    public ActionDrawerScene(DrawerLockingComponent component, ModalRigger rigger, ActionDrawerTransformer transformer) {
+        super(component);
         this.rigger = rigger;
         this.transformer = transformer;
-    }
-
-    @Singleton
-    static class ComponentList extends ArrayList<Scene.Component> {
-        @Inject
-        public ComponentList(DrawerLockingComponent component) {
-            add(component);
-        }
     }
 
     public void setCallback(Callback callback) {

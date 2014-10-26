@@ -17,13 +17,13 @@ import flow.Flow;
  */
 public class Screenplay implements Flow.Listener {
 
-    private final Presenter presenter;
+    private final Director director;
 
     private Scene previousScene;
     private SceneState screenplay = SceneState.NORMAL;
 
-    public Screenplay(Presenter presenter) {
-        this.presenter = presenter;
+    public Screenplay(Director director) {
+        this.director = director;
     }
 
     @Override
@@ -43,15 +43,15 @@ public class Screenplay implements Flow.Listener {
             callback.onComplete();
         }
         else if (direction == Flow.Direction.FORWARD || direction == Flow.Direction.REPLACE) {
-            nextScene.getRigger().layoutNext(presenter.getActivity(), presenter.getContainer(), sceneCut);
+            nextScene.getRigger().layoutNext(director.getActivity(), director.getContainer(), sceneCut);
             nextScene.getTransformer().applyAnimations(sceneCut, this);
         }
         else if (previousScene == null) {
-            nextScene.getRigger().layoutNext(presenter.getActivity(), presenter.getContainer(), sceneCut);
+            nextScene.getRigger().layoutNext(director.getActivity(), director.getContainer(), sceneCut);
             callback.onComplete();
         }
         else {
-            previousScene.getRigger().layoutNext(presenter.getActivity(), presenter.getContainer(), sceneCut);
+            previousScene.getRigger().layoutNext(director.getActivity(), director.getContainer(), sceneCut);
             previousScene.getTransformer().applyAnimations(sceneCut, this);
         }
         previousScene = nextScene;
@@ -60,9 +60,9 @@ public class Screenplay implements Flow.Listener {
 
     public void endCut(SceneCut cut) {
         if (cut.direction == Flow.Direction.BACKWARD) {
-            cut.previousScene.getRigger().layoutPrevious(presenter.getActivity(), presenter.getContainer(), cut);
+            cut.previousScene.getRigger().layoutPrevious(director.getActivity(), director.getContainer(), cut);
         } else {
-            cut.nextScene.getRigger().layoutPrevious(presenter.getActivity(), presenter.getContainer(), cut);
+            cut.nextScene.getRigger().layoutPrevious(director.getActivity(), director.getContainer(), cut);
         }
         cut.callback.onComplete();
         screenplay = SceneState.NORMAL;
@@ -88,7 +88,7 @@ public class Screenplay implements Flow.Listener {
                         .setPreviousScene(previousScene)
                         .setDirection(Flow.Direction.FORWARD)
                         .build();
-                nextScene.getRigger().layoutNext(presenter.getActivity(), presenter.getContainer(), cut);
+                nextScene.getRigger().layoutNext(director.getActivity(), director.getContainer(), cut);
                 previousScene = nextScene;
                 isSceneAttached = true;
             }
@@ -98,7 +98,7 @@ public class Screenplay implements Flow.Listener {
         }
     }
 
-    public interface Presenter {
+    public interface Director {
         public Activity getActivity();
         public ViewGroup getContainer();
     }

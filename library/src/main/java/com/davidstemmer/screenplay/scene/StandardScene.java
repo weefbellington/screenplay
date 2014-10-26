@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import com.davidstemmer.screenplay.flow.LayoutCompat;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 /**
  * Created by weefbellington on 10/15/14.
@@ -21,8 +21,12 @@ public abstract class StandardScene implements Scene {
         this(new ArrayList<Component>());
     }
 
-    public StandardScene(List<Component> components) {
+    public StandardScene(Iterable<Component> components) {
         this.components = components;
+    }
+
+    public StandardScene(Component...components) {
+        this.components = Arrays.asList(components);
     }
 
     @Override
