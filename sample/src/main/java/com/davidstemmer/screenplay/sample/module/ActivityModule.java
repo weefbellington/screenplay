@@ -1,8 +1,9 @@
 package com.davidstemmer.screenplay.sample.module;
 
+import com.davidstemmer.screenplay.MortarActivityDirector;
 import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.sample.MainActivity;
-import com.davidstemmer.screenplay.sample.presenter.ActivityPresenter;
+import com.davidstemmer.screenplay.sample.R;
 import com.davidstemmer.screenplay.sample.presenter.NavigationMenuPresenter;
 import com.davidstemmer.screenplay.sample.scene.ActionDrawerScene;
 import com.davidstemmer.screenplay.sample.scene.DialogScene;
@@ -53,8 +54,13 @@ import flow.Flow;
 public class ActivityModule {
 
     @Provides @Singleton
-    Screenplay provideScreenplay(ActivityPresenter presenter) {
-        return new Screenplay(presenter);
+    MortarActivityDirector provideActivityDirector() {
+        return new MortarActivityDirector(R.id.main);
+    }
+
+    @Provides @Singleton
+    Screenplay provideScreenplay(MortarActivityDirector director) {
+        return new Screenplay(director);
     }
 
     @Provides @Singleton
