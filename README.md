@@ -8,7 +8,7 @@ supports are:
 
 - **Paged** (full-screen) navigation flows
 - **Modal** (pop-up) navigation flows
-- **Animated** transitions for incoming and outgoing views
+- **Animated** **transitions** for incoming and outgoing views
 - **View** **state** **reattachment** for configuration changes
 
 Displaying a screen in Screenplay consists of four discrete phases:
