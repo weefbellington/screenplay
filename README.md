@@ -6,14 +6,15 @@ the essential elements for building a View-based navigation flow (a backstack, s
 inflation) Screenplay assembles these into higher-level components for building animated screen
 transitions. The core features that Screenplay supports are:
 
-- Full-screen and modal (pop-up) flows, with back button support
-- Animated transitions for incoming and outgoing views
-- View state reattachment for configuration changes
+- *Paged* (full-screen) navigation flows
+- *Modal* (pop-up) navigation flows
+- *Animated transitions *for incoming and outgoing views
+- *View state reattachment* for configuration changes
 
 Displaying a screen in Screenplay consists of four discrete phases:
 
 1. A `Scene` creates the view,
-2. `Components` add behavior to the scene as it is created
+2. Scene `Components` receive callbacks and apply behavior
 3. The `Rigger` attaches the scene to the layout
 4. A `Transformer` plays animations between the incoming and outgoing scene.
 
@@ -29,6 +30,8 @@ which holds the Activity and the scene container. Then construct the `Screenplay
 `Flow`, and call `Screenplay.enter(flow)` to initialize the screen state:
 
 ```java
+
+public class MainActivity extends Activity {
     private final SimpleActivityDirector director = new SimpleActivityDirector();
     private final Screenplay screenplay = new Screenplay(director);
     private final Flow flow = new Flow(Backstack.single(new HomeScreen()), screenplay);
@@ -41,6 +44,7 @@ which holds the Activity and the scene container. Then construct the `Screenplay
         director.bind(this, container);
         screenplay.enter(flow);
     }
+}
 ```
 
 Once you've created your Flow, navigation is the same as in any other Flow application:
