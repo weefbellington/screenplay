@@ -10,10 +10,14 @@ transitions. The core features that Screenplay supports are:
 - Animated transitions for incoming and outgoing views
 - View state reattachment for configuration changes
 
-Displaying a screen in Screenplay consists of four discrete phases: A `Scene` creates the view,
-`Components` add behavior to the scene as it is created, a `Rigger` attaches the scene to the
-layout, and a `Transformer` plays animations between the incoming and outgoing scene. These steps
-are applied by the `Screenplay` object, which implements the `Flow.Listener` interface. The
+Displaying a screen in Screenplay consists of four discrete phases:
+
+1. A `Scene` creates the view,
+2. `Components` add behavior to the scene as it is created
+3. The `Rigger` attaches the scene to the layout
+4. A `Transformer` plays animations between the incoming and outgoing scene.
+
+These steps are applied by the `Screenplay` object, which implements the `Flow.Listener` interface. The
 Screenplay object knows how to reverse these steps when the back button is pressed, and how to
 re-attach the screen state after a configuration change (such as rotating the phone from portrait to
 landscape mode).
@@ -45,7 +49,6 @@ Once you've created your Flow, navigation is the same as in any other Flow appli
     flow.goTo(new DetailScene()); // animates forward to the DetailScene
     flow.goUp();                  // animate back to the parent of the scene
     flow.goBack();                // animate back to the previous scene
-}
 ```
 
 ###Anatomy of a Scene
@@ -65,7 +68,9 @@ public class DialogScene extends StandardScene {
         super(component);
     }
 }
+```
 
+```java
 public class DrawerLockingComponent implements Scene.Component {
 
     private final DrawerPresenter drawer;
@@ -157,15 +162,16 @@ the AnimatorTransformer uses the [Animator](http://developer.android.com/referen
 
 Because the Activity is created and destroyed several times, Screenplay drop the reference to the
 old Activity after configuration changes to avoid  memory leak. Using the SimpleActivityDirector,
-you simply have to call `unbind()` in the `onDestroy()` callback:
+you should make sure have to call `unbind()` in the `onDestroy()` callback:
 
 ```java
     @Override
     public void onDestroy() {
         super.onDestroy()
-        director.bind(
+        if (isFinishing()) {
+            director.unbind()
+        }
     }
-
 ```
 
 The `Screenplay` object also exposes a `getScreenState()` method, which returns a `FlowState` object. This is
@@ -174,14 +180,12 @@ useful for preventing multiple button presses while two Scenes are in transition
 ```java
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         // Ignore menu click if stage is transitioning
         if (screenplay.getScreenState() == SceneState.TRANSITIONING) return true;
 
         switch (item.getItemId()) {
             ...
         }
-
     }
 ```
 
