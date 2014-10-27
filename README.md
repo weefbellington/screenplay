@@ -164,9 +164,10 @@ the AnimatorTransformer uses the [Animator](http://developer.android.com/referen
 
 ###Odds and ends
 
-Because the Activity is created and destroyed several times, Screenplay must drop the reference to the
-old Activity after configuration changes to avoid  memory leak. Using the SimpleActivityDirector,
-you should make sure have to call `unbind()` in the `onDestroy()` callback:
+Because the Activity is created and destroyed several times over the lifecycle of the application,
+Screenplay needs to drop the reference to the old Activity after configuration changes to avoid
+memory leaks. Using the SimpleActivityDirector, you can drop the old Activity reference by calling
+`unbind()` in your Activity's `onDestroy()` callback:
 
 ```java
     @Override
