@@ -47,7 +47,7 @@ public class SampleApplication extends Application {
 }
 ```
 
-(alternatively, use a dependency injection library such as [Dagger](http://square.github.io/dagger/)):
+*(alternatively, use a dependency injection library such as [Dagger](http://square.github.io/dagger/))*
 
 Then, in the onCreate() method of your main Activity, bind your `Director` and call
 `Screenplay.enter(flow)` to initialize the screen state:
