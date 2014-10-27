@@ -28,8 +28,7 @@ landscape mode).
 App navigation using Screenplay is very straightforward. Begin by creating a `Screenplay.Director`.
 Pass this to the `Screenplay` and create a new `Flow`. In order to ensure that the Flow survives
 configuration changes, these objects should be stored outside of your main Activity. One way to do
-this is by putting them in the Application class (or use a dependency injection library such as [Dagger](http://square.github.io/dagger/))
-:
+this is by putting them in the Application class (or use a dependency injection library such as [Dagger](http://square.github.io/dagger/)):
 
 ```java
 public class SampleApplication extends Application {
