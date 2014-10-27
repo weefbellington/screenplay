@@ -225,8 +225,9 @@ useful for preventing multiple button presses while two Scenes are in transition
 ###Mortar support
 
 Screenplay provides support for (but does not require) Square's [Mortar](http://corner.squareup.com/2014/01/mortar-and-flow.html).
-It provides two classes, a `MortarActivityPresenter` and a `ScopedScene`, which are designed to
-support applications powered by Mortar.
+It provides two classes, a [MortarActivityDirector](https://github.com/weefbellington/screenplay/blob/master/library/src/main/java/com/davidstemmer/screenplay/MortarActivityDirector.java)
+and a [ScopedScene](https://github.com/weefbellington/screenplay/blob/master/library/src/main/java/com/davidstemmer/screenplay/scene/ScopedScene.java),
+which are designed to support applications powered by Mortar.
 
 ###That's, all folks!
 
