@@ -167,7 +167,7 @@ the AnimatorTransformer uses the [Animator](http://developer.android.com/referen
 Because Activities are created and destroyed several times over the lifecycle of the application,
 (such as on configuration changes) it is necessary to drop references to the to the destroyed to
 Activity to avoid memory leaks. Using the SimpleActivityDirector, you can drop the old Activity reference by calling
-`unbind()` in your Activity's `onDestroy()` callback (or `dropView` if you're using the `MortarActivityDirector`):
+`unbind()` in your Activity's `onDestroy()` callback (or `dropView()` if you're using the `MortarActivityDirector`):
 
 ```java
     @Override
