@@ -6,7 +6,9 @@ import android.view.ViewGroup;
 import com.davidstemmer.screenplay.flow.Screenplay;
 
 /**
- * Created by weefbellington on 10/26/14.
+ * @version 1.0.0
+ * @author  David Stemmer
+ * @since   1.0.0
  */
 public class SimpleActivityDirector implements Screenplay.Director {
 

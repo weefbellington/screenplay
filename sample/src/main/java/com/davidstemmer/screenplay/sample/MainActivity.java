@@ -6,16 +6,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
 import com.davidstemmer.screenplay.MortarActivityDirector;
-import com.davidstemmer.screenplay.SimpleActivityDirector;
 import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.sample.module.ActivityModule;
 import com.davidstemmer.screenplay.sample.presenter.DrawerPresenter;
-import com.davidstemmer.screenplay.sample.scene.SimpleScene;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
-import flow.Backstack;
 import flow.Flow;
 import mortar.Blueprint;
 import mortar.Mortar;
