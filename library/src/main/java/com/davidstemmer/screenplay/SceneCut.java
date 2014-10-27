@@ -5,8 +5,10 @@ import com.davidstemmer.screenplay.scene.Scene;
 import flow.Flow;
 
 /**
-* Created by weefbellington on 10/12/14.
-*/
+ * @version 1.0.0
+ * @author  David Stemmer
+ * @since   1.0.0
+ */
 public class SceneCut {
 
     public final Flow.Direction direction;

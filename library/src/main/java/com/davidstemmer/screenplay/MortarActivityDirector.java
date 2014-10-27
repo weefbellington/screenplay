@@ -12,7 +12,9 @@ import mortar.MortarScope;
 import mortar.Presenter;
 
 /**
- * Created by weefbellington on 10/24/14.
+ * @version 1.0.0
+ * @author  David Stemmer
+ * @since   1.0.0
  */
 @Singleton
 public class MortarActivityDirector extends Presenter<Activity> implements Screenplay.Director {

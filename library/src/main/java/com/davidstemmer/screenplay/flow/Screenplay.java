@@ -13,14 +13,16 @@ import flow.Backstack;
 import flow.Flow;
 
 /**
- * Created by weefbellington on 10/14/14.
+ * @version 1.0.0
+ * @author  David Stemmer
+ * @since   1.0.0
  */
 public class Screenplay implements Flow.Listener {
 
     private final Director director;
 
     private Scene previousScene;
-    private SceneState screenplay = SceneState.NORMAL;
+    private SceneState screenState = SceneState.NORMAL;
 
     public Screenplay(Director director) {
         this.director = director;
@@ -29,7 +31,7 @@ public class Screenplay implements Flow.Listener {
     @Override
     public void go(Backstack nextBackstack, Flow.Direction direction, Flow.Callback callback) {
 
-        screenplay = SceneState.TRANSITIONING;
+        screenState = SceneState.TRANSITIONING;
 
         Scene nextScene = (Scene) nextBackstack.current().getScreen();
 
@@ -58,6 +60,11 @@ public class Screenplay implements Flow.Listener {
     }
 
 
+    /**
+     * Called by the {@link com.davidstemmer.screenplay.scene.Scene.Transformer} after the scene
+     * animation completes. Finishes pending layout operations and notifies the Flow.Callback.
+     * @param cut contains the next and previous scene, and the flow direction
+     */
     public void endCut(SceneCut cut) {
         if (cut.direction == Flow.Direction.BACKWARD) {
             cut.previousScene.getRigger().layoutPrevious(director.getActivity(), director.getContainer(), cut);
@@ -65,14 +72,21 @@ public class Screenplay implements Flow.Listener {
             cut.nextScene.getRigger().layoutPrevious(director.getActivity(), director.getContainer(), cut);
         }
         cut.callback.onComplete();
-        screenplay = SceneState.NORMAL;
+        screenState = SceneState.NORMAL;
     }
 
-
+    /**
+     * @return TRANSITIONING if a transition is in process, NORMAL otherwise
+     */
     public SceneState getScreenState() {
-        return screenplay;
+        return screenState;
     }
 
+    /**
+     * Initialize the screen using the current Flow.Backstack. This is expected to be called in
+     * Activity.onCreate(). Supports configuration changes.
+     * @param flow the current Flow
+     */
     public void enter(Flow flow) {
         if (flow.getBackstack().size() == 0) {
             throw new IllegalStateException("Backstack is empty");
@@ -98,8 +112,19 @@ public class Screenplay implements Flow.Listener {
         }
     }
 
+    /**
+     * @version 1.0.0
+     * @author  David Stemmer
+     * @since   1.0.0
+     */
     public interface Director {
+        /**
+         * @return the current Activity. Should be re-initialized after configuration changes.
+         */
         public Activity getActivity();
+        /**
+         * @return the container for the Flow. Should be re-initialized after configuration changes.
+         */
         public ViewGroup getContainer();
     }
 }

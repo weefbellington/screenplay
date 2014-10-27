@@ -1,8 +1,10 @@
 package com.davidstemmer.screenplay;
 
 /**
-* Created by weefbellington on 10/10/14.
-*/
+ * @version 1.0.0
+ * @author  David Stemmer
+ * @since   1.0.0
+ */
 public enum SceneState {
     NORMAL,
     TRANSITIONING
