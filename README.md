@@ -25,27 +25,51 @@ landscape mode).
 
 ###Setting the stage
 
-App navigation using Screenplay is very straightforward. Begin by creating a `Screenplay.Director`,
-which holds the Activity and the scene container. Then construct the `Screenplay` and create a new
-`Flow`, and call `Screenplay.enter(flow)` to initialize the screen state:
+App navigation using Screenplay is very straightforward. Begin by creating a `Screenplay.Director`.
+Pass this to the `Screenplay` and create a new `Flow`. In order to ensure that the Flow survives
+configuration changes, these objects should be stored outside of your main Activity. One way to do
+this is by putting them in the Application class:
 
 ```java
+public class SampleApplication extends Application {
 
+    public final SimpleActivityDirector director = new SimpleActivityDirector();
+    public final Screenplay screenplay = new Screenplay(director);
+    public final Flow mainFlow = new Flow(Backstack.single(new HomeScreen()), screenplay);
+    private Application application;
+
+    public void onCreate() { application = this; }
+
+    public static SampleApplication getInstance()   { return application; }
+    public static Director getDirector()            { return getInstance().director; }
+    public static Screenplay getScreenplay()        { return getInstance().screenplay; }
+    public static Flow getMainFlow()                { return getInstance().flow; }
+}
+```
+
+Then, in the onCreate() method of your main Activity, bind your `Director` and call
+`Screenplay.enter(flow)` to initialize the screen state:
+
+```java
 public class MainActivity extends Activity {
-    private final SimpleActivityDirector director = new SimpleActivityDirector();
-    private final Screenplay screenplay = new Screenplay(director);
-    private final Flow flow = new Flow(Backstack.single(new HomeScreen()), screenplay);
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.id.main);
         RelativeLayout container = (RelativeLayout) activity.findViewById(R.id.main);
+
+        Director director = SampleApplication.getDirector();
+        Flow flow = SampleApplication.getMainFlow();
+        Screenplay screenplay = SampleApplication.getScreenplay();
 
         director.bind(this, container);
         screenplay.enter(flow);
     }
 }
 ```
+
+Calling `enter` will initialize the Flow to the current screen, and also re-attach any Views that
+were detached during configuration changes.
 
 Once you've created your Flow, navigation is the same as in any other Flow application:
 
@@ -54,6 +78,23 @@ Once you've created your Flow, navigation is the same as in any other Flow appli
     flow.goUp();                  // animate back to the parent of the scene
     flow.goBack();                // animate back to the previous scene
 ```
+
+One final detail: when the Activity is destroyed, is important to drop references to it to
+avoid memory leaks. Using the `SimpleActivityDirector`, you can drop the old Activity reference by
+calling `unbind()` in your Activity's `onDestroy()` callback.
+
+```java
+    @Override
+    public void onDestroy() {
+        super.onDestroy()
+        if (isFinishing()) {
+            director.unbind()
+        }
+    }
+```
+
+If you're using `MortarActivityDirector`, call `dropView()` instead. In either case, the Director
+should be rebound in `onCreate()`.
 
 ###Anatomy of a Scene
 
@@ -163,21 +204,6 @@ and `AnimatorTransformer`. TweenTransformer uses the [Animation](http://develope
 the AnimatorTransformer uses the [Animator](http://developer.android.com/reference/android/animation/Animator.html) class.
 
 ###Odds and ends
-
-Because Activities are created and destroyed several times over the lifecycle of the application,
-(such as on configuration changes) it is necessary to drop references to the to the destroyed to
-Activity to avoid memory leaks. Using the `SimpleActivityDirector`, you can drop the old Activity reference by calling
-`unbind()` in your Activity's `onDestroy()` callback (or `dropView()` if you're using the `MortarActivityDirector`):
-
-```java
-    @Override
-    public void onDestroy() {
-        super.onDestroy()
-        if (isFinishing()) {
-            director.unbind()
-        }
-    }
-```
 
 The `Screenplay` object also exposes a `getScreenState()` method, which returns a `FlowState` object. This is
 useful for preventing multiple button presses while two Scenes are in transition:
