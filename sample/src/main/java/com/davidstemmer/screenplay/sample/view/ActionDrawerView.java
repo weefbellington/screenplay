@@ -33,6 +33,5 @@ public class ActionDrawerView extends LinearLayout {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         presenter.dropView(this);
-        presenter.executeCallback();
     }
 }
