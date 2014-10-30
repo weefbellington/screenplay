@@ -1,15 +1,19 @@
 package com.davidstemmer.screenplay.sample.scene;
 
-import android.widget.LinearLayout;
+import android.os.Bundle;
 
 import com.davidstemmer.screenplay.sample.R;
-import com.davidstemmer.screenplay.sample.scene.transformer.VerticalSlideTransformer;
+import com.davidstemmer.screenplay.sample.scene.transformer.HorizontalSlideTransformer;
+import com.davidstemmer.screenplay.sample.view.PagedView2;
 import com.davidstemmer.screenplay.scene.StandardScene;
 import com.davidstemmer.screenplay.scene.rigger.PageRigger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import flow.Flow;
 import flow.Layout;
 import mortar.ViewPresenter;
 
@@ -22,10 +26,10 @@ import mortar.ViewPresenter;
 public class PagedScene2 extends StandardScene {
 
     private final PageRigger rigger;
-    private final VerticalSlideTransformer transformer;
+    private final HorizontalSlideTransformer transformer;
 
     @Inject
-    public PagedScene2(PageRigger rigger, VerticalSlideTransformer transformer) {
+    public PagedScene2(PageRigger rigger, HorizontalSlideTransformer transformer) {
         this.rigger = rigger;
         this.transformer = transformer;
     }
@@ -40,5 +44,19 @@ public class PagedScene2 extends StandardScene {
         return transformer;
     }
 
-    public static class Presenter extends ViewPresenter<LinearLayout> {}
+    public static class Presenter extends ViewPresenter<PagedView2> {
+
+        @Inject PagedScene3 nextScene;
+        @Inject Flow flow;
+
+        @Override
+        protected void onLoad(Bundle savedInstanceState) {
+            super.onLoad(savedInstanceState);
+            ButterKnife.inject(this, getView());
+        }
+
+        @OnClick(R.id.next) void nextClicked() {
+            flow.goTo(nextScene);
+        }
+    }
 }

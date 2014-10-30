@@ -1,9 +1,15 @@
 package com.davidstemmer.screenplay.sample.presenter;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
 
 import com.davidstemmer.screenplay.MortarActivityDirector;
 import com.davidstemmer.screenplay.sample.R;
@@ -22,6 +28,7 @@ import mortar.Presenter;
 public class DrawerPresenter extends Presenter<DrawerLayout> {
 
     private final MortarActivityDirector director;
+    private ActionBarDrawerToggle drawerToggle;
 
     @Inject
     public DrawerPresenter(MortarActivityDirector director) {
@@ -32,9 +39,55 @@ public class DrawerPresenter extends Presenter<DrawerLayout> {
     @Override
     protected void onLoad(Bundle savedInstanceState) {
         super.onLoad(savedInstanceState);
+
+        drawerToggle = createDrawerToggle();
+
         LayoutInflater inflater = director.getActivity().getLayoutInflater();
         inflater.inflate(R.layout.navigation_menu, getLayout());
-        getLayout().invalidate();
+        getLayout().setDrawerListener(drawerToggle);
+
+        ActionBar actionBar = ((ActionBarActivity)director.getActivity()).getSupportActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    protected void onSave(Bundle outState) {
+        super.onSave(outState);
+        drawerToggle = null;
+    }
+
+    private ActionBarDrawerToggle createDrawerToggle() {
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                director.getActivity(),
+                getLayout(),
+                R.string.drawer_open,
+                R.string.drawer_close) {
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                director.getActivity().invalidateOptionsMenu();
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                director.getActivity().invalidateOptionsMenu();
+            }
+        };
+        toggle.setDrawerIndicatorEnabled(true);
+        return toggle;
+    }
+
+    public void syncToggleState() {
+        drawerToggle.syncState();
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return drawerToggle.onOptionsItemSelected(item);
+    }
+
+    public void onConfigurationChanged(Configuration newConfig) {
+        drawerToggle.onConfigurationChanged(newConfig);
     }
 
     public DrawerLayout getLayout() {

@@ -7,9 +7,9 @@
     android:layout_width="@dimen/navigation_drawer_width"
     android:layout_height="match_parent"
     android:layout_gravity="left"
-    android:background="@android:color/white"
     android:dividerPadding="2dp"
     android:showDividers="middle|end"
+    android:background="@android:color/white"
     android:divider="@android:drawable/divider_horizontal_textfield">
     <TextView
         android:id="@+id/nav_item_simple_scene"

@@ -10,12 +10,14 @@ import com.davidstemmer.screenplay.sample.scene.DialogScene;
 import com.davidstemmer.screenplay.sample.scene.ModalScene;
 import com.davidstemmer.screenplay.sample.scene.PagedScene1;
 import com.davidstemmer.screenplay.sample.scene.PagedScene2;
+import com.davidstemmer.screenplay.sample.scene.PagedScene3;
 import com.davidstemmer.screenplay.sample.scene.SimpleScene;
 import com.davidstemmer.screenplay.sample.view.ActionDrawerView;
 import com.davidstemmer.screenplay.sample.view.DialogSceneView;
 import com.davidstemmer.screenplay.sample.view.ModalSceneView;
 import com.davidstemmer.screenplay.sample.view.NavigationMenuView;
 import com.davidstemmer.screenplay.sample.view.PagedView1;
+import com.davidstemmer.screenplay.sample.view.PagedView2;
 import com.davidstemmer.screenplay.sample.view.WelcomeView;
 
 import javax.inject.Singleton;
@@ -47,6 +49,9 @@ import flow.Flow;
                 PagedScene1.Presenter.class,
                 PagedView1.class,
                 PagedScene2.class,
+                PagedScene2.Presenter.class,
+                PagedView2.class,
+                PagedScene3.class,
                 SimpleScene.class,
                 SimpleScene.Presenter.class,
                 WelcomeView.class
