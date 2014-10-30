@@ -2,24 +2,23 @@ package com.davidstemmer.screenplay.sample.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
-import com.davidstemmer.screenplay.sample.scene.ActionDrawerScene;
+import com.davidstemmer.screenplay.sample.scene.PagedScene2;
 
 import javax.inject.Inject;
 
 import mortar.Mortar;
 
 /**
- * Created by weefbellington on 10/22/14.
+ * Created by weefbellington on 10/19/14.
  */
-public class ActionDrawerView extends LinearLayout {
+public class PagedView2 extends RelativeLayout {
 
-    @Inject ActionDrawerScene.Presenter presenter;
+    @Inject PagedScene2.Presenter presenter;
 
-    public ActionDrawerView(Context context, AttributeSet attrs) {
+    public PagedView2(Context context, AttributeSet attrs) {
         super(context, attrs);
-        if (isInEditMode()) return;
         Mortar.inject(context, this);
     }
 

@@ -35,8 +35,8 @@ public class TweenTransformer implements Scene.Transformer {
     @Override
     public void applyAnimations(SceneCut cut, Screenplay screenplay) {
 
-        int out = cut.direction == Flow.Direction.FORWARD ? params.forwardOut : params.backOut;
-        int in = cut.direction == Flow.Direction.FORWARD ? params.forwardIn : params.backIn;
+        int out = cut.direction == Flow.Direction.BACKWARD ? params.backOut : params.forwardOut;
+        int in = cut.direction == Flow.Direction.BACKWARD ? params.backIn : params.forwardIn;
 
         TweenAnimationListener animationListener = new TweenAnimationListener(cut, screenplay);
         if (out != -1 && cut.previousScene != null) {

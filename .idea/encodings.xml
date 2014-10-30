@@ -5,11 +5,13 @@
     <file url="file://$PROJECT_DIR$/sample/src/main/res/anim/slide_in_left.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sample/src/main/res/anim/slide_in_left_drawer.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sample/src/main/res/anim/slide_in_right.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sample/src/main/res/anim/slide_in_right_drawer.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sample/src/main/res/anim/slide_in_up.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sample/src/main/res/anim/slide_out_down.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sample/src/main/res/anim/slide_out_left.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sample/src/main/res/anim/slide_out_left_drawer.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sample/src/main/res/anim/slide_out_right.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sample/src/main/res/anim/slide_out_right_drawer.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sample/src/main/res/anim/slide_out_up.xml" charset="UTF-8" />
   </component>
 </project>

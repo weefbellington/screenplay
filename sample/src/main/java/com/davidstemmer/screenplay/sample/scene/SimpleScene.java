@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.davidstemmer.screenplay.sample.R;
-import com.davidstemmer.screenplay.sample.scene.transformer.NoAnimationTransformer;
+import com.davidstemmer.screenplay.sample.scene.transformer.CrossfadeTransformer;
 import com.davidstemmer.screenplay.scene.StandardScene;
 import com.davidstemmer.screenplay.scene.rigger.PageRigger;
 
@@ -24,10 +24,10 @@ import mortar.ViewPresenter;
 public class SimpleScene extends StandardScene {
 
     private final PageRigger rigger;
-    private final NoAnimationTransformer transformer;
+    private final CrossfadeTransformer transformer;
 
     @Inject
-    public SimpleScene(PageRigger rigger, NoAnimationTransformer transformer) {
+    public SimpleScene(PageRigger rigger, CrossfadeTransformer transformer) {
         this.rigger = rigger;
         this.transformer = transformer;
     }

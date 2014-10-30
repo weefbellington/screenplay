@@ -1,8 +1,9 @@
 package com.davidstemmer.screenplay.sample;
 
-import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
 import com.davidstemmer.screenplay.MortarActivityDirector;
@@ -19,7 +20,7 @@ import mortar.Mortar;
 import mortar.MortarActivityScope;
 import mortar.MortarScope;
 
-public class MainActivity extends Activity implements Blueprint {
+public class MainActivity extends ActionBarActivity implements Blueprint {
 
     @Inject Flow flow;
     @Inject Screenplay screenplay;
@@ -42,7 +43,6 @@ public class MainActivity extends Activity implements Blueprint {
         setContentView(R.layout.activity_main);
         Mortar.inject(this, this);
 
-        getActionBar().setHomeButtonEnabled(true);
         ButterKnife.inject(this, this);
 
         navigationDrawer = (DrawerLayout) findViewById(R.id.drawer_parent);
@@ -50,6 +50,18 @@ public class MainActivity extends Activity implements Blueprint {
         drawerPresenter.takeView(navigationDrawer);
 
         screenplay.enter(flow);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerPresenter.syncToggleState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerPresenter.onConfigurationChanged(newConfig);
     }
 
     @Override public void onBackPressed() {
@@ -61,14 +73,13 @@ public class MainActivity extends Activity implements Blueprint {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                if (drawerPresenter.isDrawerVisible() && !drawerPresenter.isLockedOpen()) {
-                    drawerPresenter.close();
-                } else if (!drawerPresenter.isLockedShut()){
-                    drawerPresenter.open();
-                }
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            if (drawerPresenter.isLockedOpen() || drawerPresenter.isLockedShut()) {
+               return true;
+            }
+            else if (drawerPresenter.onOptionsItemSelected(item)) {
+               return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }

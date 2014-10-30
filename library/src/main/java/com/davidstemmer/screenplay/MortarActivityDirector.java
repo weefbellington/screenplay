@@ -32,6 +32,7 @@ public class MortarActivityDirector extends Presenter<Activity> implements Scree
         container = null;
     }
 
+    @Override
     public Activity getActivity() {
         return getView();
     }

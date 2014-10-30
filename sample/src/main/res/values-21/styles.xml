@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <?xml version="1.0" encoding="utf-8"?>
+    <resources>
+        <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+            <item name="colorPrimary">@color/primaryColor</item>
+            <item name="colorPrimaryDark">@color/primaryColorDark</item>
+            <item name="android:statusBarColor">@color/primaryColorDark</item>
+            <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        </style>
+        <!--styling color for arrow-->
+        <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+            <item name="spinBars">true</item>
+            <item name="color">@android:color/white</item>
+        </style>
+    </resources>
+</resources>

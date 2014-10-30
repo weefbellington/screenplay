@@ -3,7 +3,7 @@ package com.davidstemmer.screenplay.sample.scene;
 import android.os.Bundle;
 
 import com.davidstemmer.screenplay.sample.R;
-import com.davidstemmer.screenplay.sample.scene.transformer.HorizontalSlideTransformer;
+import com.davidstemmer.screenplay.sample.scene.transformer.CrossfadeTransformer;
 import com.davidstemmer.screenplay.sample.view.PagedView1;
 import com.davidstemmer.screenplay.scene.StandardScene;
 import com.davidstemmer.screenplay.scene.rigger.PageRigger;
@@ -26,10 +26,10 @@ import mortar.ViewPresenter;
 public class PagedScene1 extends StandardScene {
 
     private final PageRigger rigger;
-    private final HorizontalSlideTransformer transformer;
+    private final CrossfadeTransformer transformer;
 
     @Inject
-    public PagedScene1(PageRigger rigger, HorizontalSlideTransformer transformer) {
+    public PagedScene1(PageRigger rigger, CrossfadeTransformer transformer) {
         this.rigger = rigger;
         this.transformer = transformer;
     }

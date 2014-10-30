@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.davidstemmer.screenplay.sample.R;
-import com.davidstemmer.screenplay.sample.scene.transformer.HorizontalSlideTransformer;
+import com.davidstemmer.screenplay.sample.scene.transformer.CrossfadeTransformer;
 import com.davidstemmer.screenplay.sample.view.ModalSceneView;
 import com.davidstemmer.screenplay.scene.StandardScene;
 import com.davidstemmer.screenplay.scene.rigger.PageRigger;
@@ -26,10 +26,10 @@ import mortar.ViewPresenter;
 public class ModalScene extends StandardScene {
 
     private final PageRigger rigger;
-    private final HorizontalSlideTransformer transformer;
+    private final CrossfadeTransformer transformer;
 
     @Inject
-    public ModalScene(PageRigger rigger, HorizontalSlideTransformer transformer) {
+    public ModalScene(PageRigger rigger, CrossfadeTransformer transformer) {
         this.rigger = rigger;
         this.transformer = transformer;
     }
