@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:targetApi="21">
     <resources>
         <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
             <item name="colorPrimary">@color/primaryColor</item>

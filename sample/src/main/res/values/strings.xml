@@ -11,7 +11,7 @@
     <string name="modal_scene_text">The ModalDirector adds a new scene above the previous screen, but does not remove the previous screen.This makes it ideal for partial screen containers.</string>
     <string name="modal_scene_dialog_button_text">Dialog</string>
     <string name="ok">OK</string>
-    <string name="dialog_scene_text">Dialogs in Screenplay are just Views, and are 100% configurable. This one has a wrap_content height.</string>
+    <string name="dialog_scene_text">Dialogs in Screenplay are just Views, and are 100%% configurable. This one has a wrap_content height.</string>
     <string name="modal_scene_action_drawer_button_text">Action drawer</string>
     <string name="action_drawer_scene_text">You can pass a callback to a Scene and fire the callback when the view is detached.</string>
     <string name="drawer_open">Screenplay</string>
