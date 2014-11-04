@@ -36,14 +36,14 @@ public class SampleApplication extends Application {
     public final SimpleActivityDirector director = new SimpleActivityDirector();
     public final Screenplay screenplay = new Screenplay(director);
     public final Flow mainFlow = new Flow(Backstack.single(new HomeScreen()), screenplay);
-    private Application application;
+    private static SampleApplication application;
 
     public void onCreate() { application = this; }
 
-    public static SampleApplication getInstance()   { return application; }
-    public static Director getDirector()            { return getInstance().director; }
-    public static Screenplay getScreenplay()        { return getInstance().screenplay; }
-    public static Flow getMainFlow()                { return getInstance().flow; }
+    public static SampleApplication getInstance()       { return application; }
+    public static SimpleActivityDirector getDirector()  { return getInstance().director; }
+    public static Screenplay getScreenplay()            { return getInstance().screenplay; }
+    public static Flow getMainFlow()                    { return getInstance().mainFlow; }
 }
 ```
 
@@ -54,15 +54,22 @@ Then, in the onCreate() method of your main Activity, bind your `Director` and c
 
 ```java
 public class MainActivity extends Activity {
-    public void onCreate(Bundle savedInstanceState) {
+
+    private SimpleActivityDirector director;
+    private Flow flow;
+    private Screenplay screenplay;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
-        setContentView(R.id.main);
-        RelativeLayout container = (RelativeLayout) activity.findViewById(R.id.main);
+        setContentView(R.layout.activity_main);
+        RelativeLayout container = (RelativeLayout) findViewById(R.id.main);
 
-        Director director = SampleApplication.getDirector();
-        Flow flow = SampleApplication.getMainFlow();
-        Screenplay screenplay = SampleApplication.getScreenplay();
+        director = SampleApplication.getDirector();
+        flow = SampleApplication.getMainFlow();
+        screenplay = SampleApplication.getScreenplay();
 
         director.bind(this, container);
         screenplay.enter(flow);
