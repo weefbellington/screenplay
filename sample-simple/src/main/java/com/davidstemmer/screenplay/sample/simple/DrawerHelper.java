@@ -1,7 +1,6 @@
-package com.davidstemmer.screenplay.sample.presenter;
+package com.davidstemmer.screenplay.sample.simple;
 
 import android.content.res.Configuration;
-import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -11,34 +10,29 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.davidstemmer.screenplay.MortarActivityDirector;
-import com.davidstemmer.screenplay.sample.R;
+import com.davidstemmer.screenplay.SimpleActivityDirector;
+import com.example.weefbellington.screenplay.sample.simple.R;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import mortar.Mortar;
-import mortar.MortarScope;
-import mortar.Presenter;
 
 /**
  * Created by weefbellington on 10/24/14.
  */
 @Singleton
-public class DrawerPresenter extends Presenter<DrawerLayout> {
+public class DrawerHelper {
 
-    private final MortarActivityDirector director;
+    private final SimpleActivityDirector director;
+
     private ActionBarDrawerToggle drawerToggle;
+    private DrawerLayout drawerLayout;
 
-    @Inject
-    public DrawerPresenter(MortarActivityDirector director) {
+    public DrawerHelper(SimpleActivityDirector director) {
         this.director = director;
     }
 
-    @Override
-    protected void onLoad(Bundle savedInstanceState) {
-        super.onLoad(savedInstanceState);
+    public void bind(DrawerLayout layout) {
 
+        drawerLayout = layout;
         drawerToggle = createDrawerToggle();
 
         LayoutInflater inflater = director.getActivity().getLayoutInflater();
@@ -50,10 +44,9 @@ public class DrawerPresenter extends Presenter<DrawerLayout> {
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
-    @Override
-    protected void onSave(Bundle outState) {
-        super.onSave(outState);
+    public void unbind(DrawerLayout drawerLayout) {
         drawerToggle = null;
+        drawerLayout = null;
     }
 
     private ActionBarDrawerToggle createDrawerToggle() {
@@ -90,7 +83,7 @@ public class DrawerPresenter extends Presenter<DrawerLayout> {
     }
 
     public DrawerLayout getLayout() {
-        return getView();
+        return drawerLayout;
     }
 
     public void setLocked(boolean locked) {
@@ -120,11 +113,4 @@ public class DrawerPresenter extends Presenter<DrawerLayout> {
     public void close() {
         getLayout().closeDrawer(Gravity.LEFT);
     }
-
-    @Override
-    protected MortarScope extractScope(DrawerLayout view) {
-        return Mortar.getScope(director.getActivity());
-    }
-
-
 }

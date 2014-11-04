@@ -12,6 +12,7 @@ import mortar.MortarScope;
  * Created by weefbellington on 10/2/14.
  */
 public class SampleApplication extends Application {
+
     private MortarScope applicationScope;
 
     @Override public void onCreate() {
