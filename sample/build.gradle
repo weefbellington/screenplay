@@ -1,3 +1,10 @@
+repositories {
+    mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+}
+
 apply plugin: 'com.android.application'
 
 android {
@@ -21,7 +28,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':library')
+    compile 'com.davidstemmer:screenplay:1.0.0-SNAPSHOT@aar'
+    compile 'com.squareup.flow:flow:0.8'
     compile 'com.squareup.mortar:mortar:0.16'
     compile 'com.squareup.dagger:dagger:1.2.1'
     provided 'com.squareup.dagger:dagger-compiler:1.2.1'
