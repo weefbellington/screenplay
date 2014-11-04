@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.davidstemmer.screenplay.sample.simple.DrawerHelper;
 import com.davidstemmer.screenplay.sample.simple.SampleApplication;
+import com.davidstemmer.screenplay.sample.simple.scene.PagedScene1;
 import com.davidstemmer.screenplay.sample.simple.scene.WelcomeScene;
 import com.davidstemmer.screenplay.scene.Scene;
 import com.example.weefbellington.screenplay.sample.simple.R;
@@ -25,7 +26,7 @@ public class NavigationMenuView extends LinearLayout {
     private final Flow flow;
     private final DrawerHelper drawerHelper;
     private final WelcomeScene welcomeScene;
-    //private final PagedScene1 pagedScene;
+    private final PagedScene1 pagedScene;
     //private final ModalScene modalScene;
 
     public NavigationMenuView(Context context, AttributeSet attrs) {
@@ -33,6 +34,7 @@ public class NavigationMenuView extends LinearLayout {
         this.flow = SampleApplication.getMainFlow();
         this.drawerHelper = SampleApplication.getDrawerHelper();
         this.welcomeScene = new WelcomeScene();
+        this.pagedScene = new PagedScene1();
     }
 
     @Override
@@ -48,7 +50,7 @@ public class NavigationMenuView extends LinearLayout {
     private class WelcomeSceneListener implements OnClickListener {
         @Override
         public void onClick(View v) {
-            setSelected(selected);
+            setSelected(v);
             showNextSceneAfterDelay(welcomeScene);
             drawerHelper.close();
         }
@@ -58,8 +60,8 @@ public class NavigationMenuView extends LinearLayout {
     private class PagedSceneListener implements OnClickListener {
         @Override
         public void onClick(View v) {
-            //setSelected(selected);
-            //showNextSceneAfterDelay(pagedScene);
+            setSelected(v);
+            showNextSceneAfterDelay(pagedScene);
             drawerHelper.close();
         }
     }
@@ -67,7 +69,7 @@ public class NavigationMenuView extends LinearLayout {
     private class ModalSceneListener implements OnClickListener {
         @Override
         public void onClick(View v) {
-            //setSelected(selected);
+            //setSelected(v);
             //showNextSceneAfterDelay(modalScene);
             drawerHelper.close();
         }
