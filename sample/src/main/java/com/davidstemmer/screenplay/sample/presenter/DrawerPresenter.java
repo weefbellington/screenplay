@@ -35,12 +35,9 @@ public class DrawerPresenter extends Presenter<DrawerLayout> {
         this.director = director;
     }
 
-
     @Override
     protected void onLoad(Bundle savedInstanceState) {
         super.onLoad(savedInstanceState);
-
-        drawerToggle = createDrawerToggle();
 
         LayoutInflater inflater = director.getActivity().getLayoutInflater();
         inflater.inflate(R.layout.navigation_menu, getLayout());
@@ -52,9 +49,15 @@ public class DrawerPresenter extends Presenter<DrawerLayout> {
     }
 
     @Override
-    protected void onSave(Bundle outState) {
-        super.onSave(outState);
+    protected void onExitScope() {
+        super.onExitScope();
         drawerToggle = null;
+    }
+
+    @Override
+    protected void onEnterScope(MortarScope scope) {
+        super.onEnterScope(scope);
+        drawerToggle = createDrawerToggle();
     }
 
     private ActionBarDrawerToggle createDrawerToggle() {
