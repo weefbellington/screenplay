@@ -99,9 +99,9 @@ public class MainActivity extends ActionBarActivity implements Blueprint {
 
     @Override public void onDestroy() {
         super.onDestroy();
+        activityDirector.dropView(this);
+        drawerPresenter.dropView(navigationDrawer);
         if (isFinishing()) {
-            activityDirector.dropView(this);
-            drawerPresenter.dropView(navigationDrawer);
             MortarScope parentScope = Mortar.getScope(getApplication());
             parentScope.destroyChild(activityScope);
             activityScope = null;
