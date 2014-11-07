@@ -44,9 +44,8 @@ public class DrawerHelper {
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
-    public void unbind(DrawerLayout drawerLayout) {
+    public void unbind() {
         drawerToggle = null;
-        drawerLayout = null;
     }
 
     private ActionBarDrawerToggle createDrawerToggle() {

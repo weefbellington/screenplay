@@ -79,9 +79,7 @@ public class MainActivity extends ActionBarActivity {
 
     @Override public void onDestroy() {
         super.onDestroy();
-        if (isFinishing()) {
-            director.unbind();
-            drawerHelper.unbind(drawerLayout);
-        }
+        director.unbind();
+        drawerHelper.unbind();
     }
 }

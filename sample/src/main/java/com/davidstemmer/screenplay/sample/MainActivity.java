@@ -99,9 +99,14 @@ public class MainActivity extends ActionBarActivity implements Blueprint {
 
     @Override public void onDestroy() {
         super.onDestroy();
+        // Drop the activity and drawer presenter every time the Activity is destroyed.
+        // This allows them to release references to the Activity that is about to be destroyed.
+        activityDirector.dropView(this);
+        drawerPresenter.dropView(navigationDrawer);
+
         if (isFinishing()) {
-            activityDirector.dropView(this);
-            drawerPresenter.dropView(navigationDrawer);
+            // Destroy the Activity scope only if the Activity is finishing (back button press).
+            // This is so singletons, such as Scenes, can survive configuration changes.
             MortarScope parentScope = Mortar.getScope(getApplication());
             parentScope.destroyChild(activityScope);
             activityScope = null;
