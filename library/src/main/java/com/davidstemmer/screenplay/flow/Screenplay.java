@@ -1,6 +1,7 @@
 package com.davidstemmer.screenplay.flow;
 
 import android.app.Activity;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.davidstemmer.screenplay.SceneCut;
@@ -21,7 +22,7 @@ public class Screenplay implements Flow.Listener {
 
     private final Director director;
 
-    private Scene previousScene;
+    private Scene outgoingScene;
     private SceneState screenState = SceneState.NORMAL;
 
     public Screenplay(Director director) {
@@ -33,30 +34,38 @@ public class Screenplay implements Flow.Listener {
 
         screenState = SceneState.TRANSITIONING;
 
-        Scene nextScene = (Scene) nextBackstack.current().getScreen();
+        Scene incomingScene = (Scene) nextBackstack.current().getScreen();
 
         SceneCut sceneCut = new SceneCut.Builder()
                 .setDirection(direction)
-                .setNextScene(nextScene)
-                .setPreviousScene(previousScene)
+                .setIncomingScene(incomingScene)
+                .setOutgoingScene(outgoingScene)
                 .setCallback(callback).build();
 
-        if (nextScene == previousScene) {
+        if (incomingScene == outgoingScene) {
             callback.onComplete();
         }
-        else if (direction == Flow.Direction.FORWARD || direction == Flow.Direction.REPLACE) {
-            nextScene.getRigger().layoutNext(director.getActivity(), director.getContainer(), sceneCut);
-            nextScene.getTransformer().applyAnimations(sceneCut, this);
+
+        // Only call incomingScene.setUp if necessary. If we are exiting a modal scene, the View will
+        // already exist.
+        if (incomingScene.getView() == null) {
+            incomingScene.setUp(director.getActivity(), director.getContainer());
         }
-        else if (previousScene == null) {
-            nextScene.getRigger().layoutNext(director.getActivity(), director.getContainer(), sceneCut);
-            callback.onComplete();
+
+        if (direction == Flow.Direction.FORWARD || direction == Flow.Direction.REPLACE) {
+            incomingScene.getRigger().layoutIncoming(director.getContainer(), incomingScene.getView(), direction);
+            incomingScene.getTransformer().applyAnimations(sceneCut, this);
+        }
+        else if (outgoingScene != null) {
+            outgoingScene.getRigger().layoutIncoming(director.getContainer(), outgoingScene.getView(), direction);
+            outgoingScene.getTransformer().applyAnimations(sceneCut, this);
         }
         else {
-            previousScene.getRigger().layoutNext(director.getActivity(), director.getContainer(), sceneCut);
-            previousScene.getTransformer().applyAnimations(sceneCut, this);
+            // backward, previous scene is null (?)
+            callback.onComplete();
         }
-        previousScene = nextScene;
+
+        outgoingScene = incomingScene;
     }
 
 
@@ -66,11 +75,15 @@ public class Screenplay implements Flow.Listener {
      * @param cut contains the next and previous scene, and the flow direction
      */
     public void endCut(SceneCut cut) {
-        if (cut.direction == Flow.Direction.BACKWARD) {
-            cut.previousScene.getRigger().layoutPrevious(director.getActivity(), director.getContainer(), cut);
-        } else {
-            cut.nextScene.getRigger().layoutPrevious(director.getActivity(), director.getContainer(), cut);
+        if (cut.outgoingScene != null) {
+            View outgoingView = cut.outgoingScene.tearDown(director.getActivity(), director.getContainer());
+            if (cut.direction == Flow.Direction.BACKWARD) {
+                cut.outgoingScene.getRigger().layoutOutgoing(director.getContainer(), outgoingView, cut.direction);
+            } else {
+                cut.incomingScene.getRigger().layoutOutgoing(director.getContainer(), outgoingView, cut.direction);
+            }
         }
+
         cut.callback.onComplete();
         screenState = SceneState.NORMAL;
     }
@@ -98,11 +111,11 @@ public class Screenplay implements Flow.Listener {
             Scene nextScene = (Scene) iterator.next().getScreen();
             if (nextScene.getView() != null) {
                 SceneCut cut = new SceneCut.Builder()
-                        .setNextScene(nextScene)
-                        .setPreviousScene(previousScene)
+                        .setIncomingScene(nextScene)
+                        .setOutgoingScene(previousScene)
                         .setDirection(Flow.Direction.FORWARD)
                         .build();
-                nextScene.getRigger().layoutNext(director.getActivity(), director.getContainer(), cut);
+                nextScene.getRigger().layoutIncoming(director.getContainer(), cut.incomingScene.getView(), cut.direction);
                 previousScene = nextScene;
                 isSceneAttached = true;
             }
