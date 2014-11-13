@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 
-import com.davidstemmer.screenplay.sample.R;
+import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.scene.ModalScene;
 import com.davidstemmer.screenplay.sample.mortar.scene.PagedScene1;
 import com.davidstemmer.screenplay.sample.mortar.scene.SimpleScene;

@@ -2,7 +2,7 @@ package com.davidstemmer.screenplay.sample.mortar.scene.transformer;
 
 import android.app.Application;
 
-import com.davidstemmer.screenplay.sample.R;
+import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.scene.transformer.TweenTransformer;
 
 import javax.inject.Inject;

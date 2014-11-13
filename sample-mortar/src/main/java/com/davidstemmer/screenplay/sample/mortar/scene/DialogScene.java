@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.davidstemmer.screenplay.SceneState;
 import com.davidstemmer.screenplay.flow.Screenplay;
-import com.davidstemmer.screenplay.sample.R;
+import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.component.DrawerLockingComponent;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.PopupTransformer;
 import com.davidstemmer.screenplay.scene.StandardScene;
@@ -30,7 +30,7 @@ public class DialogScene extends StandardScene {
     private final ModalRigger rigger;
 
     @Inject
-    public DialogScene(DrawerLockingComponent component, PopupTransformer transformer, ModalRigger rigger) {
+    public DialogScene(PopupTransformer transformer, ModalRigger rigger, DrawerLockingComponent component) {
         super(component);
         this.transformer = transformer;
         this.rigger = rigger;

@@ -3,7 +3,7 @@ package com.davidstemmer.screenplay.sample.mortar.module;
 import com.davidstemmer.screenplay.MortarActivityDirector;
 import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.sample.mortar.MainActivity;
-import com.davidstemmer.screenplay.sample.R;
+import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.presenter.NavigationMenuPresenter;
 import com.davidstemmer.screenplay.sample.mortar.scene.ActionDrawerScene;
 import com.davidstemmer.screenplay.sample.mortar.scene.DialogScene;

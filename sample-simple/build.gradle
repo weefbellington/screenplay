@@ -28,7 +28,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.davidstemmer:screenplay:1.0.0-SNAPSHOT'
+    compile  project(':library')
     compile 'com.squareup.flow:flow:0.8'
     compile 'com.android.support:support-v4:21.0.0'
     compile 'com.android.support:appcompat-v7:21.0.0'

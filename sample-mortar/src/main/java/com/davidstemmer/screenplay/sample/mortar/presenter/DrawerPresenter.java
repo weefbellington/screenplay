@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.davidstemmer.screenplay.MortarActivityDirector;
-import com.davidstemmer.screenplay.sample.R;
+import com.davidstemmer.screenplay.sample.mortar.R;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
