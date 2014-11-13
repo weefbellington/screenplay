@@ -1,6 +1,6 @@
 package com.davidstemmer.screenplay.sample.mortar.scene;
 
-import com.davidstemmer.screenplay.sample.R;
+import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.VerticalSlideTransformer;
 import com.davidstemmer.screenplay.scene.StandardScene;
 import com.davidstemmer.screenplay.scene.rigger.PageRigger;

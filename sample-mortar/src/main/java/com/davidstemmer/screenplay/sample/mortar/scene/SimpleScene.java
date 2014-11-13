@@ -3,7 +3,7 @@ package com.davidstemmer.screenplay.sample.mortar.scene;
 import android.os.Bundle;
 import android.view.View;
 
-import com.davidstemmer.screenplay.sample.R;
+import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.CrossfadeTransformer;
 import com.davidstemmer.screenplay.scene.StandardScene;
 import com.davidstemmer.screenplay.scene.rigger.PageRigger;

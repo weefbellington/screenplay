@@ -2,7 +2,7 @@ package com.davidstemmer.screenplay.sample.mortar.scene;
 
 import android.os.Bundle;
 
-import com.davidstemmer.screenplay.sample.R;
+import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.HorizontalSlideTransformer;
 import com.davidstemmer.screenplay.sample.mortar.view.PagedView2;
 import com.davidstemmer.screenplay.scene.StandardScene;
