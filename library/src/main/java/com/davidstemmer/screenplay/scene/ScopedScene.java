@@ -15,26 +15,37 @@ public abstract class ScopedScene extends StandardScene implements Blueprint {
 
     private MortarScope scope;
 
-    protected ScopedScene() {
-    }
-
-    protected ScopedScene(Component... components) {
-        super(components);
-    }
-
     @Override
     public View setUp(Context context, ViewGroup parent) {
-        MortarScope parentScope = Mortar.getScope(context);
-        scope = parentScope.requireChild(this);
-        Context childContext = scope.createContext(context);
-        return super.setUp(childContext, parent);
+        return super.setUp(createScope(context), parent);
     }
 
     @Override
     public View tearDown(Context context, ViewGroup parent) {
+        View destroyed = super.tearDown(context, parent);
+        destroyScope(context);
+        return destroyed;
+    }
+
+
+    private Context createScope(Context context) {
+        MortarScope parentScope = Mortar.getScope(context);
+        scope = parentScope.requireChild(this);
+        Context childContext = scope.createContext(context);
+
+        Mortar.inject(childContext, this);
+        onCreateScope(scope);
+        return childContext;
+    }
+
+    private void destroyScope(Context context) {
         MortarScope parentScope = Mortar.getScope(context);
         parentScope.destroyChild(scope);
         scope = null;
-        return super.tearDown(context, parent);
+        onDestroyScope();
     }
+
+    public void onCreateScope(MortarScope scope) {}
+
+    public void onDestroyScope() {}
 }
