@@ -13,11 +13,6 @@ public abstract class IndexedScene extends StandardScene {
         this.id = id;
     }
 
-    protected IndexedScene(String id, Iterable<Component> components) {
-        super(components);
-        this.id = id;
-    }
-
     protected IndexedScene(String id, Component... components) {
         super(components);
         this.id = id;
