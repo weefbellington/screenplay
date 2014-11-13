@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import com.davidstemmer.screenplay.SceneCut;
 import com.davidstemmer.screenplay.flow.Screenplay;
 
+import flow.Flow;
+
 /**
  * Created by weefbellington on 10/2/14.
  */
@@ -82,22 +84,20 @@ public interface Scene {
      */
     public static interface Rigger {
         /**
-         * Layout the next (incoming) scene. When this method returns, the next scene should be
-         * attached to the parent.
-         * @param context the current context
+         * When this method returns, the incoming scene should be attached to the parent.
          * @param parent the parent that the view should be attached to
-         * @param cut contains the next and previous scene, and the flow direction
+         * @param nextView the view to attach to the parent
+         * @param direction the direction of the scene transition
          */
-        public void layoutNext(Context context, ViewGroup parent, SceneCut cut);
+        public void layoutIncoming(ViewGroup parent, View nextView, Flow.Direction direction);
 
         /**
-         * Layout the previous (outgoing) scene. When this method returns, the previous scene may
-         * (but is not necessarily) detached from the parent.
-         * @param context the current context
-         * @param parent the parent that the view should be detached from
-         * @param cut contains the next and previous scene, and the flow direction
+         * When this method returns, the outgoing scene may (optionally) be detached from the parent.
+         * @param parent the parent that the view should be attached to
+         * @param previousView the view to detach from the parent
+         * @param direction the direction of the scene transition
          */
-        public void layoutPrevious(Context context, ViewGroup parent, SceneCut cut);
+        public void layoutOutgoing(ViewGroup parent, View previousView, Flow.Direction direction);
     }
 
     /**
