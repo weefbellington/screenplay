@@ -44,12 +44,12 @@ public interface Scene {
     public View getView();
 
     /**
-     * @return the rigger associated with the scene
+     * @return a non-null {@link com.davidstemmer.screenplay.scene.Scene.Rigger}
      */
     public Rigger getRigger();
 
     /**
-     * @return the transformer associated with the scene
+     * @return a non-null {@link com.davidstemmer.screenplay.scene.Scene.Transformer}
      */
     public Transformer getTransformer();
 
@@ -63,14 +63,16 @@ public interface Scene {
          * Called after {@link Scene#setUp(android.content.Context, android.view.ViewGroup)}
          * @param context the current context
          * @param scene the current scene
+         * @param view the view that was set up
          */
-        public void afterSetUp(Context context, Scene scene);
+        public void afterSetUp(Context context, Scene scene, View view);
         /**
          * Called before {@link Scene#tearDown(android.content.Context, android.view.ViewGroup)}
          * @param context the current context
          * @param scene the current scene
+         * @param view the view that will be torn down
          */
-        public void beforeTearDown(Context context, Scene scene);
+        public void beforeTearDown(Context context, Scene scene, View view);
     }
 
     /**
