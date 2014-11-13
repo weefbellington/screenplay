@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <drawable name="navigation_drawer_background_unselected">#00000000</drawable>
+    <drawable name="navigation_drawer_background_selected">#2f2f2f</drawable>
+    <drawable name="navigation_drawer_background_clicked">#000000</drawable>
+
+    <color name="navigation_drawer_text_color_unselected">#2f2f2f</color>
+    <color name="navigation_drawer_text_color_selected">#FCFCFC</color>
+</resources>

@@ -1,11 +1,18 @@
-apply plugin: 'com.android.library'
+repositories {
+    mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+}
+
+apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.0"
 
     defaultConfig {
-        applicationId "com.davidstemmer.screenplay"
+        applicationId "com.davidstemmer.screenplay.sample.simple"
         minSdkVersion 14
         targetSdkVersion 21
         versionCode 1
@@ -21,9 +28,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile  project(':library')
     compile 'com.squareup.flow:flow:0.8'
-    compile 'javax.inject:javax.inject:1'
-    provided 'com.squareup.mortar:mortar:0.16'
+    compile 'com.android.support:support-v4:21.0.0'
+    compile 'com.android.support:appcompat-v7:21.0.0'
 }
-
-apply from: 'https://raw.github.com/chrisbanes/gradle-mvn-push/master/gradle-mvn-push.gradle'

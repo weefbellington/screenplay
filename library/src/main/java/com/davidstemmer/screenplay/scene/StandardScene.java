@@ -14,26 +14,22 @@ import java.util.Arrays;
  */
 public abstract class StandardScene implements Scene {
 
-    private final Iterable<Component> components;
+    private final ArrayList<Component> components;
     private View view;
 
     public StandardScene() {
-        this(new ArrayList<Component>());
-    }
-
-    public StandardScene(Iterable<Component> components) {
-        this.components = components;
+        this(new Component[] {});
     }
 
     public StandardScene(Component...components) {
-        this.components = Arrays.asList(components);
+        this.components = new ArrayList<Component>(Arrays.asList(components));
     }
 
     @Override
     public View setUp(Context context, ViewGroup parent) {
         view = LayoutCompat.createView(context, parent, this);
         for (Component component: components) {
-            component.afterSetUp(context, this);
+            component.afterSetUp(context, this, view);
         }
         return view;
     }
@@ -41,7 +37,7 @@ public abstract class StandardScene implements Scene {
     @Override
     public View tearDown(Context context, ViewGroup parent) {
         for (Component component: components) {
-            component.beforeTearDown(context, this);
+            component.beforeTearDown(context, this, view);
         }
         View destroyed = view;
         view = null;
@@ -51,6 +47,16 @@ public abstract class StandardScene implements Scene {
     @Override
     public View getView() {
         return view;
+    }
+
+    /**
+     * Convenience method. Adds a Component to the component list. This should be called in the
+     * Scene's constructor method.
+     * @param component the component to add
+     */
+
+    public void addComponent(Component component) {
+        components.add(component);
     }
 
 }
