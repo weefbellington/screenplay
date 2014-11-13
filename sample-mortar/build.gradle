@@ -28,7 +28,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.davidstemmer:screenplay:1.0.0-SNAPSHOT'
+    compile  project(':library')
     compile 'com.squareup.flow:flow:0.8'
     compile 'com.squareup.mortar:mortar:0.16'
     compile 'com.squareup.dagger:dagger:1.2.1'
