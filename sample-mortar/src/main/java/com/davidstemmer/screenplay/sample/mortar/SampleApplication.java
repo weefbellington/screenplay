@@ -2,7 +2,6 @@ package com.davidstemmer.screenplay.sample.mortar;
 
 import android.app.Application;
 
-import com.davidstemmer.screenplay.sample.BuildConfig;
 import com.davidstemmer.screenplay.sample.mortar.module.ApplicationModule;
 
 import dagger.ObjectGraph;

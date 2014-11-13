@@ -49,7 +49,6 @@ public class ModalScene extends StandardScene {
 
         @Inject Flow flow;
         @Inject DialogScene dialogScene;
-        @Inject ActionDrawerScene actionDrawerScene;
 
         @Override
         protected void onLoad(Bundle savedInstanceState) {
@@ -61,13 +60,13 @@ public class ModalScene extends StandardScene {
             flow.goTo(dialogScene);
         }
         @OnClick(R.id.show_action_drawer) void showActionDrawer() {
-            actionDrawerScene.setCallback(new ActionDrawerCallback());
+            ActionDrawerScene actionDrawerScene = new ActionDrawerScene(new ActionDrawerCallback());
             flow.goTo(actionDrawerScene);
         }
 
         private class ActionDrawerCallback implements ActionDrawerScene.Callback {
             @Override
-            public void onComplete(ActionDrawerScene.Result result) {
+            public void onExitScene(ActionDrawerScene.Result result) {
                 switch (result) {
                     case YES:
                         Toast.makeText(getView().getContext(), "Result is YES", Toast.LENGTH_LONG).show();
