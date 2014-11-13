@@ -4,9 +4,13 @@ import android.os.Bundle;
 
 import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.component.DrawerLockingComponent;
+import com.davidstemmer.screenplay.sample.mortar.module.ActivityModule;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.ActionDrawerTransformer;
 import com.davidstemmer.screenplay.sample.mortar.view.ActionDrawerView;
-import com.davidstemmer.screenplay.scene.StandardScene;
+import com.davidstemmer.screenplay.scene.ScopedScene;
+import com.davidstemmer.screenplay.scene.component.CallbackComponent;
+import com.davidstemmer.screenplay.scene.component.ResultHandler;
+import com.davidstemmer.screenplay.scene.component.SceneCallback;
 import com.davidstemmer.screenplay.scene.rigger.ModalRigger;
 
 import javax.inject.Inject;
@@ -14,8 +18,10 @@ import javax.inject.Singleton;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import dagger.Provides;
 import flow.Flow;
 import flow.Layout;
+import mortar.MortarScope;
 import mortar.ViewPresenter;
 
 /**
@@ -23,8 +29,7 @@ import mortar.ViewPresenter;
  */
 
 @Layout(R.layout.action_drawer)
-@Singleton
-public class ActionDrawerScene extends StandardScene {
+public class ActionDrawerScene extends ScopedScene {
 
     public static enum Result {
         YES,
@@ -32,20 +37,21 @@ public class ActionDrawerScene extends StandardScene {
         CANCELLED
     }
 
-    private Callback callback;
+    Module module;
 
-    private final ModalRigger rigger;
-    private final ActionDrawerTransformer transformer;
+    @Inject ModalRigger rigger;
+    @Inject ActionDrawerTransformer transformer;
+    @Inject DrawerLockingComponent lockingComponent;
+    @Inject CallbackComponent<Result> callbackComponent;
 
-    @Inject
-    public ActionDrawerScene(DrawerLockingComponent component, ModalRigger rigger, ActionDrawerTransformer transformer) {
-        super(component);
-        this.rigger = rigger;
-        this.transformer = transformer;
+    public ActionDrawerScene(Callback callback) {
+        this.module = new Module(callback);
     }
 
-    public void setCallback(Callback callback) {
-        this.callback = callback;
+    @Override
+    public void onCreateScope(MortarScope scope) {
+        addComponent(lockingComponent);
+        addComponent(callbackComponent);
     }
 
     @Override
@@ -58,49 +64,60 @@ public class ActionDrawerScene extends StandardScene {
         return transformer;
     }
 
-    public static interface Callback {
-        public void onComplete(Result result);
+    @Override
+    public String getMortarScopeName() {
+        return getClass().getName();
+    }
+
+    @Override
+    public Object getDaggerModule() {
+        return module;
+    }
+
+    public static interface Callback extends SceneCallback<Result> {}
+
+    @dagger.Module(addsTo = ActivityModule.class, injects = {
+            ActionDrawerScene.class,
+            ActionDrawerScene.Presenter.class,
+            ActionDrawerView.class
+    })
+    public static class Module {
+
+        private final Callback callback;
+
+        public Module(Callback callback) {
+            this.callback = callback;
+        }
+
+        @Provides @Singleton ResultHandler<Result> provideResultHandler() {
+            return new ResultHandler<ActionDrawerScene.Result>(ActionDrawerScene.Result.CANCELLED);
+        }
+
+        @Provides @Singleton
+        CallbackComponent<Result> provideCallbackComponent(ResultHandler<Result> resultHandler) {
+            return new CallbackComponent<Result>(callback, resultHandler);
+        }
     }
 
     @Singleton
     public static class Presenter extends ViewPresenter<ActionDrawerView> {
 
-        @Inject ActionDrawerScene scene;
         @Inject Flow flow;
-
-        private Result result = Result.CANCELLED;
-        private boolean isLoaded = false;
+        @Inject ResultHandler<Result> resultHandler;
 
         @Override
         protected void onLoad(Bundle savedInstanceState) {
             super.onLoad(savedInstanceState);
             ButterKnife.inject(this, getView());
-            isLoaded = true;
-        }
-
-        @Override
-        protected void onSave(Bundle outState) {
-            super.onSave(outState);
-            isLoaded = false;
-        }
-
-        @Override
-        public void dropView(ActionDrawerView view) {
-            super.dropView(view);
-
-            if (isLoaded) {
-                scene.callback.onComplete(result);
-            }
-            result = Result.CANCELLED;
         }
 
         @OnClick(R.id.yes) void yes() {
-            result = Result.YES;
+            resultHandler.setResult(Result.YES);
             flow.goBack();
         }
 
         @OnClick(R.id.no) void no() {
-            result = Result.NO;
+            resultHandler.setResult(Result.NO);
             flow.goBack();
         }
     }
