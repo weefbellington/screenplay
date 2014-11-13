@@ -13,22 +13,22 @@ public class SceneCut {
 
     public final Flow.Direction direction;
     public final Flow.Callback callback;
-    public final Scene nextScene;
-    public final Scene previousScene;
+    public final Scene incomingScene;
+    public final Scene outgoingScene;
 
     public SceneCut(Builder builder) {
         direction = builder.direction;
         callback = builder.callback;
-        nextScene = builder.nextScene;
-        previousScene = builder.previousScene;
+        incomingScene = builder.incomingScene;
+        outgoingScene = builder.outgoingScene;
     }
 
     public static class Builder {
 
         public Flow.Direction direction;
         public Flow.Callback callback;
-        public Scene nextScene;
-        public Scene previousScene;
+        public Scene incomingScene;
+        public Scene outgoingScene;
 
         public Builder() {}
 
@@ -47,13 +47,13 @@ public class SceneCut {
         }
 
 
-        public Builder setNextScene(Scene nextScene) {
-            this.nextScene = nextScene;
+        public Builder setIncomingScene(Scene incomingScene) {
+            this.incomingScene = incomingScene;
             return this;
         }
 
-        public Builder setPreviousScene(Scene previousScene) {
-            this.previousScene = previousScene;
+        public Builder setOutgoingScene(Scene outgoingScene) {
+            this.outgoingScene = outgoingScene;
             return this;
         }
     }

@@ -43,14 +43,14 @@ public class AnimatorTransformer implements Scene.Transformer{
 
         AnimatorSet animSet = new AnimatorSet();
         List<Animator> animators = new ArrayList<Animator>();
-        if (out != -1 && cut.previousScene != null) {
+        if (out != -1 && cut.outgoingScene != null) {
             Animator animator = AnimatorInflater.loadAnimator(context, out);
-            animator.setTarget(cut.previousScene);
+            animator.setTarget(cut.outgoingScene);
             animators.add(animator);
         }
-        if (in != -1 && cut.nextScene != null) {
+        if (in != -1 && cut.incomingScene != null) {
             Animator animator = AnimatorInflater.loadAnimator(context, in);
-            animator.setTarget(cut.nextScene);
+            animator.setTarget(cut.incomingScene);
             animators.add(animator);
         }
         animSet.addListener(new Listener(screenplay, cut));

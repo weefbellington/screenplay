@@ -1,11 +1,9 @@
 package com.davidstemmer.screenplay.scene.rigger;
 
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.davidstemmer.screenplay.R;
-import com.davidstemmer.screenplay.SceneCut;
 import com.davidstemmer.screenplay.scene.Scene;
 
 import javax.inject.Inject;
@@ -23,22 +21,22 @@ public class ModalRigger implements Scene.Rigger {
     public ModalRigger() {}
 
     @Override
-    public void layoutNext(Context context, ViewGroup parent, SceneCut cut) {
-        if (cut.direction == Flow.Direction.FORWARD || cut.direction == Flow.Direction.REPLACE) {
+    public void layoutIncoming(ViewGroup parent, View nextView, Flow.Direction direction) {
+        if (direction == Flow.Direction.FORWARD || direction == Flow.Direction.REPLACE) {
             if (showsBackgroundOverlay) {
                 parent.addView(createBackgroundOverlay(parent));
             }
-            parent.addView(cut.nextScene.setUp(context, parent));
+            parent.addView(nextView);
         }
     }
 
     @Override
-    public void layoutPrevious(Context context, ViewGroup parent, SceneCut cut) {
-        if (cut.direction == Flow.Direction.BACKWARD) {
+    public void layoutOutgoing(ViewGroup parent, View previousView, Flow.Direction direction) {
+        if (direction == Flow.Direction.BACKWARD) {
             if (showsBackgroundOverlay) {
                 parent.removeView(parent.findViewById(getOverlayId()));
             }
-            parent.removeView(cut.previousScene.tearDown(context, parent));
+            parent.removeView(previousView);
         }
     }
 
