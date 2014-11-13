@@ -18,10 +18,6 @@ public abstract class ScopedScene extends StandardScene implements Blueprint {
     protected ScopedScene() {
     }
 
-    protected ScopedScene(Iterable<Component> components) {
-        super(components);
-    }
-
     protected ScopedScene(Component... components) {
         super(components);
     }
