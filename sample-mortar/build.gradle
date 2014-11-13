@@ -12,7 +12,7 @@ android {
     buildToolsVersion "21.1.0"
 
     defaultConfig {
-        applicationId "com.davidstemmer.screenplay.mortar.sample"
+        applicationId "com.davidstemmer.screenplay.sample.mortar"
         minSdkVersion 14
         targetSdkVersion 21
         versionCode 1
