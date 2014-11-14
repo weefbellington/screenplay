@@ -1,5 +1,6 @@
 package com.davidstemmer.screenplay.sample.simple.component;
 
+import android.content.Context;
 import android.view.View;
 
 import com.davidstemmer.screenplay.sample.simple.DrawerHelper;
@@ -18,12 +19,12 @@ public class DrawerLockingComponent implements Scene.Component {
     }
 
     @Override
-    public void afterSetUp(Scene scene, View view) {
+    public void afterSetUp(Context context, Scene scene, View view) {
         drawer.setLocked(true);
     }
 
     @Override
-    public void beforeTearDown(Scene scene, View view) {
+    public void beforeTearDown(Context context, Scene scene, View view) {
         drawer.setLocked(false);
     }
 }

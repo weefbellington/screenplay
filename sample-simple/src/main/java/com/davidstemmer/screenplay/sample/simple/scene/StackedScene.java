@@ -13,16 +13,16 @@ import flow.Layout;
 /**
  * Created by weefbellington on 10/2/14.
  */
-@Layout(R.layout.modal_scene)
+@Layout(R.layout.stacked_scene)
 @Singleton
-public class ModalScene extends IndexedScene {
+public class StackedScene extends IndexedScene {
 
     private final PageRigger rigger;
     private final CrossfadeTransformer transformer;
 
     @Inject
-    public ModalScene() {
-        super(ModalScene.class.getName());
+    public StackedScene() {
+        super(StackedScene.class.getName());
         this.rigger = new PageRigger();
         this.transformer = new CrossfadeTransformer(SampleApplication.getInstance());
     }
