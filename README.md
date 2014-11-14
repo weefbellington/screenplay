@@ -1,34 +1,25 @@
 Screenplay
 ==========
 
-Screenplay is a companion library to Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html). Where Flow provides
-the essential elements for building a View-based navigation flow, Screenplay assembles these into
-higher-level components for building animated screen transitions. The core features that Screenplay
-supports are:
+Screenplay is a minimalist framework for building Android applications, powered by Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html). It provides several features on top of Flow, including:
 
-- **Paged** (full-screen) navigation flows
-- **Modal** (pop-up) navigation flows
-- **Animated** **transitions** for incoming and outgoing views
-- **View** **state** **reattachment** for configuration changes
+- **an animation system** for applying transitions between screens
+- **pluggable components** for applying behavior to screens
+- **partial-screen layout** support (floating views, drawers, etc.)
+- **view state reattachment** for configuration changes.
 
-Displaying a screen in Screenplay consists of four discrete phases:
+A typical Screenplay app consists of a single activity, multiple views, and no fragments. As navigation events occur, objects called `Scenes` are pushed and popped from the Flow backstack. Screenplay defines a simple lifecycle for a `Scene` in Screenplay consists of four discrete phases:
 
-1. A `Scene` creates the view,
+1. The `Scene` creates a view,
 2. Scene `Components` receive callbacks and apply behavior
-3. The `Rigger` attaches the scene to the layout
+3. A `Rigger` attaches the scene to the layout
 4. A `Transformer` plays animations between the incoming and outgoing scene.
 
-These steps are applied by the `Screenplay` object, which implements the `Flow.Listener` interface. The
-Screenplay object knows how to reverse these steps when the back button is pressed, and how to
-re-attach the screen state after a configuration change (such as rotating the phone from portrait to
-landscape mode).
+These steps are applied by the `Screenplay` object, which implements the `Flow.Listener` interface. Screenplay knows how to reverse these steps when the back button is pressed, and how to re-attach the screen state after a configuration change (such as rotating the phone from portrait to landscape mode).
 
 ###Setting the stage
 
-App navigation using Screenplay is very straightforward. Begin by creating a `Screenplay.Director`.
-Pass this to the `Screenplay` and create a new `Flow`. In order to ensure that the Flow survives
-configuration changes, these objects should be stored outside of your main Activity. One way to do
-this is by putting them in the Application class:
+Configuring a Screenplay app is straightforward. Create a `Screenplay.Director`, which binds the Activity. Use this to construct the `Screenplay` object, and create a new `Flow`. In order to ensure that your Flow survives configuration changes, these objects should be stored outside of your main Activity. One way to do this is by putting them in the Application class:
 
 ```java
 public class SampleApplication extends Application {
@@ -49,7 +40,7 @@ public class SampleApplication extends Application {
 
 *(alternatively, use a dependency injection library such as [Dagger](http://square.github.io/dagger/))*
 
-Then, in the onCreate() method of your main Activity, bind your `Director` and call
+In the onCreate() method of your main Activity, bind your `Director` and call
 `Screenplay.enter(flow)` to initialize the screen state:
 
 ```java
@@ -96,30 +87,25 @@ calling `unbind()` in your Activity's `onDestroy()` callback.
     @Override
     public void onDestroy() {
         super.onDestroy()
-        if (isFinishing()) {
-            director.unbind()
-        }
+        director.unbind()
     }
 ```
 
-If you're using `MortarActivityDirector`, call `dropView()` instead. In either case, the Director
-should be rebound in `onCreate()`.
+If you're using `MortarActivityDirector`, call `dropView()` instead. In either case, the Director should be rebound the next time that `onCreate()`.
 
 ###Anatomy of a Scene
 
 The building block of a Screenplay app is a `Scene`. The Scene knows how to do
-only a few things by itself: create a View (`Scene.setUp`), destroy a View (`Scene.tearDown`) and get
-the current view (`Scene.getView`).
+only a few things by itself: create a View (`Scene.setUp`), destroy a View (`Scene.tearDown`) and get the current view (`Scene.getView`).
 
 The standard scene implementation uses Flow's [Layouts.createView()](https://github.com/square/flow/blob/master/flow/src/main/java/flow/Layouts.java)
-to set up the scene. You can pass a list of `Component`s to the scene constructor, which can be used
-to apply behaviors after the scene is set up and before it is torn down:
+to set up the scene. You can pass a list of `Component`s to the scene constructor, which can be used to apply behaviors after the scene is set up and before it is torn down:
 
 ```java
 @Layout(R.layout.dialog_scene)
 public class DialogScene extends StandardScene {
     public DialogScene(DrawerLockingComponent component) {
-        super(component);
+        addComponent(component);
     }
 }
 ```
@@ -149,15 +135,10 @@ public class DrawerLockingComponent implements Scene.Component {
 
 ###Riggers and Transformers
 
-In a Screenplay app, when the application calls `Flow.goTo()` or `Flow.goBack()`, the type of layout
-change that is applied depends on the type of ``Screen.Rigger`` that is associated with the next
-scene. Screenplay provides two concrete `Rigger` implementations.
+In a Screenplay app, when the application calls `Flow.goTo()` or `Flow.goBack()`, the type of layout change that is applied depends on the type of ``Screen.Rigger`` that is associated with the next scene. Screenplay provides two concrete `Rigger` implementations.
 
-- The `PageRigger` manages full-screen layout changes. After all animations complete, the PageRigger
-removes the previous screen from its parent layout.
-- The `ModalRigger` manages partial-screen layout changes. It does not remove the previous Scene
-from the layout, allowing you to layer Scenes on top of each other. This is useful for creating
-dialogs, drawers and multi-pane layouts.
+- The `PageRigger` manages full-screen layout changes. After all animations complete, the PageRigger removes the previous screen from its parent layout.
+- The `ModalRigger` manages partial-screen layout changes. It does not remove the previous Scene from the layout, allowing you to layer Scenes on top of each other. This is useful for creating partial-screen views, such as floating views, dialogs and drawers.
 
 Both the `PagedRigger` and the `ModalRigger` remove the Scene at the top of the stack when `Flow.goBack()` is called.
 
@@ -185,9 +166,7 @@ public class NavigationDrawerScene extends StandardScene {
 }
 ```
 
-A `Transformer` is responsible for applying animations between Stages. The `Transformer` receives
-a `SceneCut` object, which contains the data that the `Transformer` needs to create animations,
-including the `Flow.Direction`, and the next (incoming) and previous (outgoing) stages.
+A `Transformer` is responsible for applying animations between scenes. The `Transformer` receives a `SceneCut` object, which contains the data that the `Transformer` needs to create animations, including the `Flow.Direction`, and the incoming and outgoing stages.
 
 ```java
 @Singleton
@@ -214,8 +193,7 @@ the AnimatorTransformer uses the [Animator](http://developer.android.com/referen
 
 ###Odds and ends
 
-The `Screenplay` object also exposes a `getScreenState()` method, which returns a `FlowState` object. This is
-useful for preventing multiple button presses while two Scenes are in transition:
+The `Screenplay` object also exposes a `SceneState` object. This is useful for preventing multiple button presses while two Scenes are in transition:
 
 ```java
     @Override
@@ -236,10 +214,9 @@ It provides two classes, a [MortarActivityDirector](https://github.com/weefbelli
 and a [ScopedScene](https://github.com/weefbellington/screenplay/blob/master/library/src/main/java/com/davidstemmer/screenplay/scene/ScopedScene.java),
 which are designed to support applications powered by Mortar.
 
-###That's, all folks!
+###Get the code!
 
-Screenplay is designed to be simple and extensible. It works well in concert with its friends
-Dagger, Flow, Butterknife and Mortar. You can see them all together in the [sample project](https://github.com/weefbellington/screenplay/tree/master/sample/src/main).
+Screenplay is designed to be simple and extensible. Along with Flow, it works well in concert with its friends Dagger, Mortar and Butterknife. You can see them all together in the [mortar sample project](https://github.com/weefbellington/screenplay/tree/master/sample-mortar). If you'd rather see a more stripped-down example, you can take a look at the [simple sample project](https://github.com/weefbellington/screenplay/tree/master/sample-simple) which only depends on Flow.
 
 Many thanks to the team at Square for their support of the open-source community, without which this project wouldn't be
 possible.
