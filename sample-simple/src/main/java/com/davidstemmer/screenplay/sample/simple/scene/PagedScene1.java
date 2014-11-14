@@ -5,8 +5,6 @@ import com.davidstemmer.screenplay.sample.simple.scene.transformer.CrossfadeTran
 import com.davidstemmer.screenplay.scene.rigger.PageRigger;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
-import javax.inject.Singleton;
-
 import flow.Layout;
 
 /**
@@ -14,7 +12,6 @@ import flow.Layout;
  */
 
 @Layout(R.layout.paged_scene_1)
-@Singleton
 public class PagedScene1 extends IndexedScene {
 
     private final PageRigger rigger;
