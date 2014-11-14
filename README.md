@@ -238,8 +238,8 @@ which are designed to support applications powered by Mortar.
 
 ###Get the code!
 
-Screenplay is designed to be simple and extensible. Along with Flow, it works well in concert with
-its friends Dagger, Mortar and Butterknife. You can see them all together in the
+Along with Flow, Screenplay has a lot of synergy with its friends Dagger, Mortar and Butterknife.
+You can see them all together in the
 [mortar sample project](https://github.com/weefbellington/screenplay/tree/master/sample-mortar).
 If you'd rather see a more stripped-down example, you can take a look at the
 [simple sample project](https://github.com/weefbellington/screenplay/tree/master/sample-simple)
