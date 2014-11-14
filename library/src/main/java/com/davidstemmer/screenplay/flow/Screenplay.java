@@ -75,12 +75,16 @@ public class Screenplay implements Flow.Listener {
      * @param cut contains the next and previous scene, and the flow direction
      */
     public void endCut(SceneCut cut) {
+
         if (cut.outgoingScene != null) {
-            View outgoingView = cut.outgoingScene.tearDown(director.getActivity(), director.getContainer());
-            if (cut.direction == Flow.Direction.BACKWARD) {
-                cut.outgoingScene.getRigger().layoutOutgoing(director.getContainer(), outgoingView, cut.direction);
-            } else {
-                cut.incomingScene.getRigger().layoutOutgoing(director.getContainer(), outgoingView, cut.direction);
+            ViewGroup container = director.getContainer();
+            View outgoingView = cut.outgoingScene.getView();
+            Scene.Rigger rigger = cut.direction == Flow.Direction.BACKWARD ?
+                    cut.outgoingScene.getRigger() :
+                    cut.incomingScene.getRigger();
+            boolean isViewDetached = rigger.layoutOutgoing(container, outgoingView, cut.direction);
+            if (isViewDetached) {
+                cut.outgoingScene.tearDown(director.getActivity(), container);
             }
         }
 
@@ -106,17 +110,12 @@ public class Screenplay implements Flow.Listener {
         }
         boolean isSceneAttached = false;
         Iterator<Backstack.Entry> iterator = flow.getBackstack().reverseIterator();
-        Scene previousScene = null;
         while (iterator.hasNext()) {
             Scene nextScene = (Scene) iterator.next().getScreen();
             if (nextScene.getView() != null) {
-                SceneCut cut = new SceneCut.Builder()
-                        .setIncomingScene(nextScene)
-                        .setOutgoingScene(previousScene)
-                        .setDirection(Flow.Direction.FORWARD)
-                        .build();
-                nextScene.getRigger().layoutIncoming(director.getContainer(), cut.incomingScene.getView(), cut.direction);
-                previousScene = nextScene;
+                ViewGroup parent = (ViewGroup) nextScene.getView().getParent();
+                parent.removeView(nextScene.getView());
+                nextScene.getRigger().layoutIncoming(director.getContainer(), nextScene.getView(), Flow.Direction.FORWARD);
                 isSceneAttached = true;
             }
         }

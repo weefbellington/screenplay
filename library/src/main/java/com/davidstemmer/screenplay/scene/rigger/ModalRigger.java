@@ -31,13 +31,15 @@ public class ModalRigger implements Scene.Rigger {
     }
 
     @Override
-    public void layoutOutgoing(ViewGroup parent, View previousView, Flow.Direction direction) {
+    public boolean layoutOutgoing(ViewGroup parent, View previousView, Flow.Direction direction) {
         if (direction == Flow.Direction.BACKWARD) {
             if (showsBackgroundOverlay) {
                 parent.removeView(parent.findViewById(getOverlayId()));
             }
             parent.removeView(previousView);
+            return true;
         }
+        return false;
     }
 
     public void showsBackgroundOverlay(boolean show) {
