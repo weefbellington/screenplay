@@ -5,10 +5,11 @@ Screenplay is a minimalist framework for building Android applications, powered 
 Screenplay defines a simple application lifecycle based on the Flow navigation stack. The core
 features that Screenplay provides are:
 
-- **a rigging system** for attaching views, with support for stacked layouts (dialogs, drawers, etc.)
-- **an animation system** for applying transitions between screens
-- **pluggable components** for applying behavior to screens
-- **view state reattachment** for configuration changes
+- **a rigging system** for attaching views, including:
+- **stacked layout support** (floating views, drawers, etc.),
+- **an animation system** for applying transitions between screens,
+- **pluggable components** for applying behavior to screens,
+- **view state reattachment** for configuration changes.
 
 A typical Screenplay app is constructed from a single Activity and multiple Views. As navigation
 events occur, objects called `Scenes` are pushed and popped from the Flow backstack. Each scene
