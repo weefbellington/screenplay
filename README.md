@@ -154,23 +154,24 @@ scene. Screenplay provides two concrete `Rigger` implementations.
 
 - The `PageRigger` manages full-screen layout changes. After all animations complete, the PageRigger
 removes the previous screen from its parent layout.
-- The `ModalRigger` manages partial-screen layout changes. It does not remove the previous Scene
+- The `StackRigger` manages partial-screen layout changes. It does not remove the previous Scene
 from the layout, allowing you to layer Scenes on top of each other. This is useful for creating
 partial-screen views, such as floating views, dialogs and drawers.
 
-Both the `PagedRigger` and the `ModalRigger` remove the Scene at the top of the stack when
+Both the `PageRigger` and the `StackRigger` remove the Scene at the top of the stack when
 `Flow.goBack()` is called.
 
 ```java
-@Layout(R.layout.navigation_drawer)
-public class NavigationDrawerScene extends StandardScene {
+@Layout(R.layout.dialog_scene)
+public class DialogScene extends StandardScene {
 
-    private final ModalRigger rigger;
-    private final NavigationDrawerTransformer transformer;
+    private final PopupTransformer transformer;
+    private final StackRigger rigger;
 
-    public NavigationDrawerScene() {
-        this.rigger = new ModalRigger();
-        this.transformer = new NavigationDrawerTransformer();
+    public DialogScene() {
+        super(new DrawerLockingComponent());
+        this.transformer = new PopupTransformer(SampleApplication.getInstance());
+        this.rigger = new StackRigger();
     }
 
     @Override
@@ -180,7 +181,7 @@ public class NavigationDrawerScene extends StandardScene {
 
     @Override
     public Transformer getTransformer() {
-        return transition;
+        return transformer;
     }
 }
 ```
