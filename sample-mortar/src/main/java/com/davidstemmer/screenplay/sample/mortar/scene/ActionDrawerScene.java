@@ -11,7 +11,7 @@ import com.davidstemmer.screenplay.scene.ScopedScene;
 import com.davidstemmer.screenplay.scene.component.CallbackComponent;
 import com.davidstemmer.screenplay.scene.component.ResultHandler;
 import com.davidstemmer.screenplay.scene.component.SceneCallback;
-import com.davidstemmer.screenplay.scene.rigger.ModalRigger;
+import com.davidstemmer.screenplay.scene.rigger.StackRigger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -39,7 +39,7 @@ public class ActionDrawerScene extends ScopedScene {
 
     Module module;
 
-    @Inject ModalRigger rigger;
+    @Inject StackRigger rigger;
     @Inject ActionDrawerTransformer transformer;
     @Inject DrawerLockingComponent lockingComponent;
     @Inject CallbackComponent<Result> callbackComponent;

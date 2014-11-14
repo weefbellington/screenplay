@@ -13,7 +13,7 @@ import flow.Layout;
  * Created by weefbellington on 10/2/14.
  */
 
-@Layout(R.layout.simple)
+@Layout(R.layout.welcome_scene)
 public class WelcomeScene extends IndexedScene {
 
     private final PageRigger rigger;

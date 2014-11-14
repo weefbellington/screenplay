@@ -21,15 +21,15 @@ import mortar.ViewPresenter;
 /**
  * Created by weefbellington on 10/2/14.
  */
-@Layout(R.layout.modal_scene)
+@Layout(R.layout.stacked_scene)
 @Singleton
-public class ModalScene extends StandardScene {
+public class StackedScene extends StandardScene {
 
     private final PageRigger rigger;
     private final CrossfadeTransformer transformer;
 
     @Inject
-    public ModalScene(PageRigger rigger, CrossfadeTransformer transformer) {
+    public StackedScene(PageRigger rigger, CrossfadeTransformer transformer) {
         this.rigger = rigger;
         this.transformer = transformer;
     }

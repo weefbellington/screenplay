@@ -7,9 +7,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.davidstemmer.screenplay.sample.mortar.R;
-import com.davidstemmer.screenplay.sample.mortar.scene.ModalScene;
+import com.davidstemmer.screenplay.sample.mortar.scene.StackedScene;
 import com.davidstemmer.screenplay.sample.mortar.scene.PagedScene1;
-import com.davidstemmer.screenplay.sample.mortar.scene.SimpleScene;
+import com.davidstemmer.screenplay.sample.mortar.scene.WelcomeScene;
 import com.davidstemmer.screenplay.sample.mortar.view.NavigationMenuView;
 import com.davidstemmer.screenplay.scene.Scene;
 
@@ -29,30 +29,30 @@ public class NavigationMenuPresenter extends ViewPresenter<NavigationMenuView> {
 
     private final DrawerPresenter drawer;
     private final Flow flow;
-    private final SimpleScene simpleScene;
+    private final WelcomeScene welcomeScene;
     private final PagedScene1 pagedScene;
-    private final ModalScene modalScene;
+    private final StackedScene stackedScene;
 
     private int selected = R.id.nav_item_simple_scene;
 
     @Inject
     public NavigationMenuPresenter(DrawerPresenter drawerPresenter,
                                    Flow flow,
-                                   SimpleScene simpleScene,
+                                   WelcomeScene welcomeScene,
                                    PagedScene1 pagedScene,
-                                   ModalScene modalScene) {
+                                   StackedScene stackedScene) {
 
         this.drawer = drawerPresenter;
         this.flow = flow;
-        this.simpleScene = simpleScene;
+        this.welcomeScene = welcomeScene;
         this.pagedScene = pagedScene;
-        this.modalScene = modalScene;
+        this.stackedScene = stackedScene;
     }
 
     @OnClick(R.id.nav_item_simple_scene)
     void welcomeClicked(View selected) {
         setSelected(selected);
-        showNextSceneAfterDelay(simpleScene);
+        showNextSceneAfterDelay(welcomeScene);
         drawer.close();
     }
 
@@ -66,7 +66,7 @@ public class NavigationMenuPresenter extends ViewPresenter<NavigationMenuView> {
     @OnClick(R.id.nav_item_modal_scenes)
     void modalScenesClicked(View selected) {
         setSelected(selected);
-        showNextSceneAfterDelay(modalScene);
+        showNextSceneAfterDelay(stackedScene);
         drawer.close();
     }
 

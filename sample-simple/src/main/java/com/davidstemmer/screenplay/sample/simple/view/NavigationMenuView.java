@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.davidstemmer.screenplay.sample.simple.DrawerHelper;
 import com.davidstemmer.screenplay.sample.simple.SampleApplication;
-import com.davidstemmer.screenplay.sample.simple.scene.ModalScene;
+import com.davidstemmer.screenplay.sample.simple.scene.StackedScene;
 import com.davidstemmer.screenplay.sample.simple.scene.PagedScene1;
 import com.davidstemmer.screenplay.sample.simple.scene.WelcomeScene;
 import com.davidstemmer.screenplay.scene.Scene;
@@ -28,7 +28,7 @@ public class NavigationMenuView extends LinearLayout {
     private final DrawerHelper drawerHelper;
     private final WelcomeScene welcomeScene;
     private final PagedScene1 pagedScene;
-    private final ModalScene modalScene;
+    private final StackedScene stackedScene;
 
     public NavigationMenuView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -36,7 +36,7 @@ public class NavigationMenuView extends LinearLayout {
         this.drawerHelper = SampleApplication.getDrawerHelper();
         this.welcomeScene = new WelcomeScene();
         this.pagedScene = new PagedScene1();
-        this.modalScene = new ModalScene();
+        this.stackedScene = new StackedScene();
     }
 
     @Override
@@ -72,7 +72,7 @@ public class NavigationMenuView extends LinearLayout {
         @Override
         public void onClick(View v) {
             setSelected(v);
-            showNextSceneAfterDelay(modalScene);
+            showNextSceneAfterDelay(stackedScene);
             drawerHelper.close();
         }
     }

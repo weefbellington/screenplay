@@ -6,11 +6,11 @@ import com.davidstemmer.screenplay.sample.mortar.MainActivity;
 import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.presenter.NavigationMenuPresenter;
 import com.davidstemmer.screenplay.sample.mortar.scene.DialogScene;
-import com.davidstemmer.screenplay.sample.mortar.scene.ModalScene;
+import com.davidstemmer.screenplay.sample.mortar.scene.StackedScene;
 import com.davidstemmer.screenplay.sample.mortar.scene.PagedScene1;
 import com.davidstemmer.screenplay.sample.mortar.scene.PagedScene2;
 import com.davidstemmer.screenplay.sample.mortar.scene.PagedScene3;
-import com.davidstemmer.screenplay.sample.mortar.scene.SimpleScene;
+import com.davidstemmer.screenplay.sample.mortar.scene.WelcomeScene;
 import com.davidstemmer.screenplay.sample.mortar.view.DialogSceneView;
 import com.davidstemmer.screenplay.sample.mortar.view.ModalSceneView;
 import com.davidstemmer.screenplay.sample.mortar.view.NavigationMenuView;
@@ -33,8 +33,8 @@ import flow.Flow;
                 DialogScene.class,
                 DialogScene.Presenter.class,
                 DialogSceneView.class,
-                ModalScene.class,
-                ModalScene.Presenter.class,
+                StackedScene.class,
+                StackedScene.Presenter.class,
                 ModalSceneView.class,
                 MainActivity.class,
                 NavigationMenuPresenter.class,
@@ -47,8 +47,8 @@ import flow.Flow;
                 PagedScene2.Presenter.class,
                 PagedView2.class,
                 PagedScene3.class,
-                SimpleScene.class,
-                SimpleScene.Presenter.class,
+                WelcomeScene.class,
+                WelcomeScene.Presenter.class,
                 WelcomeView.class
         })
 public class ActivityModule {
@@ -64,7 +64,7 @@ public class ActivityModule {
     }
 
     @Provides @Singleton
-    Flow provideFlow(SimpleScene welcomeStage, Screenplay screenplay) {
+    Flow provideFlow(WelcomeScene welcomeStage, Screenplay screenplay) {
         return new Flow(Backstack.single(welcomeStage), screenplay);
     }
 }
