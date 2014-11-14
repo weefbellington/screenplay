@@ -6,8 +6,8 @@ Screenplay defines a simple application lifecycle based on the Flow navigation s
 features that Screenplay provides are:
 
 - **a rigging system** for attaching views, with support for
-    - single-page views: full-screen layouts
-    - stacked views: floating layouts and drawers
+    - *single-page* views: full-screen layouts
+    - *stacked* views: floating layouts and drawers
 - **an animation system** for applying transitions between screens,
 - **pluggable components** for applying behavior to screens,
 - **view state reattachment** for configuration changes.
