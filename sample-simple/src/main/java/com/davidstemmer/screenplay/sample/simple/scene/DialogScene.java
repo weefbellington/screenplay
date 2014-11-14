@@ -7,8 +7,6 @@ import com.davidstemmer.screenplay.scene.StandardScene;
 import com.davidstemmer.screenplay.scene.rigger.StackRigger;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
-import javax.inject.Inject;
-
 import flow.Layout;
 
 /**
@@ -20,7 +18,6 @@ public class DialogScene extends StandardScene {
     private final PopupTransformer transformer;
     private final StackRigger rigger;
 
-    @Inject
     public DialogScene() {
         super(new DrawerLockingComponent());
         this.transformer = new PopupTransformer(SampleApplication.getInstance());
