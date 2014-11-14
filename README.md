@@ -5,9 +5,9 @@ Screenplay is a minimalist framework for building Android applications, powered 
 Screenplay defines a simple application lifecycle based on the Flow navigation stack. The core
 features that Screenplay provides are:
 
-- **a rigging system** for attaching views, including:
-    - paged layouts: full-screen, paged views
-    - stacked layouts: floating views, drawers, dialogs
+- **a rigging system** for attaching views, with support for
+    - *single-page views:* full-screen layouts
+    - *stacked views:* floating layouts and drawers
 - **an animation system** for applying transitions between screens,
 - **pluggable components** for applying behavior to screens,
 - **view state reattachment** for configuration changes.
@@ -238,8 +238,8 @@ which are designed to support applications powered by Mortar.
 
 ###Get the code!
 
-Screenplay is designed to be simple and extensible. Along with Flow, it works well in concert with
-its friends Dagger, Mortar and Butterknife. You can see them all together in the
+Along with Flow, Screenplay has a lot of synergy with its friends Dagger, Mortar and Butterknife.
+You can see them all together in the
 [mortar sample project](https://github.com/weefbellington/screenplay/tree/master/sample-mortar).
 If you'd rather see a more stripped-down example, you can take a look at the
 [simple sample project](https://github.com/weefbellington/screenplay/tree/master/sample-simple)
