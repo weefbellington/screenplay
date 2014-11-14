@@ -5,8 +5,6 @@ import android.app.Application;
 import com.davidstemmer.screenplay.scene.transformer.TweenTransformer;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
-import javax.inject.Inject;
-
 /**
  * Created by weefbellington on 10/28/14.
  */
@@ -20,7 +18,6 @@ public class CrossfadeTransformer extends TweenTransformer {
         params.forwardOut   = R.anim.fade_out;
     }
 
-    @Inject
     public CrossfadeTransformer(Application context) {
         super(context, params);
     }

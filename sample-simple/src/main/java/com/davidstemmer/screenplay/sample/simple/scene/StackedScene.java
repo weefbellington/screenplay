@@ -5,22 +5,17 @@ import com.davidstemmer.screenplay.sample.simple.scene.transformer.CrossfadeTran
 import com.davidstemmer.screenplay.scene.rigger.PageRigger;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import flow.Layout;
 
 /**
  * Created by weefbellington on 10/2/14.
  */
 @Layout(R.layout.stacked_scene)
-@Singleton
 public class StackedScene extends IndexedScene {
 
     private final PageRigger rigger;
     private final CrossfadeTransformer transformer;
 
-    @Inject
     public StackedScene() {
         super(StackedScene.class.getName());
         this.rigger = new PageRigger();

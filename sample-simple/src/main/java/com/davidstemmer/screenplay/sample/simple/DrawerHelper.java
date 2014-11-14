@@ -13,12 +13,9 @@ import android.view.View;
 import com.davidstemmer.screenplay.SimpleActivityDirector;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
-import javax.inject.Singleton;
-
 /**
  * Created by weefbellington on 10/24/14.
  */
-@Singleton
 public class DrawerHelper {
 
     private final SimpleActivityDirector director;

@@ -4,16 +4,11 @@ import com.davidstemmer.screenplay.SceneCut;
 import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.scene.Scene;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 /**
  * Created by weefbellington on 10/17/14.
  */
-@Singleton
 public class NoAnimationTransformer implements Scene.Transformer {
 
-    @Inject
     public NoAnimationTransformer() {}
 
     @Override

@@ -16,8 +16,6 @@ import flow.Flow;
 
 public class MainActivity extends ActionBarActivity {
 
-    //@Inject DrawerPresenter drawerPresenter;
-
     private SimpleActivityDirector director;
     private Flow flow;
     private Screenplay screenplay;
