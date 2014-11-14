@@ -236,16 +236,43 @@ It provides two classes, a [MortarActivityDirector](https://github.com/weefbelli
 and a [ScopedScene](https://github.com/weefbellington/screenplay/blob/master/library/src/main/java/com/davidstemmer/screenplay/scene/ScopedScene.java),
 which are designed to support applications powered by Mortar.
 
-###Get the code!
+###Download
 
-Along with Flow, Screenplay has a lot of synergy with its friends Dagger, Mortar and Butterknife.
-You can see them all together in the
+Screenplay is currently available as a beta snapshot. Grab it via Maven:
+
+```xml
+<dependency>
+    <groupId>com.davidstemmer</groupId>
+    <artifactId>screenplay</artifactId>
+    <version>0.5.0-SNAPSHOT</version>
+    <type>aar</type>
+</dependency>
+```
+
+or Gradle:
+
+```groovy
+compile 'com.davidstemmer:screenplay:0.5.0'
+```
+
+For Gradle, you'll have to add the Sonatype OSS snapshot repo to your build script:
+
+```groovy
+repositories {
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+}
+```
+
+###Sample Code
+
+Two sample projects are available. The first uses Dagger, Mortar and Butterknife. You can see them
+all together in the
 [mortar sample project](https://github.com/weefbellington/screenplay/tree/master/sample-mortar).
-If you'd rather see a more stripped-down example, you can take a look at the
+If you'd rather see a more stripped-down example, there is also a
 [simple sample project](https://github.com/weefbellington/screenplay/tree/master/sample-simple)
-which only requires Flow.
+which only depends on Flow.
 
 Many thanks to the team at Square for their support of the open-source community, without which this
 project wouldn't be possible.
-
-Maven artifact is coming soon!
