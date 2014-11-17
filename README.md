@@ -253,7 +253,7 @@ Screenplay is currently available as a beta snapshot. Grab it via Maven:
 or Gradle:
 
 ```groovy
-compile 'com.davidstemmer:screenplay:0.5.0'
+compile 'com.davidstemmer:screenplay:0.5.0-SNAPSHOT'
 ```
 
 For Gradle, you'll have to add the Sonatype OSS snapshot repo to your build script:
