@@ -35,8 +35,8 @@ public class Screenplay implements Flow.Listener {
         screenState = SceneState.TRANSITIONING;
 
         Scene incomingScene = (Scene) nextBackstack.current().getScreen();
-        Scene.Rigger selectedRigger;
-        Scene.Transformer selectedTransformer;
+        Scene.Rigger delegatedRigger;
+        Scene.Transformer delegatedTransformer;
 
         SceneCut sceneCut = new SceneCut.Builder()
                 .setDirection(direction)
@@ -61,17 +61,17 @@ public class Screenplay implements Flow.Listener {
         }
 
         if (direction == Flow.Direction.FORWARD || direction == Flow.Direction.REPLACE) {
-            selectedRigger = incomingScene.getRigger();
-            selectedTransformer = incomingScene.getTransformer();
+            delegatedRigger = incomingScene.getRigger();
+            delegatedTransformer = incomingScene.getTransformer();
 
         }
         else {
-            selectedRigger = outgoingScene.getRigger();
-            selectedTransformer = outgoingScene.getTransformer();
+            delegatedRigger = outgoingScene.getRigger();
+            delegatedTransformer = outgoingScene.getTransformer();
         }
 
-        selectedRigger.layoutIncoming(director.getContainer(), incomingScene.getView(), direction);
-        selectedTransformer.applyAnimations(sceneCut, this);
+        delegatedRigger.layoutIncoming(director.getContainer(), incomingScene.getView(), direction);
+        delegatedTransformer.applyAnimations(sceneCut, this);
 
         outgoingScene = incomingScene;
     }
