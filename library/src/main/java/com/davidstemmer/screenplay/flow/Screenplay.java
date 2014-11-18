@@ -35,6 +35,8 @@ public class Screenplay implements Flow.Listener {
         screenState = SceneState.TRANSITIONING;
 
         Scene incomingScene = (Scene) nextBackstack.current().getScreen();
+        Scene.Rigger selectedRigger;
+        Scene.Transformer selectedTransformer;
 
         SceneCut sceneCut = new SceneCut.Builder()
                 .setDirection(direction)
@@ -46,6 +48,12 @@ public class Screenplay implements Flow.Listener {
             callback.onComplete();
         }
 
+        if (direction == Flow.Direction.BACKWARD && outgoingScene == null) {
+            //Honestly, I have no idea how to reach this case. We might want to remove this line.
+            callback.onComplete();
+            return;
+        }
+
         // Only call incomingScene.setUp if necessary. If we are exiting a modal scene, the View will
         // already exist.
         if (incomingScene.getView() == null) {
@@ -53,17 +61,17 @@ public class Screenplay implements Flow.Listener {
         }
 
         if (direction == Flow.Direction.FORWARD || direction == Flow.Direction.REPLACE) {
-            incomingScene.getRigger().layoutIncoming(director.getContainer(), incomingScene.getView(), direction);
-            incomingScene.getTransformer().applyAnimations(sceneCut, this);
-        }
-        else if (outgoingScene != null) {
-            outgoingScene.getRigger().layoutIncoming(director.getContainer(), incomingScene.getView(), direction);
-            outgoingScene.getTransformer().applyAnimations(sceneCut, this);
+            selectedRigger = incomingScene.getRigger();
+            selectedTransformer = incomingScene.getTransformer();
+
         }
         else {
-            // backward, previous scene is null (?)
-            callback.onComplete();
+            selectedRigger = outgoingScene.getRigger();
+            selectedTransformer = outgoingScene.getTransformer();
         }
+
+        selectedRigger.layoutIncoming(director.getContainer(), incomingScene.getView(), direction);
+        selectedTransformer.applyAnimations(sceneCut, this);
 
         outgoingScene = incomingScene;
     }
