@@ -87,10 +87,10 @@ public class Screenplay implements Flow.Listener {
         if (cut.outgoingScene != null) {
             ViewGroup container = director.getContainer();
             View outgoingView = cut.outgoingScene.getView();
-            Scene.Rigger rigger = cut.direction == Flow.Direction.BACKWARD ?
+            Scene.Rigger delegatedRigger = cut.direction == Flow.Direction.BACKWARD ?
                     cut.outgoingScene.getRigger() :
                     cut.incomingScene.getRigger();
-            boolean isViewDetached = rigger.layoutOutgoing(container, outgoingView, cut.direction);
+            boolean isViewDetached = delegatedRigger.layoutOutgoing(container, outgoingView, cut.direction);
             if (isViewDetached) {
                 cut.outgoingScene.tearDown(director.getActivity(), container);
             }
