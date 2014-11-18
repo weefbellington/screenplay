@@ -24,7 +24,7 @@ public class DrawerLockingComponent implements Scene.Component {
     }
 
     @Override
-    public void beforeTearDown(Context Context, Scene scene, View view) {
+    public void beforeTearDown(Context context, Scene scene, View view) {
         drawer.setLocked(false);
     }
 }

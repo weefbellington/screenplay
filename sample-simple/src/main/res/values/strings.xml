@@ -4,11 +4,11 @@
     <string name="app_name">Screenplay</string>
     <string name="hello_world">Hello world!</string>
     <string name="welcome_text">Welcome to Screenplay!\n\nThis is the initial Scene. Press the home button to navigate the other sample Scenes.</string>
-    <string name="paged_scene_1_text">This Scene uses a PagedDirector. When entering the scene, the PagedDirector adds the new Scene to the layout. After the transition completes, the previous scene is removed from the layout.</string>
-    <string name="nav_item_modal_scenes">Modal scenes</string>
+    <string name="paged_scene_1_text">This Scene uses a PageRigger. When entering the scene, the PageRigger adds the new Scene to the layout. After the transition completes, the previous scene is removed from the layout.</string>
+    <string name="nav_item_modal_scenes">Stacked scenes</string>
     <string name="nav_item_paged_scenes">Paged scenes</string>
     <string name="nav_item_simple_screen">Simple scene</string>
-    <string name="modal_scene_text">The ModalDirector adds a new scene above the previous screen, but does not remove the previous screen.This makes it ideal for partial screen containers.</string>
+    <string name="modal_scene_text">The StackRigger adds a new scene above the previous screen, but does not remove the previous screen.This makes it ideal for partial screen containers.</string>
     <string name="modal_scene_dialog_button_text">Dialog</string>
     <string name="ok">OK</string>
     <string name="dialog_scene_text">Dialogs in Screenplay are just Views, and are 100%% configurable. This one has a wrap_content height.</string>

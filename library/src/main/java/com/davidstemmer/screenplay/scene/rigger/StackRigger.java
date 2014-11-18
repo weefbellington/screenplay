@@ -13,12 +13,12 @@ import flow.Flow;
 /**
  * Created by weefbellington on 10/14/14.
  */
-public class ModalRigger implements Scene.Rigger {
+public class StackRigger implements Scene.Rigger {
 
     private boolean showsBackgroundOverlay = true;
 
     @Inject
-    public ModalRigger() {}
+    public StackRigger() {}
 
     @Override
     public void layoutIncoming(ViewGroup parent, View nextView, Flow.Direction direction) {

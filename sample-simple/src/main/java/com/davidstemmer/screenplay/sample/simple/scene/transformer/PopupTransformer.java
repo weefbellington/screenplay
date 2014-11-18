@@ -5,8 +5,6 @@ import android.app.Application;
 import com.davidstemmer.screenplay.scene.transformer.TweenTransformer;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
-import javax.inject.Inject;
-
 /**
  * Created by weefbellington on 10/2/14.
  */
@@ -20,7 +18,6 @@ public class PopupTransformer extends TweenTransformer {
         params.forwardOut   = -1;
     }
 
-    @Inject
     public PopupTransformer(Application context) {
         super(context, params);
     }

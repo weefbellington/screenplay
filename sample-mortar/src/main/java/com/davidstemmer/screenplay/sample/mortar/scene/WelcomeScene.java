@@ -19,15 +19,15 @@ import mortar.ViewPresenter;
  * Created by weefbellington on 10/2/14.
  */
 
-@Layout(R.layout.simple)
+@Layout(R.layout.welcome_scene)
 @Singleton
-public class SimpleScene extends StandardScene {
+public class WelcomeScene extends StandardScene {
 
     private final PageRigger rigger;
     private final CrossfadeTransformer transformer;
 
     @Inject
-    public SimpleScene(PageRigger rigger, CrossfadeTransformer transformer) {
+    public WelcomeScene(PageRigger rigger, CrossfadeTransformer transformer) {
         this.rigger = rigger;
         this.transformer = transformer;
     }

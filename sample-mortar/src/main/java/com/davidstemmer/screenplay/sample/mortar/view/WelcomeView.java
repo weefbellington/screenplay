@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
-import com.davidstemmer.screenplay.sample.mortar.scene.SimpleScene;
+import com.davidstemmer.screenplay.sample.mortar.scene.WelcomeScene;
 
 import javax.inject.Inject;
 
@@ -15,7 +15,7 @@ import mortar.Mortar;
  */
 public class WelcomeView extends RelativeLayout {
 
-    @Inject SimpleScene.Presenter presenter;
+    @Inject WelcomeScene.Presenter presenter;
 
     public WelcomeView(Context context, AttributeSet attrs) {
         super(context, attrs);

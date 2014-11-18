@@ -14,14 +14,14 @@ import flow.Layout;
 /**
  * Created by weefbellington on 10/2/14.
  */
-@Layout(R.layout.modal_scene)
-public class ModalScene extends IndexedScene {
+@Layout(R.layout.stacked_scene)
+public class StackedScene extends IndexedScene {
 
     private final PageRigger rigger;
     private final CrossfadeTransformer transformer;
 
-    public ModalScene() {
-        super(ModalScene.class.getName());
+    public StackedScene() {
+        super(StackedScene.class.getName());
         this.rigger = new PageRigger();
         this.transformer = new CrossfadeTransformer(SampleApplication.getInstance());
     }
@@ -34,10 +34,5 @@ public class ModalScene extends IndexedScene {
     @Override
     public Transformer getTransformer() {
         return transformer;
-    }
-
-    @Override
-    public View tearDown(Context context, ViewGroup parent) {
-        return super.tearDown(context, parent);
     }
 }

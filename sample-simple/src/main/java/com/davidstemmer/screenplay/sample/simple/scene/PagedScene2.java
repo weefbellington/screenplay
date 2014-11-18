@@ -5,9 +5,6 @@ import com.davidstemmer.screenplay.sample.simple.scene.transformer.HorizontalSli
 import com.davidstemmer.screenplay.scene.rigger.PageRigger;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import flow.Layout;
 
 /**
@@ -15,13 +12,11 @@ import flow.Layout;
  */
 
 @Layout(R.layout.paged_scene_2)
-@Singleton
 public class PagedScene2 extends IndexedScene {
 
     private final PageRigger rigger;
     private final HorizontalSlideTransformer transformer;
 
-    @Inject
     public PagedScene2() {
         super(PagedScene2.class.getName());
         this.rigger = new PageRigger();
