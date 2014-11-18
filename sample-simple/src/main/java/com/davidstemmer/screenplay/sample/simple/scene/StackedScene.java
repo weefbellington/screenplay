@@ -31,5 +31,4 @@ public class StackedScene extends IndexedScene {
     public Transformer getTransformer() {
         return transformer;
     }
-
 }

@@ -96,8 +96,9 @@ public interface Scene {
          * @param parent the parent that the view should be attached to
          * @param previousView the view to detach from the parent
          * @param direction the direction of the scene transition
+         * @return true if the view was detached, false otherwise
          */
-        public void layoutOutgoing(ViewGroup parent, View previousView, Flow.Direction direction);
+        public boolean layoutOutgoing(ViewGroup parent, View previousView, Flow.Direction direction);
     }
 
     /**

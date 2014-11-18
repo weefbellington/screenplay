@@ -23,8 +23,9 @@ public class PageRigger implements Scene.Rigger {
     }
 
     @Override
-    public void layoutOutgoing(ViewGroup parent, View previousView, Flow.Direction direction) {
+    public boolean layoutOutgoing(ViewGroup parent, View previousView, Flow.Direction direction) {
         parent.removeView(previousView);
+        return true;
     }
 
 }
