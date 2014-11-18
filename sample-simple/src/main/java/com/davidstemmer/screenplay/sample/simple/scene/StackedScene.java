@@ -1,9 +1,5 @@
 package com.davidstemmer.screenplay.sample.simple.scene;
 
-import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.davidstemmer.screenplay.sample.simple.SampleApplication;
 import com.davidstemmer.screenplay.sample.simple.scene.transformer.CrossfadeTransformer;
 import com.davidstemmer.screenplay.scene.rigger.PageRigger;
