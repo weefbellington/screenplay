@@ -54,7 +54,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Override public void onBackPressed() {
-        if (!SampleApplication.getMainFlow().goBack()) {
+        if (!flow.goBack()) {
             super.onBackPressed();
         }
     }
