@@ -54,7 +54,6 @@ public abstract class StandardScene implements Scene {
      * Scene's constructor method.
      * @param component the component to add
      */
-
     public void addComponent(Component component) {
         components.add(component);
     }

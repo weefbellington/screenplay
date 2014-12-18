@@ -15,10 +15,10 @@ import mortar.ViewPresenter;
  * To use it, simply create a SimpleViewBindingComponent in your Scene, passing it the presenter
  * for your view, and then supply this component to the StandardScene's constructor.
  */
-public class SimpleViewBindingComponent implements Scene.Component {
+public class PresenterComponent implements Scene.Component {
     private final View.OnAttachStateChangeListener attachStateChangeListener;
 
-    public SimpleViewBindingComponent(final ViewPresenter<View> presenter) {
+    public PresenterComponent(final ViewPresenter<View> presenter) {
         attachStateChangeListener = new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View v) {
