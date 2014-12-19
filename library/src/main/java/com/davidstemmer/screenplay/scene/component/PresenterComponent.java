@@ -18,16 +18,16 @@ import mortar.ViewPresenter;
 public class PresenterComponent implements Scene.Component {
     private final View.OnAttachStateChangeListener attachStateChangeListener;
 
-    public PresenterComponent(final ViewPresenter<View> presenter) {
+    public <V extends View> PresenterComponent(final ViewPresenter<V> presenter) {
         attachStateChangeListener = new View.OnAttachStateChangeListener() {
-            @Override
+            @Override @SuppressWarnings("unchecked")
             public void onViewAttachedToWindow(View v) {
-                presenter.takeView(v);
+                presenter.takeView((V) v);
             }
 
-            @Override
+            @Override @SuppressWarnings("unchecked")
             public void onViewDetachedFromWindow(View v) {
-                presenter.dropView(v);
+                presenter.dropView((V) v);
             }
         };
     }
