@@ -1,9 +1,10 @@
 package com.davidstemmer.screenplay.sample.mortar.presenter;
 
-import android.app.ActionBar;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -44,7 +45,7 @@ public class DrawerPresenter extends Presenter<DrawerLayout> {
         inflater.inflate(R.layout.navigation_menu, getLayout());
         getLayout().setDrawerListener(drawerToggle);
 
-        ActionBar actionBar = director.getActivity().getActionBar();
+        ActionBar actionBar = ((ActionBarActivity)director.getActivity()).getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
