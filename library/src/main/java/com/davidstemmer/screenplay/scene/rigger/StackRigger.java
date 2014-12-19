@@ -3,7 +3,6 @@ package com.davidstemmer.screenplay.scene.rigger;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.davidstemmer.screenplay.R;
 import com.davidstemmer.screenplay.scene.Scene;
 
 import javax.inject.Inject;
@@ -16,6 +15,7 @@ import flow.Flow;
 public class StackRigger implements Scene.Rigger {
 
     private boolean showsBackgroundOverlay = true;
+    private View overlay;
 
     @Inject
     public StackRigger() {}
@@ -34,7 +34,8 @@ public class StackRigger implements Scene.Rigger {
     public boolean layoutOutgoing(ViewGroup parent, View previousView, Flow.Direction direction) {
         if (direction == Flow.Direction.BACKWARD) {
             if (showsBackgroundOverlay) {
-                parent.removeView(parent.findViewById(getOverlayId()));
+                parent.removeView(overlay);
+                overlay = null;
             }
             parent.removeView(previousView);
             return true;
@@ -47,18 +48,13 @@ public class StackRigger implements Scene.Rigger {
     }
 
     protected View createBackgroundOverlay(ViewGroup parent) {
-        View overlay = new View(parent.getContext());
+        overlay = new View(parent.getContext());
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
         overlay.setLayoutParams(params);
         overlay.setBackgroundColor(0xA0000000);
-        overlay.setId(getOverlayId());
         overlay.setClickable(true);
         return overlay;
-    }
-
-    protected int getOverlayId() {
-        return R.id.modal_overlay;
     }
 }
