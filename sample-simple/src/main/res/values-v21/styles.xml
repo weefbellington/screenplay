@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="AppTheme" parent="android:Theme.Material.Light">
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:targetApi="21">
+    <style name="AppTheme" parent="android:Theme.Material.Light.DarkActionBar">
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+    </style>
+    <!--styling color for arrow-->
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/white</item>
     </style>
 </resources>
