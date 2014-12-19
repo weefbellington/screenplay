@@ -1,9 +1,9 @@
 package com.davidstemmer.screenplay.sample.simple;
 
+import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 
@@ -14,7 +14,7 @@ import com.example.weefbellington.screenplay.sample.simple.R;
 import flow.Flow;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     private SimpleActivityDirector director;
     private Flow flow;
