@@ -19,6 +19,7 @@ public class PageRigger implements Scene.Rigger {
 
     @Override
     public void layoutIncoming(ViewGroup parent, View nextView, Flow.Direction direction) {
+        if (nextView.getParent() != null)  ((ViewGroup)nextView.getParent()).removeView(nextView);
         parent.addView(nextView);
     }
 
