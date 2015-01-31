@@ -12,10 +12,18 @@ android {
     }
 }
 
+apply plugin: 'android-unit-test'
+
 dependencies {
+    // testing
+    testCompile 'org.robolectric:robolectric:2.4'
+    testCompile 'junit:junit:4.+'
+    // libs folder with prebuilt jars
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.squareup.flow:flow:0.8'
+    // javax.inject needed for @Inject annotations
     compile 'javax.inject:javax.inject:1'
+    // we should remove the hard dependency on Mortar in the future
     provided 'com.squareup.mortar:mortar:0.16'
 }
 
