@@ -15,8 +15,6 @@ import flow.Flow;
 
 /**
  * @author  David Stemmer
- * @version 1.0.0
- * @since   1.0.0
  */
 public interface Scene {
 
@@ -57,8 +55,6 @@ public interface Scene {
 
     /**
      * @author  David Stemmer
-     * @version 1.0.0
-     * @since   1.0.0
      */
     public static interface Component {
         /**
@@ -79,8 +75,6 @@ public interface Scene {
 
     /**
      * @author  David Stemmer
-     * @version 1.0.0
-     * @since   1.0.0
      */
     public static interface Rigger {
         /**
@@ -99,12 +93,11 @@ public interface Scene {
          * @return true if the view was detached, false otherwise
          */
         public boolean layoutOutgoing(ViewGroup parent, View previousView, Flow.Direction direction);
+
     }
 
     /**
-     * @author  David Stemmer
-     * @version 1.0.0
-     * @since   1.0.0
+     * @author  David Stemmerw2xs
      */
     public static interface Transformer {
         /**
