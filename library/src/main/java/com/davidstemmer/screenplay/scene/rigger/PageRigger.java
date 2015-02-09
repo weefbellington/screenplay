@@ -18,13 +18,17 @@ public class PageRigger implements Scene.Rigger {
     public PageRigger() {}
 
     @Override
-    public void layoutIncoming(ViewGroup parent, View nextView, Flow.Direction direction) {
-        parent.addView(nextView);
+    public void layoutIncoming(ViewGroup parent, Flow.Direction direction, View...incomingViews) {
+        for (View incomingView : incomingViews) {
+            parent.addView(incomingView);
+        }
     }
 
     @Override
-    public boolean layoutOutgoing(ViewGroup parent, View previousView, Flow.Direction direction) {
-        parent.removeView(previousView);
+    public boolean layoutOutgoing(ViewGroup parent, Flow.Direction direction, View...outgoingViews) {
+        for (View incomingView : outgoingViews) {
+            parent.removeView(outgoingViews);
+        }
         return true;
     }
 

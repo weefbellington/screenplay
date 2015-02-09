@@ -39,15 +39,19 @@ public class TweenTransformer implements Scene.Transformer {
         int in = cut.direction == Flow.Direction.BACKWARD ? params.backIn : params.forwardIn;
 
         TweenAnimationListener animationListener = new TweenAnimationListener(cut, screenplay);
-        if (out != -1 && cut.outgoingScene != null) {
+        if (out != -1) {
             Animation anim = loadAnimation(context, out);
-            animationListener.addAnimation(anim);
-            cut.outgoingScene.getView().startAnimation(anim);
+            for (Scene outgoingScene : cut.outgoingScenes) {
+                animationListener.addAnimation(anim);
+                outgoingScene.getView().startAnimation(anim);
+            }
         }
-        if (in != -1 && cut.incomingScene != null) {
+        if (in != -1) {
             Animation anim = loadAnimation(context, in);
-            animationListener.addAnimation(anim);
-            cut.incomingScene.getView().startAnimation(anim);
+            for (Scene incomingScene : cut.incomingScenes) {
+                animationListener.addAnimation(anim);
+                incomingScene.getView().startAnimation(anim);
+            }
         }
 
     }

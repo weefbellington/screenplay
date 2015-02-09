@@ -14,47 +14,34 @@ import flow.Flow;
  */
 public class StackRigger implements Scene.Rigger {
 
-    private boolean showsBackgroundOverlay = true;
-    private View overlay;
-
     @Inject
     public StackRigger() {}
 
     @Override
-    public void layoutIncoming(ViewGroup parent, View nextView, Flow.Direction direction) {
-        if (direction == Flow.Direction.FORWARD || direction == Flow.Direction.REPLACE) {
-            if (showsBackgroundOverlay) {
-                parent.addView(createBackgroundOverlay(parent));
+    public boolean layoutIncoming(ViewGroup parent, Flow.Direction direction, View...incomingViews) {
+        for (View incomingView : incomingViews) {
+            // If the direction is FORWARD, attach the incoming view(s) to the parent
+            // If the direction is BACKWARD, the incoming view(s) should already be  attached to
+            // the parent.
+            if (direction == Flow.Direction.FORWARD || direction == Flow.Direction.REPLACE) {
+                parent.addView(incomingView);
+                return true;
             }
-            parent.addView(nextView);
+            return false;
         }
     }
 
     @Override
-    public boolean layoutOutgoing(ViewGroup parent, View previousView, Flow.Direction direction) {
+    public boolean layoutOutgoing(ViewGroup parent, Flow.Direction direction, View...outgoingViews) {
+        // - If the direction is BACKWARD, the outgoing view(s) should be removed from the parent.
+        // - If the direction is FORWARD or REPLACE the outgoing view should stay attached to the
+        //   parent.
         if (direction == Flow.Direction.BACKWARD) {
-            if (showsBackgroundOverlay) {
-                parent.removeView(overlay);
-                overlay = null;
+            for (View outgoingView : outgoingViews) {
+                parent.removeView(outgoingView);
             }
-            parent.removeView(previousView);
             return true;
         }
         return false;
-    }
-
-    public void showsBackgroundOverlay(boolean show) {
-        this.showsBackgroundOverlay = show;
-    }
-
-    protected View createBackgroundOverlay(ViewGroup parent) {
-        overlay = new View(parent.getContext());
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
-        overlay.setLayoutParams(params);
-        overlay.setBackgroundColor(0xA0000000);
-        overlay.setClickable(true);
-        return overlay;
     }
 }
