@@ -12,7 +12,6 @@ import com.davidstemmer.screenplay.scene.StandardScene;
 import com.davidstemmer.screenplay.scene.component.CallbackComponent;
 import com.davidstemmer.screenplay.scene.component.ResultHandler;
 import com.davidstemmer.screenplay.scene.component.SceneCallback;
-import com.davidstemmer.screenplay.scene.rigger.StackRigger;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
 import flow.Layout;
@@ -24,12 +23,10 @@ import flow.Layout;
 @Layout(R.layout.action_drawer)
 public class ActionDrawerScene extends StandardScene {
 
-    private final StackRigger rigger;
     private final ActionDrawerTransformer transformer;
     private final ResultHandler<ActionDrawerResult> resultHandler;
 
     public ActionDrawerScene(Callback callback) {
-        this.rigger = new StackRigger();
         this.transformer = new ActionDrawerTransformer(SampleApplication.getInstance());
         this.resultHandler = new ResultHandler<ActionDrawerResult>(ActionDrawerResult.CANCELLED);
         addComponent(new CallbackComponent<ActionDrawerResult>(callback, resultHandler));
@@ -44,8 +41,8 @@ public class ActionDrawerScene extends StandardScene {
     }
 
     @Override
-    public Rigger getRigger() {
-        return rigger;
+    public boolean isStacking() {
+        return true;
     }
 
     @Override
