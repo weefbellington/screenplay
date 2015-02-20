@@ -6,7 +6,6 @@ import android.view.View;
 import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.CrossfadeTransformer;
 import com.davidstemmer.screenplay.scene.StandardScene;
-import com.davidstemmer.screenplay.scene.rigger.PageRigger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -23,18 +22,11 @@ import mortar.ViewPresenter;
 @Singleton
 public class WelcomeScene extends StandardScene {
 
-    private final PageRigger rigger;
     private final CrossfadeTransformer transformer;
 
     @Inject
-    public WelcomeScene(PageRigger rigger, CrossfadeTransformer transformer) {
-        this.rigger = rigger;
+    public WelcomeScene(CrossfadeTransformer transformer) {
         this.transformer = transformer;
-    }
-
-    @Override
-    public Rigger getRigger() {
-        return rigger;
     }
 
     @Override
