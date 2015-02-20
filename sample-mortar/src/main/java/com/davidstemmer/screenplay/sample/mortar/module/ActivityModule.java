@@ -64,7 +64,7 @@ public class ActivityModule {
     }
 
     @Provides @Singleton
-    Flow provideFlow(WelcomeScene welcomeStage, Screenplay screenplay) {
-        return new Flow(Backstack.single(welcomeStage), screenplay);
+    Flow provideFlow(WelcomeScene welcomeScene, Screenplay screenplay) {
+        return new Flow(Backstack.single(welcomeScene), screenplay);
     }
 }

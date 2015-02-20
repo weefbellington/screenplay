@@ -58,4 +58,8 @@ public abstract class StandardScene implements Scene {
         components.add(component);
     }
 
+    @Override
+    public boolean isStacking() {
+        return false;
+    }
 }

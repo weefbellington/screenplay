@@ -8,6 +8,7 @@ import com.davidstemmer.screenplay.SceneCut;
 import com.davidstemmer.screenplay.SceneState;
 import com.davidstemmer.screenplay.scene.Scene;
 
+import java.util.ArrayDeque;
 import java.util.Iterator;
 
 import flow.Backstack;
@@ -32,50 +33,130 @@ public class Screenplay implements Flow.Listener {
     @Override
     public void go(Backstack nextBackstack, Flow.Direction direction, Flow.Callback callback) {
 
-        screenState = SceneState.TRANSITIONING;
-
         Scene incomingScene = (Scene) nextBackstack.current().getScreen();
+
+        ArrayDeque<Scene> incomingScenes;
+        ArrayDeque<Scene> outgoingScenes;
         Scene.Rigger delegatedRigger;
-        Scene.Transformer delegatedTransformer;
 
-        SceneCut sceneCut = new SceneCut.Builder()
+        SceneCut.Builder sceneCut = new SceneCut.Builder()
                 .setDirection(direction)
-                .setIncomingScene(incomingScene)
-                .setOutgoingScene(outgoingScene)
-                .setCallback(callback).build();
+                .setCallback(callback);
 
-        if (incomingScene == outgoingScene) {
-            callback.onComplete();
-        }
-
-        if (direction == Flow.Direction.BACKWARD && outgoingScene == null) {
-            //Honestly, I have no idea how to reach this case. We might want to remove this line.
-            callback.onComplete();
-            return;
-        }
-
-        // Only call incomingScene.setUp if necessary. If we are exiting a modal scene, the View will
-        // already exist.
-        if (incomingScene.getView() == null) {
-            incomingScene.setUp(director.getActivity(), director.getContainer());
-        }
-
-        if (direction == Flow.Direction.FORWARD || direction == Flow.Direction.REPLACE) {
-            delegatedRigger = incomingScene.getRigger();
-            delegatedTransformer = incomingScene.getTransformer();
-
+        if (direction == Flow.Direction.BACKWARD) {
+            if (outgoingScene.isStacking()) {
+                incomingScenes = new ArrayDeque<>();
+            } else {
+                incomingScenes = getLastSceneBlock(nextBackstack);
+            }
+            outgoingScenes = new ArrayDeque<>();
+            outgoingScenes.push(outgoingScene);
         }
         else {
-            delegatedRigger = outgoingScene.getRigger();
-            delegatedTransformer = outgoingScene.getTransformer();
+            incomingScenes = new ArrayDeque<>();
+            incomingScenes.push(incomingScene);
+            // Forward on a stacked scene:
+            // No outgoing scenes to animate or tear down.
+            // Forward on a non-stacked scene:
+            // Animate and tear down the current scene block.
+            if (incomingScene.isStacking() || outgoingScene == null) {
+                outgoingScenes = new ArrayDeque<>();
+            } else if (nextBackstack.size() > 1) {
+                outgoingScenes = getLastSceneBlock(trimBackstack(nextBackstack, 1));
+            } else {
+                outgoingScenes = new ArrayDeque<>();
+                outgoingScenes.add(outgoingScene);
+            }
+
         }
 
-        delegatedRigger.layoutIncoming(director.getContainer(), incomingScene.getView(), direction);
-        delegatedTransformer.applyAnimations(sceneCut, this);
+        Scene.Transformer delegatedTransformer = direction == Flow.Direction.BACKWARD ?
+                outgoingScene.getTransformer() : incomingScene.getTransformer();
+
+        for (Scene scene : incomingScenes) {
+            sceneCut.addIncomingScene(scene);
+        }
+
+        for (Scene scene : outgoingScenes) {
+            sceneCut.addOutgoingScene(scene);
+        }
 
         outgoingScene = incomingScene;
+        beginCut(sceneCut.build(), delegatedTransformer);
+
+        /**
+        if (direction == Flow.Direction.FORWARD || direction == Flow.Direction.REPLACE) {
+
+            sceneCut.addIncomingScene(incomingScene);
+            // If we're navigating from a block of scenes (one normal scene, one or more modals
+            // stacked on top of it), add each the scenes in the block to the scene cut so they all
+            // animate when the transition occurs.
+            Backstack currentBackstack = trimBackstack(nextBackstack, 1);
+            ArrayDeque<Scene> sceneBlock = getLastSceneBlock(currentBackstack);
+            for (Scene scene : sceneBlock) {
+                sceneCut.addOutgoingScene(scene);
+            }
+        }
+
+        else if (incomingScene.getRigger()) {
+            // Navigating backwards from a modal view...
+            // - the incoming view is already attached to the scene
+            // - we're not transitioning from a scene block
+            // - we're not transitioning to a scene block
+            delegatedTransformer = outgoingScene.getTransformer();
+            sceneCut.addIncomingScene(incomingScene);
+            sceneCut.addOutgoingScene(outgoingScene);
+        }
+        else {
+            // Navigating backwards from a non-modal view:
+            // - the incoming view does is not attached to the scene
+            // - we may be transitioning to a scene block. Rewind to the most recent non-modal
+            //   view in the backstack, then replay them, attaching the modal views in order.
+            delegatedTransformer = outgoingScene.getTransformer();
+
+            ArrayDeque<Scene> sceneBlock = getLastSceneBlock(nextBackstack);
+            Iterator<Scene> sceneIterator = sceneBlock.iterator();
+
+            while (sceneIterator.hasNext()) {
+                Scene scene = sceneIterator.next();
+                scene.setUp(director.getActivity(), director.getContainer());
+                sceneCut.addIncomingScene(scene);
+            }
+            sceneCut.addOutgoingScene(outgoingScene);
+        }
+        **/
     }
 
+    private Backstack trimBackstack(Backstack backstack, int numItems) {
+        Backstack.Builder builder = backstack.buildUpon();
+        for (int i = 0; i< numItems; i++) {
+            builder.pop();
+        }
+        return builder.build();
+    }
+
+    private ArrayDeque<Scene> getLastSceneBlock(Backstack backstack) {
+        Iterator<Backstack.Entry> iterator = backstack.iterator();
+        ArrayDeque<Scene> stackedScenes = new ArrayDeque<>();
+
+        while(iterator.hasNext()) {
+            Scene scene = (Scene) iterator.next().getScreen();
+            stackedScenes.push(scene);
+            if (!scene.isStacking()) {
+                return stackedScenes;
+            }
+        }
+        throw new IllegalStateException("Modal view cannot be the root of a scene stack.");
+    }
+
+    public void beginCut(SceneCut cut, Scene.Transformer transformer) {
+        for (Scene scene : cut.incomingScenes) {
+            scene.setUp(director.getActivity(), director.getContainer());
+            attachToParent(scene.getView());
+        }
+        screenState = SceneState.TRANSITIONING;
+        transformer.applyAnimations(cut, this);
+    }
 
     /**
      * Called by the {@link com.davidstemmer.screenplay.scene.Scene.Transformer} after the scene
@@ -84,20 +165,12 @@ public class Screenplay implements Flow.Listener {
      */
     public void endCut(SceneCut cut) {
 
-        if (cut.outgoingScene != null) {
-            ViewGroup container = director.getContainer();
-            View outgoingView = cut.outgoingScene.getView();
-            Scene.Rigger delegatedRigger = cut.direction == Flow.Direction.BACKWARD ?
-                    cut.outgoingScene.getRigger() :
-                    cut.incomingScene.getRigger();
-            boolean isViewDetached = delegatedRigger.layoutOutgoing(container, outgoingView, cut.direction);
-            if (isViewDetached) {
-                cut.outgoingScene.tearDown(director.getActivity(), container);
-            }
+        for (Scene scene : cut.outgoingScenes) {
+            View removed = scene.tearDown(director.getActivity(), director.getContainer());
+            removeFromParent(removed);
         }
-
-        cut.callback.onComplete();
         screenState = SceneState.NORMAL;
+        cut.callback.onComplete();
     }
 
     /**
@@ -123,7 +196,7 @@ public class Screenplay implements Flow.Listener {
             if (nextScene.getView() != null) {
                 ViewGroup parent = (ViewGroup) nextScene.getView().getParent();
                 parent.removeView(nextScene.getView());
-                nextScene.getRigger().layoutIncoming(director.getContainer(), nextScene.getView(), Flow.Direction.FORWARD);
+                attachToParent(nextScene.getView());
                 isSceneAttached = true;
             }
         }
@@ -146,5 +219,13 @@ public class Screenplay implements Flow.Listener {
          * @return the container for the Flow. Should be re-initialized after configuration changes.
          */
         public ViewGroup getContainer();
+    }
+
+    private void attachToParent(View view) {
+        director.getContainer().addView(view);
+    }
+
+    private void removeFromParent(View view) {
+        director.getContainer().removeView(view);
     }
 }
