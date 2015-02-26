@@ -42,6 +42,11 @@ public interface Scene {
     public View getView();
 
 
+    
+    /**
+     * Flag that specifies whether or not the view is stacking (modal)
+     * @return true if stacking, false otherwise
+     */
     public boolean isStacking();
 
     /**
