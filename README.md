@@ -1,25 +1,22 @@
 Screenplay
 ==========
 
-Screenplay is a minimalist framework for building Android applications, powered by Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html).
-Screenplay defines a simple application lifecycle based on the Flow navigation stack. The core
-features that Screenplay provides are:
+Screenplay is a minimalist framework for building Android applications. The core features that
+Screenplay provides are:
 
-- **a rigging system** for attaching views, with support for
-    - *single-page views:* full-screen layouts
-    - *stacked views:* floating layouts and drawers
-- **an animation system** for applying transitions between screens,
-- **pluggable components** for applying behavior to screens,
-- **view state reattachment** for configuration changes.
+- **a view-centric navigation system**, powered by Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html).
+- **view-based alternatives** to floating fragments, dialogs and drawers, with full backstack support
+- **an animation system** for applying transitions between scenes,
+- **reusable components** for adding granular behavior to scenes, and
+- **view state reattachment** to manage configuration changes.
 
 A typical Screenplay app is constructed from a single Activity and multiple Views. As navigation
 events occur, objects called `Scenes` are pushed and popped from the Flow backstack. Each scene
-transition consists of four discrete phases:
+transition consists of three discrete phases:
 
 1. The `Scene` creates a view,
 2. Scene `Components` receive callbacks and apply behavior
-3. A `Rigger` attaches the scene to the layout.
-4. A `Transformer` plays animations between the incoming and outgoing scene.
+3. A `Transformer` plays animations between the incoming and outgoing scene.
 
 These steps are applied by the `Screenplay` object, which implements the `Flow.Listener` interface.
 Screenplay knows how to reverse these steps when the back button is pressed.
@@ -146,20 +143,17 @@ public class DrawerLockingComponent implements Scene.Component {
 ```
 
 
-###Riggers and Transformers
+###Regular vs. stacking scenes
 
-In a Screenplay app, when the application calls `Flow.goTo()` or `Flow.goBack()`, the type of layout
-change that is applied depends on the type of ``Screen.Rigger`` that is associated with the next
-scene. Screenplay provides two concrete `Rigger` implementations.
+In a Screenplay app, when the application calls `Flow.goTo()` or `Flow.goBack()`, the way that the
+incoming scene is attached depends on the whether the scene is stacking or not. Each scene has an
+`isStacking()` method which specifies this behavior. By default, it is `false`.
 
-- The `PageRigger` manages full-screen layout changes. After all animations complete, the PageRigger
-removes the previous screen from its parent layout.
-- The `StackRigger` manages partial-screen layout changes. It does not remove the previous Scene
-from the layout, allowing you to layer Scenes on top of each other. This is useful for creating
-partial-screen views, such as floating views, dialogs and drawers.
-
-Both the `PageRigger` and the `StackRigger` remove the Scene at the top of the stack when
-`Flow.goBack()` is called.
+Normally, when a new scene is set up, the incoming scene's view is attached to the window and the
+outgoing scene's view is detached from the window. By setting `isStacking` to `true`, you specify
+that the incoming scene should stack on top of the outgoing scene. This allows you to achieve a
+variety of effects, such as floating dialogs, drawers and popovers. The following is an example of
+a stacking scene:
 
 ```java
 @Layout(R.layout.dialog_scene)
@@ -171,12 +165,11 @@ public class DialogScene extends StandardScene {
     public DialogScene() {
         super(new DrawerLockingComponent());
         this.transformer = new PopupTransformer(SampleApplication.getInstance());
-        this.rigger = new StackRigger();
     }
 
     @Override
-    public Rigger getRigger() {
-        return rigger;
+    public boolean isStacking() {
+        return true;
     }
 
     @Override
@@ -185,6 +178,8 @@ public class DialogScene extends StandardScene {
     }
 }
 ```
+
+###Transformers and animated scene transitions
 
 A `Transformer` is responsible for applying animations between scenes. The `Transformer` receives a
 `SceneCut` object, which contains the data that the `Transformer` needs to create animations,
@@ -245,7 +240,7 @@ Screenplay is currently available as a beta snapshot. Grab it via Maven:
 <dependency>
     <groupId>com.davidstemmer</groupId>
     <artifactId>screenplay</artifactId>
-    <version>0.5.3-SNAPSHOT</version>
+    <version>0.6.0-SNAPSHOT</version>
     <type>aar</type>
 </dependency>
 ```
@@ -253,7 +248,7 @@ Screenplay is currently available as a beta snapshot. Grab it via Maven:
 or Gradle:
 
 ```groovy
-compile 'com.davidstemmer:screenplay:0.5.3-SNAPSHOT'
+compile 'com.davidstemmer:screenplay:0.6.0-SNAPSHOT'
 ```
 
 For Gradle, you'll have to add the Sonatype OSS snapshot repo to your build script:

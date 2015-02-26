@@ -15,8 +15,6 @@ import flow.Flow;
 
 /**
  * @author  David Stemmer
- * @version 1.0.0
- * @since   1.0.0
  */
 public interface Scene {
 
@@ -45,10 +43,8 @@ public interface Scene {
      */
     public View getView();
 
-    /**
-     * @return a non-null {@link com.davidstemmer.screenplay.scene.Scene.Rigger}
-     */
-    public Rigger getRigger();
+
+    public boolean isStacking();
 
     /**
      * @return a non-null {@link com.davidstemmer.screenplay.scene.Scene.Transformer}
@@ -57,8 +53,6 @@ public interface Scene {
 
     /**
      * @author  David Stemmer
-     * @version 1.0.0
-     * @since   1.0.0
      */
     public static interface Component {
         /**
@@ -79,32 +73,29 @@ public interface Scene {
 
     /**
      * @author  David Stemmer
-     * @version 1.0.0
-     * @since   1.0.0
      */
     public static interface Rigger {
         /**
-         * When this method returns, the incoming scene should be attached to the parent.
+         * When this method returns, the incoming view(s) should be attached to the parent.
          * @param parent the parent that the view should be attached to
-         * @param nextView the view to attach to the parent
          * @param direction the direction of the scene transition
+         * @param incomingViews the views that should be attached to the window
          */
-        public void layoutIncoming(ViewGroup parent, View nextView, Flow.Direction direction);
+        public void layoutIncoming(ViewGroup parent, Flow.Direction direction, View...incomingViews);
 
         /**
-         * When this method returns, the outgoing scene may (optionally) be detached from the parent.
+         * When this method returns, the outgoing view(s) may (optionally) be detached from the parent.
          * @param parent the parent that the view should be attached to
-         * @param previousView the view to detach from the parent
          * @param direction the direction of the scene transition
-         * @return true if the view was detached, false otherwise
+         * @param outgoingViews the view(s) that should be detached from the parent
+         * @return true if any view was detached, false otherwise
          */
-        public boolean layoutOutgoing(ViewGroup parent, View previousView, Flow.Direction direction);
+        public boolean layoutOutgoing(ViewGroup parent, Flow.Direction direction, View...outgoingViews);
+
     }
 
     /**
-     * @author  David Stemmer
-     * @version 1.0.0
-     * @since   1.0.0
+     * @author  David Stemmerw2xs
      */
     public static interface Transformer {
         /**

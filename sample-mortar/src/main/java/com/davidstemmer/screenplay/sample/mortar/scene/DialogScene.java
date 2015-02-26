@@ -9,7 +9,6 @@ import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.component.DrawerLockingComponent;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.PopupTransformer;
 import com.davidstemmer.screenplay.scene.StandardScene;
-import com.davidstemmer.screenplay.scene.rigger.StackRigger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -27,18 +26,16 @@ import mortar.ViewPresenter;
 public class DialogScene extends StandardScene {
 
     private final PopupTransformer transformer;
-    private final StackRigger rigger;
 
     @Inject
-    public DialogScene(PopupTransformer transformer, StackRigger rigger, DrawerLockingComponent component) {
+    public DialogScene(PopupTransformer transformer, DrawerLockingComponent component) {
         super(component);
         this.transformer = transformer;
-        this.rigger = rigger;
     }
 
     @Override
-    public Rigger getRigger() {
-        return rigger;
+    public boolean isStacking() {
+        return true;
     }
 
     @Override

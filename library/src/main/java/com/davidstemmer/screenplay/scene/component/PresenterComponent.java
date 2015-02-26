@@ -31,7 +31,6 @@ public class PresenterComponent implements Scene.Component {
                 v.removeOnAttachStateChangeListener(this);
             }
         };
-
     }
 
     @Override
@@ -41,5 +40,4 @@ public class PresenterComponent implements Scene.Component {
 
     @Override
     public void beforeTearDown(Context context, Scene scene, View view) {}
-
 }
