@@ -8,7 +8,6 @@ import com.davidstemmer.screenplay.sample.mortar.view.PagedView2;
 import com.davidstemmer.screenplay.scene.StandardScene;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -21,7 +20,6 @@ import mortar.ViewPresenter;
  */
 
 @Layout(R.layout.paged_scene_2)
-@Singleton
 public class PagedScene2 extends StandardScene {
 
     private final HorizontalSlideTransformer transformer;

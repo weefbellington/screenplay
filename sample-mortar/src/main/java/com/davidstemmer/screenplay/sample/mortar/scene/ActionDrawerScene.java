@@ -1,5 +1,6 @@
 package com.davidstemmer.screenplay.sample.mortar.scene;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.davidstemmer.screenplay.sample.mortar.R;
@@ -20,7 +21,6 @@ import butterknife.OnClick;
 import dagger.Provides;
 import flow.Flow;
 import flow.Layout;
-import mortar.MortarScope;
 import mortar.ViewPresenter;
 
 /**
@@ -36,18 +36,12 @@ public class ActionDrawerScene extends ScopedScene {
         CANCELLED
     }
 
-    Module module;
-
     @Inject ActionDrawerTransformer transformer;
     @Inject DrawerLockingComponent lockingComponent;
     @Inject CallbackComponent<Result> callbackComponent;
 
-    public ActionDrawerScene(Callback callback) {
-        this.module = new Module(callback);
-    }
-
-    @Override
-    public void onCreateScope(MortarScope scope) {
+    public ActionDrawerScene(Context context, Callback callback) {
+        super(context, new Module(callback));
         addComponent(lockingComponent);
         addComponent(callbackComponent);
     }
@@ -60,16 +54,6 @@ public class ActionDrawerScene extends ScopedScene {
     @Override
     public Transformer getTransformer() {
         return transformer;
-    }
-
-    @Override
-    public String getMortarScopeName() {
-        return getClass().getName();
-    }
-
-    @Override
-    public Object getDaggerModule() {
-        return module;
     }
 
     public static interface Callback extends SceneCallback<Result> {}
@@ -87,7 +71,8 @@ public class ActionDrawerScene extends ScopedScene {
             this.callback = callback;
         }
 
-        @Provides @Singleton ResultHandler<Result> provideResultHandler() {
+        @Provides @Singleton
+        ResultHandler<Result> provideResultHandler() {
             return new ResultHandler<ActionDrawerScene.Result>(ActionDrawerScene.Result.CANCELLED);
         }
 

@@ -19,7 +19,6 @@ import mortar.ViewPresenter;
  */
 
 @Layout(R.layout.welcome_scene)
-@Singleton
 public class WelcomeScene extends StandardScene {
 
     private final CrossfadeTransformer transformer;

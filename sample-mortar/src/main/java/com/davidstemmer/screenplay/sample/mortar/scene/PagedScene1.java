@@ -21,7 +21,6 @@ import mortar.ViewPresenter;
  */
 
 @Layout(R.layout.paged_scene_1)
-@Singleton
 public class PagedScene1 extends StandardScene {
 
     private final CrossfadeTransformer transformer;
