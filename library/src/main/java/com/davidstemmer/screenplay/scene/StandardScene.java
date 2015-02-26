@@ -9,6 +9,8 @@ import com.davidstemmer.screenplay.flow.LayoutCompat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import flow.Flow;
+
 /**
  * Created by weefbellington on 10/15/14.
  */
@@ -26,7 +28,7 @@ public abstract class StandardScene implements Scene {
     }
 
     @Override
-    public View setUp(Context context, ViewGroup parent) {
+    public View setUp(Context context, ViewGroup parent, Flow.Direction direction) {
         view = LayoutCompat.createView(context, parent, this);
         for (Component component: components) {
             component.afterSetUp(context, this, view);
@@ -35,7 +37,7 @@ public abstract class StandardScene implements Scene {
     }
 
     @Override
-    public View tearDown(Context context, ViewGroup parent) {
+    public View tearDown(Context context, ViewGroup parent, Flow.Direction direction) {
         for (Component component: components) {
             component.beforeTearDown(context, this, view);
         }

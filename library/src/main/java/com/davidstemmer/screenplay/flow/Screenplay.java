@@ -37,7 +37,6 @@ public class Screenplay implements Flow.Listener {
 
         ArrayDeque<Scene> incomingScenes;
         ArrayDeque<Scene> outgoingScenes;
-        Scene.Rigger delegatedRigger;
 
         SceneCut.Builder sceneCut = new SceneCut.Builder()
                 .setDirection(direction)
@@ -151,8 +150,8 @@ public class Screenplay implements Flow.Listener {
 
     public void beginCut(SceneCut cut, Scene.Transformer transformer) {
         for (Scene scene : cut.incomingScenes) {
-            scene.setUp(director.getActivity(), director.getContainer());
-            attachToParent(scene.getView());
+            View added = scene.setUp(director.getActivity(), director.getContainer(), cut.direction);
+            attachToParent(added);
         }
         screenState = SceneState.TRANSITIONING;
         transformer.applyAnimations(cut, this);
@@ -166,7 +165,7 @@ public class Screenplay implements Flow.Listener {
     public void endCut(SceneCut cut) {
 
         for (Scene scene : cut.outgoingScenes) {
-            View removed = scene.tearDown(director.getActivity(), director.getContainer());
+            View removed = scene.tearDown(director.getActivity(), director.getContainer(), cut.direction);
             removeFromParent(removed);
         }
         screenState = SceneState.NORMAL;
@@ -205,11 +204,6 @@ public class Screenplay implements Flow.Listener {
         }
     }
 
-    /**
-     * @version 1.0.0
-     * @author  David Stemmer
-     * @since   1.0.0
-     */
     public interface Director {
         /**
          * @return the current Activity. Should be re-initialized after configuration changes.

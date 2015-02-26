@@ -10,10 +10,6 @@ import com.davidstemmer.screenplay.flow.Screenplay;
 import flow.Flow;
 
 /**
- * Created by weefbellington on 10/2/14.
- */
-
-/**
  * @author  David Stemmer
  */
 public interface Scene {
@@ -24,18 +20,20 @@ public interface Scene {
      * responsibility of the Scene.Rigger.
      * @param context current context
      * @param parent the container view
+     * @param direction the direction of navigation flow
      * @return the created view
      */
-    public View setUp(Context context, ViewGroup parent);
+    public View setUp(Context context, ViewGroup parent, Flow.Direction direction);
 
     /**
      * Destroy the View. After this method is called, getView() should return null. The View should
      * not be detached from its parent; that is the responsibility of the Scene.Rigger.
      * @param context the current context
      * @param parent the container view
+     * @param direction the direction of navigation flow
      * @return the destroyed view
      */
-    public View tearDown(Context context, ViewGroup parent);
+    public View tearDown(Context context, ViewGroup parent, Flow.Direction direction);
 
     /**
      * Get the View associated with the Scene
@@ -71,40 +69,14 @@ public interface Scene {
         public void beforeTearDown(Context context, Scene scene, View view);
     }
 
-    /**
-     * @author  David Stemmer
-     */
-    public static interface Rigger {
-        /**
-         * When this method returns, the incoming view(s) should be attached to the parent.
-         * @param parent the parent that the view should be attached to
-         * @param direction the direction of the scene transition
-         * @param incomingViews the views that should be attached to the window
-         */
-        public void layoutIncoming(ViewGroup parent, Flow.Direction direction, View...incomingViews);
-
-        /**
-         * When this method returns, the outgoing view(s) may (optionally) be detached from the parent.
-         * @param parent the parent that the view should be attached to
-         * @param direction the direction of the scene transition
-         * @param outgoingViews the view(s) that should be detached from the parent
-         * @return true if any view was detached, false otherwise
-         */
-        public boolean layoutOutgoing(ViewGroup parent, Flow.Direction direction, View...outgoingViews);
-
-    }
-
-    /**
-     * @author  David Stemmerw2xs
-     */
     public static interface Transformer {
         /**
          * Apply the animation based on the Flow.Direction. When the animation completes, it is the
-         * responsibility of the Transformer to call {@link Screenplay#endCut(com.davidstemmer.screenplay.SceneCut)}
-         * @param cut
-         * @param listener
+         * responsibility of the Transformer to call {@link Screenplay#endCut}
+         * @param cut contains information about the current transition
+         * @param screenplay the screenplay object
          */
-        public void applyAnimations(SceneCut cut, Screenplay listener);
+        public void applyAnimations(SceneCut cut, Screenplay screenplay);
     }
 
 }

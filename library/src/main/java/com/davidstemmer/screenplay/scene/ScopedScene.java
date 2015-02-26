@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import flow.Flow;
 import mortar.Blueprint;
 import mortar.Mortar;
 import mortar.MortarScope;
@@ -16,13 +17,13 @@ public abstract class ScopedScene extends StandardScene implements Blueprint {
     private MortarScope scope;
 
     @Override
-    public View setUp(Context context, ViewGroup parent) {
-        return super.setUp(createScope(context), parent);
+    public View setUp(Context context, ViewGroup parent, Flow.Direction direction) {
+        return super.setUp(createScope(context), parent, direction);
     }
 
     @Override
-    public View tearDown(Context context, ViewGroup parent) {
-        View destroyed = super.tearDown(context, parent);
+    public View tearDown(Context context, ViewGroup parent, Flow.Direction direction) {
+        View destroyed = super.tearDown(context, parent, direction);
         destroyScope(context);
         return destroyed;
     }
