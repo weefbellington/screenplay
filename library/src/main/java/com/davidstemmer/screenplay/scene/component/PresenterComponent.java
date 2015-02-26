@@ -28,8 +28,10 @@ public class PresenterComponent implements Scene.Component {
             @Override @SuppressWarnings("unchecked")
             public void onViewDetachedFromWindow(View v) {
                 presenter.dropView((V) v);
+                v.removeOnAttachStateChangeListener(this);
             }
         };
+
     }
 
     @Override
@@ -38,7 +40,6 @@ public class PresenterComponent implements Scene.Component {
     }
 
     @Override
-    public void beforeTearDown(Context context, Scene scene, View view) {
-        view.removeOnAttachStateChangeListener(attachStateChangeListener);
-    }
+    public void beforeTearDown(Context context, Scene scene, View view) {}
+
 }
