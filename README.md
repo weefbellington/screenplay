@@ -107,7 +107,7 @@ The building block of a Screenplay app is a `Scene`. The Scene knows how to do
 only a few things by itself: create a View (`Scene.setUp`), destroy a View (`Scene.tearDown`) and
 get the current view (`Scene.getView`).
 
-The standard scene implementation uses Flow's [Layouts.createView()](https://github.com/square/flow/blob/master/flow/src/main/java/flow/Layouts.java)
+The reference implementation uses Flow's [Layouts.createView()](https://github.com/square/flow/blob/master/flow/src/main/java/flow/Layouts.java)
 to set up the scene. You can pass a list of `Component`s to the scene constructor, which can be used
 to apply behaviors after the scene is set up and before it is torn down:
 
@@ -135,13 +135,12 @@ public class DrawerLockingComponent implements Scene.Component {
     }
 
     @Override
-    public void beforeTearDown(Context context, Scene scene) {
+    public void beforeTearDown(Context context, Scene scene, boolean isFinishing) {
         drawer.setLocked(false);
     }
 }
 
 ```
-
 
 ###Regular vs. stacking scenes
 
@@ -178,6 +177,15 @@ public class DialogScene extends StandardScene {
     }
 }
 ```
+
+###View persistence on configuration changes
+By default, when a configuration change occurs, Screenplay recreates and re-attaches the on-screen
+views, calling `tearDown` from top to bottom and then `setUp` from bottom to top.
+
+If instead you would like a scene to retain its views on configuration changes (keeping any
+instance state intact), override `Scene.teardownOnConfigurationChanges` to return `true`. Keep in
+mind that if you do this, the XML for the view will not be reloaded, so it is only appropriate for
+scenes where the layouts are consistent across all configurations.
 
 ###Transformers and animated scene transitions
 
