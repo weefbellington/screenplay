@@ -1,36 +1,30 @@
-Screenplay
+Screenplay: making Android more humane
 ==========
 
-Screenplay is a minimalist framework for building Android applications, powered by Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html),
-Screenplay simplifies the application lifecycle by taking the approach that 'everything is a view'.
+###Setting the stage
 
-Instead of Fragments and Dialogs, Screenplay provides `Scenes`, each of which creates and binds a
-View. A single screen in your app may consist of a single Scene, or it may consist of multiple
-scenes stacked on top of each other. Stacked scenes are used to create effects such as dialogs,
-drawers and popovers.
+Screenplay is a minimalist framework for building Android applications, powered by Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html).
+Instead of Fragments and Dialogs, Screenplay provides `Scenes`. each of which creates and binds a
+View. In a Screenplay application, **everything is built from simple Views**, which are associated
+with Scenes in the backstack.
 
-Like a Fragment or an Activity, each scene persists on the a backstack. Pressing the to back button
-pops the current scene off of the stack, detaching the view. When a scene is pushed or popped onto
-the stack, a `Scene.Transformer` plays an animation between the incoming and outgoing scenes.
+Transitions between Scenes may be animated, similar to Fragment or Activity transitions. But unlike
+Fragments or Activities, Scenes are lightweight objects that do not require any special voodoo to
+create. Each scene is just a POJO (Plain Old Java Object). Just create `new Scene`, pass it
+some arguments, and you're good to go.
 
-Scenes, however, are much less heavyweight (and much less opinionated) than either Activities or
-Fragments. Each scene is just a POJO (Plain Old Java Object), and there's no special voodoo to
-create them -- so there's nothing stopping from creating a `new Scene` and passing it arguments
-through a constructor.
-
-A scene's lifecycle is also easy to understand -- an incoming scene
-transition consists of three discrete phases:
+A scene's lifecycle is also easy to understand. A incoming scene is created in three discrete
+phases:
 
 1. The `Scene` creates its View, which is attached to a parent ViewGroup
 2. Scene `Components` apply initialization behaviors
 3. A `Transformer` plays animations between the incoming and outgoing scene.
 
-Likewise, an outgoing scene transition consists of:
+An outgoing scene is created in a similar way:
 
 1. The `Transformer` signals that the animation is complete
 2. The `Components` apply teardown behaviors
 3. The `Scene` removes its View, which is detached from the parent ViewGroup
-
 
 These steps are applied by the `Screenplay` object, which acts as a simple controller for your scene
 segueways. It also handles the logic of reattaching your views on configuration changes -- as long
@@ -164,16 +158,13 @@ public class DrawerLockingComponent implements Scene.Component {
 
 ###Regular vs. stacking scenes
 
-In a Screenplay app the way that the a scene is displayed depends on the whether the scene is
-stacking or not. Normally, after a new scene is pushed onto the stack and the transition completes,
-the old scene's View is detached from the window. Once references to the View are removed, it is
-garbage collected and its memory is released.
+The way that the a scene is displayed depends on the whether it is configured to stack. Normally,
+after a new scene is pushed onto the stack, the old scene's View is detached from its parent so that
+its memory can be released.
 
-If a scene is stacking, it will be layered on top of the scene below it. You can layer as many stacking
-scenes on top of each other as you want by setting `Scene.isStacking` to `true`. When a non-stacking
-scene is pushed on on top of a group of stacked scenes, they will all torn down at the same time.
-When the user navigates back, they will all be set up at the same time. The following is an example
-of a scene configured to stack like a dialog:
+Stacking scenes work differently. When a stacking scene is created, is will be layered on top of the
+scene below it. You can layer as many stacking scenes on top of each other as you want by setting
+`Scene.isStacking` to `true`. The following is an example of dialog implemented as a stacking scene:
 
 ```java
 @Layout(R.layout.dialog_scene)
@@ -200,14 +191,12 @@ public class DialogScene extends StandardScene {
 
 ###View persistence on configuration changes
 
-By default, when a configuration change occurs, Screenplay recreates and re-attaches the visible
-scenes, calling `tearDown` from top to bottom and then `setUp` from bottom to top. This removes the
-reference to the scene's old view and creates a new one to be created.
-
-If instead you would like a scene to retain its views on configuration changes, override
-`Scene.teardownOnConfigurationChanges` to return `true`. This can be useful if you have Views whose
-instance state cannot easily be retained across configuration changes. Keep in mind, though, that if
-you enable this flag, the XML for the view will not be reloaded when a configuration change occurs.
+By default, when a configuration change occurs, Screenplay tears down each the each scene
+whose view is currently visible on the screen, and then recreates it. If instead you would like a view
+ to be retained on configuration changes, override `Scene.teardownOnConfigurationChanges` to return
+ `true`. This can be useful if you have a View whose instance state cannot easily be retained across
+ configuration changes. Keep in mind, though, that if you enable this flag, the XML for the view
+ will not be reloaded when a configuration change occurs.
 
 ###Transformers and animated scene transitions
 
