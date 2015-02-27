@@ -1,16 +1,15 @@
-Screenplay: making Android more humane
+Screenplay
 ==========
 
-###Setting the stage
+###Prologue
 
 Screenplay is a minimalist framework for building Android applications, powered by Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html).
-Instead of Fragments and Dialogs, Screenplay provides `Scenes`. each of which creates and binds a
-View. In a Screenplay application, **everything is built from simple Views**, which are associated
-with Scenes in the backstack.
+Instead of Fragments and Dialogs, Screenplay provides `Scenes`. In a Screenplay application,
+**everything is built from simple Views**, which are associated with Scenes on the backstack.
 
 Transitions between Scenes may be animated, similar to Fragment or Activity transitions. But unlike
 Fragments or Activities, Scenes are lightweight objects that do not require any special voodoo to
-create. Each scene is just a POJO (Plain Old Java Object). Just create `new Scene`, pass it
+create. Each scene is just a POJO (Plain Old Java Object). Just create `new Scene(...)`, pass it
 some arguments, and you're good to go.
 
 A scene's lifecycle is also easy to understand. A incoming scene is created in three discrete
@@ -26,8 +25,8 @@ An outgoing scene is created in a similar way:
 2. The `Components` apply teardown behaviors
 3. The `Scene` removes its View, which is detached from the parent ViewGroup
 
-These steps are applied by the `Screenplay` object, which acts as a simple controller for your scene
-segueways. It also handles the logic of reattaching your views on configuration changes -- as long
+These steps are applied by the `Screenplay` object, which acts as a simple controller for your
+navigation logic. It also handles the task of reattaching your views on configuration changes -- as long
 as you hold onto the same `Screenplay` object, it will 'remember' the state of your screen stack
 across configuration changes.
 
@@ -37,7 +36,7 @@ You only need a little bit of boilerplate to configure a Screenplay application.
 you to construct the following objects:
 
 1. The `Screenplay.Director` object: binds to your activity and main view.
-2. The `Screenplay` object: acts as a controller for your navigation flow.
+2. The `Screenplay` object: acts as a controller for your navigation logic.
 3. The `Flow` object: main navigation interface
 
 To ensure that your scene stack survives configuration changes, these objects should be stored
@@ -121,7 +120,7 @@ get the current view (`Scene.getView`).
 
 The reference implementation is the `StandardScene`. This is the scene that your scenes should
 extend from if they're being inflated from XML. Internally, it uses Flow's [Layouts.createView()](https://github.com/square/flow/blob/master/flow/src/main/java/flow/Layouts.java)
-to create the View. Scenes can be hooked up to `Component`s, which receive callbacks after the scene
+to create the View. Scenes can be hooked up to `Components`, which receive callbacks after the scene
 is set up and before it is torn down. They are used to apply behaviors to the scene. For example,
 this DialogScene has a Component that locks the navigation drawer while the dialog is active:
 
@@ -158,7 +157,7 @@ public class DrawerLockingComponent implements Scene.Component {
 
 ###Regular vs. stacking scenes
 
-The way that the a scene is displayed depends on the whether it is configured to stack. Normally,
+The way that the a scene is displayed depends on the whether it is configured to stack or not. Normally,
 after a new scene is pushed onto the stack, the old scene's View is detached from its parent so that
 its memory can be released.
 
@@ -192,11 +191,9 @@ public class DialogScene extends StandardScene {
 ###View persistence on configuration changes
 
 By default, when a configuration change occurs, Screenplay tears down each the each scene
-whose view is currently visible on the screen, and then recreates it. If instead you would like a view
- to be retained on configuration changes, override `Scene.teardownOnConfigurationChanges` to return
- `true`. This can be useful if you have a View whose instance state cannot easily be retained across
- configuration changes. Keep in mind, though, that if you enable this flag, the XML for the view
- will not be reloaded when a configuration change occurs.
+whose view is currently visible on the screen. If instead you would like a view  to be retained on
+configuration changes, override `Scene.teardownOnConfigurationChanges` to return `true`. Keep in mind, though, that if you enable this flag, the XML for the view will not be
+reloaded when a configuration change occurs.
 
 ###Transformers and animated scene transitions
 
