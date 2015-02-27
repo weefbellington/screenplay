@@ -42,8 +42,7 @@ public class ActionDrawerScene extends ScopedScene {
 
     public ActionDrawerScene(Context context, Callback callback) {
         super(context, new Module(callback));
-        addComponent(lockingComponent);
-        addComponent(callbackComponent);
+        addComponents(lockingComponent, callbackComponent);
     }
 
     @Override

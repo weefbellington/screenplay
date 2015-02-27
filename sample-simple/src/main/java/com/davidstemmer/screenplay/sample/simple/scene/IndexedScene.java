@@ -13,11 +13,6 @@ public abstract class IndexedScene extends StandardScene {
         this.id = id;
     }
 
-    protected IndexedScene(String id, Component... components) {
-        super(components);
-        this.id = id;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
