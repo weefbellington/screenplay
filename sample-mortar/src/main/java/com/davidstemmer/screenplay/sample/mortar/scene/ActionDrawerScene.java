@@ -41,7 +41,7 @@ public class ActionDrawerScene extends ScopedScene {
     @Inject CallbackComponent<Result> callbackComponent;
 
     public ActionDrawerScene(Context context, Callback callback) {
-        super(context, new Module(callback));
+        super(context, new Blueprint(callback));
         addComponents(lockingComponent, callbackComponent);
     }
 
@@ -101,6 +101,12 @@ public class ActionDrawerScene extends ScopedScene {
         @OnClick(R.id.no) void no() {
             resultHandler.setResult(Result.NO);
             flow.goBack();
+        }
+    }
+
+    public static class Blueprint extends SimpleBlueprint {
+        public Blueprint(Callback callback) {
+            super(ActionDrawerScene.class, new Module(callback));
         }
     }
 }

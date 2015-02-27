@@ -5,7 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
+import java.util.UUID;
 
 import mortar.Blueprint;
 import mortar.Mortar;
@@ -15,15 +16,13 @@ import mortar.Scoped;
 /**
  * Created by weefbellington on 10/20/14.
  */
-public abstract class ScopedScene extends StandardScene implements Scoped, Blueprint {
+public abstract class ScopedScene extends StandardScene implements Scoped {
 
     private final MortarScope scope;
     private final Context scopedContext;
-    private final List modules;
 
-    protected ScopedScene(Context context, Object...modules) {
-        this.modules = Arrays.asList(modules);
-        this.scope = createScope(context);
+    protected ScopedScene(Context context, Blueprint blueprint) {
+        this.scope = createScope(context, blueprint);
         this.scopedContext = createMortarContext(context);
     }
 
@@ -41,9 +40,9 @@ public abstract class ScopedScene extends StandardScene implements Scoped, Bluep
         return destroyed;
     }
 
-    private MortarScope createScope(Context context) {
+    private MortarScope createScope(Context context, Blueprint blueprint) {
         MortarScope parentScope = Mortar.getScope(context);
-        return parentScope.requireChild(this);
+        return parentScope.requireChild(blueprint);
     }
 
     private Context createMortarContext(Context context) {
@@ -65,13 +64,33 @@ public abstract class ScopedScene extends StandardScene implements Scoped, Bluep
     @Override
     public void onEnterScope(MortarScope scope) {}
 
-    @Override
-    public String getMortarScopeName() {
-        return getClass().getName();
+    public static class SimpleBlueprint implements Blueprint {
+
+        private final String scopeName;
+        private final Collection modules;
+
+        public SimpleBlueprint(Class clazz, Object...modules) {
+            this(clazz, Arrays.asList(modules));
+        }
+
+        public SimpleBlueprint(Class clazz, Collection modules) {
+            this(clazz.getName(), modules);
+        }
+
+        public SimpleBlueprint(String scopeName, Collection modules) {
+            this.scopeName = scopeName + UUID.randomUUID();
+            this.modules = modules;
+        }
+
+        @Override
+        public final String getMortarScopeName() {
+            return scopeName;
+        }
+
+        @Override
+        public final Object getDaggerModule() {
+            return modules;
+        }
     }
 
-    @Override
-    public Object getDaggerModule() {
-        return modules;
-    }
 }
