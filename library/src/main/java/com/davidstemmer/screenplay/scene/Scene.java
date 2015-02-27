@@ -57,9 +57,6 @@ public interface Scene {
      */
     public Transformer getTransformer();
 
-    /**
-     * @author  David Stemmer
-     */
     public static interface Component {
         /**
          * Called after {@link Scene#setUp}
