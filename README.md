@@ -6,9 +6,9 @@ Screenplay provides are:
 
 - **a view-centric navigation system**, powered by Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html).
 - **view-based alternatives** to floating fragments, dialogs and drawers, with full backstack support
-- **an animation system** for applying transitions between scenes,
+- **an animation system** for playing transitions between scenes,
 - **reusable components** for adding granular behavior to scenes, and
-- **view state reattachment** to manage configuration changes.
+- **view reattachment** across configuration changes.
 
 A typical Screenplay app is constructed from a single Activity and multiple Views. As navigation
 events occur, objects called `Scenes` are pushed and popped from the Flow backstack. Each scene
@@ -178,8 +178,9 @@ public class DialogScene extends StandardScene {
 ```
 
 ###View persistence on configuration changes
-By default, when a configuration change occurs, Screenplay recreates and re-attaches the on-screen
-views, calling `tearDown` from top to bottom and then `setUp` from bottom to top.
+By default, when a configuration change occurs, Screenplay recreates and re-attaches the visible
+scenes, calling `tearDown` from top to bottom and then `setUp` from bottom to top. This removes the
+reference to the scene's old view and creates a new one to be created.
 
 If instead you would like a scene to retain its views on configuration changes (keeping any
 instance state intact), override `Scene.teardownOnConfigurationChanges` to return `true`. Keep in
