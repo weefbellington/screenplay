@@ -27,10 +27,14 @@ public class ActionDrawerScene extends StandardScene {
     private final ResultHandler<ActionDrawerResult> resultHandler;
 
     public ActionDrawerScene(Callback callback) {
+
         this.transformer = new ActionDrawerTransformer(SampleApplication.getInstance());
         this.resultHandler = new ResultHandler<ActionDrawerResult>(ActionDrawerResult.CANCELLED);
-        addComponent(new CallbackComponent<ActionDrawerResult>(callback, resultHandler));
-        addComponent(new DrawerLockingComponent());
+
+        Component callbackComponent = new CallbackComponent<ActionDrawerResult>(callback, resultHandler);
+        Component drawerLockingComponent = new DrawerLockingComponent();
+
+        addComponents(callbackComponent, drawerLockingComponent);
     }
 
     @Override

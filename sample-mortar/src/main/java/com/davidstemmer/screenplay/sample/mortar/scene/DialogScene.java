@@ -29,8 +29,8 @@ public class DialogScene extends StandardScene {
 
     @Inject
     public DialogScene(PopupTransformer transformer, DrawerLockingComponent component) {
-        super(component);
         this.transformer = transformer;
+        addComponents(component);
     }
 
     @Override

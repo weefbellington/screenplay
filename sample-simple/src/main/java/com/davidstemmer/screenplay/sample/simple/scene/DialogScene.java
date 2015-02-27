@@ -17,8 +17,8 @@ public class DialogScene extends StandardScene {
     private final PopupTransformer transformer;
 
     public DialogScene() {
-        super(new DrawerLockingComponent());
         this.transformer = new PopupTransformer(SampleApplication.getInstance());
+        addComponents(new DrawerLockingComponent());
     }
 
     @Override
