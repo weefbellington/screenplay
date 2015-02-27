@@ -159,7 +159,6 @@ a stacking scene:
 public class DialogScene extends StandardScene {
 
     private final PopupTransformer transformer;
-    private final StackRigger rigger;
 
     public DialogScene() {
         super(new DrawerLockingComponent());
