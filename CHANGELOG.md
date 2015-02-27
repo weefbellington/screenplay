@@ -1,10 +1,3 @@
-## 0.6.1 CHANGELOG
-
-**API breaks**
-
-1. Components are no longer passed through the scene's constructor. use the `addComponents()` method
-instead.
-
 ## 0.6.0 CHANGELOG
 
 **New features**
@@ -38,6 +31,9 @@ tearing down the `ScopedScene` when it is popped off of the stack.
 argument as this was redundant. Access the view with `Scene.getView`.
 5. The `Scene.tearDown` and `Component.beforeTearDown` methods now have a boolean parameter,
 `isFinishing`. This is `true` if the scene is being popped off of the stack, `false` otherwise.
+6. Components are no longer passed through the scene's constructor. use the `addComponents()` method
+instead.
+
 
 ## 0.5.3 CHANGELOG
 
