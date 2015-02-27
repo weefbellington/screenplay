@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'org.robolectric'
+
 
 android {
     compileSdkVersion 21
@@ -11,8 +13,6 @@ android {
         versionName "1.0"
     }
 }
-
-apply plugin: 'android-unit-test'
 
 dependencies {
     // testing
