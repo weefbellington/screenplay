@@ -1,32 +1,53 @@
 Screenplay
 ==========
 
-Screenplay is a minimalist framework for building Android applications. The core features that
-Screenplay provides are:
+Screenplay is a minimalist framework for building Android applications, powered by Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html),
+Screenplay simplifies the application lifecycle by taking the approach that 'everything is a view'.
 
-- **a view-centric navigation system**, powered by Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html).
-- **view-based alternatives** to floating fragments, dialogs and drawers, with full backstack support
-- **an animation system** for playing transitions between scenes,
-- **reusable components** for adding granular behavior to scenes, and
-- **view reattachment** across configuration changes.
+Instead of Fragments and Dialogs, Screenplay provides `Scenes`, each of which creates and binds a
+View. A single screen in your app may consist of a single Scene, or it may consist of multiple
+scenes stacked on top of each other. Stacked scenes are used to create effects such as dialogs,
+drawers and popovers.
 
-A typical Screenplay app is constructed from a single Activity and multiple Views. As navigation
-events occur, objects called `Scenes` are pushed and popped from the Flow backstack. Each scene
+Like a Fragment or an Activity, each scene persists on the a backstack. Pressing the to back button
+pops the current scene off of the stack, detaching the view. When a scene is pushed or popped onto
+the stack, a `Scene.Transformer` plays an animation between the incoming and outgoing scenes.
+
+Scenes, however, are much less heavyweight (and much less opinionated) than either Activities or
+Fragments. Each scene is just a POJO (Plain Old Java Object), and there's no special voodoo to
+create them -- so there's nothing stopping from creating a `new Scene` and passing it arguments
+through a constructor.
+
+A scene's lifecycle is also easy to understand -- an incoming scene
 transition consists of three discrete phases:
 
-1. The `Scene` creates a view,
-2. Scene `Components` receive callbacks and apply behavior
+1. The `Scene` creates its View, which is attached to a parent ViewGroup
+2. Scene `Components` apply initialization behaviors
 3. A `Transformer` plays animations between the incoming and outgoing scene.
 
-These steps are applied by the `Screenplay` object, which implements the `Flow.Listener` interface.
-Screenplay knows how to reverse these steps when the back button is pressed.
+Likewise, an outgoing scene transition consists of:
+
+1. The `Transformer` signals that the animation is complete
+2. The `Components` apply teardown behaviors
+3. The `Scene` removes its View, which is detached from the parent ViewGroup
+
+
+These steps are applied by the `Screenplay` object, which acts as a simple controller for your scene
+segueways. It also handles the logic of reattaching your views on configuration changes -- as long
+as you hold onto the same `Screenplay` object, it will 'remember' the state of your screen stack
+across configuration changes.
 
 ###Setting the stage
 
-Configuring a Screenplay app is straightforward. Create a `Screenplay.Director`, which binds the
-Activity. Construct the `Screenplay` object, and create a new `Flow`. In order to ensure
-that your Flow survives configuration changes, these objects should be stored outside of your main
-Activity. One way to do this is to put them in the Application class:
+You only need a little bit of boilerplate to configure a Screenplay application. Screenplay requires
+you to construct the following objects:
+
+1. The `Screenplay.Director` object: binds to your activity and main view.
+2. The `Screenplay` object: acts as a controller for your navigation flow.
+3. The `Flow` object: main navigation interface
+
+To ensure that your scene stack survives configuration changes, these objects should be stored
+outside of your main Activity. One way to do this is to put them in the Application class.
 
 ```java
 public class SampleApplication extends Application {
@@ -45,10 +66,12 @@ public class SampleApplication extends Application {
 }
 ```
 
-*(alternatively, use a dependency injection library such as [Dagger](http://square.github.io/dagger/))*
+(alternatively, you can use a dependency injection library such as [Dagger](http://square.github.io/dagger/))
 
-In the onCreate() method of your main Activity, bind your `Director` and call
-`Screenplay.enter(flow)` to initialize the screen state:
+In the onCreate() method of your main Activity, bind your `Director` to the Activity and call
+`Screenplay.enter(flow)`. This is the main entry point to your application. It will initialize the
+Flow to the root scene, or, in the case of a configuration change, rebind your scene scene stack
+and reattach views that were previously visible on the screen.
 
 ```java
 public class MainActivity extends Activity {
@@ -75,9 +98,6 @@ public class MainActivity extends Activity {
 }
 ```
 
-Calling `enter` will initialize the Flow to the current screen, and also re-attach any Views that
-were detached during configuration changes.
-
 Once you've created your Flow, navigation is the same as in any other Flow application:
 
 ```java
@@ -86,9 +106,8 @@ Once you've created your Flow, navigation is the same as in any other Flow appli
     flow.goBack();                // animate back to the previous scene
 ```
 
-One final detail: when the Activity is destroyed, is important to drop references to it to
-avoid memory leaks. Using the `SimpleActivityDirector`, you can drop the old Activity reference by
-calling `unbind()` in your Activity's `onDestroy()` callback.
+One final detail: when the Activity is destroyed, is important to call `unbind()` on your `Director`
+object. This drops references to the old Activity and prevents memory leaks:
 
 ```java
     @Override
@@ -98,8 +117,7 @@ calling `unbind()` in your Activity's `onDestroy()` callback.
     }
 ```
 
-If you're using `MortarActivityDirector`, call `dropView()` instead. In either case, the Director
-should be rebound the next time that `onCreate()`.
+(if you're using `MortarActivityDirector`, call `dropView()` instead)
 
 ###Anatomy of a Scene
 
@@ -107,9 +125,11 @@ The building block of a Screenplay app is a `Scene`. The Scene knows how to do
 only a few things by itself: create a View (`Scene.setUp`), destroy a View (`Scene.tearDown`) and
 get the current view (`Scene.getView`).
 
-The reference implementation uses Flow's [Layouts.createView()](https://github.com/square/flow/blob/master/flow/src/main/java/flow/Layouts.java)
-to set up the scene. You can pass a list of `Component`s to the scene constructor, which can be used
-to apply behaviors after the scene is set up and before it is torn down:
+The reference implementation is the `StandardScene`. This is the scene that your scenes should
+extend from if they're being inflated from XML. Internally, it uses Flow's [Layouts.createView()](https://github.com/square/flow/blob/master/flow/src/main/java/flow/Layouts.java)
+to create the View. Scenes can be hooked up to `Component`s, which receive callbacks after the scene
+is set up and before it is torn down. They are used to apply behaviors to the scene. For example,
+this DialogScene has a Component that locks the navigation drawer while the dialog is active:
 
 ```java
 @Layout(R.layout.dialog_scene)
@@ -144,15 +164,16 @@ public class DrawerLockingComponent implements Scene.Component {
 
 ###Regular vs. stacking scenes
 
-In a Screenplay app, when the application calls `Flow.goTo()` or `Flow.goBack()`, the way that the
-incoming scene is attached depends on the whether the scene is stacking or not. Each scene has an
-`isStacking()` method which specifies this behavior. By default, it is `false`.
+In a Screenplay app the way that the a scene is displayed depends on the whether the scene is
+stacking or not. Normally, after a new scene is pushed onto the stack and the transition completes,
+the old scene's View is detached from the window. Once references to the View are removed, it is
+garbage collected and its memory is released.
 
-Normally, when a new scene is set up, the incoming scene's view is attached to the window and the
-outgoing scene's view is detached from the window. By setting `isStacking` to `true`, you specify
-that the incoming scene should stack on top of the outgoing scene. This allows you to achieve a
-variety of effects, such as floating dialogs, drawers and popovers. The following is an example of
-a stacking scene:
+If a scene is stacking, it will be layered on top of the scene below it. You can layer as many stacking
+scenes on top of each other as you want by setting `Scene.isStacking` to `true`. When a non-stacking
+scene is pushed on on top of a group of stacked scenes, they will all torn down at the same time.
+When the user navigates back, they will all be set up at the same time. The following is an example
+of a scene configured to stack like a dialog:
 
 ```java
 @Layout(R.layout.dialog_scene)
@@ -160,9 +181,9 @@ public class DialogScene extends StandardScene {
 
     private final PopupTransformer transformer;
 
-    public DialogScene() {
+    public DialogScene(Context context) {
         super(new DrawerLockingComponent());
-        this.transformer = new PopupTransformer(SampleApplication.getInstance());
+        this.transformer = new PopupTransformer(context);
     }
 
     @Override
@@ -178,14 +199,15 @@ public class DialogScene extends StandardScene {
 ```
 
 ###View persistence on configuration changes
+
 By default, when a configuration change occurs, Screenplay recreates and re-attaches the visible
 scenes, calling `tearDown` from top to bottom and then `setUp` from bottom to top. This removes the
 reference to the scene's old view and creates a new one to be created.
 
-If instead you would like a scene to retain its views on configuration changes (keeping any
-instance state intact), override `Scene.teardownOnConfigurationChanges` to return `true`. Keep in
-mind that if you do this, the XML for the view will not be reloaded, so it is only appropriate for
-scenes where the layouts are consistent across all configurations.
+If instead you would like a scene to retain its views on configuration changes, override
+`Scene.teardownOnConfigurationChanges` to return `true`. This can be useful if you have Views whose
+instance state cannot easily be retained across configuration changes. Keep in mind, though, that if
+you enable this flag, the XML for the view will not be reloaded when a configuration change occurs.
 
 ###Transformers and animated scene transitions
 
