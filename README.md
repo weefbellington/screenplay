@@ -172,7 +172,7 @@ public class DialogScene extends StandardScene {
     private final PopupTransformer transformer;
 
     public DialogScene(Context context) {
-        super(new DrawerLockingComponent());
+        addComponent(new DrawerLockingComponent());
         this.transformer = new PopupTransformer(context);
     }
 

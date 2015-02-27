@@ -1,3 +1,10 @@
+## 0.6.1 CHANGELOG
+
+**API breaks**
+
+1. Components are no longer passed through the scene's constructor. use the `addComponents()` method
+instead.
+
 ## 0.6.0 CHANGELOG
 
 **New features**

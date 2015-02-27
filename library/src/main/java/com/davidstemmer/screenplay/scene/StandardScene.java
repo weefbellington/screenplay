@@ -15,16 +15,8 @@ import java.util.Collection;
  */
 public abstract class StandardScene implements Scene {
 
-    private final ArrayList<Component> components;
+    private final ArrayList<Component> components = new ArrayList<>();
     private View view;
-
-    public StandardScene() {
-        this(new Component[] {});
-    }
-
-    public StandardScene(Component...components) {
-        this.components = new ArrayList<Component>(Arrays.asList(components));
-    }
 
     @Override
     public View setUp(Context context, ViewGroup parent) {
@@ -55,12 +47,16 @@ public abstract class StandardScene implements Scene {
     }
 
     /**
-     * Convenience method. Adds a Component to the component list. This should be called in the
+     * Convenience method. Adds a components to the component list. This should be called in the
      * Scene's constructor method.
-     * @param component the component to add
+     * @param componentArray the components to add
      */
-    public void addComponent(Component component) {
-        components.add(component);
+    public void addComponents(Component...componentArray) {
+        this.components.addAll(Arrays.asList(componentArray));
+    }
+
+    public void addComponents(Collection<Component> componentCollection) {
+        this.components.addAll(componentCollection);
     }
 
     @Override
