@@ -8,6 +8,7 @@ import com.davidstemmer.screenplay.flow.LayoutCompat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * Created by weefbellington on 10/15/14.
@@ -28,17 +29,11 @@ public abstract class StandardScene implements Scene {
     @Override
     public View setUp(Context context, ViewGroup parent) {
         view = LayoutCompat.createView(context, parent, this);
-        for (Component component: components) {
-            component.afterSetUp(context, this, view);
-        }
         return view;
     }
 
     @Override
-    public View tearDown(Context context, ViewGroup parent) {
-        for (Component component: components) {
-            component.beforeTearDown(context, this, view);
-        }
+    public View tearDown(Context context, ViewGroup parent, boolean isSceneFinishing) {
         View destroyed = view;
         view = null;
         return destroyed;
@@ -47,6 +42,16 @@ public abstract class StandardScene implements Scene {
     @Override
     public View getView() {
         return view;
+    }
+
+    @Override
+    public Collection<Component> getComponents() {
+        return components;
+    }
+
+    @Override
+    public boolean teardownOnConfigurationChange() {
+        return true;
     }
 
     /**
@@ -58,4 +63,8 @@ public abstract class StandardScene implements Scene {
         components.add(component);
     }
 
+    @Override
+    public boolean isStacking() {
+        return false;
+    }
 }

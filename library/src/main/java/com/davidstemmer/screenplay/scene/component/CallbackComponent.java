@@ -1,7 +1,6 @@
 package com.davidstemmer.screenplay.scene.component;
 
 import android.content.Context;
-import android.view.View;
 
 import com.davidstemmer.screenplay.scene.Scene;
 
@@ -19,11 +18,13 @@ public class CallbackComponent<R> implements Scene.Component {
     }
 
     @Override
-    public void afterSetUp(Context context, Scene scene, View view) {}
+    public void afterSetUp(Context context, Scene scene) {}
 
     @Override
-    public void beforeTearDown(Context context, Scene scene, View view) {
-        callback.onExitScene(resultHandler.getResult());
-        resultHandler.reset();
+    public void beforeTearDown(Context context, Scene scene, boolean isSceneFinishing) {
+        if (isSceneFinishing) {
+            callback.onExitScene(resultHandler.getResult());
+            resultHandler.reset();
+        }
     }
 }

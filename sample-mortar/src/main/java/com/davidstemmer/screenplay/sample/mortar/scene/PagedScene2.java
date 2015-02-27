@@ -6,10 +6,8 @@ import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.HorizontalSlideTransformer;
 import com.davidstemmer.screenplay.sample.mortar.view.PagedView2;
 import com.davidstemmer.screenplay.scene.StandardScene;
-import com.davidstemmer.screenplay.scene.rigger.PageRigger;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -22,21 +20,13 @@ import mortar.ViewPresenter;
  */
 
 @Layout(R.layout.paged_scene_2)
-@Singleton
 public class PagedScene2 extends StandardScene {
 
-    private final PageRigger rigger;
     private final HorizontalSlideTransformer transformer;
 
     @Inject
-    public PagedScene2(PageRigger rigger, HorizontalSlideTransformer transformer) {
-        this.rigger = rigger;
+    public PagedScene2(HorizontalSlideTransformer transformer) {
         this.transformer = transformer;
-    }
-
-    @Override
-    public Rigger getRigger() {
-        return rigger;
     }
 
     @Override

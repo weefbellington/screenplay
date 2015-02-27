@@ -7,9 +7,9 @@ import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.CrossfadeTransformer;
 import com.davidstemmer.screenplay.sample.mortar.view.ModalSceneView;
 import com.davidstemmer.screenplay.scene.StandardScene;
-import com.davidstemmer.screenplay.scene.rigger.PageRigger;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import butterknife.ButterKnife;
@@ -22,21 +22,13 @@ import mortar.ViewPresenter;
  * Created by weefbellington on 10/2/14.
  */
 @Layout(R.layout.stacked_scene)
-@Singleton
 public class StackedScene extends StandardScene {
 
-    private final PageRigger rigger;
     private final CrossfadeTransformer transformer;
 
     @Inject
-    public StackedScene(PageRigger rigger, CrossfadeTransformer transformer) {
-        this.rigger = rigger;
+    public StackedScene(CrossfadeTransformer transformer) {
         this.transformer = transformer;
-    }
-
-    @Override
-    public Rigger getRigger() {
-        return rigger;
     }
 
     @Override
@@ -48,7 +40,7 @@ public class StackedScene extends StandardScene {
     public static class Presenter extends ViewPresenter<ModalSceneView> {
 
         @Inject Flow flow;
-        @Inject DialogScene dialogScene;
+        @Inject Provider<DialogScene> dialogSceneFactory;
 
         @Override
         protected void onLoad(Bundle savedInstanceState) {
@@ -57,10 +49,10 @@ public class StackedScene extends StandardScene {
         }
 
         @OnClick(R.id.show_dialog) void dialogButtonClicked() {
-            flow.goTo(dialogScene);
+            flow.goTo(dialogSceneFactory.get());
         }
         @OnClick(R.id.show_action_drawer) void showActionDrawer() {
-            ActionDrawerScene actionDrawerScene = new ActionDrawerScene(new ActionDrawerCallback());
+            ActionDrawerScene actionDrawerScene = new ActionDrawerScene(getView().getContext(), new ActionDrawerCallback());
             flow.goTo(actionDrawerScene);
         }
 

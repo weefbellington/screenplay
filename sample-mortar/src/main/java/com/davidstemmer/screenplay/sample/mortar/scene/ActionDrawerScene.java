@@ -1,5 +1,6 @@
 package com.davidstemmer.screenplay.sample.mortar.scene;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.davidstemmer.screenplay.sample.mortar.R;
@@ -11,7 +12,6 @@ import com.davidstemmer.screenplay.scene.ScopedScene;
 import com.davidstemmer.screenplay.scene.component.CallbackComponent;
 import com.davidstemmer.screenplay.scene.component.ResultHandler;
 import com.davidstemmer.screenplay.scene.component.SceneCallback;
-import com.davidstemmer.screenplay.scene.rigger.StackRigger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -21,7 +21,6 @@ import butterknife.OnClick;
 import dagger.Provides;
 import flow.Flow;
 import flow.Layout;
-import mortar.MortarScope;
 import mortar.ViewPresenter;
 
 /**
@@ -37,41 +36,24 @@ public class ActionDrawerScene extends ScopedScene {
         CANCELLED
     }
 
-    Module module;
-
-    @Inject StackRigger rigger;
     @Inject ActionDrawerTransformer transformer;
     @Inject DrawerLockingComponent lockingComponent;
     @Inject CallbackComponent<Result> callbackComponent;
 
-    public ActionDrawerScene(Callback callback) {
-        this.module = new Module(callback);
-    }
-
-    @Override
-    public void onCreateScope(MortarScope scope) {
+    public ActionDrawerScene(Context context, Callback callback) {
+        super(context, new Module(callback));
         addComponent(lockingComponent);
         addComponent(callbackComponent);
     }
 
     @Override
-    public Rigger getRigger() {
-        return rigger;
+    public boolean isStacking() {
+        return true;
     }
 
     @Override
     public Transformer getTransformer() {
         return transformer;
-    }
-
-    @Override
-    public String getMortarScopeName() {
-        return getClass().getName();
-    }
-
-    @Override
-    public Object getDaggerModule() {
-        return module;
     }
 
     public static interface Callback extends SceneCallback<Result> {}
@@ -89,7 +71,8 @@ public class ActionDrawerScene extends ScopedScene {
             this.callback = callback;
         }
 
-        @Provides @Singleton ResultHandler<Result> provideResultHandler() {
+        @Provides @Singleton
+        ResultHandler<Result> provideResultHandler() {
             return new ResultHandler<ActionDrawerScene.Result>(ActionDrawerScene.Result.CANCELLED);
         }
 
