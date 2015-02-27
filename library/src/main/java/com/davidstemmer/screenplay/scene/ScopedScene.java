@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import java.util.Arrays;
 import java.util.List;
 
-import flow.Flow;
 import mortar.Blueprint;
 import mortar.Mortar;
 import mortar.MortarScope;
@@ -29,14 +28,14 @@ public abstract class ScopedScene extends StandardScene implements Scoped, Bluep
     }
 
     @Override
-    public View setUp(Context context, ViewGroup parent, Flow.Direction direction) {
-        return super.setUp(scopedContext, parent, direction);
+    public View setUp(Context context, ViewGroup parent) {
+        return super.setUp(scopedContext, parent);
     }
 
     @Override
-    public View tearDown(Context context, ViewGroup parent, Flow.Direction direction) {
-        View destroyed = super.tearDown(context, parent, direction);
-        if (direction != Flow.Direction.FORWARD) {
+    public View tearDown(Context context, ViewGroup parent, boolean isSceneFinishing) {
+        View destroyed = super.tearDown(context, parent, isSceneFinishing);
+        if (isSceneFinishing) {
             destroyScope(context);
         }
         return destroyed;

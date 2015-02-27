@@ -34,10 +34,10 @@ public class PresenterComponent implements Scene.Component {
     }
 
     @Override
-    public void afterSetUp(Context context, Scene scene, View view) {
-        view.addOnAttachStateChangeListener(attachStateChangeListener);
+    public void afterSetUp(Context context, Scene scene) {
+        scene.getView().addOnAttachStateChangeListener(attachStateChangeListener);
     }
 
     @Override
-    public void beforeTearDown(Context context, Scene scene, View view) {}
+    public void beforeTearDown(Context context, Scene scene, boolean isFinishing) {}
 }
