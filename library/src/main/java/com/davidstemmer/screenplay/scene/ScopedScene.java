@@ -14,45 +14,34 @@ import mortar.Scoped;
  */
 public abstract class ScopedScene extends StandardScene implements Scoped {
 
-    private final MortarScope scope;
-    private final Context scopedContext;
+    private final MortarScope parentScope;
+    private final MortarScope childScope;
+    private final Context childContext;
 
     protected ScopedScene(Context context, Blueprint blueprint) {
-        this.scope = createScope(context, blueprint);
-        this.scopedContext = createMortarContext(context);
+
+        this.parentScope = Mortar.getScope(context);
+        this.childScope = parentScope.requireChild(blueprint);
+        this.childContext = childScope.createContext(context);
+
+        childScope.getObjectGraph().inject(this);
+        childScope.register(this);
+
     }
 
     @Override
     public View setUp(Context context, ViewGroup parent) {
-        return super.setUp(scopedContext, parent);
+        return super.setUp(childContext, parent);
     }
 
     @Override
     public View tearDown(Context context, ViewGroup parent, boolean isSceneFinishing) {
         View destroyed = super.tearDown(context, parent, isSceneFinishing);
         if (isSceneFinishing) {
-            destroyScope(context);
+            parentScope.destroyChild(childScope);
         }
         return destroyed;
     }
-
-    private MortarScope createScope(Context context, Blueprint blueprint) {
-        MortarScope parentScope = Mortar.getScope(context);
-        return parentScope.requireChild(blueprint);
-    }
-
-    private Context createMortarContext(Context context) {
-        Context childContext = scope.createContext(context);
-        Mortar.inject(childContext, this);
-        scope.register(this);
-        return childContext;
-    }
-
-    private void destroyScope(Context context) {
-        MortarScope parentScope = Mortar.getScope(context);
-        parentScope.destroyChild(scope);
-    }
-
 
     @Override
     public void onExitScope() {}
