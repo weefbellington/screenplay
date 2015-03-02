@@ -118,8 +118,8 @@ public class Screenplay implements Flow.Listener {
     public void endCut(SceneCut cut) {
         for (Scene scene : cut.outgoingScenes) {
             boolean isFinishing = cut.direction != Flow.Direction.FORWARD;
-            tearDownScene(scene, isFinishing);
             tearDownComponents(scene, isFinishing);
+            tearDownScene(scene, isFinishing);
         }
         screenState = SceneState.NORMAL;
         cut.callback.onComplete();
@@ -154,8 +154,8 @@ public class Screenplay implements Flow.Listener {
             while (reverseSceneBlockIterator.hasNext()) {
                 Scene nextScene = reverseSceneBlockIterator.next();
                 if (nextScene.teardownOnConfigurationChange()) {
-                    tearDownScene(nextScene, false);
                     tearDownComponents(nextScene, false);
+                    tearDownScene(nextScene, false);
                 } else {
                     removeFromParent(nextScene.getView());
                 }
@@ -199,7 +199,6 @@ public class Screenplay implements Flow.Listener {
     }
 
     private void tearDownScene(Scene scene, boolean isFinishing) {
-
         View removed = scene.tearDown(director.getActivity(), director.getContainer(), isFinishing);
         removeFromParent(removed);
     }
