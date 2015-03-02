@@ -1,7 +1,6 @@
 package com.davidstemmer.screenplay.scene.component;
 
 import android.content.Context;
-import android.view.View;
 
 import com.davidstemmer.screenplay.scene.Scene;
 
@@ -12,28 +11,26 @@ import mortar.ViewPresenter;
  * attached to the window and Presenter#dropView after it has detached from the window.
  */
 public class PresenterComponent implements Scene.Component {
-    private final View.OnAttachStateChangeListener attachStateChangeListener;
 
-    public <V extends View> PresenterComponent(final ViewPresenter<V> presenter) {
-        attachStateChangeListener = new View.OnAttachStateChangeListener() {
-            @Override @SuppressWarnings("unchecked")
-            public void onViewAttachedToWindow(View v) {
-                presenter.takeView((V) v);
-            }
+    private final ViewPresenter presenter;
 
-            @Override @SuppressWarnings("unchecked")
-            public void onViewDetachedFromWindow(View v) {
-                presenter.dropView((V) v);
-                v.removeOnAttachStateChangeListener(this);
-            }
-        };
+    public PresenterComponent(final ViewPresenter presenter) {
+        this.presenter = presenter;
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void afterSetUp(Context context, Scene scene) {
-        scene.getView().addOnAttachStateChangeListener(attachStateChangeListener);
+        presenter.takeView(scene.getView());
     }
 
     @Override
-    public void beforeTearDown(Context context, Scene scene, boolean isFinishing) {}
+    @SuppressWarnings("unchecked")
+    public void beforeTearDown(Context context, Scene scene, boolean isFinishing) {
+        if (isFinishing) {
+            presenter.dropView(scene.getView());
+        }
+    }
+
+
 }
