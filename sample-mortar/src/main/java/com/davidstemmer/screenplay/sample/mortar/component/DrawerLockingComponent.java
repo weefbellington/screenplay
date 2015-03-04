@@ -1,7 +1,5 @@
 package com.davidstemmer.screenplay.sample.mortar.component;
 
-import android.content.Context;
-
 import com.davidstemmer.screenplay.sample.mortar.presenter.DrawerPresenter;
 import com.davidstemmer.screenplay.scene.Scene;
 
@@ -20,12 +18,12 @@ public class DrawerLockingComponent implements Scene.Component {
     }
 
     @Override
-    public void afterSetUp(Context context, Scene scene, boolean isStarting) {
+    public void afterSetUp(Scene scene, boolean isStarting) {
         drawer.setLocked(true);
     }
 
     @Override
-    public void beforeTearDown(Context context, Scene scene, boolean isFinishing) {
+    public void beforeTearDown(Scene scene, boolean isFinishing) {
         drawer.setLocked(false);
     }
 }
