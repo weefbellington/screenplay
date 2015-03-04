@@ -30,8 +30,8 @@ public abstract class ScopedScene extends StandardScene implements Scoped {
     }
 
     @Override
-    public View setUp(Context context, ViewGroup parent) {
-        return super.setUp(childContext, parent);
+    public View setUp(Context context, ViewGroup parent, boolean isStarting) {
+        return super.setUp(childContext, parent, isStarting);
     }
 
     @Override

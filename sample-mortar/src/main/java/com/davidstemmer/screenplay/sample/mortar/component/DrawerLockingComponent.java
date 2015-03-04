@@ -20,7 +20,7 @@ public class DrawerLockingComponent implements Scene.Component {
     }
 
     @Override
-    public void afterSetUp(Context context, Scene scene) {
+    public void afterSetUp(Context context, Scene scene, boolean isStarting) {
         drawer.setLocked(true);
     }
 

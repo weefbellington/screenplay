@@ -18,11 +18,11 @@ public class CallbackComponent<R> implements Scene.Component {
     }
 
     @Override
-    public void afterSetUp(Context context, Scene scene) {}
+    public void afterSetUp(Context context, Scene scene, boolean isStarting) {}
 
     @Override
-    public void beforeTearDown(Context context, Scene scene, boolean isSceneFinishing) {
-        if (isSceneFinishing) {
+    public void beforeTearDown(Context context, Scene scene, boolean isFinishing) {
+        if (isFinishing) {
             callback.onExitScene(resultHandler.getResult());
             resultHandler.reset();
         }

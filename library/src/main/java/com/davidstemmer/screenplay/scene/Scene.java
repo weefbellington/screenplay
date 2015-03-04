@@ -21,17 +21,16 @@ public interface Scene {
      * @param parent the container view
      * @return the created view
      */
-    public View setUp(Context context, ViewGroup parent);
+    public View setUp(Context context, ViewGroup parent, boolean isStarting);
 
     /**
      * Destroy the View. After this method is called, getView() should return null. The View should
      * not be detached from its parent.
      * @param context the current context
      * @param parent the container view
-     * @param isSceneFinishing true if the scene is scheduled to be popped off of the stack
      * @return the destroyed view
      */
-    public View tearDown(Context context, ViewGroup parent, boolean isSceneFinishing);
+    public View tearDown(Context context, ViewGroup parent, boolean isStarting);
 
     public Collection<Component> getComponents();
 
@@ -62,14 +61,16 @@ public interface Scene {
          * Called after {@link Scene#setUp}
          * @param context the current context
          * @param scene the current scene
+         * @param isStarting true if this is the first time setUp has been called, false otherwise
          */
-        public void afterSetUp(Context context, Scene scene);
+        public void afterSetUp(Context context, Scene scene, boolean isStarting);
         /**
          * Called before {@link Scene#tearDown}
          * @param context the current context
          * @param scene the current scene
+         * @param isFinishing true if this is the last time tearDown will be called, false otherwise
          */
-        public void beforeTearDown(Context context, Scene scene, boolean isSceneFinishing);
+        public void beforeTearDown(Context context, Scene scene, boolean isFinishing);
     }
 
     public static interface Transformer {

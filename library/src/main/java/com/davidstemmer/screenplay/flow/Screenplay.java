@@ -103,8 +103,9 @@ public class Screenplay implements Flow.Listener {
 
     public void beginCut(SceneCut cut, Scene.Transformer transformer) {
         for (Scene scene : cut.incomingScenes) {
-            setUpScene(scene);
-            setUpComponents(scene);
+            boolean isStarting = cut.direction != Flow.Direction.FORWARD;
+            setUpScene(scene, isStarting);
+            setUpComponents(scene, isStarting);
         }
         screenState = SceneState.TRANSITIONING;
         transformer.applyAnimations(cut, this);
@@ -164,8 +165,8 @@ public class Screenplay implements Flow.Listener {
             while(sceneIterator.hasNext()) {
                 Scene nextScene = sceneIterator.next();
                 if (nextScene.teardownOnConfigurationChange()) {
-                    setUpScene(nextScene);
-                    setUpComponents(nextScene);
+                    setUpScene(nextScene, false);
+                    setUpComponents(nextScene, false);
                 } else {
                     attachToParent(nextScene.getView());
                 }
@@ -193,8 +194,8 @@ public class Screenplay implements Flow.Listener {
         parent.removeView(view);
     }
 
-    private void setUpScene(Scene scene) {
-        View added = scene.setUp(director.getActivity(), director.getContainer());
+    private void setUpScene(Scene scene, boolean isStarting) {
+        View added = scene.setUp(director.getActivity(), director.getContainer(), isStarting);
         attachToParent(added);
     }
 
@@ -203,9 +204,9 @@ public class Screenplay implements Flow.Listener {
         removeFromParent(removed);
     }
 
-    private void setUpComponents(Scene scene) {
+    private void setUpComponents(Scene scene, boolean isStarting) {
         for (Scene.Component component: scene.getComponents()) {
-            component.afterSetUp(director.getActivity(), scene);
+            component.afterSetUp(director.getActivity(), scene, isStarting);
         }
     }
 
