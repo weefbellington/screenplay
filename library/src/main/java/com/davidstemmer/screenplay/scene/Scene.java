@@ -21,7 +21,7 @@ public interface Scene {
      * @param parent the container view
      * @return the created view
      */
-    public View setUp(Context context, ViewGroup parent, boolean isStarting);
+    public View setUp(Context context, ViewGroup parent, boolean isInitializing);
 
     /**
      * Destroy the View. After this method is called, getView() should return null. The View should
@@ -59,18 +59,16 @@ public interface Scene {
     public static interface Component {
         /**
          * Called after {@link Scene#setUp}
-         * @param context the current context
          * @param scene the current scene
-         * @param isStarting true if this is the first time setUp has been called, false otherwise
+         * @param isInitializing true if this is the first time setUp has been called, false otherwise
          */
-        public void afterSetUp(Context context, Scene scene, boolean isStarting);
+        public void afterSetUp(Scene scene, boolean isInitializing);
         /**
          * Called before {@link Scene#tearDown}
-         * @param context the current context
          * @param scene the current scene
          * @param isFinishing true if this is the last time tearDown will be called, false otherwise
          */
-        public void beforeTearDown(Context context, Scene scene, boolean isFinishing);
+        public void beforeTearDown(Scene scene, boolean isFinishing);
     }
 
     public static interface Transformer {

@@ -103,7 +103,7 @@ public class Screenplay implements Flow.Listener {
 
     public void beginCut(SceneCut cut, Scene.Transformer transformer) {
         for (Scene scene : cut.incomingScenes) {
-            boolean isStarting = cut.direction != Flow.Direction.FORWARD;
+            boolean isStarting = cut.direction != Flow.Direction.BACKWARD;
             setUpScene(scene, isStarting);
             setUpComponents(scene, isStarting);
         }
@@ -206,13 +206,13 @@ public class Screenplay implements Flow.Listener {
 
     private void setUpComponents(Scene scene, boolean isStarting) {
         for (Scene.Component component: scene.getComponents()) {
-            component.afterSetUp(director.getActivity(), scene, isStarting);
+            component.afterSetUp(scene, isStarting);
         }
     }
 
     private void tearDownComponents(Scene scene, boolean isFinishing) {
         for (Scene.Component component: scene.getComponents()) {
-            component.beforeTearDown(director.getActivity(), scene, isFinishing);
+            component.beforeTearDown(scene, isFinishing);
         }
     }
 }

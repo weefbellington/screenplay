@@ -1,7 +1,5 @@
 package com.davidstemmer.screenplay.scene.component;
 
-import android.content.Context;
-
 import com.davidstemmer.screenplay.scene.Scene;
 
 import mortar.ViewPresenter;
@@ -20,13 +18,13 @@ public class MortarPresenterComponent implements Scene.Component {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void afterSetUp(Context context, Scene scene, boolean isStarting) {
+    public void afterSetUp(Scene scene, boolean isStarting) {
         presenter.takeView(scene.getView());
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public void beforeTearDown(Context context, Scene scene, boolean isFinishing) {
+    public void beforeTearDown(Scene scene, boolean isFinishing) {
         presenter.dropView(scene.getView());
     }
 
