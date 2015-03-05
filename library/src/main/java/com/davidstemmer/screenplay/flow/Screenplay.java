@@ -79,6 +79,35 @@ public class Screenplay implements Flow.Listener {
         beginCut(sceneCut.build(), delegatedTransformer);
     }
 
+    /**
+     * Checks whether the scene present in the backstack and attached to the window.
+     * More formally, returns <tt>true</tt> if and only if the backstack contains
+     * at least one element <tt>e</tt> such that <tt>o.equals(e)</tt>, and its view is not null.
+     * @param scene the scene to compare against
+     * @param backstack a backstack of scenes
+     * @return true if the scene is attached, false otherwise
+     */
+    public static boolean isSceneAttached(Scene scene, Backstack backstack) {
+        return isSceneInBackstack(scene, backstack) && scene.getView() != null;
+    }
+
+    /**
+     * Checks whether the scene present in the backstack.
+     * More formally, returns <tt>true</tt> if and only if the backstack contains
+     * at least one element <tt>e</tt> such that <tt>o.equals(e)</tt>.
+     * @param scene the target scene
+     * @param backstack a backstack of scenes
+     * @return true if the scene is in the backstack, false otherwise
+     */
+    public static boolean isSceneInBackstack(Scene scene, Backstack backstack) {
+        for (Backstack.Entry entry : backstack) {
+            if (entry.getScreen().equals(scene)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private Backstack trimBackstack(Backstack backstack, int numItems) {
         Backstack.Builder builder = backstack.buildUpon();
         for (int i = 0; i< numItems; i++) {
@@ -87,7 +116,7 @@ public class Screenplay implements Flow.Listener {
         return builder.build();
     }
 
-    private ArrayDeque<Scene> getLastSceneBlock(Backstack backstack) {
+    private static ArrayDeque<Scene> getLastSceneBlock(Backstack backstack) {
         Iterator<Backstack.Entry> iterator = backstack.iterator();
         ArrayDeque<Scene> stackedScenes = new ArrayDeque<>();
 
