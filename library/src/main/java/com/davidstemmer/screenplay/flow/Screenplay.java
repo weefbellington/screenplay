@@ -79,6 +79,35 @@ public class Screenplay implements Flow.Listener {
         beginCut(sceneCut.build(), delegatedTransformer);
     }
 
+    /**
+     * Checks whether the scene present in the backstack and attached to the window.
+     * More formally, returns <tt>true</tt> if and only if the backstack contains
+     * at least one element <tt>e</tt> such that <tt>o.equals(e)</tt>, and its view is not null.
+     * @param scene the scene to compare against
+     * @param backstack a backstack of scenes
+     * @return true if the scene is attached, false otherwise
+     */
+    public static boolean isSceneAttached(Scene scene, Backstack backstack) {
+        return isSceneInBackstack(scene, backstack) && scene.getView() != null;
+    }
+
+    /**
+     * Checks whether the scene present in the backstack.
+     * More formally, returns <tt>true</tt> if and only if the backstack contains
+     * at least one element <tt>e</tt> such that <tt>o.equals(e)</tt>.
+     * @param scene the target scene
+     * @param backstack a backstack of scenes
+     * @return true if the scene is in the backstack, false otherwise
+     */
+    public static boolean isSceneInBackstack(Scene scene, Backstack backstack) {
+        for (Backstack.Entry entry : backstack) {
+            if (entry.getScreen().equals(scene)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private Backstack trimBackstack(Backstack backstack, int numItems) {
         Backstack.Builder builder = backstack.buildUpon();
         for (int i = 0; i< numItems; i++) {
@@ -87,7 +116,7 @@ public class Screenplay implements Flow.Listener {
         return builder.build();
     }
 
-    private ArrayDeque<Scene> getLastSceneBlock(Backstack backstack) {
+    private static ArrayDeque<Scene> getLastSceneBlock(Backstack backstack) {
         Iterator<Backstack.Entry> iterator = backstack.iterator();
         ArrayDeque<Scene> stackedScenes = new ArrayDeque<>();
 
@@ -103,8 +132,9 @@ public class Screenplay implements Flow.Listener {
 
     public void beginCut(SceneCut cut, Scene.Transformer transformer) {
         for (Scene scene : cut.incomingScenes) {
-            setUpScene(scene);
-            setUpComponents(scene);
+            boolean isStarting = cut.direction != Flow.Direction.BACKWARD;
+            setUpScene(scene, isStarting);
+            setUpComponents(scene, isStarting);
         }
         screenState = SceneState.TRANSITIONING;
         transformer.applyAnimations(cut, this);
@@ -118,8 +148,8 @@ public class Screenplay implements Flow.Listener {
     public void endCut(SceneCut cut) {
         for (Scene scene : cut.outgoingScenes) {
             boolean isFinishing = cut.direction != Flow.Direction.FORWARD;
-            tearDownScene(scene, isFinishing);
             tearDownComponents(scene, isFinishing);
+            tearDownScene(scene, isFinishing);
         }
         screenState = SceneState.NORMAL;
         cut.callback.onComplete();
@@ -154,8 +184,8 @@ public class Screenplay implements Flow.Listener {
             while (reverseSceneBlockIterator.hasNext()) {
                 Scene nextScene = reverseSceneBlockIterator.next();
                 if (nextScene.teardownOnConfigurationChange()) {
-                    tearDownScene(nextScene, false);
                     tearDownComponents(nextScene, false);
+                    tearDownScene(nextScene, false);
                 } else {
                     removeFromParent(nextScene.getView());
                 }
@@ -164,8 +194,8 @@ public class Screenplay implements Flow.Listener {
             while(sceneIterator.hasNext()) {
                 Scene nextScene = sceneIterator.next();
                 if (nextScene.teardownOnConfigurationChange()) {
-                    setUpScene(nextScene);
-                    setUpComponents(nextScene);
+                    setUpScene(nextScene, false);
+                    setUpComponents(nextScene, false);
                 } else {
                     attachToParent(nextScene.getView());
                 }
@@ -193,26 +223,25 @@ public class Screenplay implements Flow.Listener {
         parent.removeView(view);
     }
 
-    private void setUpScene(Scene scene) {
-        View added = scene.setUp(director.getActivity(), director.getContainer());
+    private void setUpScene(Scene scene, boolean isStarting) {
+        View added = scene.setUp(director.getActivity(), director.getContainer(), isStarting);
         attachToParent(added);
     }
 
     private void tearDownScene(Scene scene, boolean isFinishing) {
-
         View removed = scene.tearDown(director.getActivity(), director.getContainer(), isFinishing);
         removeFromParent(removed);
     }
 
-    private void setUpComponents(Scene scene) {
+    private void setUpComponents(Scene scene, boolean isStarting) {
         for (Scene.Component component: scene.getComponents()) {
-            component.afterSetUp(director.getActivity(), scene);
+            component.afterSetUp(scene, isStarting);
         }
     }
 
     private void tearDownComponents(Scene scene, boolean isFinishing) {
         for (Scene.Component component: scene.getComponents()) {
-            component.beforeTearDown(director.getActivity(), scene, isFinishing);
+            component.beforeTearDown(scene, isFinishing);
         }
     }
 }

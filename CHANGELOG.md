@@ -31,8 +31,12 @@ tearing down the `ScopedScene` when it is popped off of the stack.
 argument as this was redundant. Access the view with `Scene.getView`.
 5. The `Scene.tearDown` and `Component.beforeTearDown` methods now have a boolean parameter,
 `isFinishing`. This is `true` if the scene is being popped off of the stack, `false` otherwise.
+5. The `Scene.setUp` and `Component.afterSetUp` methods now have a boolean parameter,
+`isInitializing`. This is `true` if the scene is being pushed onto the stack, `false` otherwise.
 6. Components are no longer passed through the scene's constructor. use the `addComponents()` method
 instead.
+7. Components no longer pass a context argument. Use `Scene.getView.getContext` instead.
+8. `ScopedScene` changed to `MortarScopedScene`
 
 
 ## 0.5.3 CHANGELOG

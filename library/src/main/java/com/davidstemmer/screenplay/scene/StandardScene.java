@@ -19,13 +19,13 @@ public abstract class StandardScene implements Scene {
     private View view;
 
     @Override
-    public View setUp(Context context, ViewGroup parent) {
+    public View setUp(Context context, ViewGroup parent, boolean isFinishing) {
         view = LayoutCompat.createView(context, parent, this);
         return view;
     }
 
     @Override
-    public View tearDown(Context context, ViewGroup parent, boolean isSceneFinishing) {
+    public View tearDown(Context context, ViewGroup parent, boolean isStarting) {
         View destroyed = view;
         view = null;
         return destroyed;

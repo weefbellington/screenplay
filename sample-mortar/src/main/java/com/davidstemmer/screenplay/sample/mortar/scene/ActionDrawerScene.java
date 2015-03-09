@@ -9,6 +9,7 @@ import com.davidstemmer.screenplay.sample.mortar.module.ActivityModule;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.ActionDrawerTransformer;
 import com.davidstemmer.screenplay.sample.mortar.view.ActionDrawerView;
 import com.davidstemmer.screenplay.scene.ScopedScene;
+import com.davidstemmer.screenplay.scene.UniqueBlueprint;
 import com.davidstemmer.screenplay.scene.component.CallbackComponent;
 import com.davidstemmer.screenplay.scene.component.ResultHandler;
 import com.davidstemmer.screenplay.scene.component.SceneCallback;
@@ -104,7 +105,7 @@ public class ActionDrawerScene extends ScopedScene {
         }
     }
 
-    public static class Blueprint extends SimpleBlueprint {
+    public static class Blueprint extends UniqueBlueprint {
         public Blueprint(Callback callback) {
             super(ActionDrawerScene.class, new Module(callback));
         }

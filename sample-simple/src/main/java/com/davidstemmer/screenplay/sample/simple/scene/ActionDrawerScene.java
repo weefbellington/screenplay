@@ -38,8 +38,9 @@ public class ActionDrawerScene extends StandardScene {
     }
 
     @Override
-    public View setUp(Context context, ViewGroup parent) {
-        ActionDrawerView view = (ActionDrawerView) super.setUp(context, parent);
+    public View setUp(Context context, ViewGroup parent, boolean isFinishing) {
+        //TODO this bind should not be in setUp
+        ActionDrawerView view = (ActionDrawerView) super.setUp(context, parent, isFinishing);
         view.bind(resultHandler);
         return view;
     }
