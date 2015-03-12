@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Toast;
 
+import com.davidstemmer.screenplay.sample.mortar.MainApplication;
 import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.component.PresentationComponent;
 import com.davidstemmer.screenplay.sample.mortar.module.ActionDrawerComponent;
@@ -46,7 +47,6 @@ public class StackedScene extends StandardScene {
 
         private final Flow flow;
         private final Provider<DialogScene> dialogSceneFactory;
-        private final Binder<ApplicationComponent> applicationBinder;
 
         @Inject
         public Presenter(Flow flow,
@@ -54,7 +54,6 @@ public class StackedScene extends StandardScene {
                          Binder<ApplicationComponent> applicationBinder) {
             this.flow = flow;
             this.dialogSceneFactory = dialogSceneFactory;
-            this.applicationBinder = applicationBinder;
         }
 
         @OnClick(R.id.show_dialog) void dialogButtonClicked() {
@@ -63,7 +62,7 @@ public class StackedScene extends StandardScene {
 
         @OnClick(R.id.show_action_drawer) void showActionDrawer(View button) {
             ActionDrawerScene.Callback callback = new ActionDrawerCallback(button.getContext());
-            ApplicationComponent parentComponent = applicationBinder.getTarget();
+            ApplicationComponent parentComponent = MainApplication.getComponent();
             ActionDrawerComponent component = Dagger_ActionDrawerComponent.builder()
                     .applicationComponent(parentComponent)
                     .actionDrawerModule(new ActionDrawerModule(callback))

@@ -11,8 +11,6 @@ import android.view.ViewGroup;
 import com.davidstemmer.screenplay.SimpleActivityDirector;
 import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.sample.mortar.module.ApplicationComponent;
-import com.davidstemmer.screenplay.sample.mortar.module.ApplicationModule;
-import com.davidstemmer.screenplay.sample.mortar.module.Dagger_ApplicationComponent;
 import com.davidstemmer.screenplay.sample.mortar.presenter.DrawerPresenter;
 import com.davidstemmer.screenplay.sample.mortar.presenter.NavigationMenuPresenter;
 
@@ -22,7 +20,6 @@ import flow.Flow;
 public class MainActivity extends ActionBarActivity {
 
     private DrawerLayout navigationDrawer;
-    private ApplicationComponent component;
 
     private Flow flow;
     private Screenplay screenplay;
@@ -35,15 +32,13 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
 
-        component = Dagger_ApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(getApplication()))
-                .build();
-
-        component.binder().take(component);
+        ApplicationComponent component = MainApplication.getComponent();
+        // TODO move some of this logic to its own class
         flow = component.flow();
         screenplay = component.screenplay();
         drawerPresenter = component.drawerPresenter();
         director = component.director();
+
         NavigationMenuPresenter navigationPresenter = component.menuPresenter();
 
         setContentView(R.layout.activity_main);
