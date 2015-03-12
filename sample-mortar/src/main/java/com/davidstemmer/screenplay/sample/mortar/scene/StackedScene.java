@@ -10,7 +10,6 @@ import com.davidstemmer.screenplay.sample.mortar.component.PresentationComponent
 import com.davidstemmer.screenplay.sample.mortar.module.ActionDrawerComponent;
 import com.davidstemmer.screenplay.sample.mortar.module.ActionDrawerModule;
 import com.davidstemmer.screenplay.sample.mortar.module.ApplicationComponent;
-import com.davidstemmer.screenplay.sample.mortar.module.Binder;
 import com.davidstemmer.screenplay.sample.mortar.module.Dagger_ActionDrawerComponent;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.CrossfadeTransformer;
 import com.davidstemmer.screenplay.scene.StandardScene;
@@ -50,8 +49,7 @@ public class StackedScene extends StandardScene {
 
         @Inject
         public Presenter(Flow flow,
-                         Provider<DialogScene> dialogSceneFactory,
-                         Binder<ApplicationComponent> applicationBinder) {
+                         Provider<DialogScene> dialogSceneFactory) {
             this.flow = flow;
             this.dialogSceneFactory = dialogSceneFactory;
         }

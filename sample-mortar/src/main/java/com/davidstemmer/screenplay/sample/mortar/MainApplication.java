@@ -20,7 +20,6 @@ public class MainApplication extends Application
         component = Dagger_ApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();
-        component.binder().take(component);
     }
 
     public static ApplicationComponent getComponent() {

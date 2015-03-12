@@ -21,8 +21,6 @@ import flow.Flow;
 public interface ApplicationComponent {
     // application class
     Application application();
-    // holds a reference to the associated Component
-    Binder<ApplicationComponent> binder();
     // screenplay boilerplate
     SimpleActivityDirector director();
     Flow flow();

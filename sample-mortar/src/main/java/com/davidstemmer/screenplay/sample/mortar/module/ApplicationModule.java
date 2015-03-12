@@ -46,11 +46,6 @@ public class ApplicationModule {
         this.application = application;
     }
 
-    @Provides @Singleton
-    Binder<ApplicationComponent> provideComponentBinder() {
-        return new Binder<ApplicationComponent>();
-    }
-
     @Provides
     Application provideApplication() {
         return application;
