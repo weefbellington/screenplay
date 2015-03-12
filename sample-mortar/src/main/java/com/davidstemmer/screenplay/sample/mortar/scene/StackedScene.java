@@ -1,22 +1,26 @@
 package com.davidstemmer.screenplay.sample.mortar.scene;
 
-import android.os.Bundle;
+import android.content.Context;
+import android.view.View;
 import android.widget.Toast;
 
 import com.davidstemmer.screenplay.sample.mortar.R;
+import com.davidstemmer.screenplay.sample.mortar.component.PresentationComponent;
+import com.davidstemmer.screenplay.sample.mortar.module.ActionDrawerComponent;
+import com.davidstemmer.screenplay.sample.mortar.module.ActionDrawerModule;
+import com.davidstemmer.screenplay.sample.mortar.module.ApplicationComponent;
+import com.davidstemmer.screenplay.sample.mortar.module.Binder;
+import com.davidstemmer.screenplay.sample.mortar.module.Dagger_ActionDrawerComponent;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.CrossfadeTransformer;
-import com.davidstemmer.screenplay.sample.mortar.view.ModalSceneView;
 import com.davidstemmer.screenplay.scene.StandardScene;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import flow.Flow;
 import flow.Layout;
-import mortar.ViewPresenter;
 
 /**
  * Created by weefbellington on 10/2/14.
@@ -27,8 +31,9 @@ public class StackedScene extends StandardScene {
     private final CrossfadeTransformer transformer;
 
     @Inject
-    public StackedScene(CrossfadeTransformer transformer) {
+    public StackedScene(Presenter presenter, CrossfadeTransformer transformer) {
         this.transformer = transformer;
+        addComponents(presenter);
     }
 
     @Override
@@ -37,37 +42,53 @@ public class StackedScene extends StandardScene {
     }
 
     @Singleton
-    public static class Presenter extends ViewPresenter<ModalSceneView> {
+    public static class Presenter extends PresentationComponent<View> {
 
-        @Inject Flow flow;
-        @Inject Provider<DialogScene> dialogSceneFactory;
+        private final Flow flow;
+        private final Provider<DialogScene> dialogSceneFactory;
+        private final Binder<ApplicationComponent> applicationBinder;
 
-        @Override
-        protected void onLoad(Bundle savedInstanceState) {
-            super.onLoad(savedInstanceState);
-            ButterKnife.inject(this, getView());
+        @Inject
+        public Presenter(Flow flow,
+                         Provider<DialogScene> dialogSceneFactory,
+                         Binder<ApplicationComponent> applicationBinder) {
+            this.flow = flow;
+            this.dialogSceneFactory = dialogSceneFactory;
+            this.applicationBinder = applicationBinder;
         }
 
         @OnClick(R.id.show_dialog) void dialogButtonClicked() {
             flow.goTo(dialogSceneFactory.get());
         }
-        @OnClick(R.id.show_action_drawer) void showActionDrawer() {
-            ActionDrawerScene actionDrawerScene = new ActionDrawerScene(getView().getContext(), new ActionDrawerCallback());
-            flow.goTo(actionDrawerScene);
+
+        @OnClick(R.id.show_action_drawer) void showActionDrawer(View button) {
+            ActionDrawerScene.Callback callback = new ActionDrawerCallback(button.getContext());
+            ApplicationComponent parentComponent = applicationBinder.getTarget();
+            ActionDrawerComponent component = Dagger_ActionDrawerComponent.builder()
+                    .applicationComponent(parentComponent)
+                    .actionDrawerModule(new ActionDrawerModule(callback))
+                    .build();
+            flow.goTo(component.actionDrawerScene());
         }
 
         private class ActionDrawerCallback implements ActionDrawerScene.Callback {
+            private final Context context;
+
+            private ActionDrawerCallback(Context context) {
+                this.context = context;
+            }
+
             @Override
             public void onExitScene(ActionDrawerScene.Result result) {
                 switch (result) {
                     case YES:
-                        Toast.makeText(getView().getContext(), "Result is YES", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Result is YES", Toast.LENGTH_LONG).show();
                         break;
                     case NO:
-                        Toast.makeText(getView().getContext(), "Result is NO", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Result is NO", Toast.LENGTH_LONG).show();
                         break;
                     case CANCELLED:
-                        Toast.makeText(getView().getContext(), "Result is CANCELLED", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Result is CANCELLED", Toast.LENGTH_LONG).show();
                         break;
                 }
             }

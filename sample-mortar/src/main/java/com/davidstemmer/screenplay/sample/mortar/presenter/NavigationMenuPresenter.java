@@ -1,31 +1,27 @@
 package com.davidstemmer.screenplay.sample.mortar.presenter;
 
-import android.app.Activity;
-import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.davidstemmer.screenplay.sample.mortar.R;
-import com.davidstemmer.screenplay.sample.mortar.scene.StackedScene;
 import com.davidstemmer.screenplay.sample.mortar.scene.PagedScene1;
+import com.davidstemmer.screenplay.sample.mortar.scene.StackedScene;
 import com.davidstemmer.screenplay.sample.mortar.scene.WelcomeScene;
-import com.davidstemmer.screenplay.sample.mortar.view.NavigationMenuView;
 import com.davidstemmer.screenplay.scene.Scene;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import flow.Flow;
-import mortar.ViewPresenter;
 
 /**
  * Created by weefbellington on 10/25/14.
  */
 @Singleton
-public class NavigationMenuPresenter extends ViewPresenter<NavigationMenuView> {
+public class NavigationMenuPresenter extends ViewPresenter<ViewGroup> {
 
     private final DrawerPresenter drawer;
     private final Flow flow;
@@ -76,8 +72,8 @@ public class NavigationMenuPresenter extends ViewPresenter<NavigationMenuView> {
 
     private void setSelected(int id) {
         selected = id;
-        for (int i = 0; i < getView().getChildCount(); i++) {
-            TextView child = (TextView) getView().getChildAt(i);
+        for (int i = 0; i < getTarget().getChildCount(); i++) {
+            TextView child = (TextView) getTarget().getChildAt(i);
             if (id == child.getId()) {
                 child.setSelected(true);
             } else {
@@ -87,9 +83,7 @@ public class NavigationMenuPresenter extends ViewPresenter<NavigationMenuView> {
     }
 
     @Override
-    protected void onLoad(Bundle savedInstanceState) {
-        super.onLoad(savedInstanceState);
-        ButterKnife.inject(this, (Activity) getView().getContext());
+    public void take(ViewGroup view) {
         setSelected(selected);
     }
 

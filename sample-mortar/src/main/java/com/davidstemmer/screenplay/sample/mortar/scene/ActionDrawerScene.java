@@ -1,35 +1,31 @@
 package com.davidstemmer.screenplay.sample.mortar.scene;
 
-import android.content.Context;
-import android.os.Bundle;
+import android.view.View;
 
 import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.component.DrawerLockingComponent;
-import com.davidstemmer.screenplay.sample.mortar.module.ActivityModule;
+import com.davidstemmer.screenplay.sample.mortar.component.PresentationComponent;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.ActionDrawerTransformer;
-import com.davidstemmer.screenplay.sample.mortar.view.ActionDrawerView;
-import com.davidstemmer.screenplay.scene.ScopedScene;
-import com.davidstemmer.screenplay.scene.UniqueBlueprint;
+import com.davidstemmer.screenplay.scene.StandardScene;
 import com.davidstemmer.screenplay.scene.component.CallbackComponent;
 import com.davidstemmer.screenplay.scene.component.ResultHandler;
 import com.davidstemmer.screenplay.scene.component.SceneCallback;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-import butterknife.ButterKnife;
+import javax.inject.Inject;
+
 import butterknife.OnClick;
-import dagger.Provides;
 import flow.Flow;
 import flow.Layout;
-import mortar.ViewPresenter;
 
 /**
  * Created by weefbellington on 10/21/14.
  */
 
 @Layout(R.layout.action_drawer)
-public class ActionDrawerScene extends ScopedScene {
+public class ActionDrawerScene extends StandardScene {
 
     public static enum Result {
         YES,
@@ -37,13 +33,15 @@ public class ActionDrawerScene extends ScopedScene {
         CANCELLED
     }
 
-    @Inject ActionDrawerTransformer transformer;
-    @Inject DrawerLockingComponent lockingComponent;
-    @Inject CallbackComponent<Result> callbackComponent;
+    private final ActionDrawerTransformer transformer;
 
-    public ActionDrawerScene(Context context, Callback callback) {
-        super(context, new Blueprint(callback));
-        addComponents(lockingComponent, callbackComponent);
+    @Inject
+    public ActionDrawerScene(ActionDrawerTransformer transformer,
+                             DrawerLockingComponent lockingComponent,
+                             CallbackComponent<Result> callbackComponent,
+                             Presenter presenterComponent) {
+        this.transformer = transformer;
+        addComponents(lockingComponent, callbackComponent, presenterComponent);
     }
 
     @Override
@@ -58,41 +56,23 @@ public class ActionDrawerScene extends ScopedScene {
 
     public static interface Callback extends SceneCallback<Result> {}
 
-    @dagger.Module(addsTo = ActivityModule.class, injects = {
-            ActionDrawerScene.class,
-            ActionDrawerScene.Presenter.class,
-            ActionDrawerView.class
-    })
-    public static class Module {
+    @ActionDrawerScene.Scope
+    public static class Presenter extends PresentationComponent<View> {
 
-        private final Callback callback;
+        private final Flow flow;
+        private final ResultHandler<Result> resultHandler;
 
-        public Module(Callback callback) {
-            this.callback = callback;
+        @Inject
+        public Presenter(Flow flow, ResultHandler<Result> resultHandler) {
+            this.flow = flow;
+            this.resultHandler = resultHandler;
         }
-
-        @Provides @Singleton
-        ResultHandler<Result> provideResultHandler() {
-            return new ResultHandler<ActionDrawerScene.Result>(ActionDrawerScene.Result.CANCELLED);
-        }
-
-        @Provides @Singleton
-        CallbackComponent<Result> provideCallbackComponent(ResultHandler<Result> resultHandler) {
-            return new CallbackComponent<Result>(callback, resultHandler);
-        }
-    }
-
-    @Singleton
-    public static class Presenter extends ViewPresenter<ActionDrawerView> {
-
-        @Inject Flow flow;
-        @Inject ResultHandler<Result> resultHandler;
 
         @Override
-        protected void onLoad(Bundle savedInstanceState) {
-            super.onLoad(savedInstanceState);
-            ButterKnife.inject(this, getView());
-        }
+        public void afterSetUp(View view, boolean isInitializing) {}
+
+        @Override
+        public void beforeTearDown(View view, boolean isFinishing) {}
 
         @OnClick(R.id.yes) void yes() {
             resultHandler.setResult(Result.YES);
@@ -105,9 +85,7 @@ public class ActionDrawerScene extends ScopedScene {
         }
     }
 
-    public static class Blueprint extends UniqueBlueprint {
-        public Blueprint(Callback callback) {
-            super(ActionDrawerScene.class, new Module(callback));
-        }
-    }
+    @javax.inject.Scope
+    @Retention(RetentionPolicy.RUNTIME)
+    public static @interface Scope {}
 }

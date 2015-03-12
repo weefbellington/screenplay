@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.davidstemmer.screenplay.sample.mortar.view.ModalSceneView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@android:color/holo_orange_light"
     android:orientation="vertical"
@@ -24,4 +24,4 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
         android:text="@string/modal_scene_action_drawer_button_text"/>
-</com.davidstemmer.screenplay.sample.mortar.view.ModalSceneView>
+</LinearLayout>

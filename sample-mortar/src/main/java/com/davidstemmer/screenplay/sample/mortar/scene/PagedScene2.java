@@ -1,19 +1,17 @@
 package com.davidstemmer.screenplay.sample.mortar.scene;
 
-import android.os.Bundle;
+import android.view.View;
 
 import com.davidstemmer.screenplay.sample.mortar.R;
+import com.davidstemmer.screenplay.sample.mortar.component.PresentationComponent;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.HorizontalSlideTransformer;
-import com.davidstemmer.screenplay.sample.mortar.view.PagedView2;
 import com.davidstemmer.screenplay.scene.StandardScene;
 
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import flow.Flow;
 import flow.Layout;
-import mortar.ViewPresenter;
 
 /**
  * Created by weefbellington on 10/17/14.
@@ -25,8 +23,9 @@ public class PagedScene2 extends StandardScene {
     private final HorizontalSlideTransformer transformer;
 
     @Inject
-    public PagedScene2(HorizontalSlideTransformer transformer) {
+    public PagedScene2(Presenter presenter, HorizontalSlideTransformer transformer) {
         this.transformer = transformer;
+        addComponents(presenter);
     }
 
     @Override
@@ -34,15 +33,15 @@ public class PagedScene2 extends StandardScene {
         return transformer;
     }
 
-    public static class Presenter extends ViewPresenter<PagedView2> {
+    public static class Presenter extends PresentationComponent<View> {
 
-        @Inject PagedScene3 nextScene;
-        @Inject Flow flow;
+        private final PagedScene3 nextScene;
+        private final Flow flow;
 
-        @Override
-        protected void onLoad(Bundle savedInstanceState) {
-            super.onLoad(savedInstanceState);
-            ButterKnife.inject(this, getView());
+        @Inject
+        public Presenter(PagedScene3 nextScene, Flow flow) {
+            this.nextScene = nextScene;
+            this.flow = flow;
         }
 
         @OnClick(R.id.next) void nextClicked() {
