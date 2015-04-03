@@ -59,5 +59,6 @@ public class SceneCut {
             outgoingScenes.add(outgoingScene);
             return this;
         }
+
     }
 }

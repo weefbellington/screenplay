@@ -1,15 +1,16 @@
 package com.davidstemmer.screenplay.sample.mortar.module;
 
-import com.davidstemmer.screenplay.MortarActivityDirector;
+import com.davidstemmer.screenplay.ImmutableStage;
+import com.davidstemmer.screenplay.MutableStage;
+import com.davidstemmer.screenplay.Stage;
 import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.sample.mortar.MainActivity;
-import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.presenter.NavigationMenuPresenter;
 import com.davidstemmer.screenplay.sample.mortar.scene.DialogScene;
-import com.davidstemmer.screenplay.sample.mortar.scene.StackedScene;
 import com.davidstemmer.screenplay.sample.mortar.scene.PagedScene1;
 import com.davidstemmer.screenplay.sample.mortar.scene.PagedScene2;
 import com.davidstemmer.screenplay.sample.mortar.scene.PagedScene3;
+import com.davidstemmer.screenplay.sample.mortar.scene.StackedScene;
 import com.davidstemmer.screenplay.sample.mortar.scene.WelcomeScene;
 import com.davidstemmer.screenplay.sample.mortar.view.DialogSceneView;
 import com.davidstemmer.screenplay.sample.mortar.view.ModalSceneView;
@@ -53,18 +54,27 @@ import flow.Flow;
         })
 public class ActivityModule {
 
+    private ImmutableStage stage;
+
+
     @Provides @Singleton
-    MortarActivityDirector provideActivityDirector() {
-        return new MortarActivityDirector(R.id.main);
+    MutableStage mainStage() {
+        return new MutableStage();
     }
 
     @Provides @Singleton
-    Screenplay provideScreenplay(MortarActivityDirector director) {
-        return new Screenplay(director);
+    Stage stageInterface(MutableStage mainStage) {
+        return mainStage;
+    }
+
+
+    @Provides @Singleton
+    Screenplay screenplay(Stage stage) {
+        return new Screenplay(stage);
     }
 
     @Provides @Singleton
-    Flow provideFlow(WelcomeScene welcomeScene, Screenplay screenplay) {
+    Flow flow(WelcomeScene welcomeScene, Screenplay screenplay) {
         return new Flow(Backstack.single(welcomeScene), screenplay);
     }
 }

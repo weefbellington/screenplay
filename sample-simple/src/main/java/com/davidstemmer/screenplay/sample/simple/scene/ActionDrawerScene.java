@@ -39,7 +39,7 @@ public class ActionDrawerScene extends StandardScene {
 
     @Override
     public View setUp(Context context, ViewGroup parent, boolean isFinishing) {
-        //TODO this bind should not be in setUp
+        //TODO this enter should not be in setUp
         ActionDrawerView view = (ActionDrawerView) super.setUp(context, parent, isFinishing);
         view.bind(resultHandler);
         return view;

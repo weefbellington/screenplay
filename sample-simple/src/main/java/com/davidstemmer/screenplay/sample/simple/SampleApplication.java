@@ -2,7 +2,7 @@ package com.davidstemmer.screenplay.sample.simple;
 
 import android.app.Application;
 
-import com.davidstemmer.screenplay.SimpleActivityDirector;
+import com.davidstemmer.screenplay.SimpleStage;
 import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.sample.simple.scene.WelcomeScene;
 
@@ -14,7 +14,7 @@ import flow.Flow;
  */
 public class SampleApplication extends Application {
 
-    public final SimpleActivityDirector director = new SimpleActivityDirector();
+    public final SimpleStage director = new SimpleStage();
     public final Screenplay screenplay = new Screenplay(director);
     public final DrawerHelper drawerHelper = new DrawerHelper(director);
     public final Flow mainFlow = new Flow(Backstack.single(new WelcomeScene(this)), screenplay);
@@ -24,7 +24,7 @@ public class SampleApplication extends Application {
     public void onCreate() { application = this; }
 
     public static SampleApplication getInstance()       { return application; }
-    public static SimpleActivityDirector getDirector()  { return getInstance().director; }
+    public static SimpleStage getDirector()  { return getInstance().director; }
     public static Screenplay getScreenplay()            { return getInstance().screenplay; }
     public static Flow getMainFlow()                    { return getInstance().mainFlow; }
     public static DrawerHelper getDrawerHelper()        { return getInstance().drawerHelper; }

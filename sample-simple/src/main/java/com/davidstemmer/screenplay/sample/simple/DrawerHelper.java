@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.davidstemmer.screenplay.SimpleActivityDirector;
+import com.davidstemmer.screenplay.SimpleStage;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
 /**
@@ -18,12 +18,12 @@ import com.example.weefbellington.screenplay.sample.simple.R;
  */
 public class DrawerHelper {
 
-    private final SimpleActivityDirector director;
+    private final SimpleStage director;
 
     private ActionBarDrawerToggle drawerToggle;
     private DrawerLayout drawerLayout;
 
-    public DrawerHelper(SimpleActivityDirector director) {
+    public DrawerHelper(SimpleStage director) {
         this.director = director;
     }
 

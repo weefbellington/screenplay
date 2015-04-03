@@ -7,7 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 
-import com.davidstemmer.screenplay.SimpleActivityDirector;
+import com.davidstemmer.screenplay.SimpleStage;
 import com.davidstemmer.screenplay.flow.Screenplay;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
@@ -16,7 +16,7 @@ import flow.Flow;
 
 public class MainActivity extends ActionBarActivity {
 
-    private SimpleActivityDirector director;
+    private SimpleStage director;
     private Flow flow;
     private Screenplay screenplay;
     private DrawerLayout drawerLayout;
@@ -36,7 +36,7 @@ public class MainActivity extends ActionBarActivity {
         screenplay = SampleApplication.getScreenplay();
         drawerHelper = SampleApplication.getDrawerHelper();
 
-        director.bind(this, container);
+        director.enter(this, container);
         drawerHelper.bind(drawerLayout);
         screenplay.enter(flow);
     }
@@ -77,7 +77,7 @@ public class MainActivity extends ActionBarActivity {
 
     @Override public void onDestroy() {
         super.onDestroy();
-        director.unbind();
+        director.exit();
         drawerHelper.unbind();
     }
 }
