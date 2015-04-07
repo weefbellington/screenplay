@@ -3,35 +3,34 @@ package com.davidstemmer.screenplay;
 import android.app.Activity;
 import android.view.ViewGroup;
 
-import com.davidstemmer.screenplay.flow.Screenplay;
+import flow.Flow;
 
 /**
  * @version 1.0.0
  * @author  David Stemmer
  * @since   1.0.0
  */
-public class SimpleActivityDirector implements Screenplay.Director {
+public class ImmutableStage implements Stage {
 
-    private Activity activity;
-    private ViewGroup container;
+    private final Activity activity;
+    private final ViewGroup container;
+    private final Flow flow;
 
-    public void bind(Activity activity, ViewGroup container) {
+    public ImmutableStage(Activity activity, ViewGroup container, Flow flow) {
         this.activity = activity;
         this.container = container;
+        this.flow = flow;
     }
 
-    public void unbind() {
-        this.activity = null;
-        this.container = null;
-    }
-
-    @Override
     public Activity getActivity() {
         return activity;
     }
 
-    @Override
     public ViewGroup getContainer() {
         return container;
+    }
+
+    public Flow getFlow() {
+        return flow;
     }
 }

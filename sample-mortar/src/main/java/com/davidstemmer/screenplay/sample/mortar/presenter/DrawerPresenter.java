@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.davidstemmer.screenplay.MortarActivityDirector;
+import com.davidstemmer.screenplay.Stage;
 import com.davidstemmer.screenplay.sample.mortar.R;
 
 import javax.inject.Inject;
@@ -27,12 +27,12 @@ import mortar.Presenter;
 @Singleton
 public class DrawerPresenter extends Presenter<DrawerLayout> {
 
-    private final MortarActivityDirector director;
+    private final Stage mainStage;
     private ActionBarDrawerToggle drawerToggle;
 
     @Inject
-    public DrawerPresenter(MortarActivityDirector director) {
-        this.director = director;
+    public DrawerPresenter(Stage mainStage) {
+        this.mainStage = mainStage;
     }
 
     @Override
@@ -41,11 +41,11 @@ public class DrawerPresenter extends Presenter<DrawerLayout> {
 
         drawerToggle = createDrawerToggle();
 
-        LayoutInflater inflater = director.getActivity().getLayoutInflater();
+        LayoutInflater inflater = mainStage.getActivity().getLayoutInflater();
         inflater.inflate(R.layout.navigation_menu, getLayout());
         getLayout().setDrawerListener(drawerToggle);
 
-        ActionBar actionBar = ((ActionBarActivity)director.getActivity()).getSupportActionBar();
+        ActionBar actionBar = ((ActionBarActivity)mainStage.getActivity()).getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
@@ -59,18 +59,18 @@ public class DrawerPresenter extends Presenter<DrawerLayout> {
     private ActionBarDrawerToggle createDrawerToggle() {
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                director.getActivity(),
+                mainStage.getActivity(),
                 getLayout(),
                 R.string.drawer_open,
                 R.string.drawer_close) {
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                director.getActivity().invalidateOptionsMenu();
+                mainStage.getActivity().invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                director.getActivity().invalidateOptionsMenu();
+                mainStage.getActivity().invalidateOptionsMenu();
             }
         };
         toggle.setDrawerIndicatorEnabled(true);
@@ -123,7 +123,7 @@ public class DrawerPresenter extends Presenter<DrawerLayout> {
 
     @Override
     protected MortarScope extractScope(DrawerLayout view) {
-        return Mortar.getScope(director.getActivity());
+        return Mortar.getScope(mainStage.getActivity());
     }
 
 

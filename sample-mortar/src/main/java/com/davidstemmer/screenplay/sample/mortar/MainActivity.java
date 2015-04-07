@@ -5,8 +5,9 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
-import com.davidstemmer.screenplay.MortarActivityDirector;
+import com.davidstemmer.screenplay.MutableStage;
 import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.sample.mortar.module.ActivityModule;
 import com.davidstemmer.screenplay.sample.mortar.presenter.DrawerPresenter;
@@ -14,6 +15,7 @@ import com.davidstemmer.screenplay.sample.mortar.presenter.DrawerPresenter;
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
+import butterknife.InjectView;
 import flow.Flow;
 import mortar.Blueprint;
 import mortar.Mortar;
@@ -22,9 +24,11 @@ import mortar.MortarScope;
 
 public class MainActivity extends ActionBarActivity implements Blueprint {
 
+    @InjectView(R.id.main) ViewGroup stageView;
+
     @Inject Flow flow;
+    @Inject MutableStage mainStage;
     @Inject Screenplay screenplay;
-    @Inject MortarActivityDirector activityDirector;
     @Inject DrawerPresenter drawerPresenter;
 
     private DrawerLayout navigationDrawer;
@@ -45,11 +49,11 @@ public class MainActivity extends ActionBarActivity implements Blueprint {
 
         ButterKnife.inject(this, this);
 
+        mainStage.bind(this, stageView, flow);
         navigationDrawer = (DrawerLayout) findViewById(R.id.drawer_parent);
-        activityDirector.takeView(this);
         drawerPresenter.takeView(navigationDrawer);
 
-        screenplay.enter(flow);
+        screenplay.enter();
     }
 
     @Override
@@ -86,7 +90,6 @@ public class MainActivity extends ActionBarActivity implements Blueprint {
 
     @Override public Object getSystemService(String name) {
         if (Mortar.isScopeSystemService(name)) {
-
             return activityScope;
         }
         return super.getSystemService(name);
@@ -100,9 +103,11 @@ public class MainActivity extends ActionBarActivity implements Blueprint {
 
     @Override public void onDestroy() {
         super.onDestroy();
+
+        screenplay.exit();
+        mainStage.unbind();
         // Drop the activity and drawer presenter every time the Activity is destroyed.
         // This allows them to release references to the Activity that is about to be destroyed.
-        activityDirector.dropView(this);
         drawerPresenter.dropView(navigationDrawer);
 
         if (isFinishing()) {
