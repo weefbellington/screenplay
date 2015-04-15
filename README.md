@@ -252,7 +252,7 @@ Screenplay is currently available as a beta snapshot. Grab it via Maven:
 <dependency>
     <groupId>com.davidstemmer</groupId>
     <artifactId>screenplay</artifactId>
-    <version>0.6.0-SNAPSHOT</version>
+    <version>0.6.1-SNAPSHOT</version>
     <type>aar</type>
 </dependency>
 ```
