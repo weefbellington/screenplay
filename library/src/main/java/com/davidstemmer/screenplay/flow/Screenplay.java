@@ -85,11 +85,10 @@ public class Screenplay implements Flow.Listener {
      * More formally, returns <tt>true</tt> if and only if the backstack contains
      * at least one element <tt>e</tt> such that <tt>o.equals(e)</tt>, and its view is not null.
      * @param scene the scene to compare against
-     * @param backstack a backstack of scenes
      * @return true if the scene is attached, false otherwise
      */
-    public static boolean isSceneAttached(Scene scene, Backstack backstack) {
-        return isSceneInBackstack(scene, backstack) && scene.getView() != null;
+    public boolean isSceneAttached(Scene scene) {
+        return isSceneInBackstack(scene) && scene.getView() != null;
     }
 
     /**
@@ -97,11 +96,10 @@ public class Screenplay implements Flow.Listener {
      * More formally, returns <tt>true</tt> if and only if the backstack contains
      * at least one element <tt>e</tt> such that <tt>o.equals(e)</tt>.
      * @param scene the target scene
-     * @param backstack a backstack of scenes
      * @return true if the scene is in the backstack, false otherwise
      */
-    public static boolean isSceneInBackstack(Scene scene, Backstack backstack) {
-        for (Backstack.Entry entry : backstack) {
+    public boolean isSceneInBackstack(Scene scene) {
+        for (Backstack.Entry entry : stage.getFlow().getBackstack()) {
             if (entry.getScreen().equals(scene)) {
                 return true;
             }
