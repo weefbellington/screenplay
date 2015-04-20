@@ -20,7 +20,7 @@ public class Screenplay implements Flow.Listener {
 
     private final Stage stage;
 
-    private Scene outgoingScene;
+    private final ArrayDeque<Scene> previousScenes = new ArrayDeque<Scene>();
 
     public Screenplay(Stage stage) {
         this.stage = stage;
@@ -39,6 +39,7 @@ public class Screenplay implements Flow.Listener {
                 .setCallback(callback);
 
         if (direction == Flow.Direction.BACKWARD) {
+            Scene outgoingScene = previousScenes.getLast();
             if (outgoingScene.isStacking()) {
                 incomingScenes = new ArrayDeque<>();
             } else {
@@ -48,30 +49,25 @@ public class Screenplay implements Flow.Listener {
             outgoingScenes.push(outgoingScene);
         }
         else {
+            // Using forward/replace, there is always one (and only one) incoming scene
             incomingScenes = new ArrayDeque<>();
             incomingScenes.push(incomingScene);
-            // Forward on a stacked scene:
-            // No outgoing scenes to animate or tear down.
-            // Forward on a non-stacked scene:
-            // Animate and tear down the current scene block.
-            if (incomingScene.isStacking() || outgoingScene == null) {
+            // Forward/replace to a stacked scene:
+            // No outgoing scenes to animate or tear down
+            if (incomingScene.isStacking() || previousScenes.isEmpty()) {
                 outgoingScenes = new ArrayDeque<>();
             }
-            // Forward to a non-stacked scene:
-            //
-
-            else if (nextBackstack.size() > 1) {
-
-                outgoingScenes = getLastSceneBlock(trimBackstack(nextBackstack, 1));
-            } else {
-                outgoingScenes = new ArrayDeque<>();
-                outgoingScenes.add(outgoingScene);
+            // Forward/replace to a non-stacked scene:
+            // Animate and tear down the previous scene block
+            else {
+                outgoingScenes = previousScenes;
             }
 
         }
 
         Scene.Transformer delegatedTransformer = direction == Flow.Direction.BACKWARD ?
-                outgoingScene.getTransformer() : incomingScene.getTransformer();
+                outgoingScenes.getFirst().getTransformer():
+                incomingScene.getTransformer();
 
         for (Scene scene : incomingScenes) {
             sceneCut.addIncomingScene(scene);
@@ -81,7 +77,9 @@ public class Screenplay implements Flow.Listener {
             sceneCut.addOutgoingScene(scene);
         }
 
-        outgoingScene = incomingScene;
+        previousScenes.clear();
+        previousScenes.addAll(getLastSceneBlock(nextBackstack));
+
         beginCut(sceneCut.build(), delegatedTransformer);
     }
 
@@ -181,7 +179,7 @@ public class Screenplay implements Flow.Listener {
         Iterator<Scene> sceneIterator = scenes.iterator();
 
         Scene firstScene = scenes.getFirst();
-        if (scenes.size() == 1 && firstScene != outgoingScene) {
+        if (scenes.size() == 1 && previousScenes.isEmpty()) {
             flow.replaceTo(firstScene);
         }
         else {
