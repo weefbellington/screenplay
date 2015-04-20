@@ -56,7 +56,12 @@ public class Screenplay implements Flow.Listener {
             // Animate and tear down the current scene block.
             if (incomingScene.isStacking() || outgoingScene == null) {
                 outgoingScenes = new ArrayDeque<>();
-            } else if (nextBackstack.size() > 1) {
+            }
+            // Forward to a non-stacked scene:
+            //
+
+            else if (nextBackstack.size() > 1) {
+
                 outgoingScenes = getLastSceneBlock(trimBackstack(nextBackstack, 1));
             } else {
                 outgoingScenes = new ArrayDeque<>();
