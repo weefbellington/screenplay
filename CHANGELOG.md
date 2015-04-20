@@ -1,3 +1,10 @@
+## 0.6.2 CHANGELOG
+
+*Bug fixes*
+
+Fix issue where not all views were being removed when `replaceTo` was called with a stacking scene
+showing.
+
 ## 0.6.1 CHANGELOG
 
 **New features**
