@@ -4,13 +4,9 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Toast;
 
-import com.davidstemmer.screenplay.sample.mortar.MainApplication;
 import com.davidstemmer.screenplay.sample.mortar.R;
+import com.davidstemmer.screenplay.sample.mortar.Scenes;
 import com.davidstemmer.screenplay.sample.mortar.component.PresentationComponent;
-import com.davidstemmer.screenplay.sample.mortar.module.ActionDrawerComponent;
-import com.davidstemmer.screenplay.sample.mortar.module.ActionDrawerModule;
-import com.davidstemmer.screenplay.sample.mortar.module.ApplicationComponent;
-import com.davidstemmer.screenplay.sample.mortar.module.DaggerActionDrawerComponent;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.CrossfadeTransformer;
 import com.davidstemmer.screenplay.scene.StandardScene;
 
@@ -60,12 +56,7 @@ public class StackedScene extends StandardScene {
 
         @OnClick(R.id.show_action_drawer) void showActionDrawer(View button) {
             ActionDrawerScene.Callback callback = new ActionDrawerCallback(button.getContext());
-            ApplicationComponent parentComponent = MainApplication.getComponent();
-            ActionDrawerComponent component = DaggerActionDrawerComponent.builder()
-                    .applicationComponent(parentComponent)
-                    .actionDrawerModule(new ActionDrawerModule(callback))
-                    .build();
-            flow.goTo(component.actionDrawerScene());
+            flow.goTo(Scenes.actionDrawer(callback));
         }
 
         private class ActionDrawerCallback implements ActionDrawerScene.Callback {

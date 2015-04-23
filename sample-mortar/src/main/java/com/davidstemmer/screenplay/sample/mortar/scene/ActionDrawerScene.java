@@ -88,4 +88,5 @@ public class ActionDrawerScene extends StandardScene {
     @javax.inject.Scope
     @Retention(RetentionPolicy.RUNTIME)
     public static @interface Scope {}
+
 }

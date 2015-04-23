@@ -25,7 +25,7 @@ public class MainActivity extends ActionBarActivity {
     private MutableStage stage;
     private DrawerPresenter drawerPresenter;
     private NavigationMenuPresenter navMenuPresenter;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
