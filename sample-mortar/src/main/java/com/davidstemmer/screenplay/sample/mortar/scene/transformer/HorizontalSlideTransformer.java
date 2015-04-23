@@ -12,7 +12,6 @@ import javax.inject.Singleton;
  * Created by weefbellington on 10/2/14.
  */
 
-@Singleton
 public class HorizontalSlideTransformer extends TweenTransformer {
 
     private static final Params params = new Params();

@@ -9,7 +9,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.davidstemmer.screenplay.SimpleActivityDirector;
+import com.davidstemmer.screenplay.MutableStage;
 import com.davidstemmer.screenplay.sample.mortar.R;
 
 import javax.inject.Inject;
@@ -19,47 +19,49 @@ import javax.inject.Singleton;
  * Created by weefbellington on 10/24/14.
  */
 @Singleton
-public class DrawerPresenter extends ViewPresenter<DrawerLayout> {
+public class DrawerPresenter {
 
-    private final SimpleActivityDirector director;
-
+    private final MutableStage mainStage;
     private ActionBarDrawerToggle drawerToggle;
 
+    private DrawerLayout target;
+
     @Inject
-    public DrawerPresenter(SimpleActivityDirector director) {
-        this.director = director;
+    public DrawerPresenter(MutableStage mainStage) {
+        this.mainStage = mainStage;
     }
 
     public void take(DrawerLayout target) {
-
-        drawerToggle = createDrawerToggle(target);
+        this.target = target;
+        this.drawerToggle = createDrawerToggle(target);
         target.setDrawerListener(drawerToggle);
 
-        ActionBar actionBar = ((ActionBarActivity)director.getActivity()).getSupportActionBar();
+        ActionBar actionBar = ((ActionBarActivity)mainStage.getActivity()).getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
-    @Override
-    public void drop(DrawerLayout target) {
-        drawerToggle = null;
+    public void drop() {
+        this.drawerToggle = null;
+        this.target = null;
     }
+
 
     private ActionBarDrawerToggle createDrawerToggle(DrawerLayout view) {
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                director.getActivity(),
+                mainStage.getActivity(),
                 view,
                 R.string.drawer_open,
                 R.string.drawer_close) {
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                director.getActivity().invalidateOptionsMenu();
+                mainStage.getActivity().invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                director.getActivity().invalidateOptionsMenu();
+                mainStage.getActivity().invalidateOptionsMenu();
             }
         };
         toggle.setDrawerIndicatorEnabled(true);
@@ -80,30 +82,30 @@ public class DrawerPresenter extends ViewPresenter<DrawerLayout> {
 
     public void setLocked(boolean locked) {
         if (locked) {
-            getTarget().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            target.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         } else {
-            getTarget().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            target.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         }
     }
 
     public boolean isLockedShut() {
-        return getTarget().getDrawerLockMode(Gravity.LEFT) == DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
+        return target.getDrawerLockMode(Gravity.LEFT) == DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
     }
 
     public boolean isLockedOpen() {
-        return getTarget().getDrawerLockMode(Gravity.LEFT) == DrawerLayout.LOCK_MODE_LOCKED_OPEN;
+        return target.getDrawerLockMode(Gravity.LEFT) == DrawerLayout.LOCK_MODE_LOCKED_OPEN;
     }
 
     public boolean isDrawerVisible() {
-        return getTarget().isDrawerVisible(Gravity.LEFT);
+        return target.isDrawerVisible(Gravity.LEFT);
     }
 
     public void open() {
-        getTarget().openDrawer(Gravity.LEFT);
+        target.openDrawer(Gravity.LEFT);
     }
 
     public void close() {
-        getTarget().closeDrawer(Gravity.LEFT);
+        target.closeDrawer(Gravity.LEFT);
     }
 
 }

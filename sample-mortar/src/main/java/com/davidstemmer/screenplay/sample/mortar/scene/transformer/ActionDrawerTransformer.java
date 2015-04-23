@@ -6,12 +6,10 @@ import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.scene.transformer.TweenTransformer;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 /**
  * Created by weefbellington on 10/7/14.
  */
-@Singleton
 public class ActionDrawerTransformer extends TweenTransformer {
 
     private static final Params params = new Params();

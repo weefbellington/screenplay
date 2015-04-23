@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.davidstemmer.screenplay.sample.mortar.module.ApplicationComponent;
 import com.davidstemmer.screenplay.sample.mortar.module.ApplicationModule;
-import com.davidstemmer.screenplay.sample.mortar.module.Dagger_ApplicationComponent;
+import com.davidstemmer.screenplay.sample.mortar.module.DaggerApplicationComponent;
 
 /**
  * Created by weefbellington on 3/12/15.
@@ -17,7 +17,7 @@ public class MainApplication extends Application
     @Override
     public void onCreate() {
         super.onCreate();
-        component = Dagger_ApplicationComponent.builder()
+        component = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();
     }

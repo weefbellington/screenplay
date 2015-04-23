@@ -3,26 +3,27 @@ package com.davidstemmer.screenplay;
 import android.app.Activity;
 import android.view.ViewGroup;
 
-import com.davidstemmer.screenplay.flow.Screenplay;
+import flow.Flow;
 
 /**
- * @version 1.0.0
- * @author  David Stemmer
- * @since   1.0.0
+ * Created by weefbellington on 4/23/15.
  */
-public class SimpleActivityDirector implements Screenplay.Director {
+public class MutableStage implements Stage {
 
     private Activity activity;
     private ViewGroup container;
+    private Flow flow;
 
-    public void bind(Activity activity, ViewGroup container) {
+    public void bind(Activity activity, ViewGroup container, Flow flow) {
         this.activity = activity;
         this.container = container;
+        this.flow = flow;
     }
 
     public void unbind() {
-        this.activity = null;
-        this.container = null;
+        activity = null;
+        container = null;
+        flow = null;
     }
 
     @Override
@@ -33,5 +34,10 @@ public class SimpleActivityDirector implements Screenplay.Director {
     @Override
     public ViewGroup getContainer() {
         return container;
+    }
+
+    @Override
+    public Flow getFlow() {
+        return flow;
     }
 }

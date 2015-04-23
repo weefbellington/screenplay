@@ -1,5 +1,7 @@
 package com.davidstemmer.screenplay;
 
+import android.view.ViewGroup;
+
 import com.davidstemmer.screenplay.scene.Scene;
 
 import java.util.ArrayList;
@@ -16,12 +18,14 @@ public class SceneCut {
 
     public final Flow.Direction direction;
     public final Flow.Callback callback;
+    public final ViewGroup container;
     public final List<Scene> incomingScenes;
     public final List<Scene> outgoingScenes;
 
     public SceneCut(Builder builder) {
         direction = builder.direction;
         callback = builder.callback;
+        container = builder.container;
         incomingScenes = builder.incomingScenes;
         outgoingScenes = builder.outgoingScenes;
     }
@@ -30,6 +34,7 @@ public class SceneCut {
 
         Flow.Direction direction;
         Flow.Callback callback;
+        ViewGroup container;
         final List<Scene> incomingScenes = new ArrayList<>();
         final List<Scene> outgoingScenes = new ArrayList<>();
 
@@ -59,5 +64,11 @@ public class SceneCut {
             outgoingScenes.add(outgoingScene);
             return this;
         }
+
+        public Builder setContainer(ViewGroup container) {
+            this.container = container;
+            return this;
+        }
+
     }
 }

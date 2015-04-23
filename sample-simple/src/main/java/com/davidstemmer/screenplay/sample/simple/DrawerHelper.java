@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.davidstemmer.screenplay.SimpleActivityDirector;
+import com.davidstemmer.screenplay.Stage;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
 /**
@@ -18,13 +18,13 @@ import com.example.weefbellington.screenplay.sample.simple.R;
  */
 public class DrawerHelper {
 
-    private final SimpleActivityDirector director;
+    private final Stage stage;
 
     private ActionBarDrawerToggle drawerToggle;
     private DrawerLayout drawerLayout;
 
-    public DrawerHelper(SimpleActivityDirector director) {
-        this.director = director;
+    public DrawerHelper(Stage stage) {
+        this.stage = stage;
     }
 
     public void bind(DrawerLayout layout) {
@@ -32,11 +32,11 @@ public class DrawerHelper {
         drawerLayout = layout;
         drawerToggle = createDrawerToggle();
 
-        LayoutInflater inflater = director.getActivity().getLayoutInflater();
+        LayoutInflater inflater = stage.getActivity().getLayoutInflater();
         inflater.inflate(R.layout.navigation_menu, getLayout());
         getLayout().setDrawerListener(drawerToggle);
 
-        ActionBar actionBar = ((ActionBarActivity)director.getActivity()).getSupportActionBar();
+        ActionBar actionBar = ((ActionBarActivity) stage.getActivity()).getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
@@ -48,18 +48,18 @@ public class DrawerHelper {
     private ActionBarDrawerToggle createDrawerToggle() {
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                director.getActivity(),
+                stage.getActivity(),
                 getLayout(),
                 R.string.drawer_open,
                 R.string.drawer_close) {
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                director.getActivity().invalidateOptionsMenu();
+                stage.getActivity().invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                director.getActivity().invalidateOptionsMenu();
+                stage.getActivity().invalidateOptionsMenu();
             }
         };
         toggle.setDrawerIndicatorEnabled(true);

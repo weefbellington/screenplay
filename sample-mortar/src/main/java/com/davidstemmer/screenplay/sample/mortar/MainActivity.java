@@ -8,13 +8,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.davidstemmer.screenplay.SimpleActivityDirector;
+import com.davidstemmer.screenplay.MutableStage;
 import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.sample.mortar.module.ApplicationComponent;
 import com.davidstemmer.screenplay.sample.mortar.presenter.DrawerPresenter;
 import com.davidstemmer.screenplay.sample.mortar.presenter.NavigationMenuPresenter;
 
-import butterknife.ButterKnife;
 import flow.Flow;
 
 public class MainActivity extends ActionBarActivity {
@@ -23,36 +22,33 @@ public class MainActivity extends ActionBarActivity {
 
     private Flow flow;
     private Screenplay screenplay;
+    private MutableStage stage;
     private DrawerPresenter drawerPresenter;
-    private SimpleActivityDirector director;
-
+    private NavigationMenuPresenter navMenuPresenter;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-
-        ApplicationComponent component = MainApplication.getComponent();
-        // TODO move some of this logic to its own class
-        flow = component.flow();
-        screenplay = component.screenplay();
-        drawerPresenter = component.drawerPresenter();
-        director = component.director();
-
-        NavigationMenuPresenter navigationPresenter = component.menuPresenter();
-
         setContentView(R.layout.activity_main);
-        ButterKnife.inject(this, this);
+
+        ApplicationComponent app = MainApplication.getComponent();
+        flow = app.flow();
+        screenplay = app.screenplay();
+        stage = app.stage();
+        drawerPresenter = app.drawerPresenter();
+        navMenuPresenter = app.menuPresenter();
+
+        stage.bind(this, (ViewGroup) findViewById(R.id.main), flow);
 
         navigationDrawer = (DrawerLayout) findViewById(R.id.drawer_parent);
-
         View navigationMenu = getLayoutInflater().inflate(R.layout.navigation_menu, navigationDrawer, false);
-        navigationMenu.addOnAttachStateChangeListener(navigationPresenter);
+        navigationMenu.addOnAttachStateChangeListener(navMenuPresenter);
         navigationDrawer.addView(navigationMenu);
+        drawerPresenter.take(navigationDrawer);
 
-        director.bind(this, (ViewGroup) findViewById(R.id.main));
-        drawerPresenter.onViewAttachedToWindow(navigationDrawer);
-        screenplay.enter(flow);
+        screenplay.enter(stage, app.initialScene());
     }
 
     @Override
@@ -69,6 +65,7 @@ public class MainActivity extends ActionBarActivity {
 
     @Override public void onBackPressed() {
         if (!flow.goBack()) {
+            screenplay.exit();
             super.onBackPressed();
         }
     }
@@ -90,6 +87,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        drawerPresenter.onViewDetachedFromWindow(navigationDrawer);
+        drawerPresenter.drop();
     }
+
 }

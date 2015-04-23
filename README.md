@@ -35,7 +35,7 @@ across configuration changes.
 You only need a little bit of boilerplate to configure a Screenplay application. Screenplay requires
 you to construct the following objects:
 
-1. The `Screenplay.Director` object: binds to your activity and main view.
+1. The `Stage` object: binds to your activity and main view.
 2. The `Screenplay` object: acts as a controller for your navigation logic.
 3. The `Flow` object: main navigation interface
 
@@ -45,15 +45,15 @@ outside of your main Activity. One way to do this is to put them in the Applicat
 ```java
 public class SampleApplication extends Application {
 
-    public final SimpleActivityDirector director = new SimpleActivityDirector();
-    public final Screenplay screenplay = new Screenplay(director);
+    public final MutableStage stage = new MutableStage();
+    public final Screenplay screenplay = new Screenplay(stage);
     public final Flow mainFlow = new Flow(Backstack.single(new HomeScreen()), screenplay);
     private static SampleApplication application;
 
     public void onCreate() { application = this; }
 
     public static SampleApplication getInstance()       { return application; }
-    public static SimpleActivityDirector getDirector()  { return getInstance().director; }
+    public static MutableStage getStage()               { return getInstance().stage; }
     public static Screenplay getScreenplay()            { return getInstance().screenplay; }
     public static Flow getMainFlow()                    { return getInstance().mainFlow; }
 }
@@ -61,15 +61,15 @@ public class SampleApplication extends Application {
 
 (alternatively, you can use a dependency injection library such as [Dagger](http://square.github.io/dagger/))
 
-In the onCreate() method of your main Activity, bind your `Director` to the Activity and call
-`Screenplay.enter(flow)`. This is the main entry point to your application. It will initialize the
+In the onCreate() method of your main Activity, bind your `Stage` to the Activity and call
+`Screenplay.enter()`. This is the main entry point to your application. It will initialize the
 Flow to the root scene, or, in the case of a configuration change, rebind your scene scene stack
 and reattach views that were previously visible on the screen.
 
 ```java
 public class MainActivity extends Activity {
 
-    private SimpleActivityDirector director;
+    private SimpleStage stage;
     private Flow flow;
     private Screenplay screenplay;
 
@@ -81,11 +81,11 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         RelativeLayout container = (RelativeLayout) findViewById(R.id.main);
 
-        director = SampleApplication.getDirector();
+        stage = SampleApplication.getStage();
         flow = SampleApplication.getMainFlow();
         screenplay = SampleApplication.getScreenplay();
 
-        director.bind(this, container);
+        stage.bind(this, container, flow);
         screenplay.enter(flow);
     }
 }
@@ -99,18 +99,21 @@ Once you've created your Flow, navigation is the same as in any other Flow appli
     flow.goBack();                // animate back to the previous scene
 ```
 
-One final detail: when the Activity is destroyed, is important to call `unbind()` on your `Director`
-object. This drops references to the old Activity and prevents memory leaks:
+When the Activity is destroyed, you must:
+
+1. call `Screenplay#exit`. This performs cleanup actions such as calling `Scene#tearDown` on the
+current visible scene and on its components.
+2. call `Stage#unbind`, if you're using a `MutableStage`. This drops references to the old Activity
+and prevents memory leaks.
 
 ```java
     @Override
     public void onDestroy() {
         super.onDestroy()
-        director.unbind()
+        screenplay.exit();
+        stage.unbind()
     }
 ```
-
-(if you're using `MortarActivityDirector`, call `dropView()` instead)
 
 ###Anatomy of a Scene
 
@@ -241,13 +244,6 @@ button presses while two Scenes are in transition:
     }
 ```
 
-###Mortar support
-
-Screenplay provides support for (but does not require) Square's [Mortar](http://corner.squareup.com/2014/01/mortar-and-flow.html).
-It provides two classes, a [MortarActivityDirector](https://github.com/weefbellington/screenplay/blob/master/library/src/main/java/com/davidstemmer/screenplay/MortarActivityDirector.java)
-and a [ScopedScene](https://github.com/weefbellington/screenplay/blob/master/library/src/main/java/com/davidstemmer/screenplay/scene/ScopedScene.java),
-which are designed to support applications powered by Mortar.
-
 ###Download
 
 Screenplay is currently available as a beta snapshot. Grab it via Maven:
@@ -256,7 +252,7 @@ Screenplay is currently available as a beta snapshot. Grab it via Maven:
 <dependency>
     <groupId>com.davidstemmer</groupId>
     <artifactId>screenplay</artifactId>
-    <version>0.6.0-SNAPSHOT</version>
+    <version>0.6.2-SNAPSHOT</version>
     <type>aar</type>
 </dependency>
 ```
@@ -264,7 +260,7 @@ Screenplay is currently available as a beta snapshot. Grab it via Maven:
 or Gradle:
 
 ```groovy
-compile 'com.davidstemmer:screenplay:0.6.0-SNAPSHOT'
+compile 'com.davidstemmer:screenplay:0.6.2-SNAPSHOT'
 ```
 
 For Gradle, you'll have to add the Sonatype OSS snapshot repo to your build script:

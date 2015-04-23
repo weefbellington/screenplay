@@ -10,7 +10,7 @@ import com.davidstemmer.screenplay.sample.mortar.component.PresentationComponent
 import com.davidstemmer.screenplay.sample.mortar.module.ActionDrawerComponent;
 import com.davidstemmer.screenplay.sample.mortar.module.ActionDrawerModule;
 import com.davidstemmer.screenplay.sample.mortar.module.ApplicationComponent;
-import com.davidstemmer.screenplay.sample.mortar.module.Dagger_ActionDrawerComponent;
+import com.davidstemmer.screenplay.sample.mortar.module.DaggerActionDrawerComponent;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.CrossfadeTransformer;
 import com.davidstemmer.screenplay.scene.StandardScene;
 
@@ -61,7 +61,7 @@ public class StackedScene extends StandardScene {
         @OnClick(R.id.show_action_drawer) void showActionDrawer(View button) {
             ActionDrawerScene.Callback callback = new ActionDrawerCallback(button.getContext());
             ApplicationComponent parentComponent = MainApplication.getComponent();
-            ActionDrawerComponent component = Dagger_ActionDrawerComponent.builder()
+            ActionDrawerComponent component = DaggerActionDrawerComponent.builder()
                     .applicationComponent(parentComponent)
                     .actionDrawerModule(new ActionDrawerModule(callback))
                     .build();

@@ -1,8 +1,8 @@
 package com.davidstemmer.screenplay.sample.mortar.scene;
 
 import com.davidstemmer.screenplay.sample.mortar.R;
-import com.davidstemmer.screenplay.sample.mortar.scene.transformer.CrossfadeTransformer;
 import com.davidstemmer.screenplay.scene.StandardScene;
+import com.davidstemmer.screenplay.scene.transformer.NoAnimationTransformer;
 
 import javax.inject.Inject;
 
@@ -15,10 +15,10 @@ import flow.Layout;
 @Layout(R.layout.welcome_scene)
 public class WelcomeScene extends StandardScene {
 
-    private final CrossfadeTransformer transformer;
+    private final NoAnimationTransformer transformer;
 
     @Inject
-    public WelcomeScene(CrossfadeTransformer transformer) {
+    public WelcomeScene(NoAnimationTransformer transformer) {
         this.transformer = transformer;
     }
 

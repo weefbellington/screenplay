@@ -1,3 +1,34 @@
+## 0.6.2 CHANGELOG
+
+*Bug fixes*
+
+Fix issue where not all views were being removed when `replaceTo` was called with a stacking scene
+showing.
+
+## 0.6.1 CHANGELOG
+
+**New features**
+
+*Helper methods*
+
+Added two helper methods, `Screenplay.isSceneAttached` and `Screenplay.isSceneInBackstack`, for
+querying whether a scene is already in the backstack.
+
+**Bug fixes**
+
+`Scene.tearDown` and `Component.tearDown` will now be called on scenes that remain in the backstack
+when the activity is destroyed (see item #2, below)
+
+**API breaks**
+
+1. The `Director` object is now called `Stage`. There is a `MutableStage` class and an
+`ImmutableStage`. The `MutableStage` can be bound to a new activity but the `ImmutableStage` cannot
+-- its fields are final. The `ImmutableStage` is intended to be used with DI frameworks such
+as Dagger 2 which can recreate the object graph and its dependencies when the main Activity is
+destroyed.
+2. A new method, `Screenplay.exit`, has been added. This must be called in `Activity.onDestroy`. It
+triggers teardown callbacks on scenes that remain on the backstack.
+
 ## 0.6.0 CHANGELOG
 
 **New features**
