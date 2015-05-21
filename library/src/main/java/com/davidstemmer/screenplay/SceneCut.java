@@ -2,8 +2,8 @@ package com.davidstemmer.screenplay;
 
 import com.davidstemmer.screenplay.scene.Scene;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayDeque;
+import java.util.Collection;
 
 import flow.Flow;
 
@@ -16,8 +16,8 @@ public class SceneCut {
 
     public final Flow.Direction direction;
     public final Flow.Callback callback;
-    public final List<Scene> incomingScenes;
-    public final List<Scene> outgoingScenes;
+    public final ArrayDeque<Scene> incomingScenes;
+    public final ArrayDeque<Scene> outgoingScenes;
 
     public SceneCut(Builder builder) {
         direction = builder.direction;
@@ -30,8 +30,8 @@ public class SceneCut {
 
         Flow.Direction direction;
         Flow.Callback callback;
-        final List<Scene> incomingScenes = new ArrayList<>();
-        final List<Scene> outgoingScenes = new ArrayList<>();
+        final ArrayDeque<Scene> incomingScenes = new ArrayDeque<>();
+        final ArrayDeque<Scene> outgoingScenes = new ArrayDeque<>();
 
         public Builder() {}
 
@@ -50,13 +50,13 @@ public class SceneCut {
         }
 
 
-        public Builder addIncomingScene(Scene incomingScene) {
-            incomingScenes.add(incomingScene);
+        public Builder setIncomingScenes(Collection<Scene> incoming) {
+            incomingScenes.addAll(incoming);
             return this;
         }
 
-        public Builder addOutgoingScene(Scene outgoingScene) {
-            outgoingScenes.add(outgoingScene);
+        public Builder setOutgoingScenes(Collection<Scene> outgoing) {
+            outgoingScenes.addAll(outgoing);
             return this;
         }
 
