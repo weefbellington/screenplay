@@ -13,7 +13,8 @@
     <string name="ok">OK</string>
     <string name="dialog_scene_text">Dialogs in Screenplay are just Views, and are 100%% configurable. This one has a wrap_content height.</string>
     <string name="modal_scene_action_drawer_button_text">Action drawer</string>
-    <string name="show_page">New page</string>
+    <string name="add_one_page">Add one page</string>
+    <string name="add_two_pages">Add two pages</string>
     <string name="action_drawer_scene_text">You can pass a callback to a Scene and fire the callback when the view is detached.</string>
     <string name="drawer_open">Screenplay</string>
     <string name="drawer_close">Screenplay</string>

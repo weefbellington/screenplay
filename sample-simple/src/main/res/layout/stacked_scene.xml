@@ -25,9 +25,15 @@
         android:textColor="@android:color/white"
         android:text="@string/modal_scene_action_drawer_button_text"/>
     <Button
-        android:id="@+id/show_page"
+        android:id="@+id/add_one_page"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
-        android:text="@string/show_page"/>
+        android:text="@string/add_one_page"/>
+    <Button
+        android:id="@+id/add_two_pages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:text="@string/add_two_pages"/>
 </com.davidstemmer.screenplay.sample.simple.view.ModalSceneView>

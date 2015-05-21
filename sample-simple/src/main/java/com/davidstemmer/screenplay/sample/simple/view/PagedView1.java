@@ -7,8 +7,12 @@ import android.widget.RelativeLayout;
 
 import com.davidstemmer.screenplay.sample.simple.SampleApplication;
 import com.davidstemmer.screenplay.sample.simple.scene.PagedScene2;
+import com.davidstemmer.screenplay.sample.simple.scene.PagedScene3;
+import com.davidstemmer.screenplay.sample.simple.scene.WelcomeScene;
+import com.davidstemmer.screenplay.sample.simple.scene.WelcomeScene2;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
+import flow.Backstack;
 import flow.Flow;
 
 /**
@@ -30,6 +34,26 @@ public class PagedView1 extends RelativeLayout {
             @Override
             public void onClick(View v) {
                 flow.goTo(new PagedScene2());
+            }
+        });
+        findViewById(R.id.forward_two_scenes).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            Backstack newBackstack = flow.getBackstack().buildUpon()
+                .push(new PagedScene2())
+                .push(new PagedScene3())
+                .build();
+            flow.forward(newBackstack);
+            }
+        });
+        findViewById(R.id.new_backstack).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Backstack newBackstack = Backstack.emptyBuilder()
+                        .push(new WelcomeScene())
+                        .push(new WelcomeScene2())
+                        .build();
+                flow.forward(newBackstack);
             }
         });
     }

@@ -11,8 +11,10 @@ import com.davidstemmer.screenplay.sample.simple.scene.ActionDrawerResult;
 import com.davidstemmer.screenplay.sample.simple.scene.ActionDrawerScene;
 import com.davidstemmer.screenplay.sample.simple.scene.DialogScene;
 import com.davidstemmer.screenplay.sample.simple.scene.PagedScene1;
+import com.davidstemmer.screenplay.sample.simple.scene.PagedScene2;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
+import flow.Backstack;
 import flow.Flow;
 
 /**
@@ -32,7 +34,9 @@ public class ModalSceneView extends LinearLayout {
         super.onAttachedToWindow();
         findViewById(R.id.show_action_drawer).setOnClickListener(new ActionDrawerButtonListener());
         findViewById(R.id.show_dialog).setOnClickListener(new DialogButtonListener());
-        findViewById(R.id.show_page).setOnClickListener(new PageSceneListener());
+        findViewById(R.id.add_one_page).setOnClickListener(new AddOnePage());
+        findViewById(R.id.add_two_pages).setOnClickListener(new AddTwoPages());
+
     }
 
     private class DialogButtonListener implements OnClickListener {
@@ -49,10 +53,21 @@ public class ModalSceneView extends LinearLayout {
         }
     }
 
-    private class PageSceneListener implements OnClickListener {
+    private class AddOnePage implements OnClickListener {
         @Override
         public void onClick(View v) {
             flow.goTo(new PagedScene1());
+        }
+    }
+
+    private class AddTwoPages implements OnClickListener {
+        @Override
+        public void onClick(View v) {
+            Backstack newBackstack = flow.getBackstack().buildUpon()
+                    .push(new PagedScene1())
+                    .push(new PagedScene2())
+                    .build();
+            flow.forward(newBackstack);
         }
     }
 

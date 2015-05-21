@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <com.davidstemmer.screenplay.sample.simple.view.PagedView2
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
@@ -22,5 +21,4 @@
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:text="More"/>
-
 </com.davidstemmer.screenplay.sample.simple.view.PagedView2>
