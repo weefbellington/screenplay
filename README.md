@@ -81,7 +81,7 @@ public class MainActivity extends Activity {
 }
 ```
 
-Once you've created your Flow, navigation is the same as in any other Flow application:
+Once you've created your Flow, you can use it push new scenes to the stack and navigate the app:
 
 ```java
     flow.goTo(new DetailScene()); // animates forward to the DetailScene
