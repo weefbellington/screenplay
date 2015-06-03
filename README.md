@@ -20,32 +20,9 @@ drastically simplified compared to the Activity/Fragment lifecycle. Scenes also
 have attachment points for components, allowing them to be composed entirely
 from smaller, more modular parts.
 
-###Building the scene
-
-Scenes are lightweight objects that do not require any special voodoo to create. Each scene is just a POJO (Plain
-Old Java Object) and can be created with a standard constructor. Just create `new Scene(...)`, pass it any
-arguments you want, and you're good to go.
-
-As new Scenes are created, they are added to a backstack. Each Scene manages a single View, which has a simple lifecycle. Scene setup has three discrete steps:
-
-1. The `Scene` creates its View, which is attached to a parent ViewGroup
-2. Scene `Components` are notified of initialization
-3. A `Transformer` plays animations between the incoming and outgoing scene.
-
-Likewise, scene teardown has three steps:
-
-1. The `Transformer` plays an animation between the incoming and outgoing scene
-2. The `Components` are notified of teardown
-3. The `Scene` removes its View, which is detached from the parent ViewGroup
-
-These steps are applied by the `Screenplay` object, which acts as a simple controller for your
-navigation logic. It also handles the task of reattaching your views on configuration changes -- as long
-as you hold a reference the same `Screenplay` object, it will 'remember' the state of your screen stack
-across configuration changes, such as screen rotation and keyboard opening/closing.
-
 ###Setting the stage
 
-You only need a little bit of boilerplate to bootstrap a Screenplay application. Screenplay requires
+You only need a little bit of boilerplate to bootstrap a screenplay application. screenplay requires
 you to construct the following objects:
 
 1. The `Stage` object: binds to your activity and main view.
@@ -128,15 +105,36 @@ and prevents memory leaks.
     }
 ```
 
-###Anatomy of a Scene
+###Building the scene
 
-The building block of a Screenplay app is a `Scene`. The Scene knows how to do
-only a few things by itself: create a View (`Scene.setUp`), destroy a View (`Scene.tearDown`) and
-get the current view (`Scene.getView`).
+Scenes are lightweight objects that do not require any special voodoo to create. Each scene is just a POJO (Plain
+Old Java Object) and can be created with a standard constructor. Just create `new Scene(...)`, pass it any
+arguments you want, and you're good to go.
+
+As new Scenes are created, they are added to a backstack. Each Scene manages a single View, which has a simple lifecycle. Scene setup has three discrete steps:
+
+1. The `Scene` creates its View, which is attached to a parent ViewGroup
+2. Scene `Components` are notified of initialization
+3. A `Transformer` plays animations between the incoming and outgoing scene.
+
+Likewise, scene teardown has three steps:
+
+1. The `Transformer` plays an animation between the incoming and outgoing scene
+2. The `Components` are notified of teardown
+3. The `Scene` removes its View, which is detached from the parent ViewGroup
+
+These steps are applied by the `Screenplay` object, which acts as a simple controller for your
+navigation logic. It also handles the task of reattaching your views on configuration changes -- as long
+as you hold a reference the same `Screenplay` object, it will 'remember' the state of your screen stack
+across configuration changes, such as screen rotation and keyboard opening/closing.
+
+The Scene knows how to do only a few things by itself: create a View (`Scene.setUp`), destroy a View (`Scene.tearDown`) and get the current view (`Scene.getView`).
 
 The reference implementation is the `StandardScene`. This is the scene that your scenes should
 extend from if they're being inflated from XML. Internally, it uses Flow's [Layouts.createView()](https://github.com/square/flow/blob/master/flow/src/main/java/flow/Layouts.java)
-to create the View. Scenes can be hooked up to `Components`, which receive callbacks after the scene
+to create the View.
+
+Scenes can be hooked up to `Components`, which receive callbacks after the scene
 is set up and before it is torn down. They are used to apply behaviors to the scene. For example,
 this DialogScene has a Component that locks the navigation drawer while the dialog is active:
 
@@ -206,7 +204,7 @@ public class DialogScene extends StandardScene {
 
 ###View persistence on configuration changes
 
-By default, when a configuration change occurs, Screenplay tears down each the each scene
+By default, when a configuration change occurs, screenplay tears down each the each scene
 whose view is currently visible on the screen. If instead you would like a view  to be retained on
 configuration changes, override `Scene.teardownOnConfigurationChanges` to return `true`. Keep in mind, though, that if you enable this flag, the XML for the view will not be
 reloaded when a configuration change occurs.
@@ -236,7 +234,7 @@ public class HorizontalSlideTransformer extends TweenTransformer {
 }
 ```
 
-Screenplay provides two `Transformer` implementations to extend from: `TweenTransformer`
+screenplay provides two `Transformer` implementations to extend from: `TweenTransformer`
 and `AnimatorTransformer`. TweenTransformer uses the [Animation](http://developer.android.com/reference/android/view/animation/Animation.html) class, while
 the AnimatorTransformer uses the [Animator](http://developer.android.com/reference/android/animation/Animator.html) class.
 
@@ -259,7 +257,7 @@ button presses while two Scenes are in transition:
 
 ###Download
 
-Screenplay is currently available as a beta snapshot. Grab it via Maven:
+screenplay is currently available as a beta snapshot. Grab it via Maven:
 
 ```xml
 <dependency>
