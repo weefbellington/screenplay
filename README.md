@@ -1,7 +1,7 @@
-Screenplay
+screenplay
 ==========
 
-###What is screenplay?
+###What is it?
 
 **screenplay** is a minimalist application framework for Android, powered by
 Square's flow.
