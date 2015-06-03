@@ -1,11 +1,23 @@
 Screenplay
 ==========
 
-###Prologue
+###What is screenplay?
 
-Screenplay is a minimalist framework for building Android applications, powered by Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html).
-Screenplay takes several disparate UI components -- Activities, Fragments and Dialogs -- and replaces them with a
-single unifying metaphor, the Scene.
+**screenplay** is a minimalist framework for building Android applications, powered by Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html). It is:
+
+<sub>somewhat</sub> **unconventional**. a typical Screenplay application only has a single Activity, and no
+Fragments or Dialogs. These have been replaced with a single unifying metaphor, the Scene. Scene are arranged in
+a backstack. Each scene may be full screen, like a full-screen Fragment, or they may stack, like a Dialog.
+
+<sub>mostly</sub> **unopinionated**. screenplay does not force any particular design patterns on your application.
+It is only concerned with getting you from point A to point B in the app, helping you perform tasks like animations
+during screen transitions scenes and attaching and detaching scenes at the appropriate times.
+
+<sub>relatively</sub> **frictionless**. it is easy to pass data between scenes; no need to implement `Parcelable` or turn data into json just to pass information between screens.
+
+<sub>rather</sub> **flexible**. each Scene is constructed from a simple View, giving the application developer fine-grained control over the layout. 
+
+<sub>deeply</sub> **intuitive**. screenplay allows developers to think of their applications in a more natural way: as a series of scenes. Show a page, push a scene on the stack. Add a dialog, push another scene on the stack. Close the dialog, pop it off the stack.
 
 ###Building the scene
 
@@ -13,8 +25,7 @@ Scenes are lightweight objects that do not require any special voodoo to create.
 Old Java Object) and can be created with a standard constructor. Just create `new Scene(...)`, pass it any
 arguments you want, and you're good to go.
 
-A Screenplay application consists of a single Activity and a backstack of Scenes. Each Scene manages a single View,
-which has a simple lifecycle. Scene setup has three discrete steps:
+As new Scenes are created, they are added to a backstack. Each Scene manages a single View, which has a simple lifecycle. Scene setup has three discrete steps:
 
 1. The `Scene` creates its View, which is attached to a parent ViewGroup
 2. Scene `Components` are notified of initialization
