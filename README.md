@@ -134,8 +134,10 @@ The reference implementation is the `StandardScene`. This is the scene that your
 extend from if they're being inflated from XML. Internally, it uses Flow's [Layouts.createView()](https://github.com/square/flow/blob/master/flow/src/main/java/flow/Layouts.java)
 to create the View.
 
+###Scene components
+
 Scenes can be hooked up to `Components`, which receive callbacks after the scene
-is set up and before it is torn down. They are used to apply behaviors to the scene. For example,
+is set up and before it is torn down. They are used to add modular behavior to the scene. For example,
 this DialogScene has a Component that locks the navigation drawer while the dialog is active:
 
 ```java
