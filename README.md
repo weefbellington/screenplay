@@ -3,21 +3,22 @@ Screenplay
 
 ###What is screenplay?
 
-**screenplay** is a minimalist framework for building Android applications, powered by Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html). It is:
+**screenplay** is a minimalist application framework for Android, powered by
+Square's flow.
 
-<sub>somewhat</sub> **unconventional**. a typical Screenplay application only has a single Activity, and no
-Fragments or Dialogs. These have been replaced with a single unifying metaphor, the Scene. Scene are arranged in
-a backstack. Each scene may be full screen, like a full-screen Fragment, or they may stack, like a Dialog.
+screenplay inherits the idea from Flow that the building block of the
+application is the View. Typical Android applications have a navigation stack
+that consist of multiple Activities and Fragments; in Screenplay, you have a
+single Activity with a stack of Scenes, each of which encapsulates a single
+View.
 
-<sub>mostly</sub> **unopinionated**. screenplay does not force any particular design patterns on your application.
-It is only concerned with getting you from point A to point B in the app, helping you perform tasks like animations
-during screen transitions scenes and attaching and detaching scenes at the appropriate times.
-
-<sub>relatively</sub> **frictionless**. it is easy to pass data between scenes; no need to implement `Parcelable` or turn data into json just to pass information between screens.
-
-<sub>rather</sub> **flexible**. each Scene is constructed from a simple View, giving the application developer fine-grained control over the layout. 
-
-<sub>deeply</sub> **intuitive**. screenplay allows developers to think of their applications in a more natural way: as a series of scenes. Show a page, push a scene on the stack. Add a dialog, push another scene on the stack. Close the dialog, pop it off the stack.
+The Scene is a unifying metaphor, fulfilling the functions of an Activity, a
+Fragment and a Dialog. As with Activities and Fragments, transitions between
+Scenes can be animated. Scenes can be full-screen, like an Activity, or 
+floating, like a Dialog. Scenes have a simple, synchronous lifecycle,
+drastically simplified compared to the Activity/Fragment lifecycle. Scenes also
+have attachment points for components, allowing them to be composed entirely
+from smaller, more modular parts.
 
 ###Building the scene
 
