@@ -4,31 +4,20 @@ Screenplay
 ###Prologue
 
 Screenplay is a minimalist framework for building Android applications, powered by Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html).
-Screenplay is designed to:
+Screenplay takes several disparate UI components -- Activities, Fragments and Dialogs -- and replaces them with a
+single unifying metaphor, the Scene.
 
-- Remove the need for complex, monolithic UI elements (Activities, Fragments, Dialogs)
-- Replace them with small, reusable elements (Scenes) built out of simple Views
-- Provide an abstraction over the View lifecycle, with scene transitions and clear entry/exit points for each scene
-- Make it easy to pass data between different parts of the application, without having to serialize it into an intermediate representation
+Scenes are lightweight objects that do not require any special voodoo to create. Each scene is just a POJO ("Plain Old
+Java Object"). Just create `new Scene(...)`, pass it some arguments, and you're good to go.
 
-A normal Android application has several layers of UI. An application may have multiple Activities,
-which are arranged in a navigation stack. Each Activity may have one or more Fragments, which also
-may have their own backstack. There are also Dialogs, which do not operate on a backstack but
-are used to display modal views. Each of these interact with the other parts in complex ways,
-and it is hard to pass information between them.
-
-A Screenplay application does away with these layers and replaces them with a single unifying
-metaphor, the Scene. An application consists of a single Activity and a backstack of Scenes,
-each of which contains a View. The View is created when the Scene is set up and destroyed when the
-Scene is torn down.
-
-A Scene's lifecycle is easy to understand. A incoming scene is handled in three discrete phases:
+A Screenplay application consists of a single Activity and a backstack of Scenes. Each Scene manages a single View,
+which has a simple lifecycle. Scene setup has three discrete steps:
 
 1. The `Scene` creates its View, which is attached to a parent ViewGroup
 2. Scene `Components` are notified of initialization
 3. A `Transformer` plays animations between the incoming and outgoing scene.
 
-An outgoing scene handled in a similar way:
+Likewise, scene teardown has three steps:
 
 1. The `Transformer` plays an animation between the incoming and outgoing scene
 2. The `Components` are notified of teardown
@@ -36,12 +25,8 @@ An outgoing scene handled in a similar way:
 
 These steps are applied by the `Screenplay` object, which acts as a simple controller for your
 navigation logic. It also handles the task of reattaching your views on configuration changes -- as long
-as you hold onto the same `Screenplay` object, it will 'remember' the state of your screen stack
-across configuration changes.
-
-Unlike Fragments or Activities, Scenes are lightweight objects that do not require any special
-voodoo to create. Each scene is just a POJO (Plain Old Java Object). Just create `new Scene(...)`,
-pass it some arguments, and you're good to go.
+as you hold a reference the same `Screenplay` object, it will 'remember' the state of your screen stack
+across configuration changes, such as screen rotation and keyboard opening/closing.
 
 ###Setting the stage
 
