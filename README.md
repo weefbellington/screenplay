@@ -9,8 +9,9 @@ single unifying metaphor, the Scene.
 
 ###Creating the scene
 
-Scenes are lightweight objects that do not require any special voodoo to create. Each scene is just a POJO ("Plain Old
-Java Object"). Just create `new Scene(...)`, pass it some arguments, and you're good to go.
+Scenes are lightweight objects that do not require any special voodoo to create. Each scene is just a POJO (Plain
+Old Java Object) and can be created with a standard constructor. Just create `new Scene(...)`, pass it any
+arguments you want, and you're good to go.
 
 A Screenplay application consists of a single Activity and a backstack of Scenes. Each Scene manages a single View,
 which has a simple lifecycle. Scene setup has three discrete steps:
