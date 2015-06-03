@@ -7,6 +7,8 @@ Screenplay is a minimalist framework for building Android applications, powered 
 Screenplay takes several disparate UI components -- Activities, Fragments and Dialogs -- and replaces them with a
 single unifying metaphor, the Scene.
 
+###Creating the scene
+
 Scenes are lightweight objects that do not require any special voodoo to create. Each scene is just a POJO ("Plain Old
 Java Object"). Just create `new Scene(...)`, pass it some arguments, and you're good to go.
 
