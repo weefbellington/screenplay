@@ -1,11 +1,15 @@
 package com.davidstemmer.screenplay.sample.simple.scene;
 
+import android.view.View;
+
 import com.davidstemmer.screenplay.sample.simple.SampleApplication;
 import com.davidstemmer.screenplay.sample.simple.component.DrawerLockingComponent;
 import com.davidstemmer.screenplay.sample.simple.scene.transformer.PopupTransformer;
+import com.davidstemmer.screenplay.scene.Scene;
 import com.davidstemmer.screenplay.scene.StandardScene;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
+import flow.Flow;
 import flow.Layout;
 
 /**
@@ -14,11 +18,13 @@ import flow.Layout;
 @Layout(R.layout.dialog_scene)
 public class DialogScene extends StandardScene {
 
+    private final Flow flow;
     private final PopupTransformer transformer;
 
     public DialogScene() {
+        this.flow = SampleApplication.getMainFlow();
         this.transformer = new PopupTransformer(SampleApplication.getInstance());
-        addComponents(new DrawerLockingComponent());
+        addComponents(new DrawerLockingComponent(), new ClickBindingComponent());
     }
 
     @Override
@@ -29,5 +35,35 @@ public class DialogScene extends StandardScene {
     @Override
     public Transformer getTransformer() {
         return transformer;
+    }
+
+    private class ClickBindingComponent implements Component {
+        @Override
+        public void afterSetUp(Scene scene, boolean isInitializing) {
+            View parent = scene.getView();
+            View okButton = parent.findViewById(R.id.ok);
+            View addSceneButton = parent.findViewById(R.id.add_scene);
+            okButton.setOnClickListener(closeDialog);
+            addSceneButton.setOnClickListener(addScene);
+        }
+
+        @Override
+        public void beforeTearDown(Scene scene, boolean isFinishing) {
+
+        }
+
+        private final View.OnClickListener closeDialog = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flow.goBack();
+            }
+        };
+
+        private final View.OnClickListener addScene = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flow.goTo(StaticScenes.POST_DIALOG_SCENE);
+            }
+        };
     }
 }

@@ -12,7 +12,7 @@ import flow.Layout;
  * Created by weefbellington on 10/2/14.
  */
 
-@Layout(R.layout.welcome_scene_2)
+@Layout(R.layout.new_backstack_scene_1)
 public class WelcomeScene2 extends IndexedScene {
 
     private final CrossfadeTransformer transformer;

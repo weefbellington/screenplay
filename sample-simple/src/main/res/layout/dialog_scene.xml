@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.davidstemmer.screenplay.sample.simple.view.DialogSceneView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
@@ -13,11 +13,25 @@
         android:textColor="@android:color/white"
         android:text="@string/dialog_scene_text"
         style="@style/TutorialText"/>
-    <Button
-        android:id="@+id/ok"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:textColor="@android:color/white"
-        android:text="@string/ok"/>
-</com.davidstemmer.screenplay.sample.simple.view.DialogSceneView>
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/ok"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="30sp"
+            android:textColor="@android:color/white"
+            android:text="@string/ok"/>
+        <Button
+            android:id="@+id/add_scene"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="30sp"
+            android:textColor="@android:color/white"
+            android:text="@string/dialog_add_scene"/>
+    </LinearLayout>
+
+</LinearLayout>

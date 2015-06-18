@@ -7,15 +7,15 @@ import com.example.weefbellington.screenplay.sample.simple.R;
 import flow.Layout;
 
 /**
- * Created by weefbellington on 10/2/14.
+ * Created by weefbellington on 6/18/15.
  */
-@Layout(R.layout.stacked_scene)
-public class StackedScene extends IndexedScene {
+@Layout(R.layout.new_backstack_scene_1)
+public class NewBackstackScene1 extends IndexedScene {
 
     private final CrossfadeTransformer transformer;
 
-    public StackedScene() {
-        super(StackedScene.class.getName());
+    public NewBackstackScene1() {
+        super(NewBackstackScene1.class.getName());
         this.transformer = new CrossfadeTransformer(SampleApplication.getInstance());
     }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.davidstemmer.screenplay.sample.simple.view.PagedView1
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -17,27 +17,9 @@
         android:id="@+id/next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/new_backstack"
-        android:layout_alignParentRight="true"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:text="Next"/>
-    <Button
-        android:id="@+id/new_backstack"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/forward_two_scenes"
-        android:layout_alignParentRight="true"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:text="New backstack"/>
-    <Button
-        android:id="@+id/forward_two_scenes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:textColor="@android:color/white"
         android:textSize="20sp"
-        android:text="Forward two scenes"/>
-</com.davidstemmer.screenplay.sample.simple.view.PagedView1>
+        android:text="Next"/>
+</RelativeLayout>

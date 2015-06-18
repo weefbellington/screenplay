@@ -11,9 +11,7 @@ import android.widget.TextView;
 
 import com.davidstemmer.screenplay.sample.simple.DrawerHelper;
 import com.davidstemmer.screenplay.sample.simple.SampleApplication;
-import com.davidstemmer.screenplay.sample.simple.scene.StackedScene;
-import com.davidstemmer.screenplay.sample.simple.scene.PagedScene1;
-import com.davidstemmer.screenplay.sample.simple.scene.WelcomeScene;
+import com.davidstemmer.screenplay.sample.simple.scene.StaticScenes;
 import com.davidstemmer.screenplay.scene.Scene;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
@@ -26,57 +24,44 @@ public class NavigationMenuView extends LinearLayout {
 
     private final Flow flow;
     private final DrawerHelper drawerHelper;
-    private final WelcomeScene welcomeScene;
-    private final PagedScene1 pagedScene;
-    private final StackedScene stackedScene;
+    private final MenuItemListener showWelcomeScene = new MenuItemListener(StaticScenes.WELCOME_SCENE);
+    private final MenuItemListener showSimpleNavigationScene = new MenuItemListener(StaticScenes.SIMPLE_PAGED_SCENE_1);
+    private final MenuItemListener showAdvancedNavigationScene = new MenuItemListener(StaticScenes.COMPLEX_PAGED_SCENE_1);
+    private final MenuItemListener showModalNavigationScene = new MenuItemListener(StaticScenes.MODAL_VIEWS_SCENE);
 
     public NavigationMenuView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.flow = SampleApplication.getMainFlow();
         this.drawerHelper = SampleApplication.getDrawerHelper();
-        this.welcomeScene = new WelcomeScene();
-        this.pagedScene = new PagedScene1();
-        this.stackedScene = new StackedScene();
     }
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        findViewById(R.id.nav_item_simple_scene).setOnClickListener(new WelcomeSceneListener());
-        findViewById(R.id.nav_item_paged_scenes).setOnClickListener(new PagedSceneListener());
-        findViewById(R.id.nav_item_modal_scenes).setOnClickListener(new ModalSceneListener());
+        findViewById(R.id.nav_item_welcome_scene).setOnClickListener(showWelcomeScene);
+        findViewById(R.id.nav_item_simple_navigation).setOnClickListener(showSimpleNavigationScene);
+        findViewById(R.id.nav_item_advanced_navigation).setOnClickListener(showAdvancedNavigationScene);
+        findViewById(R.id.nav_item_modal_navigation).setOnClickListener(showModalNavigationScene);
     }
 
-    private int selected = R.id.nav_item_simple_scene;
+    private int selected = R.id.nav_item_welcome_scene;
 
-    private class WelcomeSceneListener implements OnClickListener {
+    private class MenuItemListener implements View.OnClickListener {
+
+        private Scene target;
+
+        public MenuItemListener(Scene target) {
+            this.target = target;
+        }
+
         @Override
         public void onClick(View v) {
             setSelected(v);
-            showNextSceneAfterDelay(welcomeScene);
+            showNextSceneAfterDelay(target);
             drawerHelper.close();
         }
+
     }
-
-
-    private class PagedSceneListener implements OnClickListener {
-        @Override
-        public void onClick(View v) {
-            setSelected(v);
-            showNextSceneAfterDelay(pagedScene);
-            drawerHelper.close();
-        }
-    }
-
-    private class ModalSceneListener implements OnClickListener {
-        @Override
-        public void onClick(View v) {
-            setSelected(v);
-            showNextSceneAfterDelay(stackedScene);
-            drawerHelper.close();
-        }
-    }
-
 
     private void setSelected(View selectedView) {
         setSelected(selectedView.getId());

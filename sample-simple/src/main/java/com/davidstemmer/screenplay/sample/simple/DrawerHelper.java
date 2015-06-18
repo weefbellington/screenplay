@@ -33,6 +33,7 @@ public class DrawerHelper {
         drawerToggle = createDrawerToggle();
 
         LayoutInflater inflater = stage.getActivity().getLayoutInflater();
+        
         inflater.inflate(R.layout.navigation_menu, getLayout());
         getLayout().setDrawerListener(drawerToggle);
 
