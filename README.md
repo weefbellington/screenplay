@@ -15,6 +15,8 @@ Screenplay
 - constructor-based, DI friendly object initialization,
 - and helpful example code
 
+**Intro
+
 Screenplay is a minimalist framework for building Android applications, powered by Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html). Screenplay inherits Flow's "less is more" approach to Android development: a Screenplay application consists of single activity and multiple Views, with the Views arranged on a backstack.
 
 In Screenplay, the backstack consists of a series of objects called Scenes. Scenes fulfill the roles of both Fragments and a Dialogs; a single variable, `Scene#isModal`, defines whether it is full-screen or floats above other content.
