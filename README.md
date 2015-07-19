@@ -1,7 +1,9 @@
 Screenplay
 ==========
 
-###1. Introduction
+simpler apps • single-activity • no Fragments or Dialogs • robust animation system • component-based architecture • constructor-based initialization • DI friendly
+
+###1. What is Screenplay?
 
 Screenplay is a minimalist framework for building Android applications, powered by Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html). Screenplay inherits Flow's "less is more" approach to Android development: a Screenplay application consists of single activity and multiple Views, with the Views arranged on a backstack.
 
