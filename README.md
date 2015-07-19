@@ -3,15 +3,15 @@ Screenplay
 
 ###1. What is Screenplay?
 
-#####1.1 TL;DR
+#####1.1 Intro or TL;DR
 
-Screenplay allows you to build:
+**Build**
 - single-activity applications,
 - with support for modal views
 - and animated scene transitions,
 - without the need for Fragments or Dialogs.
 
-Screenplay features:
+**Features**
 - a tiny codebase,
 - component-oriented architecture,
 - constructor-based, DI friendly object initialization,
