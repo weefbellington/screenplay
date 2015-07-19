@@ -1,7 +1,7 @@
 Screenplay
 ==========
 
-simpler apps • single-activity • no Fragments or Dialogs • robust animation system • component-based architecture • constructor-based initialization • DI friendly
+• simpler apps • single-activity • no Fragments or Dialogs • robust animation system • component-based architecture • constructor-based initialization • DI friendly
 
 ###1. What is Screenplay?
 
