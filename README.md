@@ -5,15 +5,25 @@ Screenplay
 
 #####1.1 TL;DR
 
-• single-activity apps • no Fragments or Dialogs, just Views • robust animation system • component-based architecture • constructor-based, DI friendly object initialization
+Screenplay allows you to build:
+- single-activity applications,
+- with support for modal views
+- and animated scene transitions,
+- without the need for Fragments or Dialogs.
+
+Screenplay features:
+- a tiny codebase,
+- component-oriented architecture,
+- constructor-based, DI friendly object initialization,
+- and helpful example code
 
 #####1.2 The nitty gritty
 
 Screenplay is a minimalist framework for building Android applications, powered by Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html). Screenplay inherits Flow's "less is more" approach to Android development: a Screenplay application consists of single activity and multiple Views, with the Views arranged on a backstack.
 
-In Screenplay, the backstack consists of a series of objects called *Scenes*. A Scene fills the role of either a Fragment or a Dialog. A single variable, `isFloating`, defines whether it is full-screen or floats above other content.
+In Screenplay, the backstack consists of a series of objects called Scenes. Scenes fulfill the roles of both Fragments and a Dialogs; a single variable, `Scene#isModal`, defines whether it is full-screen or floats above other content.
 
-Unlike Fragments or Dialogs, Scenes are lightweight and aren't created with a factory method. Each scene is a POJO (Plain Old Java Object). Just create `new Scene(...)`, pass it some arguments, and you're good to go. Passing data between scenes is straightforward -- no need for voodoo like serializing data into a `Bundle`, or a `Parcelable` implementation.
+Unlike Fragments or Dialogs, Scenes are lightweight. Each scene is a POJO (Plain Old Java Object). They aren't created through factory methods. Just create `new Scene(...)`, pass it some arguments, and you're good to go. No need for voodoo like serializing data into a `Bundle`, or a `Parcelable` implementation.
 
 Each scene has a Transition, which describes scene animations. The animation system for Scenes is similar to Activities or Fragments: Screenplay selects an animation to play based on the direction of navigation (forward/back) and the state of the scene (incoming/outgoing). Animations can be specified through XML or in code.
 
