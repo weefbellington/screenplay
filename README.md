@@ -3,8 +3,9 @@ Screenplay
 
 ```
 =======================================================================================
-========= single-activity | no Fragments or Dialogs | robust animation system =========
-========= modal views | component-based | no factory methods | DI friendly    =========
+========= single-activity | no Fragments or Dialogs | animated transitions    =========
+========= view-based      | no factory methods      | component based         =========
+========= modal scenes    | less friction           | DI friendly             =========
 =======================================================================================
 ```
 
