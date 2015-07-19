@@ -5,7 +5,7 @@
 =======================================================================================
 ========= single-activity | no fragments or dialogs | animated transitions    =========
 ========= view-based      | no factory methods      | component oriented      =========
-========= modal support   | less friction           | DI friendly             =========
+========= modal support   | DI friendly             | less friction           =========
 =======================================================================================
 ```
 
