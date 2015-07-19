@@ -2,11 +2,10 @@ Screenplay
 ==========
 
 ```
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXX single-activity | no Fragments or Dialogs | robust animation system XXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXX modal views | component-based | no factory methods | DI friendly    XXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+=======================================================================================
+========= single-activity | no Fragments or Dialogs | robust animation system =========
+========= modal views | component-based | no factory methods | DI friendly    =========
+=======================================================================================
 ```
 
 ###1. What is Screenplay?
