@@ -11,11 +11,11 @@
 
 ###1. What is Screenplay?
 
-Screenplay is a minimalist framework for building Android applications, powered by Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html). Screenplay inherits Flow's "less is more" approach to Android development: a Screenplay application consists of single activity and multiple Views, with the Views arranged on a backstack.
+Screenplay is a minimalist framework for building Android applications, powered by Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html). Screenplay inherits Flow's "less is more" approach to Android development: a Screenplay application consists of single activity and multiple Views, which are attached and detached from the screen at the appropriate times.
 
 In Screenplay, the backstack consists of a series of objects called Scenes. Scenes fulfill the roles of both Fragments and a Dialogs; a single variable, `Scene#isModal`, defines whether it is full-screen or floats above other content.
 
-Unlike Fragments or Dialogs, Scenes are lightweight. Each scene is a POJO (Plain Old Java Object). They aren't created through factory methods. Just create `new Scene(...)`, pass it some arguments, and you're good to go. No need for voodoo like serializing data into a `Bundle`, or a `Parcelable` implementation.
+Unlike Fragments or Dialogs, Scenes are lightweight. Each scene is a POJO (Plain Old Java Object). They aren't created through factory methods. Just create `new Scene(...)`, pass it some arguments, and you're good to go. No need to serialize data into a `Bundle`, or write a `Parcelable` implementation.
 
 Each scene has a Transition, which describes a set of animations. The animation system for Scenes is similar to Activities or Fragments: Screenplay selects an animation to play based on the direction of navigation (forward/back) and the state of the scene (incoming/outgoing). Animations can be specified through XML or in code.
 
