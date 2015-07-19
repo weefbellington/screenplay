@@ -1,150 +1,65 @@
 Screenplay
 ==========
 
-###Prologue
+###1. What is Screenplay?
 
-Screenplay is a minimalist framework for building Android applications, powered by Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html).
-Screenplay is designed to:
+#####1.1 TL;DR
 
-- Remove the need for complex, monolithic UI elements (Activities, Fragments, Dialogs)
-- Replace them with small, reusable elements (Scenes) built out of simple Views
-- Provide an abstraction over the View lifecycle, with scene transitions and clear entry/exit points for each scene
-- Make it easy to pass data between different parts of the application, without having to serialize it into an intermediate representation
+• single-activity apps • no Fragments or Dialogs, just Views • robust animation system • component-based architecture • constructor-based, DI friendly object initialization
 
-A normal Android application has several layers of UI. An application may have multiple Activities,
-which are arranged in a navigation stack. Each Activity may have one or more Fragments, which also
-may have their own backstack. There are also Dialogs, which do not operate on a backstack but
-are used to display modal views. Each of these interact with the other parts in complex ways,
-and it is hard to pass information between them.
+#####1.2 The nitty gritty
 
-A Screenplay application does away with these layers and replaces them with a single unifying
-metaphor, the Scene. An application consists of a single Activity and a backstack of Scenes,
-each of which contains a View. The View is created when the Scene is set up and destroyed when the
-Scene is torn down.
+Screenplay is a minimalist framework for building Android applications, powered by Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html). Screenplay inherits Flow's "less is more" approach to Android development: a Screenplay application consists of single activity and multiple Views, with the Views arranged on a backstack.
 
-A Scene's lifecycle is easy to understand. A incoming scene is handled in three discrete phases:
+In Screenplay, the backstack consists of a series of objects called *Scenes*. A Scene fills the role of either a Fragment or a Dialog. A single variable, `isFloating`, defines whether it is full-screen or floats above other content.
+
+Unlike Fragments or Dialogs, Scenes are lightweight and aren't created with a factory method. Each scene is a POJO (Plain Old Java Object). Just create `new Scene(...)`, pass it some arguments, and you're good to go. Passing data between scenes is straightforward -- no need for voodoo like serializing data into a `Bundle`, or a `Parcelable` implementation.
+
+Each scene has a Transition, which describes scene animations. The animation system for Scenes is similar to Activities or Fragments: Screenplay selects an animation to play based on the direction of navigation (forward/back) and the state of the scene (incoming/outgoing). Animations can be specified through XML or in code.
+
+Each scene can also have zero or more Components, which are notified of scene lifecycle events. Components provide a modular way of attaching behavior to a scene, encouraging code reuse and separation of concerns.
+
+###2. Scenes, Transformers and Components
+
+#####2.1 Navigating between scenes
+
+Screenplay uses Flow to manipulate the app's backstack. The following provide a few examples of manipulating the backstack; refer to the [Flow documentation](http://corner.squareup.com/2014/01/mortar-and-flow.html) for futher information.
+
+```java
+    flow.goTo(new DetailScene(data));   // animates forward to the DetailScene
+    flow.goUp();                        // animate back to the parent of the scene
+    flow.goBack();                      // animate back to the previous scene
+    flow.resetTo(someScene)             // animate back to a specific scene
+    flow.replaceTo(new RootScene())     // animate forward and replace the stack
+```
+
+It is recommended that you use a single Flow instance throughout the application. See Section (3.1) for more details.
+
+#####2.2 The scene lifecycle 
+
+The Scene has only a few responsibilities: creating a View (`Scene#setUp`), destroying a View (`Scene#tearDown`) and getting the current view (`Scene#getView`).
+
+A Scene's lifecycle is easy to understand. For an incoming scene, setup happens in three discrete phases:
 
 1. The `Scene` creates its View, which is attached to a parent ViewGroup
 2. Scene `Components` are notified of initialization
 3. A `Transformer` plays animations between the incoming and outgoing scene.
 
-An outgoing scene handled in a similar way:
+For an outgoing scene, teardown is the reverse of setup:
 
 1. The `Transformer` plays an animation between the incoming and outgoing scene
 2. The `Components` are notified of teardown
 3. The `Scene` removes its View, which is detached from the parent ViewGroup
 
-These steps are applied by the `Screenplay` object, which acts as a simple controller for your
-navigation logic. It also handles the task of reattaching your views on configuration changes -- as long
-as you hold onto the same `Screenplay` object, it will 'remember' the state of your screen stack
-across configuration changes.
+#####2.3 An example scene
 
-Unlike Fragments or Activities, Scenes are lightweight objects that do not require any special
-voodoo to create. Each scene is just a POJO (Plain Old Java Object). Just create `new Scene(...)`,
-pass it some arguments, and you're good to go.
-
-###Setting the stage
-
-You only need a little bit of boilerplate to bootstrap a Screenplay application. Screenplay requires
-you to construct the following objects:
-
-1. The `Stage` object: binds to your activity and main view.
-2. The `Screenplay` object: acts as a controller for your navigation logic.
-3. The `Flow` object: main navigation interface
-
-To ensure that your scene stack survives configuration changes, these objects should be stored
-outside of your main Activity. One way to do this is to put them in the Application class.
-
-```java
-public class SampleApplication extends Application {
-
-    public final MutableStage stage = new MutableStage();
-    public final Screenplay screenplay = new Screenplay(stage);
-    public final Flow mainFlow = new Flow(Backstack.single(new HomeScreen()), screenplay);
-    private static SampleApplication application;
-
-    public void onCreate() { application = this; }
-
-    public static SampleApplication getInstance()       { return application; }
-    public static MutableStage getStage()               { return getInstance().stage; }
-    public static Screenplay getScreenplay()            { return getInstance().screenplay; }
-    public static Flow getMainFlow()                    { return getInstance().mainFlow; }
-}
-```
-
-(alternatively, you can use a dependency injection library such as [Dagger](http://square.github.io/dagger/))
-
-In the onCreate() method of your main Activity, bind your `Stage` to the Activity and call
-`Screenplay.enter()`. This is the main entry point to your application. It will initialize the
-Flow to the root scene, or, in the case of a configuration change, rebind your scene scene stack
-and reattach views that were previously visible on the screen.
-
-```java
-public class MainActivity extends Activity {
-
-    private SimpleStage stage;
-    private Flow flow;
-    private Screenplay screenplay;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_main);
-        RelativeLayout container = (RelativeLayout) findViewById(R.id.main);
-
-        stage = SampleApplication.getStage();
-        flow = SampleApplication.getMainFlow();
-        screenplay = SampleApplication.getScreenplay();
-
-        stage.bind(this, container, flow);
-        screenplay.enter(flow);
-    }
-}
-```
-
-Once you've created your Flow, navigation is the same as in any other Flow application:
-
-```java
-    flow.goTo(new DetailScene()); // animates forward to the DetailScene
-    flow.goUp();                  // animate back to the parent of the scene
-    flow.goBack();                // animate back to the previous scene
-```
-
-When the Activity is destroyed, you must:
-
-1. call `Screenplay#exit`. This performs cleanup actions such as calling `Scene#tearDown` on the
-current visible scene and on its components.
-2. call `Stage#unbind`, if you're using a `MutableStage`. This drops references to the old Activity
-and prevents memory leaks.
-
-```java
-    @Override
-    public void onDestroy() {
-        super.onDestroy()
-        screenplay.exit();
-        stage.unbind()
-    }
-```
-
-###Anatomy of a Scene
-
-The building block of a Screenplay app is a `Scene`. The Scene knows how to do
-only a few things by itself: create a View (`Scene.setUp`), destroy a View (`Scene.tearDown`) and
-get the current view (`Scene.getView`).
-
-The reference implementation is the `StandardScene`. This is the scene that your scenes should
-extend from if they're being inflated from XML. Internally, it uses Flow's [Layouts.createView()](https://github.com/square/flow/blob/master/flow/src/main/java/flow/Layouts.java)
-to create the View. Scenes can be hooked up to `Components`, which receive callbacks after the scene
-is set up and before it is torn down. They are used to apply behaviors to the scene. For example,
-this DialogScene has a Component that locks the navigation drawer while the dialog is active:
+The following is an example scene, which extends the `StandardScene` class. If your application is doing the normal thing and inflating views from XML, the StandardScene is the base class you should extend. Internally, the StandardScene uses Flow's [Layouts.createView()](https://github.com/square/flow/blob/master/flow/src/main/java/flow/Layouts.java) to create the View in the `Scene#setUp` method. The scene includes a `DrawerLockingComponent `, which locks the navigation drawer while the dialog is active. Although this particular scene only has a single Component, it is easy to include multiple components in a scene.
 
 ```java
 @Layout(R.layout.dialog_scene)
-public class DialogScene extends StandardScene {
-    public DialogScene(DrawerLockingComponent component) {
-        addComponent(component);
+public class ExampleScene extends StandardScene {
+    public DialogScene(DrawerPresenter drawer) {
+        addComponent(new DrawerLockingComponent(drawer));
     }
 }
 ```
@@ -169,23 +84,17 @@ public class DrawerLockingComponent implements Scene.Component {
     }
 }
 
-```
+###2.4 Regular vs. modal scenes
 
-###Regular vs. stacking scenes
+The way that the a scene's view is attached is configurable. Normally, after a new scene is pushed onto the stack, the old scene's View is detached from its parent View to free up memory.
 
-The way that the a scene is displayed depends on the whether it is configured to stack or not. Normally,
-after a new scene is pushed onto the stack, the old scene's View is detached from its parent so that
-its memory can be released.
-
-Stacking scenes work differently. When a stacking scene is created, is will be layered on top of the
-scene below it. You can layer as many stacking scenes on top of each other as you want by setting
-`Scene.isStacking` to `true`. The following is an example of dialog implemented as a stacking scene:
+With a modal scene, this is not the case. The old scene's view remains attached to the parent and the new scene's view is layered on top of it. Multiple scenes may be layered in this way. Modal scenes are configured by overriding `Scene#isModal` to return `true`. Here is an example of a modal scene:
 
 ```java
 @Layout(R.layout.dialog_scene)
 public class DialogScene extends StandardScene {
 
-    private final PopupTransformer transformer;
+    private final Transformer transformer;
 
     public DialogScene(Context context) {
         addComponent(new DrawerLockingComponent());
@@ -193,7 +102,7 @@ public class DialogScene extends StandardScene {
     }
 
     @Override
-    public boolean isStacking() {
+    public boolean isModal() {
         return true;
     }
 
@@ -204,18 +113,9 @@ public class DialogScene extends StandardScene {
 }
 ```
 
-###View persistence on configuration changes
+###2.5 Animated scene transitions
 
-By default, when a configuration change occurs, Screenplay tears down each the each scene
-whose view is currently visible on the screen. If instead you would like a view  to be retained on
-configuration changes, override `Scene.teardownOnConfigurationChanges` to return `true`. Keep in mind, though, that if you enable this flag, the XML for the view will not be
-reloaded when a configuration change occurs.
-
-###Transformers and animated scene transitions
-
-A `Transformer` is responsible for applying animations between scenes. The `Transformer` receives a
-`SceneCut` object, which contains the data that the `Transformer` needs to create animations,
-including the `Flow.Direction`, and the incoming and outgoing stages.
+A `Transition` is responsible for applying animations between scenes. The `Transition` receives a `SceneCut` object, which contains the data that the `Transiton` needs to create animations, including the `Flow.Direction`, and the incoming and outgoing stages.
 
 ```java
 @Singleton
@@ -236,20 +136,98 @@ public class HorizontalSlideTransformer extends TweenTransformer {
 }
 ```
 
-Screenplay provides two `Transformer` implementations to extend from: `TweenTransformer`
-and `AnimatorTransformer`. TweenTransformer uses the [Animation](http://developer.android.com/reference/android/view/animation/Animation.html) class, while
-the AnimatorTransformer uses the [Animator](http://developer.android.com/reference/android/animation/Animator.html) class.
+Screenplay provides two `Transition` implementations to extend from: `TweenTransition` and `AnimatorTransition`. TweenTransition uses the [Animation](http://developer.android.com/reference/android/view/animation/Animation.html) class to create a transition from XML, while the AnimatorTransition uses the [Animator](http://developer.android.com/reference/android/animation/Animator.html) class to create a transition from code.
 
-###Odds and ends
+###3. Boilerplate
 
-The `Screenplay` object also exposes a `SceneState` object. This is useful for preventing multiple
+#####3.1 Bootstrapping
+
+You only need a little bit of boilerplate to bootstrap a Screenplay application. Screenplay requires you to construct the following objects:
+
+1. The `Stage` object: binds to your activity and main view.
+2. The `Rigger` object: acts as a controller for your navigation logic.
+3. The `Flow` object: main navigation interface
+
+To ensure that your scene stack survives configuration changes, these objects should be stored outside of your main Activity. One way to do this is to put them in the Application class.
+
+```java
+public class SampleApplication extends Application {
+
+    public final Stage stage = new Stage();
+    public final Rigger rigger = new Rigger(stage);
+    public final Flow flow = new Flow(Backstack.single(new HomeScreen()), screenplay);
+    private static SampleApplication application;
+
+    public void onCreate() { application = this; }
+
+    public static SampleApplication getInstance()       { return application; }
+    public static Stage getStage()                      { return getInstance().stage; }
+    public static Screenplay getRigger()                { return getInstance().rigger; }
+    public static Flow getFlow()                        { return getInstance().flow; }
+}
+```
+
+(alternatively, you can use a dependency injection library such as [Dagger](http://square.github.io/dagger/))
+
+In the onCreate() method of your main Activity, bind your `Stage` to the Activity and call `Rigger.enter()`. This is the main entry point to your application. It will create the root scene, or, in the case of a configuration change, reattach views that were previously visible on the screen.
+
+```java
+public class MainActivity extends Activity {
+
+    private SimpleStage stage;
+    private Flow flow;
+    private Rigger rigger;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_main);
+        RelativeLayout container = (RelativeLayout) findViewById(R.id.main);
+
+        stage = SampleApplication.getStage();
+        flow = SampleApplication.getMainFlow();
+        rigger = SampleApplication.getRigger();
+
+        stage.bind(this, container, flow);
+        rigger.enter(flow);
+    }
+}
+```
+
+#####3.2 Handling Activity lifecycle events
+
+When the Activity is destroyed, you must:
+
+1. call `Rigger#exit`. This performs cleanup actions such as calling `Scene#tearDown` on the current visible scene and on its components.
+2. call `Stage#unbind`. This drops references to the old Activity and prevents memory leaks.
+
+```java
+    @Override
+    public void onDestroy() {
+        super.onDestroy()
+        rigger.exit();
+        stage.unbind()
+    }
+```
+
+#####3.3 Managing configuration changes
+
+The Rigger also handles configuration changes. As long as you hold onto the same `Rigger` instance, it will 'remember' the state of your screen stack, performing steps such as reattaching Views when a configuration change (such as device rotation) occurs.
+
+By default, when a configuration change occurs, Screenplay tears down each the each scene whose view is currently visible on the screen. If instead you would like a scene and its view to be retained on configuration changes, override `Scene.teardownOnConfigurationChanges` to return `false`. Keep in mind that setting this to `false` means that the XML for the view will not be reloaded when a configuration change occurs.
+
+###4. Odds and ends
+
+The `Rigger` object also exposes a `SceneState` object. This is useful for preventing multiple
 button presses while two Scenes are in transition:
 
 ```java
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Ignore menu click if stage is transitioning
-        if (screenplay.getScreenState() == SceneState.TRANSITIONING) return true;
+        if (rigger.getSceneState() == SceneState.TRANSITIONING) return true;
 
         switch (item.getItemId()) {
             ...
@@ -257,7 +235,7 @@ button presses while two Scenes are in transition:
     }
 ```
 
-###Download
+###5. Download
 
 Screenplay is currently available as a beta snapshot. Grab it via Maven:
 
@@ -286,14 +264,14 @@ repositories {
 }
 ```
 
-###Sample Code
+###6. Sample Code
 
-Two sample projects are available. The first uses Dagger, Mortar and Butterknife. You can see them
-all together in the
-[mortar sample project](https://github.com/weefbellington/screenplay/tree/master/sample-mortar).
-If you'd rather see a more stripped-down example, there is also a
-[simple sample project](https://github.com/weefbellington/screenplay/tree/master/sample-simple)
-which only depends on Flow.
+Two sample projects are available. The [simple sample project](https://github.com/weefbellington/screenplay/tree/master/sample-simple) is the recommended place to start. If you use dependency injection, the [Dagger 2 sample project](https://github.com/weefbellington/screenplay/tree/master/sample-dagger2) may be of interest in you.
+
+###7. Contributing
+TODO
+
+###8. Acknowledgements
 
 Many thanks to the team at Square for their support of the open-source community, without which this
 project wouldn't be possible.
