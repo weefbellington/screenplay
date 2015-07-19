@@ -23,7 +23,7 @@ In Screenplay, the backstack consists of a series of objects called Scenes. Scen
 
 Unlike Fragments or Dialogs, Scenes are lightweight. Each scene is a POJO (Plain Old Java Object). They aren't created through factory methods. Just create `new Scene(...)`, pass it some arguments, and you're good to go. No need for voodoo like serializing data into a `Bundle`, or a `Parcelable` implementation.
 
-Each scene has a Transition, which describes scene animations. The animation system for Scenes is similar to Activities or Fragments: Screenplay selects an animation to play based on the direction of navigation (forward/back) and the state of the scene (incoming/outgoing). Animations can be specified through XML or in code.
+Each scene has a Transition, which describes a set of animations. The animation system for Scenes is similar to Activities or Fragments: Screenplay selects an animation to play based on the direction of navigation (forward/back) and the state of the scene (incoming/outgoing). Animations can be specified through XML or in code.
 
 Each scene can also have zero or more Components, which are notified of scene lifecycle events. Components provide a modular way of attaching behavior to a scene, encouraging code reuse and separation of concerns.
 
