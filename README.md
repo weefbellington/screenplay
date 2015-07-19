@@ -91,6 +91,7 @@ public class DrawerLockingComponent implements Scene.Component {
         drawer.setLocked(false);
     }
 }
+```
 
 ###2.4 Regular vs. modal scenes
 
