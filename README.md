@@ -1,16 +1,56 @@
 
 ```
 =======================================================================================
-+++++++++ SCREENPLAY ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-=======================================================================================
-========= single-activity | no fragments or dialogs | animated transitions    =========
-========= view-based      | no factory methods      | component oriented      =========
-========= modal support   | DI friendly             | less friction           =========
++++++++++ SCREENPLAY + A minimalist application framework for Android +++++++++++++++++
 =======================================================================================
 ```
 
+Remove the need for complex, monolithic UI elements (Activities, Fragments, Dialogs)
+Replace them with small, reusable elements (Scenes) built out of simple Views
+Provide an abstraction over the View lifecycle, with scene transitions and clear entry/exit points for each scene
+Make it easy to pass data between different parts of the application, without having to serialize it into an intermediate representation
+
 ###1. What is Screenplay?
 
+The idea behind Screenplay is based on a few core principles:
+
+- Low complexity: monolithic UI components with a complex lifecycle are bad and should be avoided
+- Low friction: objects should be easy to create, and it should be easy to pass data between them
+- High modularity: applications should be built out of small, modular parts
+
+With these principles in mind, it is easy to draw the following observations about Android development:
+
+1. Activities, fragments and dialogs have complex lifecycles prone to race conditions
+2. They tend to contain monolithic blocks of code.
+3. It is hard to pass data between them
+2. There must be a better way
+
+Screenplay is a tiny, but moderately opinionated, Android application framework. It is ideal for building with a specific kind of architecture: **single-activity**, with **no fragments**, **no dialogs**, and **small classes**.
+
+How is this possible? Screenplay uses the a few technqiues to keep application development lean and simple:
+
+**A unifying abstraction:**
+Screenplay unifies the concept full-screen and modal UI in a single class, the Scene. A single variable, `Scene#isModal`, defines how a scene is displayed. Non-modal scenes act like full-screen Activities or Fragments; modal scenes can float on top of other scenes, like a drawer or a dialog.
+
+**Lightweight objects:**
+Unlike Fragments or Dialogs, Scenes are lightweight. Each scene is a POJO (Plain Old Java Object). They aren't created through factory methods. Just create `new Scene(...)`, pass it some arguments, and you're good to go. No need to serialize data into a `Bundle`, or write a `Parcelable` implementation.
+
+**A powerful backstack**
+Screenplay is built on top of Square's Flow. With Flow, it is possible to create a navigation backstack out of arbitrary objects, not just Activities or Fragments. Screenplay's backstack is built out of Scenes. Adding and removing scenes from the backstack happens synchronously, making it easy to see what is happening in the debugger.
+
+**View hot swapping:**
+Instead of multiple Fragments or Activities, Screenplay swaps Views in and out of the screen as Scenes are pushed and popped from the backstack. Views are removed from the screen when they are no longer visible to avoid leaking memory.
+
+**Animated scene transitions:**
+Screenplay selects animations to play based on the direction of navigation (forward/back) and the state of the scene (incoming/outgoing). Animations can be specified through XML or code.
+
+**Component-oriented architecture:**
+Each scene can have zero or more Components, which are notified of scene lifecycle events. Components provide a modular way of attaching behavior to a scene, encouraging code reuse and separation of concerns.
+
+**Separation of display and presentation:**
+You don't need to extend any custom `View` subclasses in a Screenplay application. This is a highly intentional design decision, keeping business logic and view presentation code strictly separate.
+
+//TODO remove me
 Screenplay is a minimalist framework for building Android applications, powered by Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html). Screenplay inherits Flow's "less is more" approach to Android development: a Screenplay application consists of single activity and multiple Views, which are attached and detached from the screen at the appropriate times.
 
 In Screenplay, the backstack consists of a series of objects called Scenes. Scenes fulfill the roles of both Fragments and a Dialogs; a single variable, `Scene#isModal`, defines whether it is full-screen or floats above other content.
