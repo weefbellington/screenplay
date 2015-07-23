@@ -18,9 +18,9 @@ It is driven by a few core principles:
 Screenplay makes it possible to run all of the application code in a single Activity, without relying on Fragments. It provides a number of tools for building lean, simple apps:
 
 **A powerful backstack:**
-Screenplay is built on top of Square's Flow. The Flow backstack can be built out of arbitrary objects, not just Activities or Fragments: in a Screenplay application, the backstack is built out objects called Scenes. Adding and removing scenes from the backstack happens synchronously, making it easy to see what is happening in the debugger.
+Screenplay is built on top of Square's [Flow](https://github.com/square/flow). In a Screenplay application, the backstack is built out objects called Scenes. Adding and removing scenes from the backstack happens synchronously, making it easy to see what is happening in the debugger.
 
-**A unifying UI abstraction for:**
+**A unifying UI abstraction:**
 Both full-screen and modal scenes are first-class citizens in a Screenplay application. Each scene on the backstack has a method, `Scene#isModal`, defines how a it is displayed. Non-modal scenes act like full-screen Activities or Fragments; modal scenes can float on top of other scenes, like a drawer or a dialog.
 
 **View hot swapping:**
