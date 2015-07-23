@@ -117,7 +117,7 @@ public class DrawerLockingComponent implements Scene.Component {
 }
 ```
 
-###3.5 Regular vs. modal scenes
+#####3.5 Regular vs. modal scenes
 
 Normally, after a new scene is pushed onto the stack, the old scene's View is detached from its parent View to free up memory.
 
