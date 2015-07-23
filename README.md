@@ -61,7 +61,7 @@ Screenplay uses Flow to manipulate the app's backstack. The following provide a 
     flow.resetTo(someScene)             // animate back to a specific scene
 ```
 
-It is recommended that you use a single Flow instance throughout the application. See Section (3.1) for more details.
+It is recommended that you use a single Flow instance throughout the application. See Section (4.1) for more details.
 
 #####3.2 The scene lifecycle 
 
