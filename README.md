@@ -146,7 +146,7 @@ public class DialogScene extends StandardScene {
 }
 ```
 
-###3.6 Animated scene transitions
+#####3.6 Animated scene transitions
 
 A `Transition` is responsible for applying animations between scenes. The `Transition` receives a `SceneCut` object, which contains the data that the `Transition` needs to create animations, including the `Flow.Direction`, and the incoming and outgoing stages.
 
