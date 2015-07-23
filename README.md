@@ -30,7 +30,7 @@ Screenplay swaps Views in and out as Scenes are pushed and popped from the backs
 Screenplay selects animations to play based on the direction of navigation (forward/back) and the state of the scene (incoming/outgoing). Animations can be specified through XML or code.
 
 **Lightweight objects:**
-Unlike Activities, Fragments or Dialogs, each scene is a POJO (Plain Old Java Object). No factory methods required: just create `new Scene(...)`, pass it some arguments, and you're good to go. No need to serialize data into a `Bundle`, or write a `Parcelable` implementation. As a result, Screenplay is DI-friendly; (Dagger)[https://github.com/square/dagger] is a fun partner.
+Unlike Activities, Fragments or Dialogs, each scene is a POJO (Plain Old Java Object). No factory methods required: just create `new Scene(...)`, pass it some arguments, and you're good to go. No need to serialize data into a `Bundle`, or write a `Parcelable` implementation. As a result, Screenplay is DI-friendly; [Dagger](https://github.com/square/dagger) is a fun partner.
 
 **Component-oriented architecture:**
 Each scene can have zero or more Components, which are notified of scene lifecycle events. Components provide a modular way of attaching behavior to a scene, encouraging code reuse and separation of concerns.
