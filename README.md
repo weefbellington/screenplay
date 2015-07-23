@@ -40,7 +40,9 @@ You don't need to extend any custom `View` subclasses in a Screenplay applicatio
 
 ###2. Sample Code
 
-The easiest way to get a feel for Screenplay is to dive into the code. Two sample projects are available. The [simple sample project](https://github.com/weefbellington/screenplay/tree/master/sample-simple) is the recommended place to start. If dependency injection is your thing, the [Dagger 2 sample project](https://github.com/weefbellington/screenplay/tree/master/sample-dagger2) is the same application with a DI-oriented structure.
+The easiest way to get a feel for Screenplay is to dive into the code. Two sample projects are available:
+1. The [simple sample project](https://github.com/weefbellington/screenplay/tree/master/sample-simple) is the recommended place to start. Here you will find a minimally complex Screenplay application which showcases some of its features.
+2. If dependency injection is your thing, the [Dagger 2 sample project](https://github.com/weefbellington/screenplay/tree/master/sample-dagger2) is the same application with a DI-oriented structure.
 
 ###3. Scenes, Components and Transitions
 
