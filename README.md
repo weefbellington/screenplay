@@ -11,7 +11,7 @@ Screenplay is a tiny, moderately opinionated Android application framework. It i
 
 It is driven by a few core principles:
 
-1. Low complexity: monolithic UI components with [complex lifecycles](https://github.com/xxv/android-lifecycle are bad and should be avoided
+1. Low complexity: monolithic UI components with [complex lifecycles](https://github.com/xxv/android-lifecycle) are bad and should be avoided
 2. Low friction: objects should be easy to create, and it should be easy to pass data between them
 3. High modularity: applications should be built out of small, reusable parts
 
