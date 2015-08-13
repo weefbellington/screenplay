@@ -1,28 +1,51 @@
-screenplay
+Screenplay
 ==========
 
-###What is it?
+###Prologue
 
-**screenplay** is a minimalist application framework for Android, powered by
-Square's flow.
+Screenplay is a minimalist framework for building Android applications, powered by Square's [Flow](http://corner.squareup.com/2014/01/mortar-and-flow.html).
+Screenplay is designed to:
 
-screenplay inherits the idea from Flow that the building block of the
-application is the View. Typical Android applications have a navigation stack
-that consist of multiple Activities and Fragments; in Screenplay, you have a
-single Activity with a stack of Scenes, each of which encapsulates a single
-View.
+- Remove the need for complex, monolithic UI elements (Activities, Fragments, Dialogs)
+- Replace them with small, reusable elements (Scenes) built out of simple Views
+- Provide an abstraction over the View lifecycle, with scene transitions and clear entry/exit points for each scene
+- Make it easy to pass data between different parts of the application, without having to serialize it into an intermediate representation
 
-The Scene is a unifying metaphor, fulfilling the functions of an Activity, a
-Fragment and a Dialog. As with Activities and Fragments, transitions between
-Scenes can be animated. Scenes can be full-screen, like an Activity, or 
-floating, like a Dialog. Scenes have a simple, synchronous lifecycle,
-drastically simplified compared to the Activity/Fragment lifecycle. Scenes also
-have attachment points for components, allowing them to be composed entirely
-from smaller, more modular parts.
+A normal Android application has several layers of UI. An application may have multiple Activities,
+which are arranged in a navigation stack. Each Activity may have one or more Fragments, which also
+may have their own backstack. There are also Dialogs, which do not operate on a backstack but
+are used to display modal views. Each of these interact with the other parts in complex ways,
+and it is hard to pass information between them.
+
+A Screenplay application does away with these layers and replaces them with a single unifying
+metaphor, the Scene. An application consists of a single Activity and a backstack of Scenes,
+each of which contains a View. The View is created when the Scene is set up and destroyed when the
+Scene is torn down.
+
+A Scene's lifecycle is easy to understand. A incoming scene is handled in three discrete phases:
+
+1. The `Scene` creates its View, which is attached to a parent ViewGroup
+2. Scene `Components` are notified of initialization
+3. A `Transformer` plays animations between the incoming and outgoing scene.
+
+An outgoing scene handled in a similar way:
+
+1. The `Transformer` plays an animation between the incoming and outgoing scene
+2. The `Components` are notified of teardown
+3. The `Scene` removes its View, which is detached from the parent ViewGroup
+
+These steps are applied by the `Screenplay` object, which acts as a simple controller for your
+navigation logic. It also handles the task of reattaching your views on configuration changes -- as long
+as you hold onto the same `Screenplay` object, it will 'remember' the state of your screen stack
+across configuration changes.
+
+Unlike Fragments or Activities, Scenes are lightweight objects that do not require any special
+voodoo to create. Each scene is just a POJO (Plain Old Java Object). Just create `new Scene(...)`,
+pass it some arguments, and you're good to go.
 
 ###Setting the stage
 
-You only need a little bit of boilerplate to bootstrap a screenplay application. screenplay requires
+You only need a little bit of boilerplate to bootstrap a Screenplay application. Screenplay requires
 you to construct the following objects:
 
 1. The `Stage` object: binds to your activity and main view.
@@ -81,7 +104,7 @@ public class MainActivity extends Activity {
 }
 ```
 
-Once you've created your Flow, you can use it push new scenes to the stack and navigate the app:
+Once you've created your Flow, navigation is the same as in any other Flow application:
 
 ```java
     flow.goTo(new DetailScene()); // animates forward to the DetailScene
@@ -105,39 +128,16 @@ and prevents memory leaks.
     }
 ```
 
-###Building the scene
+###Anatomy of a Scene
 
-Scenes are lightweight objects that do not require any special voodoo to create. Each scene is just a POJO (Plain
-Old Java Object) and can be created with a standard constructor. Just create `new Scene(...)`, pass it any
-arguments you want, and you're good to go.
-
-As new Scenes are created, they are added to a backstack. Each Scene manages a single View, which has a simple lifecycle. Scene setup has three discrete steps:
-
-1. The `Scene` creates its View, which is attached to a parent ViewGroup
-2. Scene `Components` are notified of initialization
-3. A `Transformer` plays animations between the incoming and outgoing scene.
-
-Likewise, scene teardown has three steps:
-
-1. The `Transformer` plays an animation between the incoming and outgoing scene
-2. The `Components` are notified of teardown
-3. The `Scene` removes its View, which is detached from the parent ViewGroup
-
-These steps are applied by the `Screenplay` object, which acts as a simple controller for your
-navigation logic. It also handles the task of reattaching your views on configuration changes -- as long
-as you hold a reference the same `Screenplay` object, it will 'remember' the state of your screen stack
-across configuration changes, such as screen rotation and keyboard opening/closing.
-
-The Scene knows how to do only a few things by itself: create a View (`Scene.setUp`), destroy a View (`Scene.tearDown`) and get the current view (`Scene.getView`).
+The building block of a Screenplay app is a `Scene`. The Scene knows how to do
+only a few things by itself: create a View (`Scene.setUp`), destroy a View (`Scene.tearDown`) and
+get the current view (`Scene.getView`).
 
 The reference implementation is the `StandardScene`. This is the scene that your scenes should
 extend from if they're being inflated from XML. Internally, it uses Flow's [Layouts.createView()](https://github.com/square/flow/blob/master/flow/src/main/java/flow/Layouts.java)
-to create the View.
-
-###Scene components
-
-Scenes can be hooked up to `Components`, which receive callbacks after the scene
-is set up and before it is torn down. They are used to add modular behavior to the scene. For example,
+to create the View. Scenes can be hooked up to `Components`, which receive callbacks after the scene
+is set up and before it is torn down. They are used to apply behaviors to the scene. For example,
 this DialogScene has a Component that locks the navigation drawer while the dialog is active:
 
 ```java
@@ -206,7 +206,7 @@ public class DialogScene extends StandardScene {
 
 ###View persistence on configuration changes
 
-By default, when a configuration change occurs, screenplay tears down each the each scene
+By default, when a configuration change occurs, Screenplay tears down each the each scene
 whose view is currently visible on the screen. If instead you would like a view  to be retained on
 configuration changes, override `Scene.teardownOnConfigurationChanges` to return `true`. Keep in mind, though, that if you enable this flag, the XML for the view will not be
 reloaded when a configuration change occurs.
@@ -236,7 +236,7 @@ public class HorizontalSlideTransformer extends TweenTransformer {
 }
 ```
 
-screenplay provides two `Transformer` implementations to extend from: `TweenTransformer`
+Screenplay provides two `Transformer` implementations to extend from: `TweenTransformer`
 and `AnimatorTransformer`. TweenTransformer uses the [Animation](http://developer.android.com/reference/android/view/animation/Animation.html) class, while
 the AnimatorTransformer uses the [Animator](http://developer.android.com/reference/android/animation/Animator.html) class.
 
@@ -259,13 +259,13 @@ button presses while two Scenes are in transition:
 
 ###Download
 
-screenplay is currently available as a beta snapshot. Grab it via Maven:
+Screenplay is currently available as a beta snapshot. Grab it via Maven:
 
 ```xml
 <dependency>
     <groupId>com.davidstemmer</groupId>
     <artifactId>screenplay</artifactId>
-    <version>0.6.2-SNAPSHOT</version>
+    <version>0.6.3-SNAPSHOT</version>
     <type>aar</type>
 </dependency>
 ```
