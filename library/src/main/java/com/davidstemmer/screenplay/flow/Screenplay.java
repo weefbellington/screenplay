@@ -230,9 +230,20 @@ public class Screenplay implements Flow.Listener {
         stage.getContainer().addView(view);
     }
 
-    private void removeFromParent(View view) {
-        ViewGroup parent = (ViewGroup) view.getParent();
-        parent.removeView(view);
+    private void removeFromParent(final View view) {
+
+        // If we don't include the post() call, the following error occurs:
+        // Attempt to read from field 'int android.view.View.mViewFlags' on a null object reference
+        // So far I haven't been able to isolate the cause of this -- I think it might be related
+        // to removing the view immediately after an animation ends, but I haven't been able to
+        // reproduce it under controlled conditions.
+        final ViewGroup parent = (ViewGroup) view.getParent();
+        parent.post(new Runnable() {
+            @Override
+            public void run() {
+                parent.removeView(view);
+            }
+        });
     }
 
     private void setUpScene(Scene scene, boolean isStarting) {
