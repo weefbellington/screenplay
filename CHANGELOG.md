@@ -1,8 +1,8 @@
 ## 0.6.3 CHANGELOG
 
 - throw an exception when trying to add a scene to the backstack twice (issue #56)
-- add support for methods that add or remove multiple: `Flow#forward`, `Flow#backward` and `Flow#resetTo` now work correctly (#84)
-- fix crash in
+- add support for methods that add or remove multiple: `Flow#forward`, `Flow#backward` and `Flow#resetTo` now work correctly (issue #84)
+- add workaround for `Attempt to read from field 'int android.view.View.mViewFlags' on a null object reference` crash (issue #88)
 
 ## 0.6.2 CHANGELOG
 
