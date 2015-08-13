@@ -200,8 +200,8 @@ public class Screenplay implements Flow.Listener {
 
         ArrayDeque<Scene> scenes = getLastSceneBlock(deque(flow.getBackstack()));
 
-        // the scene block has the topmost scene first -- add the scenes in reverse order, from the
-        // bottom to the top
+        // the topmost scene is the first in the scene block
+        // re-add the scenes in reverse order, from bottom top
         Iterator<Scene> sceneIterator = scenes.descendingIterator();
 
         while(sceneIterator.hasNext()) {
@@ -219,8 +219,8 @@ public class Screenplay implements Flow.Listener {
 
         ArrayDeque<Scene> outgoingScenes = new ArrayDeque<>(getLastSceneBlock(previousBackstack));
 
-        // the scene block has the topmost scene first -- tear down the scenes in order, from top
-        // to bottom
+        // the topmost scene is the first in the scene block
+        // tear down the scenes in order, from top to bottom
         Iterator<Scene> sceneBlockIterator = outgoingScenes.iterator();
 
         while(sceneBlockIterator.hasNext()) {
