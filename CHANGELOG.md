@@ -1,3 +1,9 @@
+## 0.6.3 CHANGELOG
+
+- throw an exception when trying to add a scene to the backstack twice (issue #56)
+- add support for methods that add or remove multiple: `Flow#forward`, `Flow#backward` and `Flow#resetTo` now work correctly (#84)
+- fix crash in
+
 ## 0.6.2 CHANGELOG
 
 *Bug fixes*
