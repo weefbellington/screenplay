@@ -6,19 +6,17 @@ import com.davidstemmer.screenplay.sample.simple.SampleApplication;
 import com.davidstemmer.screenplay.sample.simple.component.DrawerLockingComponent;
 import com.davidstemmer.screenplay.sample.simple.scene.transformer.ActionDrawerTransformer;
 import com.davidstemmer.screenplay.scene.Scene;
-import com.davidstemmer.screenplay.scene.StandardScene;
+import com.davidstemmer.screenplay.scene.XmlScene;
 import com.davidstemmer.screenplay.scene.component.SceneCallback;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
 import flow.Flow;
-import flow.Layout;
 
 /**
  * Created by weefbellington on 10/21/14.
  */
 
-@Layout(R.layout.action_drawer)
-public class ActionDrawerScene extends StandardScene {
+public class ActionDrawerScene extends XmlScene {
 
     private final Flow flow;
     private final ActionDrawerTransformer transformer;
@@ -34,6 +32,11 @@ public class ActionDrawerScene extends StandardScene {
         Component clickBindingComponent = new ClickBindingComponent();
 
         addComponents(drawerLockingComponent, clickBindingComponent);
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.action_drawer;
     }
 
     @Override

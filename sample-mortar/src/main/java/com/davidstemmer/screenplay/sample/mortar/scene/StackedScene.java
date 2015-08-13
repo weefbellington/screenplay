@@ -6,7 +6,7 @@ import android.widget.Toast;
 import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.CrossfadeTransformer;
 import com.davidstemmer.screenplay.sample.mortar.view.ModalSceneView;
-import com.davidstemmer.screenplay.scene.StandardScene;
+import com.davidstemmer.screenplay.scene.XmlScene;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -22,7 +22,7 @@ import mortar.ViewPresenter;
  * Created by weefbellington on 10/2/14.
  */
 @Layout(R.layout.stacked_scene)
-public class StackedScene extends StandardScene {
+public class StackedScene extends XmlScene {
 
     private final CrossfadeTransformer transformer;
 

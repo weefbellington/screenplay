@@ -38,7 +38,9 @@ public class MainActivity extends ActionBarActivity {
 
         stage.bind(this, container, flow);
         drawerHelper.bind(drawerLayout);
-        screenplay.enter();
+
+        flow.setDispatcher(screenplay);
+        //screenplay.enter();
     }
 
     @Override
@@ -77,7 +79,7 @@ public class MainActivity extends ActionBarActivity {
 
     @Override public void onDestroy() {
         super.onDestroy();
-        screenplay.exit();
+        //screenplay.exit();
         stage.unbind();
         drawerHelper.unbind();
     }

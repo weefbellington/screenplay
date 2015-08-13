@@ -16,6 +16,7 @@ import com.davidstemmer.screenplay.scene.Scene;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
 import flow.Flow;
+import flow.History;
 
 /**
  * Created by weefbellington on 10/17/14.
@@ -86,7 +87,8 @@ public class NavigationMenuView extends LinearLayout {
         mDrawerHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                flow.replaceTo(nextScene);
+                History newHistory = History.single(nextScene);
+                flow.setHistory(newHistory, Flow.Direction.FORWARD);
             }
         }, 250);
         // The millisecond delay is arbitrary and was arrived at through trial and error

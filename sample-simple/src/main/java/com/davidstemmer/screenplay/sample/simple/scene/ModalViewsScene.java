@@ -10,12 +10,10 @@ import com.davidstemmer.screenplay.scene.Scene;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
 import flow.Flow;
-import flow.Layout;
 
 /**
  * Created by weefbellington on 10/2/14.
  */
-@Layout(R.layout.modal_views_scene)
 public class ModalViewsScene extends IndexedScene {
 
     private final Flow flow;
@@ -29,6 +27,11 @@ public class ModalViewsScene extends IndexedScene {
         Component clickBindingComponent = new ClickBindingComponent();
 
         addComponents(clickBindingComponent);
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.modal_views_scene;
     }
 
     @Override
@@ -52,7 +55,7 @@ public class ModalViewsScene extends IndexedScene {
         private View.OnClickListener showDialog = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flow.goTo(StaticScenes.DIALOG_SCENE);
+                flow.set(StaticScenes.DIALOG_SCENE);
             }
         };
 
@@ -60,7 +63,7 @@ public class ModalViewsScene extends IndexedScene {
             @Override
             public void onClick(View v) {
                 ActionDrawerCallback callback = new ActionDrawerCallback(getView().getContext());
-                flow.goTo(new ActionDrawerScene(callback));
+                flow.set(new ActionDrawerScene(callback));
             }
         };
 

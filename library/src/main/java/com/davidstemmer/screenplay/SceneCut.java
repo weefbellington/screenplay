@@ -15,7 +15,7 @@ import flow.Flow;
 public class SceneCut {
 
     public final Flow.Direction direction;
-    public final Flow.Callback callback;
+    public final Flow.TraversalCallback callback;
     public final ArrayDeque<Scene> incomingScenes;
     public final ArrayDeque<Scene> outgoingScenes;
 
@@ -29,7 +29,7 @@ public class SceneCut {
     public static class Builder {
 
         Flow.Direction direction;
-        Flow.Callback callback;
+        Flow.TraversalCallback callback;
         final ArrayDeque<Scene> incomingScenes = new ArrayDeque<>();
         final ArrayDeque<Scene> outgoingScenes = new ArrayDeque<>();
 
@@ -44,7 +44,7 @@ public class SceneCut {
             return this;
         }
 
-        public Builder setCallback(Flow.Callback callback) {
+        public Builder setCallback(Flow.TraversalCallback callback) {
             this.callback = callback;
             return this;
         }

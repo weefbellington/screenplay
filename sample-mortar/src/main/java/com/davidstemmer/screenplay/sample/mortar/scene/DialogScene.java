@@ -8,7 +8,7 @@ import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.component.DrawerLockingComponent;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.PopupTransformer;
-import com.davidstemmer.screenplay.scene.StandardScene;
+import com.davidstemmer.screenplay.scene.XmlScene;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -23,7 +23,7 @@ import mortar.ViewPresenter;
  * Created by weefbellington on 10/2/14.
  */
 @Layout(R.layout.dialog_scene)
-public class DialogScene extends StandardScene {
+public class DialogScene extends XmlScene {
 
     private final PopupTransformer transformer;
 

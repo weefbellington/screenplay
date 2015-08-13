@@ -1,26 +1,22 @@
 package com.davidstemmer.screenplay.scene;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.davidstemmer.screenplay.flow.LayoutCompat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-/**
- * Created by weefbellington on 10/15/14.
- */
-public abstract class StandardScene implements Scene {
+public abstract class XmlScene implements Scene {
 
     private final ArrayList<Component> components = new ArrayList<>();
     private View view;
 
     @Override
     public View setUp(Context context, ViewGroup parent, boolean isFinishing) {
-        view = LayoutCompat.createView(context, parent, this);
+        view = LayoutInflater.from(context).inflate(getLayoutId(), parent, false);
         return view;
     }
 
@@ -63,4 +59,6 @@ public abstract class StandardScene implements Scene {
     public boolean isStacking() {
         return false;
     }
+
+    public abstract int getLayoutId();
 }

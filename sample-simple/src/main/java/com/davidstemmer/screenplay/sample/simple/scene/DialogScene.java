@@ -6,17 +6,15 @@ import com.davidstemmer.screenplay.sample.simple.SampleApplication;
 import com.davidstemmer.screenplay.sample.simple.component.DrawerLockingComponent;
 import com.davidstemmer.screenplay.sample.simple.scene.transformer.PopupTransformer;
 import com.davidstemmer.screenplay.scene.Scene;
-import com.davidstemmer.screenplay.scene.StandardScene;
+import com.davidstemmer.screenplay.scene.XmlScene;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
 import flow.Flow;
-import flow.Layout;
 
 /**
  * Created by weefbellington on 10/2/14.
  */
-@Layout(R.layout.dialog_scene)
-public class DialogScene extends StandardScene {
+public class DialogScene extends XmlScene {
 
     private final Flow flow;
     private final PopupTransformer transformer;
@@ -25,6 +23,11 @@ public class DialogScene extends StandardScene {
         this.flow = SampleApplication.getMainFlow();
         this.transformer = new PopupTransformer(SampleApplication.getInstance());
         addComponents(new DrawerLockingComponent(), new ClickBindingComponent());
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.dialog_scene;
     }
 
     @Override
@@ -62,7 +65,7 @@ public class DialogScene extends StandardScene {
         private final View.OnClickListener addScene = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flow.goTo(StaticScenes.POST_DIALOG_SCENE);
+                flow.set(StaticScenes.POST_DIALOG_SCENE);
             }
         };
     }

@@ -21,7 +21,7 @@ dependencies {
     testCompile 'org.hamcrest:hamcrest-all:1.3'
     // libs folder with prebuilt jars
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.squareup.flow:flow:0.8'
+    compile 'com.squareup.flow:flow:0.11'
     // javax.inject needed for @Inject annotations
     compile 'javax.inject:javax.inject:1'
     // we should remove the hard dependency on Mortar in the future
