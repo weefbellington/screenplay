@@ -3,7 +3,7 @@
 
     <string name="app_name">Screenplay</string>
     <string name="hello_world">Hello world!</string>
-    <string name="welcome_text">Welcome to Screenplay!\n\nThis is the initial Scene. Press the home button to navigate the other sample Scenes.</string>
+    <string name="welcome_text">Welcome to Screenplay!\n\nThis is the initial Scene. Press the home button to navigate the other scenes.</string>
     <string name="paged_scene_1_text">Creating simple page flows with Screenplay is easy. Going from one scene to another is as easy as calling Flow#goTo(newScene).</string>
     <string name="paged_scene_2_text">The Transformer class handles animations between scene views. The incoming and outgoing scenes each get a separate animation.</string>
     <string name="paged_scene_3_text">When the animation completes, the old scene\'s view is removed from the window to free up memory.</string>
