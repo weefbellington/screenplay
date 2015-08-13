@@ -51,6 +51,7 @@ public class Screenplay implements Flow.Listener {
         }
         else {
             ArrayDeque<Scene> difference = difference(nextBackstack, previousBackstack);
+
             animatedScenesIn = getLastSceneBlock(difference);
             animatedScenesOut = moveToNewSceneBlock(difference) ?
                     getLastSceneBlock(previousBackstack) :
@@ -93,6 +94,13 @@ public class Screenplay implements Flow.Listener {
                                          ArrayDeque<Scene> outgoing) {
         ArrayDeque<Scene> difference = new ArrayDeque<>(incoming);
         difference.removeAll(outgoing);
+        return validateDifference(difference);
+    }
+
+    private ArrayDeque<Scene> validateDifference(ArrayDeque<Scene> difference) {
+        if (difference.size() == 0) {
+            throw new IllegalStateException("Backstack validation error -- is the same Scene instance being added to the backstack more than once?");
+        }
         return difference;
     }
 
