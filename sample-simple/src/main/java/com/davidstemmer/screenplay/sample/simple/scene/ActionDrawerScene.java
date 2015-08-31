@@ -1,19 +1,16 @@
 package com.davidstemmer.screenplay.sample.simple.scene;
 
-import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.davidstemmer.screenplay.sample.simple.SampleApplication;
 import com.davidstemmer.screenplay.sample.simple.component.DrawerLockingComponent;
 import com.davidstemmer.screenplay.sample.simple.scene.transformer.ActionDrawerTransformer;
-import com.davidstemmer.screenplay.sample.simple.view.ActionDrawerView;
+import com.davidstemmer.screenplay.scene.Scene;
 import com.davidstemmer.screenplay.scene.StandardScene;
-import com.davidstemmer.screenplay.scene.component.CallbackComponent;
-import com.davidstemmer.screenplay.scene.component.ResultHandler;
 import com.davidstemmer.screenplay.scene.component.SceneCallback;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
+import flow.Flow;
 import flow.Layout;
 
 /**
@@ -23,26 +20,20 @@ import flow.Layout;
 @Layout(R.layout.action_drawer)
 public class ActionDrawerScene extends StandardScene {
 
+    private final Flow flow;
     private final ActionDrawerTransformer transformer;
-    private final ResultHandler<ActionDrawerResult> resultHandler;
+    private final Callback callback;
 
     public ActionDrawerScene(Callback callback) {
 
+        this.flow = SampleApplication.getMainFlow();
         this.transformer = new ActionDrawerTransformer(SampleApplication.getInstance());
-        this.resultHandler = new ResultHandler<ActionDrawerResult>(ActionDrawerResult.CANCELLED);
+        this.callback = callback;
 
-        Component callbackComponent = new CallbackComponent<ActionDrawerResult>(callback, resultHandler);
         Component drawerLockingComponent = new DrawerLockingComponent();
+        Component clickBindingComponent = new ClickBindingComponent();
 
-        addComponents(callbackComponent, drawerLockingComponent);
-    }
-
-    @Override
-    public View setUp(Context context, ViewGroup parent, boolean isFinishing) {
-        //TODO this bind should not be in setUp
-        ActionDrawerView view = (ActionDrawerView) super.setUp(context, parent, isFinishing);
-        view.bind(resultHandler);
-        return view;
+        addComponents(drawerLockingComponent, clickBindingComponent);
     }
 
     @Override
@@ -55,8 +46,43 @@ public class ActionDrawerScene extends StandardScene {
         return transformer;
     }
 
-    public static interface Callback extends SceneCallback<ActionDrawerResult> {
+    public interface Callback extends SceneCallback<ActionDrawerResult> {
         @Override void onExitScene(ActionDrawerResult result);
+    }
+
+    private class ClickBindingComponent implements Component {
+
+        private ActionDrawerResult result = ActionDrawerResult.CANCELLED;
+
+        @Override
+        public void afterSetUp(Scene scene, boolean isInitializing) {
+            View parent = scene.getView();
+            parent.findViewById(R.id.yes).setOnClickListener(yesListener);
+            parent.findViewById(R.id.no).setOnClickListener(noListener);
+        }
+
+        @Override
+        public void beforeTearDown(Scene scene, boolean isFinishing) {
+            if (isFinishing) {
+                callback.onExitScene(result);
+            }
+        }
+
+        private final View.OnClickListener yesListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                result = ActionDrawerResult.YES;
+                flow.goBack();
+            }
+        };
+
+        private final View.OnClickListener noListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                result = ActionDrawerResult.NO;
+                flow.goBack();
+            }
+        };
     }
 
 }

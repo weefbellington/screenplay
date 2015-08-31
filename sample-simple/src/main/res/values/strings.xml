@@ -3,19 +3,33 @@
 
     <string name="app_name">Screenplay</string>
     <string name="hello_world">Hello world!</string>
-    <string name="welcome_text">Welcome to Screenplay!\n\nThis is the initial Scene. Press the home button to navigate the other sample Scenes.</string>
-    <string name="paged_scene_1_text">This Scene uses a PageRigger. When entering the scene, the PageRigger adds the new Scene to the layout. After the transition completes, the previous scene is removed from the layout.</string>
-    <string name="nav_item_modal_scenes">Stacked scenes</string>
-    <string name="nav_item_paged_scenes">Paged scenes</string>
-    <string name="nav_item_simple_screen">Simple scene</string>
-    <string name="modal_scene_text">The StackRigger adds a new scene above the previous screen, but does not remove the previous screen.This makes it ideal for partial screen containers.</string>
-    <string name="modal_scene_dialog_button_text">Dialog</string>
+    <string name="welcome_text">Welcome to Screenplay!\n\nThis is the initial Scene. Press the home button to navigate the other scenes.</string>
+    <string name="paged_scene_1_text">Creating simple page flows with Screenplay is easy. Going from one scene to another is as easy as calling Flow#goTo(newScene).</string>
+    <string name="paged_scene_2_text">The Transformer class handles animations between scene views. The incoming and outgoing scenes each get a separate animation.</string>
+    <string name="paged_scene_3_text">When the animation completes, the old scene\'s view is removed from the window to free up memory.</string>
+    <string name="complex_paged_scene_1_text">You can use Flow to add multiple scenes to the backstack at once, or move to a new backstack entirely.</string>
+    <string name="complex_paged_scene_2_text">This is the first scene added to the backstack.</string>
+    <string name="complex_paged_scene_3_text">This is the second scene added to the backstack. Press the back button to go back once, or the button below to go back twice.</string>
+    <string name="new_backstack_scene_1">This is the first (root) scene of the new backstack.</string>
+    <string name="new_backstack_scene_2">This is the second (topmost) scene of the new backstack.</string>
+    <string name="nav_item_welcome_scene">Welcome scene</string>
+    <string name="nav_item_simple_navigation">Simple navigation</string>
+    <string name="nav_item_advanced_navigation">Advanced navigation</string>
+    <string name="nav_item_modal_navigation">Modal views</string>
+    <string name="modal_scenes_text">Modals in Screenplay are just Views, and are 100% customizable. Click through to see the examples.</string>
+    <string name="modal_scenes_dialog_button_text">Dialog</string>
     <string name="ok">OK</string>
-    <string name="dialog_scene_text">Dialogs in Screenplay are just Views, and are 100%% configurable. This one has a wrap_content height.</string>
-    <string name="modal_scene_action_drawer_button_text">Action drawer</string>
-    <string name="show_page">New page</string>
-    <string name="action_drawer_scene_text">You can pass a callback to a Scene and fire the callback when the view is detached.</string>
+    <string name="dialog_scene_text">This is a modal scene that looks like a dialog. Like all modal scenes, it will persist even if you add a new scene to the stack.</string>
+    <string name="modal_scenes_action_drawer_button_text">Action drawer</string>
+    <string name="add_one_page">Add one page</string>
+    <string name="add_two_pages">Add two pages</string>
+    <string name="action_drawer_scene_text">In this example, we pass a callback to a Scene and fire the callback when the view is detached.</string>
     <string name="drawer_open">Screenplay</string>
     <string name="drawer_close">Screenplay</string>
+    <string name="forward_one_scene">Forward one scene</string>
+    <string name="forward_two_scenes">Forward two scenes</string>
+    <string name="create_new_backstack">Create new backstack</string>
+    <string name="dialog_add_scene">Add scene</string>
+    <string name="post_dialog_scene_text">Screenplay will retain the state of the backstack, even on device rotation. Try it!</string>
 
 </resources>

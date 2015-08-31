@@ -12,21 +12,27 @@
     android:background="@android:color/white"
     android:divider="@android:drawable/divider_horizontal_textfield">
     <TextView
-        android:id="@+id/nav_item_simple_scene"
+        android:id="@+id/nav_item_welcome_scene"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/nav_item_simple_screen"
+        android:text="@string/nav_item_welcome_scene"
         style="@style/NavigationDrawerItem"/>
     <TextView
-        android:id="@+id/nav_item_paged_scenes"
+        android:id="@+id/nav_item_simple_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/nav_item_paged_scenes"
+        android:text="@string/nav_item_simple_navigation"
         style="@style/NavigationDrawerItem"/>
     <TextView
-        android:id="@+id/nav_item_modal_scenes"
+        android:id="@+id/nav_item_advanced_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/nav_item_modal_scenes"
+        android:text="@string/nav_item_advanced_navigation"
+        style="@style/NavigationDrawerItem"/>
+    <TextView
+        android:id="@+id/nav_item_modal_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nav_item_modal_navigation"
         style="@style/NavigationDrawerItem"/>
 </com.davidstemmer.screenplay.sample.simple.view.NavigationMenuView>

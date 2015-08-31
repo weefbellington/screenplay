@@ -3,7 +3,9 @@ package com.davidstemmer.screenplay.sample.simple.scene;
 import com.davidstemmer.screenplay.scene.StandardScene;
 
 /**
- * Created by weefbellington on 11/3/14.
+ * Flow#resetTo uses Object#equals in order to determine which scene to go back to. In order to
+ * avoid having to hold a reference to each scene if we want to go back to it, override
+ * Object#equals. Two IndexedScenes are considered equivalent if their id field matches.
  */
 public abstract class IndexedScene extends StandardScene {
 

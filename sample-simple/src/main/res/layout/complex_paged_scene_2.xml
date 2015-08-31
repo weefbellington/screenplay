@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_purple">
+    android:background="@android:color/holo_green_light">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/paged_scene_3_text"
+        android:text="@string/complex_paged_scene_2_text"
         android:textColor="@android:color/white"
         style="@style/TutorialText"/>
 </RelativeLayout>
