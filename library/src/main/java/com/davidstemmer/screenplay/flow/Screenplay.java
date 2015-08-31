@@ -35,8 +35,8 @@ public class Screenplay implements Flow.Listener {
 
         ArrayDeque<Scene> nextBackstack = deque(backstack);
 
-        ArrayDeque<Scene> animatedScenesIn;
-        ArrayDeque<Scene> animatedScenesOut;
+        ArrayDeque<Scene> incomingScenes;
+        ArrayDeque<Scene> outoingScenes;
 
         SceneCut.Builder sceneCut = new SceneCut.Builder()
                 .setDirection(direction)
@@ -44,27 +44,27 @@ public class Screenplay implements Flow.Listener {
 
         if (direction == Flow.Direction.BACKWARD) {
             ArrayDeque<Scene> difference = difference(previousBackstack, nextBackstack);
-            animatedScenesOut = getLastSceneBlock(difference);
-            animatedScenesIn = moveToNewSceneBlock(difference) ?
+            outoingScenes = getLastSceneBlock(difference);
+            incomingScenes = moveToNewSceneBlock(difference) ?
                     getLastSceneBlock(nextBackstack) :
                     new ArrayDeque<Scene>();
         }
         else {
             ArrayDeque<Scene> difference = difference(nextBackstack, previousBackstack);
 
-            animatedScenesIn = getLastSceneBlock(difference);
-            animatedScenesOut = moveToNewSceneBlock(difference) ?
+            incomingScenes = getLastSceneBlock(difference);
+            outoingScenes = moveToNewSceneBlock(difference) ?
                     getLastSceneBlock(previousBackstack) :
                     new ArrayDeque<Scene>();
 
         }
 
         Scene.Transformer delegatedTransformer = direction == Flow.Direction.BACKWARD ?
-                animatedScenesOut.iterator().next().getTransformer():
-                animatedScenesIn.iterator().next().getTransformer();
+                outoingScenes.iterator().next().getTransformer():
+                incomingScenes.iterator().next().getTransformer();
 
-        sceneCut.setIncomingScenes(animatedScenesIn);
-        sceneCut.setOutgoingScenes(animatedScenesOut);
+        sceneCut.setIncomingScenes(incomingScenes);
+        sceneCut.setOutgoingScenes(outoingScenes);
 
         previousBackstack.clear();
         previousBackstack.addAll(nextBackstack);
@@ -90,10 +90,10 @@ public class Screenplay implements Flow.Listener {
         return false;
     }
 
-    private ArrayDeque<Scene> difference(ArrayDeque<Scene> incoming,
-                                         ArrayDeque<Scene> outgoing) {
-        ArrayDeque<Scene> difference = new ArrayDeque<>(incoming);
-        difference.removeAll(outgoing);
+    private ArrayDeque<Scene> difference(ArrayDeque<Scene> sourceSet,
+                                         ArrayDeque<Scene> subSet) {
+        ArrayDeque<Scene> difference = new ArrayDeque<>(sourceSet);
+        difference.removeAll(subSet);
         return validateDifference(difference);
     }
 
