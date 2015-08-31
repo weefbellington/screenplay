@@ -17,7 +17,7 @@ import flow.Flow;
 /**
  * Created by weefbellington on 10/16/14.
  */
-public class AnimatorTransformer implements Scene.Transformer{
+public class AnimatorTransformer implements Scene.Transformer {
 
     private final Params params;
     private final Context context;
