@@ -1,6 +1,6 @@
 ## 0.6.4 CHANGELOG
 
-Fix bug in which the initial scene's `tearDown` method was never being called
+Fix bug in which the initial scene's `tearDown` method was never being called (issue #91)
 
 ## 0.6.3 CHANGELOG
 
