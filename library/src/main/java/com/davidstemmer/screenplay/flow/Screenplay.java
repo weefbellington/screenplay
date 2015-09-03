@@ -66,8 +66,7 @@ public class Screenplay implements Flow.Listener {
         sceneCut.setIncomingScenes(incomingScenes);
         sceneCut.setOutgoingScenes(outoingScenes);
 
-        previousBackstack.clear();
-        previousBackstack.addAll(nextBackstack);
+        setPreviousBackstack(backstack);
 
         beginCut(sceneCut.build(), delegatedTransformer);
     }
@@ -198,6 +197,8 @@ public class Screenplay implements Flow.Listener {
             throw new IllegalStateException("Backstack is empty");
         }
 
+        setPreviousBackstack(flow.getBackstack());
+
         ArrayDeque<Scene> scenes = getLastSceneBlock(deque(flow.getBackstack()));
 
         // the topmost scene is the first in the scene block
@@ -232,6 +233,11 @@ public class Screenplay implements Flow.Listener {
                 removeFromParent(nextScene.getView());
             }
         }
+    }
+
+    private void setPreviousBackstack(Backstack backstack) {
+        previousBackstack.clear();
+        previousBackstack.addAll(deque(backstack));
     }
 
     private void attachToParent(Stage stage, View view) {
