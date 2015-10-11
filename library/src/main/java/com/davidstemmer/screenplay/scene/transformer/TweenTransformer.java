@@ -7,8 +7,6 @@ import com.davidstemmer.screenplay.SceneCut;
 import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.scene.Scene;
 
-import flow.Flow;
-
 import static android.view.animation.AnimationUtils.loadAnimation;
 
 /**
@@ -25,6 +23,8 @@ public class TweenTransformer implements Scene.Transformer {
         public int forwardOut = -1;
         public int backIn = -1;
         public int backOut = -1;
+        public int replaceIn = -1;
+        public int replaceOut = -1;
     }
 
     public TweenTransformer(Context context, Params params) {
@@ -35,10 +35,15 @@ public class TweenTransformer implements Scene.Transformer {
     @Override
     public void applyAnimations(SceneCut cut, Screenplay screenplay) {
 
-        int out = cut.direction == Flow.Direction.BACKWARD ? params.backOut : params.forwardOut;
-        int in = cut.direction == Flow.Direction.BACKWARD ? params.backIn : params.forwardIn;
+        int out = getAnimationOut(cut.direction, params);
+        int in = getAnimationIn(cut.direction, params);
 
         TweenAnimationListener animationListener = new TweenAnimationListener(cut, screenplay);
+
+        if (in == -1 && out == -1) {
+            screenplay.endCut(cut);
+        }
+
         if (out != -1) {
             Animation anim = loadAnimation(context, out);
             for (Scene outgoingScene : cut.outgoingScenes) {
@@ -55,4 +60,31 @@ public class TweenTransformer implements Scene.Transformer {
         }
 
     }
+
+    public int getAnimationIn(Screenplay.Direction direction, Params params) {
+        switch (direction) {
+            case FORWARD:
+                return params.forwardIn;
+            case BACKWARD:
+                return params.backIn;
+            case REPLACE:
+                return params.replaceIn;
+            default:
+                return -1;
+        }
+    }
+
+    public int getAnimationOut(Screenplay.Direction direction, Params params) {
+        switch (direction) {
+            case FORWARD:
+                return params.forwardOut;
+            case BACKWARD:
+                return params.backOut;
+            case REPLACE:
+                return params.replaceOut;
+            default:
+                return -1;
+        }
+    }
+
 }

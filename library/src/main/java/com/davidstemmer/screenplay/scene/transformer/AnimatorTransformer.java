@@ -12,8 +12,6 @@ import com.davidstemmer.screenplay.scene.Scene;
 import java.util.ArrayList;
 import java.util.List;
 
-import flow.Flow;
-
 /**
  * Created by weefbellington on 10/16/14.
  */
@@ -38,8 +36,9 @@ public class AnimatorTransformer implements Scene.Transformer{
     @Override
     public void applyAnimations(SceneCut cut, Screenplay screenplay) {
 
-        int out = cut.direction == Flow.Direction.FORWARD ? params.forwardOut : params.backOut;
-        int in = cut.direction == Flow.Direction.FORWARD ? params.forwardIn : params.backIn;
+        //TODO support replace
+        int out = cut.direction == Screenplay.Direction.FORWARD ? params.forwardOut : params.backOut;
+        int in = cut.direction == Screenplay.Direction.FORWARD ? params.forwardIn : params.backIn;
 
         AnimatorSet animSet = new AnimatorSet();
         List<Animator> animators = new ArrayList<Animator>();

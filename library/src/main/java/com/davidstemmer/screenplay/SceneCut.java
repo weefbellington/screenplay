@@ -1,5 +1,6 @@
 package com.davidstemmer.screenplay;
 
+import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.scene.Scene;
 
 import java.util.ArrayDeque;
@@ -14,7 +15,7 @@ import flow.Flow;
  */
 public class SceneCut {
 
-    public final Flow.Direction direction;
+    public final Screenplay.Direction direction;
     public final Flow.TraversalCallback callback;
     public final ArrayDeque<Scene> incomingScenes;
     public final ArrayDeque<Scene> outgoingScenes;
@@ -28,7 +29,7 @@ public class SceneCut {
 
     public static class Builder {
 
-        Flow.Direction direction;
+        Screenplay.Direction direction;
         Flow.TraversalCallback callback;
         final ArrayDeque<Scene> incomingScenes = new ArrayDeque<>();
         final ArrayDeque<Scene> outgoingScenes = new ArrayDeque<>();
@@ -39,7 +40,7 @@ public class SceneCut {
             return new SceneCut(this);
         }
 
-        public Builder setDirection(Flow.Direction direction) {
+        public Builder setDirection(Screenplay.Direction direction) {
             this.direction = direction;
             return this;
         }
