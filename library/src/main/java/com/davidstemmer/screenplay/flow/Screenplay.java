@@ -35,53 +35,88 @@ public class Screenplay {
         NONE, FORWARD, BACKWARD, REPLACE
     }
 
-    public void dispatch(Deque<Scene> origin,
+    public void dispatch(Direction direction,
+                         Deque<Scene> origin,
                          Deque<Scene> destination,
-                         Direction direction,
                          Flow.TraversalCallback callback) {
 
-        Deque<Scene> animatedScenesIn;
-        Deque<Scene> animatedScenesOut;
+        final Deque<Scene> scenesIn = extractIncomingScenes(direction, origin, destination);
+        final Deque<Scene> scenesOut = extractOutgoingScenes(direction, origin, destination);
+        final Scene.Transformer delegatedTransformer = getDelegatedTransformer(direction, scenesIn, scenesOut);
 
-        SceneCut.Builder sceneCut = new SceneCut.Builder()
+        final SceneCut.Builder transition = new SceneCut.Builder()
+                .setScreenplay(this)
                 .setDirection(direction)
                 .setCallback(callback);
 
-        Deque<Scene> difference = direction == Direction.BACKWARD ?
-                CollectionUtils.difference(origin, destination, CollectionUtils.emptyQueue(Scene.class)) :
-                CollectionUtils.difference(destination, origin, CollectionUtils.emptyQueue(Scene.class));
+        transition.setIncomingScenes(scenesIn);
+        transition.setOutgoingScenes(scenesOut);
 
-        if (direction == Direction.BACKWARD) {
-            animatedScenesOut = getLastSceneBlock(difference);
-            animatedScenesIn = moveToNewSceneBlock(difference) ?
-                    getLastSceneBlock(destination) :
-                    new ArrayDeque<Scene>();
-        }
-        else {
-            animatedScenesIn = getLastSceneBlock(difference);
-            animatedScenesOut = moveToNewSceneBlock(difference) ?
-                    getLastSceneBlock(origin) :
-                    new ArrayDeque<Scene>();
-
-        }
-
-        Scene.Transformer delegatedTransformer = direction == Direction.BACKWARD ?
-                animatedScenesOut.getFirst().getTransformer():
-                animatedScenesIn.getFirst().getTransformer();
-
-        sceneCut.setIncomingScenes(animatedScenesIn);
-        sceneCut.setOutgoingScenes(animatedScenesOut);
-
-        beginCut(sceneCut.build(), delegatedTransformer);
+        beginStageTransition(transition.build(), delegatedTransformer);
     }
 
-    private boolean moveToNewSceneBlock(Deque<Scene> difference) {
+    private Deque<Scene> extractDifference(Direction direction,
+                                           Deque<Scene> origin,
+                                           Deque<Scene> destination) {
+        return direction == Direction.BACKWARD ?
+                CollectionUtils.difference(origin, destination, CollectionUtils.emptyQueue(Scene.class)) :
+                CollectionUtils.difference(destination, origin, CollectionUtils.emptyQueue(Scene.class));
+    }
+
+    private Deque<Scene> extractOutgoingScenes(Direction direction,
+                                               Deque<Scene> origin,
+                                               Deque<Scene> destination) {
+        Deque<Scene> changedScenes = extractDifference(direction, origin, destination);
+        return direction == Direction.BACKWARD ?
+                outgoingScenesBack(changedScenes) :
+                outgoingScenesForward(changedScenes, origin);
+    }
+
+
+    private Deque<Scene> extractIncomingScenes(Direction direction,
+                                               Deque<Scene> origin,
+                                               Deque<Scene> destination) {
+        Deque<Scene> changedScenes = extractDifference(direction, origin, destination);
+        return direction == Direction.BACKWARD ?
+                incomingScenesBack(changedScenes, destination) :
+                incomingScenesForward(changedScenes);
+    }
+
+    private Scene.Transformer getDelegatedTransformer(Direction direction,
+                                                      Deque<Scene> incomingScenes,
+                                                      Deque<Scene> outgoingScenes) {
+        return direction == Direction.BACKWARD ?
+                outgoingScenes.getFirst().getTransformer():
+                incomingScenes.getFirst().getTransformer();
+    }
+
+    private Deque<Scene> incomingScenesForward(Deque<Scene> addedScenes) {
+        return takeUntilNonStackingFound(addedScenes);
+    }
+
+    private Deque<Scene> outgoingScenesForward(Deque<Scene> addedScenes, Deque<Scene> origin) {
+        return areAllStacking(addedScenes) ?
+                new ArrayDeque<Scene>() :
+                takeUntilNonStackingFound(origin);
+    }
+
+    private Deque<Scene> incomingScenesBack(Deque<Scene> removedScenes, Deque<Scene> destination) {
+        return areAllStacking(removedScenes) ?
+                new ArrayDeque<Scene>() :
+                takeUntilNonStackingFound(destination);
+    }
+
+    private Deque<Scene> outgoingScenesBack(Deque<Scene> removedScenes) {
+        return takeUntilNonStackingFound(removedScenes);
+    }
+
+    private boolean areAllStacking(Deque<Scene> difference) {
         for (Scene scene : difference) {
             if (!scene.isStacking()) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     private Deque<Scene> validateDifference(Deque<Scene> difference) {
@@ -92,15 +127,15 @@ public class Screenplay {
     }
 
     /**
-     * A "scene block" is a group of associated scenes. A scene block is derived from a source list
-     * by iterating (starting from the first/topmost scene) until a non-stacking scene is found
-     * or the source list terminates.
-     * @param difference the difference between the old backstack and the new backstack
-     * @return a scene block to animate
+     * Derive a new queue from the source queue by taking scenes from the input queue until a
+     * non-stacking scene is found.
+     *
+     * @param input the source list
+     * @return the output list
      */
-    private Deque<Scene> getLastSceneBlock(Deque<Scene> difference) {
+    private Deque<Scene> takeUntilNonStackingFound(Deque<Scene> input) {
         Deque<Scene> sceneBlock = new ArrayDeque<>();
-        Iterator<Scene> sceneIterator = difference.iterator();
+        Iterator<Scene> sceneIterator = input.iterator();
         while(sceneIterator.hasNext()) {
             Scene scene = sceneIterator.next();
             sceneBlock.add(scene);
@@ -111,33 +146,53 @@ public class Screenplay {
         return sceneBlock;
     }
 
-    public void beginCut(SceneCut cut, Scene.Transformer transformer) {
-        Iterator<Scene> decendingIterator = cut.incomingScenes.descendingIterator();
+    private void beginStageTransition(SceneCut transition, Scene.Transformer transformer) {
+        Iterator<Scene> decendingIterator = transition.incomingScenes.descendingIterator();
         while (decendingIterator.hasNext()) {
             Scene scene = decendingIterator.next();
-            boolean isStarting = cut.direction == Direction.FORWARD || cut.direction == Direction.NONE;
+            boolean isStarting = isSceneStarting(transition.direction);
             setUpScene(scene, isStarting);
             setUpComponents(scene, isStarting);
         }
         screenState = SceneState.TRANSITIONING;
-        transformer.applyAnimations(cut, this);
+        transformer.applyAnimations(transition);
     }
 
     /**
      * Called by the {@link com.davidstemmer.screenplay.scene.Scene.Transformer} after the scene
      * animation completes. Finishes pending layout operations and notifies the Flow.Callback.
-     * @param cut contains the next and previous scene, and the flow direction
+     * @param transition contains the next and previous scene, and the flow direction
      */
-    public void endCut(SceneCut cut) {
-        Iterator<Scene> iterator = cut.outgoingScenes.iterator();
+    public void endStageTransition(SceneCut transition) {
+        Iterator<Scene> iterator = transition.outgoingScenes.iterator();
         while (iterator.hasNext()) {
             Scene scene = iterator.next();
-            boolean isFinishing = cut.direction == Direction.BACKWARD || cut.direction == Direction.REPLACE;
+            boolean isFinishing = isSceneFinishing(transition.direction);
             tearDownComponents(scene, isFinishing);
             tearDownScene(scene, isFinishing);
         }
         screenState = SceneState.NORMAL;
-        cut.callback.onTraversalCompleted();
+        transition.callback.onTraversalCompleted();
+    }
+
+    private boolean isSceneStarting(Direction direction) {
+        switch (direction) {
+            case NONE:
+            case FORWARD:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private boolean isSceneFinishing(Direction direction) {
+        switch (direction) {
+            case BACKWARD:
+            case REPLACE:
+                return true;
+            default:
+                return false;
+        }
     }
 
     /**
@@ -147,16 +202,16 @@ public class Screenplay {
         return screenState;
     }
 
-    public void exit(Deque<Scene> allScenes) {
+    public void teardownVisibleScenes(Deque<Scene> sceneQueue) {
 
-        Deque<Scene> sceneBlock = getLastSceneBlock(allScenes);
+        Deque<Scene> visibleScenes = takeUntilNonStackingFound(sceneQueue);
 
         // the topmost scene is the first in the scene block
         // tear down the scenes in order, from top to bottom
-        Iterator<Scene> sceneBlockIterator = sceneBlock.iterator();
+        Iterator<Scene> visibleSceneIterator = visibleScenes.iterator();
 
-        while(sceneBlockIterator.hasNext()) {
-            Scene nextScene = sceneBlockIterator.next();
+        while(visibleSceneIterator.hasNext()) {
+            Scene nextScene = visibleSceneIterator.next();
             if (nextScene.teardownOnConfigurationChange()) {
                 tearDownComponents(nextScene, false);
                 tearDownScene(nextScene, false);

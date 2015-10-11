@@ -2,6 +2,7 @@ package com.davidstemmer.screenplay.sample.simple.scene.transformer;
 
 import android.app.Application;
 
+import com.davidstemmer.screenplay.scene.transformer.AnimResources;
 import com.davidstemmer.screenplay.scene.transformer.TweenTransformer;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
@@ -9,7 +10,7 @@ import com.example.weefbellington.screenplay.sample.simple.R;
  * Created by weefbellington on 10/28/14.
  */
 public class CrossfadeTransformer extends TweenTransformer {
-    private static final Params params = new Params();
+    private static final AnimResources params = new AnimResources();
 
     static {
         params.forwardIn    = R.anim.fade_in;

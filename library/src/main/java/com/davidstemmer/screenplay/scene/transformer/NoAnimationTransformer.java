@@ -5,7 +5,6 @@ package com.davidstemmer.screenplay.scene.transformer;
  */
 
 import com.davidstemmer.screenplay.SceneCut;
-import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.scene.Scene;
 
 import javax.inject.Inject;
@@ -17,7 +16,7 @@ public class NoAnimationTransformer implements Scene.Transformer {
     public NoAnimationTransformer() {}
 
     @Override
-    public void applyAnimations(SceneCut cut, Screenplay listener) {
-        listener.endCut(cut);
+    public void applyAnimations(SceneCut transition) {
+        transition.end();
     }
 }

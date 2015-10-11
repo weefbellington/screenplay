@@ -3,7 +3,6 @@ package com.davidstemmer.screenplay.scene.transformer;
 import android.view.animation.Animation;
 
 import com.davidstemmer.screenplay.SceneCut;
-import com.davidstemmer.screenplay.flow.Screenplay;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,14 +12,12 @@ import java.util.Set;
  */
 public class TweenAnimationListener implements Animation.AnimationListener {
 
-    private final SceneCut cut;
-    private final Screenplay listener;
+    private final SceneCut stageTransition;
 
     private Set<Animation> animationSet = new HashSet<Animation>();
 
-    public TweenAnimationListener(SceneCut cut, Screenplay listener) {
-        this.cut = cut;
-        this.listener = listener;
+    public TweenAnimationListener(SceneCut transition) {
+        this.stageTransition = transition;
     }
 
     public void addAnimation(Animation animation) {
@@ -35,7 +32,7 @@ public class TweenAnimationListener implements Animation.AnimationListener {
     public void onAnimationEnd(Animation animation) {
         animationSet.remove(animation);
         if (animationSet.isEmpty()) {
-            listener.endCut(cut);
+            stageTransition.end();
         }
     }
 

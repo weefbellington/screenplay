@@ -37,10 +37,10 @@ public class ScreenplayDispatcher implements Flow.Dispatcher {
 
         if (isFirstDispatch) {
             Deque<Scene> empty = emptyQueue();
-            screenplay.dispatch(empty, destination, Screenplay.Direction.NONE, callback);
+            screenplay.dispatch(Screenplay.Direction.NONE, empty, destination, callback);
         }
         else if (!difference.isEmpty()) {
-            screenplay.dispatch(origin, destination, direction, callback);
+            screenplay.dispatch(direction, origin, destination, callback);
         }
         else {
             callback.onTraversalCompleted();
@@ -54,7 +54,7 @@ public class ScreenplayDispatcher implements Flow.Dispatcher {
 
     public void tearDown(Flow flow) {
         Deque<Scene> scenes = toDeque(flow.getHistory());
-        screenplay.exit(scenes);
+        screenplay.teardownVisibleScenes(scenes);
     }
 
     private Deque<Scene> toDeque(History history) {

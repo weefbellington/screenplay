@@ -20,15 +20,23 @@ public class SceneCut {
     public final ArrayDeque<Scene> incomingScenes;
     public final ArrayDeque<Scene> outgoingScenes;
 
+    private final Screenplay screenplay;
+
     public SceneCut(Builder builder) {
+        screenplay = builder.screenplay;
         direction = builder.direction;
         callback = builder.callback;
         incomingScenes = builder.incomingScenes;
         outgoingScenes = builder.outgoingScenes;
     }
 
+    public void end() {
+        screenplay.endStageTransition(this);
+    }
+
     public static class Builder {
 
+        Screenplay screenplay;
         Screenplay.Direction direction;
         Flow.TraversalCallback callback;
         final ArrayDeque<Scene> incomingScenes = new ArrayDeque<>();
@@ -61,5 +69,9 @@ public class SceneCut {
             return this;
         }
 
+        public Builder setScreenplay(Screenplay screenplay) {
+            this.screenplay = screenplay;
+            return this;
+        }
     }
 }

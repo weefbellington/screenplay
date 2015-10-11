@@ -2,6 +2,7 @@ package com.davidstemmer.screenplay.sample.simple.scene.transformer;
 
 import android.app.Application;
 
+import com.davidstemmer.screenplay.scene.transformer.AnimResources;
 import com.davidstemmer.screenplay.scene.transformer.TweenTransformer;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
@@ -10,7 +11,7 @@ import com.example.weefbellington.screenplay.sample.simple.R;
  */
 public class ActionDrawerTransformer extends TweenTransformer {
 
-    private static final Params params = new Params();
+    private static final AnimResources params = new AnimResources();
 
     static {
         params.forwardIn    = R.anim.slide_in_up;
