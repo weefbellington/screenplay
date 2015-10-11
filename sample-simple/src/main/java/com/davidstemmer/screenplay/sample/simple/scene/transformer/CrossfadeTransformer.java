@@ -16,6 +16,8 @@ public class CrossfadeTransformer extends TweenTransformer {
         params.backIn       = R.anim.fade_in;
         params.backOut      = R.anim.fade_out;
         params.forwardOut   = R.anim.fade_out;
+        params.replaceIn    = R.anim.fade_in;
+        params.replaceOut   = R.anim.fade_out;
     }
 
     public CrossfadeTransformer(Application context) {

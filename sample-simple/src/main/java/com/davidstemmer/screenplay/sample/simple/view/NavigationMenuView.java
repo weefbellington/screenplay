@@ -88,7 +88,7 @@ public class NavigationMenuView extends LinearLayout {
             @Override
             public void run() {
                 History newHistory = History.single(nextScene);
-                flow.setHistory(newHistory, Flow.Direction.FORWARD);
+                flow.setHistory(newHistory, Flow.Direction.REPLACE);
             }
         }, 250);
         // The millisecond delay is arbitrary and was arrived at through trial and error

@@ -17,7 +17,7 @@ public class ComplexPagedScene3 extends IndexedScene {
     private final VerticalSlideTransformer transformer;
 
     public ComplexPagedScene3() {
-        super(PagedScene2.class.getName());
+        super(ComplexPagedScene3.class.getName());
         this.transformer = new VerticalSlideTransformer(SampleApplication.getInstance());
         addComponents(new ClickBindingComponent());
     }

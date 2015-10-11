@@ -12,7 +12,7 @@ import com.example.weefbellington.screenplay.sample.simple.R;
 
 public class WelcomeScene extends IndexedScene {
 
-    private final CrossfadeTransformer transformer;
+    private final Transformer transformer;
 
     public WelcomeScene(Application application) {
         super(WelcomeScene.class.getName());
