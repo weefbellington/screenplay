@@ -6,7 +6,7 @@ import android.os.Bundle;
 import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.component.DrawerLockingComponent;
 import com.davidstemmer.screenplay.sample.mortar.module.ActivityModule;
-import com.davidstemmer.screenplay.sample.mortar.scene.transformer.ActionDrawerTransformer;
+import com.davidstemmer.screenplay.sample.mortar.scene.transformer.ActionDrawerRigger;
 import com.davidstemmer.screenplay.sample.mortar.view.ActionDrawerView;
 import com.davidstemmer.screenplay.scene.ScopedScene;
 import com.davidstemmer.screenplay.scene.UniqueBlueprint;
@@ -37,7 +37,7 @@ public class ActionDrawerScene extends ScopedScene {
         CANCELLED
     }
 
-    @Inject ActionDrawerTransformer transformer;
+    @Inject ActionDrawerRigger transformer;
     @Inject DrawerLockingComponent lockingComponent;
     @Inject CallbackComponent<Result> callbackComponent;
 
@@ -52,7 +52,7 @@ public class ActionDrawerScene extends ScopedScene {
     }
 
     @Override
-    public Transformer getTransformer() {
+    public Rigger getRigger() {
         return transformer;
     }
 

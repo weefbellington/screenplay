@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Each scene also has a Transformer, which animates transitions."
+        android:text="Each stage also has a Transformer, which animates transitions."
         android:textColor="@android:color/white"
         style="@style/TutorialText"/>
     <Button

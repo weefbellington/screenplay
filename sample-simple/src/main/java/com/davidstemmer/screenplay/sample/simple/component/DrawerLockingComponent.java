@@ -2,12 +2,12 @@ package com.davidstemmer.screenplay.sample.simple.component;
 
 import com.davidstemmer.screenplay.sample.simple.DrawerHelper;
 import com.davidstemmer.screenplay.sample.simple.SampleApplication;
-import com.davidstemmer.screenplay.scene.Scene;
+import com.davidstemmer.screenplay.scene.Stage;
 
 /**
  * Created by weefbellington on 10/24/14.
  */
-public class DrawerLockingComponent implements Scene.Component {
+public class DrawerLockingComponent implements Stage.Component {
 
     private final DrawerHelper drawer;
 
@@ -16,12 +16,12 @@ public class DrawerLockingComponent implements Scene.Component {
     }
 
     @Override
-    public void afterSetUp(Scene scene, boolean isStarting) {
+    public void afterSetUp(Stage stage, boolean isStarting) {
         drawer.setLocked(true);
     }
 
     @Override
-    public void beforeTearDown(Scene scene, boolean isFinishing) {
+    public void beforeTearDown(Stage stage, boolean isFinishing) {
         drawer.setLocked(false);
     }
 }

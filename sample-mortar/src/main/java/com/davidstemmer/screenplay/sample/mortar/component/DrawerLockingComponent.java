@@ -1,14 +1,14 @@
 package com.davidstemmer.screenplay.sample.mortar.component;
 
 import com.davidstemmer.screenplay.sample.mortar.presenter.DrawerPresenter;
-import com.davidstemmer.screenplay.scene.Scene;
+import com.davidstemmer.screenplay.scene.Stage;
 
 import javax.inject.Inject;
 
 /**
  * Created by weefbellington on 10/24/14.
  */
-public class DrawerLockingComponent implements Scene.Component {
+public class DrawerLockingComponent implements Stage.Component {
 
     private final DrawerPresenter drawer;
 
@@ -18,12 +18,12 @@ public class DrawerLockingComponent implements Scene.Component {
     }
 
     @Override
-    public void afterSetUp(Scene scene, boolean isStarting) {
+    public void afterSetUp(Stage stage, boolean isStarting) {
         drawer.setLocked(true);
     }
 
     @Override
-    public void beforeTearDown(Scene scene, boolean isFinishing) {
+    public void beforeTearDown(Stage stage, boolean isFinishing) {
         drawer.setLocked(false);
     }
 }

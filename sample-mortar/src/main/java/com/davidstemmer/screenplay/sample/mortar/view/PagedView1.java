@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
-import com.davidstemmer.screenplay.sample.mortar.scene.PagedScene1;
+import com.davidstemmer.screenplay.sample.mortar.scene.PagedStage1;
 
 import javax.inject.Inject;
 
@@ -15,7 +15,7 @@ import mortar.Mortar;
  */
 public class PagedView1 extends RelativeLayout {
 
-    @Inject PagedScene1.Presenter presenter;
+    @Inject PagedStage1.Presenter presenter;
 
     public PagedView1(Context context, AttributeSet attrs) {
         super(context, attrs);

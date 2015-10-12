@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.davidstemmer.screenplay.sample.simple.DrawerHelper;
 import com.davidstemmer.screenplay.sample.simple.SampleApplication;
 import com.davidstemmer.screenplay.sample.simple.scene.StaticScenes;
-import com.davidstemmer.screenplay.scene.Scene;
+import com.davidstemmer.screenplay.scene.Stage;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
 import flow.Flow;
@@ -49,9 +49,9 @@ public class NavigationMenuView extends LinearLayout {
 
     private class MenuItemListener implements View.OnClickListener {
 
-        private Scene target;
+        private Stage target;
 
-        public MenuItemListener(Scene target) {
+        public MenuItemListener(Stage target) {
             this.target = target;
         }
 
@@ -81,13 +81,13 @@ public class NavigationMenuView extends LinearLayout {
     }
 
     private final Handler mDrawerHandler = new Handler();
-    private void showNextSceneAfterDelay(final Scene nextScene) {
+    private void showNextSceneAfterDelay(final Stage nextStage) {
         // Clears any previously posted runnables, for double clicks
         mDrawerHandler.removeCallbacksAndMessages(null);
         mDrawerHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                History newHistory = History.single(nextScene);
+                History newHistory = History.single(nextStage);
                 flow.setHistory(newHistory, Flow.Direction.REPLACE);
             }
         }, 250);

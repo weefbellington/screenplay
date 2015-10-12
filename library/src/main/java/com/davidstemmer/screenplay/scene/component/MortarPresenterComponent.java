@@ -1,6 +1,6 @@
 package com.davidstemmer.screenplay.scene.component;
 
-import com.davidstemmer.screenplay.scene.Scene;
+import com.davidstemmer.screenplay.scene.Stage;
 
 import mortar.ViewPresenter;
 
@@ -8,7 +8,7 @@ import mortar.ViewPresenter;
  * Binds a Mortar presenter to the scene's view by calling Presenter#takeView after the view has
  * attached to the window and Presenter#dropView after it has detached from the window.
  */
-public class MortarPresenterComponent implements Scene.Component {
+public class MortarPresenterComponent implements Stage.Component {
 
     private final ViewPresenter presenter;
 
@@ -18,14 +18,14 @@ public class MortarPresenterComponent implements Scene.Component {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void afterSetUp(Scene scene, boolean isStarting) {
-        presenter.takeView(scene.getView());
+    public void afterSetUp(Stage stage, boolean isStarting) {
+        presenter.takeView(stage.getView());
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public void beforeTearDown(Scene scene, boolean isFinishing) {
-        presenter.dropView(scene.getView());
+    public void beforeTearDown(Stage stage, boolean isFinishing) {
+        presenter.dropView(stage.getView());
     }
 
 

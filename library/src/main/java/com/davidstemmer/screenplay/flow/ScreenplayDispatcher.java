@@ -3,7 +3,8 @@ package com.davidstemmer.screenplay.flow;
 import android.app.Activity;
 import android.view.ViewGroup;
 
-import com.davidstemmer.screenplay.scene.Scene;
+import com.davidstemmer.screenplay.Screenplay;
+import com.davidstemmer.screenplay.scene.Stage;
 import com.davidstemmer.screenplay.util.CollectionUtils;
 
 import java.util.Deque;
@@ -27,16 +28,16 @@ public class ScreenplayDispatcher implements Flow.Dispatcher {
     @Override
     public void dispatch(Flow.Traversal traversal, Flow.TraversalCallback callback) {
 
-        Deque<Scene> origin = toDeque(traversal.origin);
-        Deque<Scene> destination = toDeque(traversal.destination);
+        Deque<Stage> origin = toDeque(traversal.origin);
+        Deque<Stage> destination = toDeque(traversal.destination);
 
         Screenplay.Direction direction = getDirection(traversal);
-        Deque<Scene> difference = direction == Screenplay.Direction.BACKWARD ?
+        Deque<Stage> difference = direction == Screenplay.Direction.BACKWARD ?
                 CollectionUtils.difference(origin, destination, emptyQueue()) :
                 CollectionUtils.difference(destination, origin, emptyQueue());
 
         if (isFirstDispatch) {
-            Deque<Scene> empty = emptyQueue();
+            Deque<Stage> empty = emptyQueue();
             screenplay.dispatch(Screenplay.Direction.NONE, empty, destination, new TransitionCallback(callback));
         }
         else if (!difference.isEmpty()) {
@@ -53,16 +54,16 @@ public class ScreenplayDispatcher implements Flow.Dispatcher {
     }
 
     public void tearDown(Flow flow) {
-        Deque<Scene> scenes = toDeque(flow.getHistory());
-        screenplay.teardownVisibleScenes(scenes);
+        Deque<Stage> stages = toDeque(flow.getHistory());
+        screenplay.teardownVisibleScenes(stages);
     }
 
-    private Deque<Scene> toDeque(History history) {
+    private Deque<Stage> toDeque(History history) {
         return CollectionUtils.fromIterator(history.iterator(), emptyQueue());
     }
 
-    private Deque<Scene> emptyQueue() {
-        return CollectionUtils.emptyQueue(Scene.class);
+    private Deque<Stage> emptyQueue() {
+        return CollectionUtils.emptyQueue(Stage.class);
     }
 
     private Screenplay.Direction getDirection(Flow.Traversal traversal) {

@@ -3,7 +3,7 @@ package com.davidstemmer.screenplay.component;
 import android.os.Parcelable;
 import android.util.SparseArray;
 
-import com.davidstemmer.screenplay.scene.Scene;
+import com.davidstemmer.screenplay.scene.Stage;
 
 import javax.inject.Inject;
 
@@ -11,7 +11,7 @@ import javax.inject.Inject;
  * Saves the instance state of a Scene's View when it is torn down and restores it when it
  * is destroyed.
  */
-public class InstanceStateComponent implements Scene.Component {
+public class InstanceStateComponent implements Stage.Component {
 
     private final SparseArray<Parcelable> savedState = new SparseArray<>();
 
@@ -19,12 +19,12 @@ public class InstanceStateComponent implements Scene.Component {
     public InstanceStateComponent() {}
 
     @Override
-    public void afterSetUp(final Scene scene, boolean isStarting) {
-        scene.getView().post(new Runnable() {
+    public void afterSetUp(final Stage stage, boolean isStarting) {
+        stage.getView().post(new Runnable() {
             @Override
             public void run() {
-                if (scene.getView() != null) {
-                    scene.getView().restoreHierarchyState(savedState);
+                if (stage.getView() != null) {
+                    stage.getView().restoreHierarchyState(savedState);
                     savedState.clear();
                 }
             }
@@ -32,7 +32,7 @@ public class InstanceStateComponent implements Scene.Component {
     }
 
     @Override
-    public void beforeTearDown(final Scene scene, boolean isFinishing) {
-        scene.getView().saveHierarchyState(savedState);
+    public void beforeTearDown(final Stage stage, boolean isFinishing) {
+        stage.getView().saveHierarchyState(savedState);
     }
 }
