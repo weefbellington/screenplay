@@ -1,3 +1,7 @@
+## 0.6.4 CHANGELOG
+
+Fix bug in which the initial scene's `tearDown` method was never being called (issue #91)
+
 ## 0.6.3 CHANGELOG
 
 - throw an exception when trying to add a scene to the backstack twice (issue #56)
