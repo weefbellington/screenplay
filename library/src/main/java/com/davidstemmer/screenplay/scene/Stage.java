@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import com.davidstemmer.screenplay.Screenplay;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * @author  David Stemmer
@@ -31,7 +31,7 @@ public interface Stage {
      */
     public View tearDown(Context context, ViewGroup parent, boolean isStarting);
 
-    public Collection<Component> getComponents();
+    public List<Component> getComponents();
 
     /**
      * Get the View associated with the Scene
@@ -48,6 +48,11 @@ public interface Stage {
      * Flag that specifies whether or not the view is stacking (modal)
      * @return true if stacking, false otherwise
      */
+
+    /**
+     * Flag that specifies whether or not the view is stacking (modal)
+     * @return true if stacking, false otherwise
+     */
     public boolean isStacking();
 
     /**
@@ -58,13 +63,11 @@ public interface Stage {
     public static interface Component {
         /**
          * Called after {@link Stage#setUp}
-         * @param stage the current scene
          * @param isInitializing true if this is the first time setUp has been called, false otherwise
          */
         public void afterSetUp(Stage stage, boolean isInitializing);
         /**
          * Called before {@link Stage#tearDown}
-         * @param stage the current scene
          * @param isFinishing true if this is the last time tearDown will be called, false otherwise
          */
         public void beforeTearDown(Stage stage, boolean isFinishing);
