@@ -7,7 +7,6 @@ import com.davidstemmer.screenplay.sample.simple.component.DrawerLockingComponen
 import com.davidstemmer.screenplay.sample.simple.scene.transformer.ActionDrawerRigger;
 import com.davidstemmer.screenplay.scene.Stage;
 import com.davidstemmer.screenplay.scene.XmlStage;
-import com.davidstemmer.screenplay.scene.component.SceneCallback;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
 import flow.Flow;
@@ -20,18 +19,19 @@ public class ActionDrawerStage extends XmlStage {
 
     private final Flow flow;
     private final ActionDrawerRigger transformer;
-    private final Callback callback;
+
+    private Result result = Result.CANCELLED;
 
     public ActionDrawerStage(Callback callback) {
 
         this.flow = SampleApplication.getMainFlow();
         this.transformer = new ActionDrawerRigger(SampleApplication.getInstance());
-        this.callback = callback;
 
         Component drawerLockingComponent = new DrawerLockingComponent();
         Component clickBindingComponent = new ClickBindingComponent();
+        Component callbackComponent = new CallbackComponent(callback);
 
-        addComponents(drawerLockingComponent, clickBindingComponent);
+        addComponents(drawerLockingComponent, clickBindingComponent, callbackComponent);
     }
 
     @Override
@@ -49,13 +49,11 @@ public class ActionDrawerStage extends XmlStage {
         return transformer;
     }
 
-    public interface Callback extends SceneCallback<ActionDrawerResult> {
-        @Override void onExitScene(ActionDrawerResult result);
+    public interface Callback {
+        void onExitScene(Result result);
     }
 
     private class ClickBindingComponent implements Component {
-
-        private ActionDrawerResult result = ActionDrawerResult.CANCELLED;
 
         @Override
         public void afterSetUp(Stage stage, boolean isInitializing) {
@@ -65,16 +63,12 @@ public class ActionDrawerStage extends XmlStage {
         }
 
         @Override
-        public void beforeTearDown(Stage stage, boolean isFinishing) {
-            if (isFinishing) {
-                callback.onExitScene(result);
-            }
-        }
+        public void beforeTearDown(Stage stage, boolean isFinishing) {}
 
         private final View.OnClickListener yesListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                result = ActionDrawerResult.YES;
+                result = Result.YES;
                 flow.goBack();
             }
         };
@@ -82,10 +76,35 @@ public class ActionDrawerStage extends XmlStage {
         private final View.OnClickListener noListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                result = ActionDrawerResult.NO;
+                result = Result.NO;
                 flow.goBack();
             }
         };
+    }
+
+    private class CallbackComponent implements Component {
+
+        private final Callback callback;
+
+        public CallbackComponent(Callback callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        public void afterSetUp(Stage stage, boolean isInitializing) {}
+
+        @Override
+        public void beforeTearDown(Stage stage, boolean isFinishing) {
+            if (isFinishing) {
+                callback.onExitScene(result);
+            }
+        }
+    }
+
+    public enum Result {
+        YES,
+        NO,
+        CANCELLED
     }
 
 }
