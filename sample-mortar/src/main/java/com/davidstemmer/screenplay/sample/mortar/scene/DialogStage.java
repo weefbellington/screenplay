@@ -8,7 +8,7 @@ import com.davidstemmer.screenplay.Screenplay;
 import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.component.DrawerLockingComponent;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.PopupRigger;
-import com.davidstemmer.screenplay.scene.XmlStage;
+import com.davidstemmer.screenplay.stage.XmlStage;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

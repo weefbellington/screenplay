@@ -5,9 +5,9 @@ import android.view.View;
 import com.davidstemmer.screenplay.sample.simple.SampleApplication;
 import com.davidstemmer.screenplay.sample.simple.component.DrawerLockingComponent;
 import com.davidstemmer.screenplay.sample.simple.scene.transformer.ActionDrawerRigger;
-import com.davidstemmer.screenplay.scene.Stage;
-import com.davidstemmer.screenplay.scene.XmlStage;
-import com.davidstemmer.screenplay.scene.component.SceneCallback;
+import com.davidstemmer.screenplay.stage.Stage;
+import com.davidstemmer.screenplay.stage.XmlStage;
+import com.davidstemmer.screenplay.stage.component.SceneCallback;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
 import flow.Flow;

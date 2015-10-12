@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.davidstemmer.screenplay.scene.Stage;
+import com.davidstemmer.screenplay.stage.Stage;
 import com.davidstemmer.screenplay.util.CollectionUtils;
 
 import java.util.ArrayDeque;

@@ -1,4 +1,4 @@
-package com.davidstemmer.screenplay.scene;
+package com.davidstemmer.screenplay.stage;
 
 import android.content.Context;
 import android.view.LayoutInflater;

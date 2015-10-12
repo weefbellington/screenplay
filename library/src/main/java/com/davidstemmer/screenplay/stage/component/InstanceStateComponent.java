@@ -1,9 +1,9 @@
-package com.davidstemmer.screenplay.scene.component;
+package com.davidstemmer.screenplay.stage.component;
 
 import android.os.Parcelable;
 import android.util.SparseArray;
 
-import com.davidstemmer.screenplay.scene.Stage;
+import com.davidstemmer.screenplay.stage.Stage;
 
 import javax.inject.Inject;
 

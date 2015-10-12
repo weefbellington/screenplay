@@ -6,7 +6,7 @@ import android.widget.Toast;
 import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.CrossfadeRigger;
 import com.davidstemmer.screenplay.sample.mortar.view.ModalSceneView;
-import com.davidstemmer.screenplay.scene.XmlStage;
+import com.davidstemmer.screenplay.stage.XmlStage;
 
 import javax.inject.Inject;
 import javax.inject.Provider;

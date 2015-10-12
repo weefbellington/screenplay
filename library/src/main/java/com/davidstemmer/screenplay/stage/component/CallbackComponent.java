@@ -1,6 +1,6 @@
-package com.davidstemmer.screenplay.scene.component;
+package com.davidstemmer.screenplay.stage.component;
 
-import com.davidstemmer.screenplay.scene.Stage;
+import com.davidstemmer.screenplay.stage.Stage;
 
 /**
  * Created by weefbellington on 11/10/14.

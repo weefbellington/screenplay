@@ -8,11 +8,11 @@ import com.davidstemmer.screenplay.sample.mortar.component.DrawerLockingComponen
 import com.davidstemmer.screenplay.sample.mortar.module.ActivityModule;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.ActionDrawerRigger;
 import com.davidstemmer.screenplay.sample.mortar.view.ActionDrawerView;
-import com.davidstemmer.screenplay.scene.ScopedScene;
-import com.davidstemmer.screenplay.scene.UniqueBlueprint;
-import com.davidstemmer.screenplay.scene.component.CallbackComponent;
-import com.davidstemmer.screenplay.scene.component.ResultHandler;
-import com.davidstemmer.screenplay.scene.component.SceneCallback;
+import com.davidstemmer.screenplay.stage.ScopedScene;
+import com.davidstemmer.screenplay.stage.UniqueBlueprint;
+import com.davidstemmer.screenplay.stage.component.CallbackComponent;
+import com.davidstemmer.screenplay.stage.component.ResultHandler;
+import com.davidstemmer.screenplay.stage.component.SceneCallback;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

@@ -11,7 +11,7 @@ import com.davidstemmer.screenplay.sample.mortar.scene.PagedStage1;
 import com.davidstemmer.screenplay.sample.mortar.scene.StackedStage;
 import com.davidstemmer.screenplay.sample.mortar.scene.WelcomeStage;
 import com.davidstemmer.screenplay.sample.mortar.view.NavigationMenuView;
-import com.davidstemmer.screenplay.scene.Stage;
+import com.davidstemmer.screenplay.stage.Stage;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

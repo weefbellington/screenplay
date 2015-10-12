@@ -2,7 +2,7 @@ package com.davidstemmer.screenplay.sample.mortar.scene;
 
 import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.VerticalSlideRigger;
-import com.davidstemmer.screenplay.scene.XmlStage;
+import com.davidstemmer.screenplay.stage.XmlStage;
 
 import javax.inject.Inject;
 

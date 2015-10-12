@@ -1,4 +1,4 @@
-package com.davidstemmer.screenplay.scene.component;
+package com.davidstemmer.screenplay.stage.component;
 
 /**
  * Created by weefbellington on 11/9/14.
