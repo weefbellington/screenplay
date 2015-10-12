@@ -56,8 +56,8 @@ public class Screenplay {
                                            Deque<Stage> origin,
                                            Deque<Stage> destination) {
         return direction == Direction.BACKWARD ?
-                CollectionUtils.difference(origin, destination, CollectionUtils.emptyQueue(Stage.class)) :
-                CollectionUtils.difference(destination, origin, CollectionUtils.emptyQueue(Stage.class));
+                CollectionUtils.difference(origin, destination, emptyStageQueue()) :
+                CollectionUtils.difference(destination, origin, emptyStageQueue());
     }
 
     private Deque<Stage> extractOutgoingScenes(Direction direction,
@@ -260,6 +260,10 @@ public class Screenplay {
         }
     }
 
+    private Deque<Stage> emptyStageQueue() {
+        return CollectionUtils.emptyQueue(Stage.class);
+    }
+
     public interface TransitionCallback {
         void onTransitionCompleted();
     }
@@ -328,4 +332,5 @@ public class Screenplay {
             }
         }
     }
+
 }
