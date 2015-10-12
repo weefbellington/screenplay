@@ -2,7 +2,7 @@ package com.davidstemmer.screenplay.sample.simple.component;
 
 import com.davidstemmer.screenplay.sample.simple.DrawerHelper;
 import com.davidstemmer.screenplay.sample.simple.SampleApplication;
-import com.davidstemmer.screenplay.scene.Stage;
+import com.davidstemmer.screenplay.stage.Stage;
 
 /**
  * Created by weefbellington on 10/24/14.

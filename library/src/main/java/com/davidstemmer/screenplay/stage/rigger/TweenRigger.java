@@ -1,10 +1,10 @@
-package com.davidstemmer.screenplay.scene.rigger;
+package com.davidstemmer.screenplay.stage.rigger;
 
 import android.content.Context;
 import android.view.animation.Animation;
 
 import com.davidstemmer.screenplay.Screenplay;
-import com.davidstemmer.screenplay.scene.Stage;
+import com.davidstemmer.screenplay.stage.Stage;
 
 import static android.view.animation.AnimationUtils.loadAnimation;
 

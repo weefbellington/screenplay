@@ -1,7 +1,7 @@
 package com.davidstemmer.screenplay.sample.mortar.component;
 
 import com.davidstemmer.screenplay.sample.mortar.presenter.DrawerPresenter;
-import com.davidstemmer.screenplay.scene.Stage;
+import com.davidstemmer.screenplay.stage.Stage;
 
 import javax.inject.Inject;
 

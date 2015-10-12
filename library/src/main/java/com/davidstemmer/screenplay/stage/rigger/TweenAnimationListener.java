@@ -1,4 +1,4 @@
-package com.davidstemmer.screenplay.scene.rigger;
+package com.davidstemmer.screenplay.stage.rigger;
 
 import android.view.animation.Animation;
 

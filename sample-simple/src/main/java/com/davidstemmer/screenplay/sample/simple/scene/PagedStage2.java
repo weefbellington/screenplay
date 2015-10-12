@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.davidstemmer.screenplay.sample.simple.SampleApplication;
 import com.davidstemmer.screenplay.sample.simple.scene.transformer.HorizontalSlideRigger;
-import com.davidstemmer.screenplay.scene.Stage;
+import com.davidstemmer.screenplay.stage.Stage;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
 import flow.Flow;

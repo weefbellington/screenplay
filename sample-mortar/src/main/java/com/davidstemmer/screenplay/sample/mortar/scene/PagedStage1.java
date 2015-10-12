@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.CrossfadeRigger;
 import com.davidstemmer.screenplay.sample.mortar.view.PagedView1;
-import com.davidstemmer.screenplay.scene.XmlStage;
+import com.davidstemmer.screenplay.stage.XmlStage;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

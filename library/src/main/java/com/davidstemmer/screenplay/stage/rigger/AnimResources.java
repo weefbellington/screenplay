@@ -1,4 +1,4 @@
-package com.davidstemmer.screenplay.scene.rigger;
+package com.davidstemmer.screenplay.stage.rigger;
 
 import com.davidstemmer.screenplay.Screenplay;
 

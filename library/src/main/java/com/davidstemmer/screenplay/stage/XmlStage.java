@@ -1,4 +1,4 @@
-package com.davidstemmer.screenplay.scene;
+package com.davidstemmer.screenplay.stage;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 public abstract class XmlStage implements Stage {
 
@@ -33,7 +34,7 @@ public abstract class XmlStage implements Stage {
     }
 
     @Override
-    public Collection<Component> getComponents() {
+    public List<Component> getComponents() {
         return components;
     }
 

@@ -1,4 +1,4 @@
-package com.davidstemmer.screenplay.scene.rigger;
+package com.davidstemmer.screenplay.stage.rigger;
 
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
@@ -6,7 +6,7 @@ import android.animation.AnimatorSet;
 import android.content.Context;
 
 import com.davidstemmer.screenplay.Screenplay;
-import com.davidstemmer.screenplay.scene.Stage;
+import com.davidstemmer.screenplay.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;

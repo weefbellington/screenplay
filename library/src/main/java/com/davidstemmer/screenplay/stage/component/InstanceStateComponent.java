@@ -1,15 +1,15 @@
-package com.davidstemmer.screenplay.scene.component;
+package com.davidstemmer.screenplay.stage.component;
 
 import android.os.Parcelable;
 import android.util.SparseArray;
 
-import com.davidstemmer.screenplay.scene.Stage;
+import com.davidstemmer.screenplay.stage.Stage;
 
 import javax.inject.Inject;
 
 /**
  * Saves the instance state of a Scene's View when it is torn down and restores it when it
- * is destroyed.
+ * is set up.
  */
 public class InstanceStateComponent implements Stage.Component {
 

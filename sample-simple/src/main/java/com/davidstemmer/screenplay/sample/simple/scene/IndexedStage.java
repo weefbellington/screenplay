@@ -1,6 +1,6 @@
 package com.davidstemmer.screenplay.sample.simple.scene;
 
-import com.davidstemmer.screenplay.scene.XmlStage;
+import com.davidstemmer.screenplay.stage.XmlStage;
 
 /**
  * Flow#resetTo uses Object#equals in order to determine which scene to go back to. In order to
