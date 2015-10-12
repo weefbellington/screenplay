@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 /**
  * Saves the instance state of a Scene's View when it is torn down and restores it when it
- * is destroyed.
+ * is set up.
  */
 public class InstanceStateComponent implements Scene.Component {
 
