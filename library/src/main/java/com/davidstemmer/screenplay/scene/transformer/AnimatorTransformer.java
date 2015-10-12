@@ -5,7 +5,7 @@ import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.content.Context;
 
-import com.davidstemmer.screenplay.SceneCut;
+import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.scene.Scene;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class AnimatorTransformer implements Scene.Transformer {
     }
 
     @Override
-    public void applyAnimations(SceneCut transition) {
+    public void applyAnimations(Screenplay.Transition transition) {
 
         int out = params.getAnimationOut(transition.direction);
         int in = params.getAnimationIn(transition.direction);
@@ -52,9 +52,9 @@ public class AnimatorTransformer implements Scene.Transformer {
 
     private class Listener implements Animator.AnimatorListener {
 
-        private final SceneCut transition;
+        private final Screenplay.Transition transition;
 
-        private Listener(SceneCut transition) {
+        private Listener(Screenplay.Transition transition) {
             this.transition = transition;
         }
 

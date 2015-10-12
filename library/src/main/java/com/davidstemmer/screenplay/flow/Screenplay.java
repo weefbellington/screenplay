@@ -4,16 +4,14 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.davidstemmer.screenplay.SceneCut;
 import com.davidstemmer.screenplay.SceneState;
 import com.davidstemmer.screenplay.scene.Scene;
 import com.davidstemmer.screenplay.util.CollectionUtils;
 
 import java.util.ArrayDeque;
+import java.util.Collection;
 import java.util.Deque;
 import java.util.Iterator;
-
-import flow.Flow;
 
 
 /**
@@ -38,13 +36,13 @@ public class Screenplay {
     public void dispatch(Direction direction,
                          Deque<Scene> origin,
                          Deque<Scene> destination,
-                         Flow.TraversalCallback callback) {
+                         TransitionCallback callback) {
 
         final Deque<Scene> scenesIn = extractIncomingScenes(direction, origin, destination);
         final Deque<Scene> scenesOut = extractOutgoingScenes(direction, origin, destination);
         final Scene.Transformer delegatedTransformer = getDelegatedTransformer(direction, scenesIn, scenesOut);
 
-        final SceneCut.Builder transition = new SceneCut.Builder()
+        final Transition.Builder transition = new Transition.Builder()
                 .setScreenplay(this)
                 .setDirection(direction)
                 .setCallback(callback);
@@ -146,7 +144,7 @@ public class Screenplay {
         return sceneBlock;
     }
 
-    private void beginStageTransition(SceneCut transition, Scene.Transformer transformer) {
+    private void beginStageTransition(Transition transition, Scene.Transformer transformer) {
         Iterator<Scene> decendingIterator = transition.incomingScenes.descendingIterator();
         while (decendingIterator.hasNext()) {
             Scene scene = decendingIterator.next();
@@ -163,7 +161,7 @@ public class Screenplay {
      * animation completes. Finishes pending layout operations and notifies the Flow.Callback.
      * @param transition contains the next and previous scene, and the flow direction
      */
-    public void endStageTransition(SceneCut transition) {
+    public void endStageTransition(Transition transition) {
         Iterator<Scene> iterator = transition.outgoingScenes.iterator();
         while (iterator.hasNext()) {
             Scene scene = iterator.next();
@@ -172,7 +170,7 @@ public class Screenplay {
             tearDownScene(scene, isFinishing);
         }
         screenState = SceneState.NORMAL;
-        transition.callback.onTraversalCompleted();
+        transition.callback.onTransitionCompleted();
     }
 
     private boolean isSceneStarting(Direction direction) {
@@ -260,6 +258,75 @@ public class Screenplay {
     private void tearDownComponents(Scene scene, boolean isFinishing) {
         for (Scene.Component component: scene.getComponents()) {
             component.beforeTearDown(scene, isFinishing);
+        }
+    }
+
+    public interface TransitionCallback {
+        void onTransitionCompleted();
+    }
+
+    public static class Transition {
+
+        public final Screenplay.Direction direction;
+        public final ArrayDeque<Scene> incomingScenes;
+        public final ArrayDeque<Scene> outgoingScenes;
+
+        private final Screenplay screenplay;
+        private final Screenplay.TransitionCallback callback;
+
+        private Transition(Builder builder) {
+
+            screenplay = builder.screenplay;
+            callback = builder.callback;
+
+            direction = builder.direction;
+            incomingScenes = builder.incomingScenes;
+            outgoingScenes = builder.outgoingScenes;
+        }
+
+        public void end() {
+            screenplay.endStageTransition(this);
+        }
+
+        public static class Builder {
+
+            Screenplay screenplay;
+            Screenplay.Direction direction;
+            Screenplay.TransitionCallback callback;
+            final ArrayDeque<Scene> incomingScenes = new ArrayDeque<>();
+            final ArrayDeque<Scene> outgoingScenes = new ArrayDeque<>();
+
+            public Builder() {}
+
+            public Transition build() {
+                return new Transition(this);
+            }
+
+            public Builder setDirection(Screenplay.Direction direction) {
+                this.direction = direction;
+                return this;
+            }
+
+            public Builder setCallback(Screenplay.TransitionCallback callback) {
+                this.callback = callback;
+                return this;
+            }
+
+
+            public Builder setIncomingScenes(Collection<Scene> incoming) {
+                incomingScenes.addAll(incoming);
+                return this;
+            }
+
+            public Builder setOutgoingScenes(Collection<Scene> outgoing) {
+                outgoingScenes.addAll(outgoing);
+                return this;
+            }
+
+            public Builder setScreenplay(Screenplay screenplay) {
+                this.screenplay = screenplay;
+                return this;
+            }
         }
     }
 }

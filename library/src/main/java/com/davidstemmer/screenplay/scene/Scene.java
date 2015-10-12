@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.davidstemmer.screenplay.SceneCut;
 import com.davidstemmer.screenplay.flow.Screenplay;
 
 import java.util.Collection;
@@ -77,7 +76,7 @@ public interface Scene {
          * responsibility of the Transformer to call {@link Screenplay#endStageTransition}
          * @param cut contains information about the current transition
          */
-        public void applyAnimations(SceneCut cut);
+        public void applyAnimations(Screenplay.Transition cut);
     }
 
 }

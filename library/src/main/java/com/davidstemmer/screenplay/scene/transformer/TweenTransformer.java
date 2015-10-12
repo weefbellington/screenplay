@@ -3,7 +3,7 @@ package com.davidstemmer.screenplay.scene.transformer;
 import android.content.Context;
 import android.view.animation.Animation;
 
-import com.davidstemmer.screenplay.SceneCut;
+import com.davidstemmer.screenplay.flow.Screenplay;
 import com.davidstemmer.screenplay.scene.Scene;
 
 import static android.view.animation.AnimationUtils.loadAnimation;
@@ -23,7 +23,7 @@ public class TweenTransformer implements Scene.Transformer {
     }
 
     @Override
-    public void applyAnimations(SceneCut transition) {
+    public void applyAnimations(Screenplay.Transition transition) {
 
         int out = params.getAnimationOut(transition.direction);
         int in = params.getAnimationIn(transition.direction);

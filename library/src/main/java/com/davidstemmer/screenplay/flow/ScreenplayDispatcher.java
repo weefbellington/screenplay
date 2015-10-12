@@ -37,10 +37,10 @@ public class ScreenplayDispatcher implements Flow.Dispatcher {
 
         if (isFirstDispatch) {
             Deque<Scene> empty = emptyQueue();
-            screenplay.dispatch(Screenplay.Direction.NONE, empty, destination, callback);
+            screenplay.dispatch(Screenplay.Direction.NONE, empty, destination, new TransitionCallback(callback));
         }
         else if (!difference.isEmpty()) {
-            screenplay.dispatch(direction, origin, destination, callback);
+            screenplay.dispatch(direction,origin, destination, new TransitionCallback(callback));
         }
         else {
             callback.onTraversalCompleted();
@@ -77,4 +77,19 @@ public class ScreenplayDispatcher implements Flow.Dispatcher {
                 return Screenplay.Direction.NONE;
         }
     }
+
+    private class TransitionCallback implements Screenplay.TransitionCallback {
+
+        private final Flow.TraversalCallback wrappedCallback;
+
+        public TransitionCallback(Flow.TraversalCallback wrappedCallback) {
+            this.wrappedCallback = wrappedCallback;
+        }
+
+        @Override
+        public void onTransitionCompleted() {
+            wrappedCallback.onTraversalCompleted();
+        }
+    }
+
 }
