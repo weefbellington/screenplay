@@ -1,4 +1,4 @@
-package com.davidstemmer.screenplay.component;
+package com.davidstemmer.screenplay.scene.component;
 
 import android.os.Parcelable;
 import android.util.SparseArray;
