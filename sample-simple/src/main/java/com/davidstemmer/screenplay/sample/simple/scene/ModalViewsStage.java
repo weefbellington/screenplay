@@ -76,7 +76,7 @@ public class ModalViewsStage extends IndexedStage {
             }
 
             @Override
-            public void onExitScene(ActionDrawerResult result) {
+            public void onExitScene(ActionDrawerStage.Result result) {
                 switch (result) {
                     case YES:
                         Toast.makeText(context, "Result is YES", Toast.LENGTH_LONG).show();
