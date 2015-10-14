@@ -6,13 +6,10 @@ import com.davidstemmer.screenplay.sample.simple.SampleApplication;
 import com.davidstemmer.screenplay.sample.simple.scene.transformer.CrossfadeTransformer;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
-import flow.Layout;
-
 /**
  * Created by weefbellington on 10/2/14.
  */
 
-@Layout(R.layout.new_backstack_scene_1)
 public class WelcomeScene2 extends IndexedScene {
 
     private final CrossfadeTransformer transformer;
@@ -24,6 +21,11 @@ public class WelcomeScene2 extends IndexedScene {
 
     public WelcomeScene2() {
         this(SampleApplication.getInstance());
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.new_backstack_scene_1;
     }
 
     @Override

@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.CrossfadeTransformer;
 import com.davidstemmer.screenplay.sample.mortar.view.PagedView1;
-import com.davidstemmer.screenplay.scene.StandardScene;
+import com.davidstemmer.screenplay.scene.XmlScene;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -21,7 +21,7 @@ import mortar.ViewPresenter;
  */
 
 @Layout(R.layout.paged_scene_1)
-public class PagedScene1 extends StandardScene {
+public class PagedScene1 extends XmlScene {
 
     private final CrossfadeTransformer transformer;
 

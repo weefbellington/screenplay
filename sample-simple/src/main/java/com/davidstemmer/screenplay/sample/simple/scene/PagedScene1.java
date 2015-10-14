@@ -8,13 +8,11 @@ import com.davidstemmer.screenplay.scene.Scene;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
 import flow.Flow;
-import flow.Layout;
 
 /**
  * Created by weefbellington on 10/17/14.
  */
 
-@Layout(R.layout.paged_scene_1)
 public class PagedScene1 extends IndexedScene {
 
     private final Flow flow;
@@ -26,6 +24,11 @@ public class PagedScene1 extends IndexedScene {
         this.transformer = new CrossfadeTransformer(SampleApplication.getInstance());
 
         addComponents(new ClickBindingComponent());
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.paged_scene_1;
     }
 
     @Override
@@ -49,7 +52,7 @@ public class PagedScene1 extends IndexedScene {
         private View.OnClickListener showNextScene = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flow.goTo(StaticScenes.SIMPLE_PAGED_SCENE_2);
+                flow.set(StaticScenes.SIMPLE_PAGED_SCENE_2);
             }
         };
     }

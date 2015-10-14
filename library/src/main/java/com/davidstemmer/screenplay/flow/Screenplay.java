@@ -1,145 +1,139 @@
 package com.davidstemmer.screenplay.flow;
 
+import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.davidstemmer.screenplay.SceneCut;
 import com.davidstemmer.screenplay.SceneState;
-import com.davidstemmer.screenplay.Stage;
 import com.davidstemmer.screenplay.scene.Scene;
+import com.davidstemmer.screenplay.util.CollectionUtils;
 
 import java.util.ArrayDeque;
+import java.util.Collection;
+import java.util.Deque;
 import java.util.Iterator;
-
-import flow.Backstack;
-import flow.Flow;
 
 
 /**
  * The Screenplay object handles the navigation logic for a Screenplay application.
  */
-public class Screenplay implements Flow.Listener {
+public class Screenplay {
 
     private SceneState screenState = SceneState.NORMAL;
 
-    private final Stage stage;
+    private final Activity activity;
+    private final ViewGroup container;
 
-    private final ArrayDeque<Scene> previousBackstack = new ArrayDeque<>();
-
-    public Screenplay(Stage stage) {
-        this.stage = stage;
+    public Screenplay(Activity activity, ViewGroup container) {
+        this.activity = activity;
+        this.container = container;
     }
 
-    @Override
-    public void go(Backstack backstack, Flow.Direction direction, Flow.Callback callback) {
+    public enum Direction {
+        NONE, FORWARD, BACKWARD, REPLACE
+    }
 
-        ArrayDeque<Scene> nextBackstack = deque(backstack);
+    public void dispatch(Direction direction,
+                         Deque<Scene> origin,
+                         Deque<Scene> destination,
+                         TransitionCallback callback) {
 
-        ArrayDeque<Scene> incomingScenes;
-        ArrayDeque<Scene> outoingScenes;
+        final Deque<Scene> scenesIn = extractIncomingScenes(direction, origin, destination);
+        final Deque<Scene> scenesOut = extractOutgoingScenes(direction, origin, destination);
+        final Scene.Transformer delegatedTransformer = getDelegatedTransformer(direction, scenesIn, scenesOut);
 
-        SceneCut.Builder sceneCut = new SceneCut.Builder()
+        final Transition.Builder transition = new Transition.Builder()
+                .setScreenplay(this)
                 .setDirection(direction)
                 .setCallback(callback);
 
-        if (direction == Flow.Direction.BACKWARD) {
-            ArrayDeque<Scene> difference = difference(previousBackstack, nextBackstack);
-            outoingScenes = getLastSceneBlock(difference);
-            incomingScenes = moveToNewSceneBlock(difference) ?
-                    getLastSceneBlock(nextBackstack) :
-                    new ArrayDeque<Scene>();
-        }
-        else {
-            ArrayDeque<Scene> difference = difference(nextBackstack, previousBackstack);
+        transition.setIncomingScenes(scenesIn);
+        transition.setOutgoingScenes(scenesOut);
 
-            incomingScenes = getLastSceneBlock(difference);
-            outoingScenes = moveToNewSceneBlock(difference) ?
-                    getLastSceneBlock(previousBackstack) :
-                    new ArrayDeque<Scene>();
-
-        }
-
-        Scene.Transformer delegatedTransformer = direction == Flow.Direction.BACKWARD ?
-                outoingScenes.iterator().next().getTransformer():
-                incomingScenes.iterator().next().getTransformer();
-
-        sceneCut.setIncomingScenes(incomingScenes);
-        sceneCut.setOutgoingScenes(outoingScenes);
-
-        setPreviousBackstack(backstack);
-
-        beginCut(sceneCut.build(), delegatedTransformer);
+        beginStageTransition(transition.build(), delegatedTransformer);
     }
 
-    private ArrayDeque<Scene> deque(Backstack backstack) {
-        ArrayDeque<Scene> sceneSet = new ArrayDeque<Scene>();
-        for (Backstack.Entry entry : backstack) {
-            Scene nextScene = (Scene) entry.getScreen();
-            sceneSet.add(nextScene);
-        }
-        return sceneSet;
+    private Deque<Scene> extractDifference(Direction direction,
+                                           Deque<Scene> origin,
+                                           Deque<Scene> destination) {
+        return direction == Direction.BACKWARD ?
+                CollectionUtils.difference(origin, destination, CollectionUtils.emptyQueue(Scene.class)) :
+                CollectionUtils.difference(destination, origin, CollectionUtils.emptyQueue(Scene.class));
     }
 
-    private boolean moveToNewSceneBlock(ArrayDeque<Scene> difference) {
+    private Deque<Scene> extractOutgoingScenes(Direction direction,
+                                               Deque<Scene> origin,
+                                               Deque<Scene> destination) {
+        Deque<Scene> changedScenes = extractDifference(direction, origin, destination);
+        return direction == Direction.BACKWARD ?
+                outgoingScenesBack(changedScenes) :
+                outgoingScenesForward(changedScenes, origin);
+    }
+
+
+    private Deque<Scene> extractIncomingScenes(Direction direction,
+                                               Deque<Scene> origin,
+                                               Deque<Scene> destination) {
+        Deque<Scene> changedScenes = extractDifference(direction, origin, destination);
+        return direction == Direction.BACKWARD ?
+                incomingScenesBack(changedScenes, destination) :
+                incomingScenesForward(changedScenes);
+    }
+
+    private Scene.Transformer getDelegatedTransformer(Direction direction,
+                                                      Deque<Scene> incomingScenes,
+                                                      Deque<Scene> outgoingScenes) {
+        return direction == Direction.BACKWARD ?
+                outgoingScenes.getFirst().getTransformer():
+                incomingScenes.getFirst().getTransformer();
+    }
+
+    private Deque<Scene> incomingScenesForward(Deque<Scene> addedScenes) {
+        return takeUntilNonStackingFound(addedScenes);
+    }
+
+    private Deque<Scene> outgoingScenesForward(Deque<Scene> addedScenes, Deque<Scene> origin) {
+        return areAllStacking(addedScenes) ?
+                new ArrayDeque<Scene>() :
+                takeUntilNonStackingFound(origin);
+    }
+
+    private Deque<Scene> incomingScenesBack(Deque<Scene> removedScenes, Deque<Scene> destination) {
+        return areAllStacking(removedScenes) ?
+                new ArrayDeque<Scene>() :
+                takeUntilNonStackingFound(destination);
+    }
+
+    private Deque<Scene> outgoingScenesBack(Deque<Scene> removedScenes) {
+        return takeUntilNonStackingFound(removedScenes);
+    }
+
+    private boolean areAllStacking(Deque<Scene> difference) {
         for (Scene scene : difference) {
             if (!scene.isStacking()) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
-    private ArrayDeque<Scene> difference(ArrayDeque<Scene> sourceSet,
-                                         ArrayDeque<Scene> subSet) {
-        ArrayDeque<Scene> difference = new ArrayDeque<>(sourceSet);
-        difference.removeAll(subSet);
-        return validateDifference(difference);
-    }
-
-    private ArrayDeque<Scene> validateDifference(ArrayDeque<Scene> difference) {
+    private Deque<Scene> validateDifference(Deque<Scene> difference) {
         if (difference.size() == 0) {
-            throw new IllegalStateException("Backstack validation error -- is the same Scene instance being added to the backstack more than once?");
+            //throw new IllegalStateException("Backstack validation error -- is the same Scene instance being added to the backstack more than once?");
         }
         return difference;
     }
 
     /**
-     * Checks whether the scene present in the backstack and attached to the window.
-     * More formally, returns <tt>true</tt> if and only if the backstack contains
-     * at least one element <tt>e</tt> such that <tt>o.equals(e)</tt>, and its view is not null.
-     * @param scene the scene to compare against
-     * @return true if the scene is attached, false otherwise
+     * Derive a new queue from the source queue by taking scenes from the input queue until a
+     * non-stacking scene is found.
+     *
+     * @param input the source list
+     * @return the output list
      */
-    public boolean isSceneAttached(Scene scene) {
-        return isSceneInBackstack(scene) && scene.getView() != null;
-    }
-
-    /**
-     * Checks whether the scene present in the backstack.
-     * More formally, returns <tt>true</tt> if and only if the backstack contains
-     * at least one element <tt>e</tt> such that <tt>o.equals(e)</tt>.
-     * @param scene the target scene
-     * @return true if the scene is in the backstack, false otherwise
-     */
-    public boolean isSceneInBackstack(Scene scene) {
-        for (Backstack.Entry entry : stage.getFlow().getBackstack()) {
-            if (entry.getScreen().equals(scene)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * A "scene block" is a group of associated scenes. A scene block is derived from a source list
-     * by iterating (starting from the first/topmost scene) until a non-stacking scene is found
-     * or the source list terminates.
-     * @param difference the difference between the old backstack and the new backstack
-     * @return a scene block to animate
-     */
-    private ArrayDeque<Scene> getLastSceneBlock(ArrayDeque<Scene> difference) {
-        ArrayDeque<Scene> sceneBlock = new ArrayDeque<>();
-        Iterator<Scene> sceneIterator = difference.iterator();
+    private Deque<Scene> takeUntilNonStackingFound(Deque<Scene> input) {
+        Deque<Scene> sceneBlock = new ArrayDeque<>();
+        Iterator<Scene> sceneIterator = input.iterator();
         while(sceneIterator.hasNext()) {
             Scene scene = sceneIterator.next();
             sceneBlock.add(scene);
@@ -150,33 +144,53 @@ public class Screenplay implements Flow.Listener {
         return sceneBlock;
     }
 
-    public void beginCut(SceneCut cut, Scene.Transformer transformer) {
-        Iterator<Scene> decendingIterator = cut.incomingScenes.descendingIterator();
+    private void beginStageTransition(Transition transition, Scene.Transformer transformer) {
+        Iterator<Scene> decendingIterator = transition.incomingScenes.descendingIterator();
         while (decendingIterator.hasNext()) {
             Scene scene = decendingIterator.next();
-            boolean isStarting = cut.direction != Flow.Direction.BACKWARD;
+            boolean isStarting = isSceneStarting(transition.direction);
             setUpScene(scene, isStarting);
             setUpComponents(scene, isStarting);
         }
         screenState = SceneState.TRANSITIONING;
-        transformer.applyAnimations(cut, this);
+        transformer.applyAnimations(transition);
     }
 
     /**
      * Called by the {@link com.davidstemmer.screenplay.scene.Scene.Transformer} after the scene
      * animation completes. Finishes pending layout operations and notifies the Flow.Callback.
-     * @param cut contains the next and previous scene, and the flow direction
+     * @param transition contains the next and previous scene, and the flow direction
      */
-    public void endCut(SceneCut cut) {
-        Iterator<Scene> iterator = cut.outgoingScenes.iterator();
+    public void endStageTransition(Transition transition) {
+        Iterator<Scene> iterator = transition.outgoingScenes.iterator();
         while (iterator.hasNext()) {
             Scene scene = iterator.next();
-            boolean isFinishing = cut.direction != Flow.Direction.FORWARD;
+            boolean isFinishing = isSceneFinishing(transition.direction);
             tearDownComponents(scene, isFinishing);
             tearDownScene(scene, isFinishing);
         }
         screenState = SceneState.NORMAL;
-        cut.callback.onComplete();
+        transition.callback.onTransitionCompleted();
+    }
+
+    private boolean isSceneStarting(Direction direction) {
+        switch (direction) {
+            case NONE:
+            case FORWARD:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private boolean isSceneFinishing(Direction direction) {
+        switch (direction) {
+            case BACKWARD:
+            case REPLACE:
+                return true;
+            default:
+                return false;
+        }
     }
 
     /**
@@ -186,46 +200,16 @@ public class Screenplay implements Flow.Listener {
         return screenState;
     }
 
-    /**
-     * Initialize the screen using the current Flow.Backstack. This is expected to be called in
-     * Activity.onCreate(). Supports configuration changes.
-     */
-    public void enter() {
-        Flow flow = stage.getFlow();
+    public void teardownVisibleScenes(Deque<Scene> sceneQueue) {
 
-        if (stage.getFlow().getBackstack().size() == 0) {
-            throw new IllegalStateException("Backstack is empty");
-        }
-
-        setPreviousBackstack(flow.getBackstack());
-
-        ArrayDeque<Scene> scenes = getLastSceneBlock(deque(flow.getBackstack()));
-
-        // the topmost scene is the first in the scene block
-        // re-add the scenes in reverse order, from bottom top
-        Iterator<Scene> sceneIterator = scenes.descendingIterator();
-
-        while(sceneIterator.hasNext()) {
-            Scene nextScene = sceneIterator.next();
-            if (nextScene.teardownOnConfigurationChange() || previousBackstack.isEmpty()) {
-                setUpScene(nextScene, false);
-                setUpComponents(nextScene, false);
-            } else {
-                attachToParent(stage, nextScene.getView());
-            }
-        }
-    }
-
-    public void exit() {
-
-        ArrayDeque<Scene> outgoingScenes = new ArrayDeque<>(getLastSceneBlock(previousBackstack));
+        Deque<Scene> visibleScenes = takeUntilNonStackingFound(sceneQueue);
 
         // the topmost scene is the first in the scene block
         // tear down the scenes in order, from top to bottom
-        Iterator<Scene> sceneBlockIterator = outgoingScenes.iterator();
+        Iterator<Scene> visibleSceneIterator = visibleScenes.iterator();
 
-        while(sceneBlockIterator.hasNext()) {
-            Scene nextScene = sceneBlockIterator.next();
+        while(visibleSceneIterator.hasNext()) {
+            Scene nextScene = visibleSceneIterator.next();
             if (nextScene.teardownOnConfigurationChange()) {
                 tearDownComponents(nextScene, false);
                 tearDownScene(nextScene, false);
@@ -235,13 +219,8 @@ public class Screenplay implements Flow.Listener {
         }
     }
 
-    private void setPreviousBackstack(Backstack backstack) {
-        previousBackstack.clear();
-        previousBackstack.addAll(deque(backstack));
-    }
-
-    private void attachToParent(Stage stage, View view) {
-        stage.getContainer().addView(view);
+    private void attachToParent(View view) {
+        container.addView(view);
     }
 
     private void removeFromParent(final View view) {
@@ -261,12 +240,12 @@ public class Screenplay implements Flow.Listener {
     }
 
     private void setUpScene(Scene scene, boolean isStarting) {
-        View added = scene.setUp(stage.getActivity(), stage.getContainer(), isStarting);
-        attachToParent(stage, added);
+        View added = scene.setUp(activity, container, isStarting);
+        attachToParent(added);
     }
 
     private void tearDownScene(Scene scene, boolean isFinishing) {
-        View removed = scene.tearDown(stage.getActivity(), stage.getContainer(), isFinishing);
+        View removed = scene.tearDown(activity, container, isFinishing);
         removeFromParent(removed);
     }
 
@@ -279,6 +258,75 @@ public class Screenplay implements Flow.Listener {
     private void tearDownComponents(Scene scene, boolean isFinishing) {
         for (Scene.Component component: scene.getComponents()) {
             component.beforeTearDown(scene, isFinishing);
+        }
+    }
+
+    public interface TransitionCallback {
+        void onTransitionCompleted();
+    }
+
+    public static class Transition {
+
+        public final Screenplay.Direction direction;
+        public final ArrayDeque<Scene> incomingScenes;
+        public final ArrayDeque<Scene> outgoingScenes;
+
+        private final Screenplay screenplay;
+        private final Screenplay.TransitionCallback callback;
+
+        private Transition(Builder builder) {
+
+            screenplay = builder.screenplay;
+            callback = builder.callback;
+
+            direction = builder.direction;
+            incomingScenes = builder.incomingScenes;
+            outgoingScenes = builder.outgoingScenes;
+        }
+
+        public void end() {
+            screenplay.endStageTransition(this);
+        }
+
+        public static class Builder {
+
+            Screenplay screenplay;
+            Screenplay.Direction direction;
+            Screenplay.TransitionCallback callback;
+            final ArrayDeque<Scene> incomingScenes = new ArrayDeque<>();
+            final ArrayDeque<Scene> outgoingScenes = new ArrayDeque<>();
+
+            public Builder() {}
+
+            public Transition build() {
+                return new Transition(this);
+            }
+
+            public Builder setDirection(Screenplay.Direction direction) {
+                this.direction = direction;
+                return this;
+            }
+
+            public Builder setCallback(Screenplay.TransitionCallback callback) {
+                this.callback = callback;
+                return this;
+            }
+
+
+            public Builder setIncomingScenes(Collection<Scene> incoming) {
+                incomingScenes.addAll(incoming);
+                return this;
+            }
+
+            public Builder setOutgoingScenes(Collection<Scene> outgoing) {
+                outgoingScenes.addAll(outgoing);
+                return this;
+            }
+
+            public Builder setScreenplay(Screenplay screenplay) {
+                this.screenplay = screenplay;
+                return this;
+            }
         }
     }
 }

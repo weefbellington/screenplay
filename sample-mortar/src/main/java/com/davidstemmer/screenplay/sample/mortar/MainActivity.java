@@ -104,7 +104,7 @@ public class MainActivity extends ActionBarActivity implements Blueprint {
     @Override public void onDestroy() {
         super.onDestroy();
 
-        screenplay.exit();
+        screenplay.teardownVisibleScenes();
         mainStage.unbind();
         // Drop the activity and drawer presenter every time the Activity is destroyed.
         // This allows them to release references to the Activity that is about to be destroyed.

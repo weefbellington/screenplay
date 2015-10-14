@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.CrossfadeTransformer;
-import com.davidstemmer.screenplay.scene.StandardScene;
+import com.davidstemmer.screenplay.scene.XmlScene;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -19,7 +19,7 @@ import mortar.ViewPresenter;
  */
 
 @Layout(R.layout.welcome_scene)
-public class WelcomeScene extends StandardScene {
+public class WelcomeScene extends XmlScene {
 
     private final CrossfadeTransformer transformer;
 

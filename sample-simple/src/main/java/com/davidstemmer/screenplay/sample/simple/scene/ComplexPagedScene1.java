@@ -7,11 +7,9 @@ import com.davidstemmer.screenplay.sample.simple.scene.transformer.CrossfadeTran
 import com.davidstemmer.screenplay.scene.Scene;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
-import flow.Backstack;
 import flow.Flow;
-import flow.Layout;
+import flow.History;
 
-@Layout(R.layout.complex_paged_scene_1)
 public class ComplexPagedScene1 extends IndexedScene {
 
     private final CrossfadeTransformer transformer;
@@ -20,6 +18,11 @@ public class ComplexPagedScene1 extends IndexedScene {
         super(ComplexPagedScene1.class.getName());
         this.transformer = new CrossfadeTransformer(SampleApplication.getInstance());
         addComponents(new ClickBindingComponent());
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.complex_paged_scene_1;
     }
 
     @Override
@@ -44,7 +47,7 @@ public class ComplexPagedScene1 extends IndexedScene {
             View newBackstackButton     = parent.findViewById(R.id.new_backstack);
 
             forwardTwoScenesButton.setOnClickListener(forwardTwoScenes);
-            newBackstackButton.setOnClickListener(forwardNewBackstack);
+            newBackstackButton.setOnClickListener(forwardNewHistory);
         }
 
         @Override
@@ -54,22 +57,22 @@ public class ComplexPagedScene1 extends IndexedScene {
         private final View.OnClickListener forwardTwoScenes = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Backstack newBackstack = flow.getBackstack().buildUpon()
+                History newHistory = flow.getHistory().buildUpon()
                         .push(StaticScenes.COMPLEX_PAGED_SCENE_2)
                         .push(StaticScenes.COMPLEX_PAGED_SCENE_3)
                         .build();
-                flow.forward(newBackstack);
+                flow.setHistory(newHistory, Flow.Direction.FORWARD);
             }
         };
 
-        private final View.OnClickListener forwardNewBackstack = new View.OnClickListener() {
+        private final View.OnClickListener forwardNewHistory = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Backstack newBackstack = Backstack.emptyBuilder()
+                History newHistory = History.emptyBuilder()
                         .push(StaticScenes.NEW_BACKSTACK_SCENE_1)
                         .push(StaticScenes.NEW_BACKSTACK_SCENE_2)
                         .build();
-                flow.forward(newBackstack);
+                flow.setHistory(newHistory, Flow.Direction.FORWARD);
             }
         };
     }

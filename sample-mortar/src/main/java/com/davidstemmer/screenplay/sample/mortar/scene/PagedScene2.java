@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.davidstemmer.screenplay.sample.mortar.R;
 import com.davidstemmer.screenplay.sample.mortar.scene.transformer.HorizontalSlideTransformer;
 import com.davidstemmer.screenplay.sample.mortar.view.PagedView2;
-import com.davidstemmer.screenplay.scene.StandardScene;
+import com.davidstemmer.screenplay.scene.XmlScene;
 
 import javax.inject.Inject;
 
@@ -20,7 +20,7 @@ import mortar.ViewPresenter;
  */
 
 @Layout(R.layout.paged_scene_2)
-public class PagedScene2 extends StandardScene {
+public class PagedScene2 extends XmlScene {
 
     private final HorizontalSlideTransformer transformer;
 

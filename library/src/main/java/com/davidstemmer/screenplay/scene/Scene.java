@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.davidstemmer.screenplay.SceneCut;
 import com.davidstemmer.screenplay.flow.Screenplay;
 
 import java.util.Collection;
@@ -74,11 +73,10 @@ public interface Scene {
     public static interface Transformer {
         /**
          * Apply the animation based on the Flow.Direction. When the animation completes, it is the
-         * responsibility of the Transformer to call {@link Screenplay#endCut}
+         * responsibility of the Transformer to call {@link Screenplay#endStageTransition}
          * @param cut contains information about the current transition
-         * @param screenplay the screenplay object
          */
-        public void applyAnimations(SceneCut cut, Screenplay screenplay);
+        public void applyAnimations(Screenplay.Transition cut);
     }
 
 }

@@ -12,7 +12,7 @@ import mortar.Scoped;
 /**
  * Created by weefbellington on 10/20/14.
  */
-public abstract class ScopedScene extends StandardScene implements Scoped {
+public abstract class ScopedScene extends XmlScene implements Scoped {
 
     private final MortarScope parentScope;
     private final MortarScope childScope;
