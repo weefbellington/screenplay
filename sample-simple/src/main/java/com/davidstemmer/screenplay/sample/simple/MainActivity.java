@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.widget.RelativeLayout;
 
 import com.davidstemmer.screenplay.flow.ScreenplayDispatcher;
-import com.davidstemmer.screenplay.sample.simple.scene.WelcomeScene;
+import com.davidstemmer.screenplay.sample.simple.scene.WelcomeStage;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
 import flow.Flow;
@@ -56,7 +56,7 @@ public class MainActivity extends ActionBarActivity {
     @Override public void onBackPressed() {
         if (!flow.goBack()) {
             flow.removeDispatcher(dispatcher);
-            flow.setHistory(History.single(new WelcomeScene(getApplication())), Flow.Direction.REPLACE);
+            flow.setHistory(History.single(new WelcomeStage(getApplication())), Flow.Direction.REPLACE);
             super.onBackPressed();
         }
     }

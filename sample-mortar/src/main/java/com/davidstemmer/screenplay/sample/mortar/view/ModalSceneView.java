@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
-import com.davidstemmer.screenplay.sample.mortar.scene.StackedScene;
+import com.davidstemmer.screenplay.sample.mortar.scene.StackedStage;
 
 import javax.inject.Inject;
 
@@ -15,7 +15,7 @@ import mortar.Mortar;
  */
 public class ModalSceneView extends LinearLayout {
 
-    @Inject StackedScene.Presenter presenter;
+    @Inject StackedStage.Presenter presenter;
 
     public ModalSceneView(Context context, AttributeSet attrs) {
         super(context, attrs);

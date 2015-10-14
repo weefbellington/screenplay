@@ -3,15 +3,15 @@ package com.davidstemmer.screenplay.sample.mortar.module;
 import com.davidstemmer.screenplay.ImmutableStage;
 import com.davidstemmer.screenplay.MutableStage;
 import com.davidstemmer.screenplay.Stage;
-import com.davidstemmer.screenplay.flow.Screenplay;
+import com.davidstemmer.screenplay.Screenplay;
 import com.davidstemmer.screenplay.sample.mortar.MainActivity;
 import com.davidstemmer.screenplay.sample.mortar.presenter.NavigationMenuPresenter;
-import com.davidstemmer.screenplay.sample.mortar.scene.DialogScene;
-import com.davidstemmer.screenplay.sample.mortar.scene.PagedScene1;
-import com.davidstemmer.screenplay.sample.mortar.scene.PagedScene2;
-import com.davidstemmer.screenplay.sample.mortar.scene.PagedScene3;
-import com.davidstemmer.screenplay.sample.mortar.scene.StackedScene;
-import com.davidstemmer.screenplay.sample.mortar.scene.WelcomeScene;
+import com.davidstemmer.screenplay.sample.mortar.scene.DialogStage;
+import com.davidstemmer.screenplay.sample.mortar.scene.PagedStage1;
+import com.davidstemmer.screenplay.sample.mortar.scene.PagedStage2;
+import com.davidstemmer.screenplay.sample.mortar.scene.PagedStage3;
+import com.davidstemmer.screenplay.sample.mortar.scene.StackedStage;
+import com.davidstemmer.screenplay.sample.mortar.scene.WelcomeStage;
 import com.davidstemmer.screenplay.sample.mortar.view.DialogSceneView;
 import com.davidstemmer.screenplay.sample.mortar.view.ModalSceneView;
 import com.davidstemmer.screenplay.sample.mortar.view.NavigationMenuView;
@@ -31,25 +31,25 @@ import flow.Flow;
  */
 @Module(addsTo = ApplicationModule.class,
         injects = {
-                DialogScene.class,
-                DialogScene.Presenter.class,
+                DialogStage.class,
+                DialogStage.Presenter.class,
                 DialogSceneView.class,
-                StackedScene.class,
-                StackedScene.Presenter.class,
+                StackedStage.class,
+                StackedStage.Presenter.class,
                 ModalSceneView.class,
                 MainActivity.class,
                 NavigationMenuPresenter.class,
                 NavigationMenuView.class,
                 NavigationMenuView.class,
-                PagedScene1.class,
-                PagedScene1.Presenter.class,
+                PagedStage1.class,
+                PagedStage1.Presenter.class,
                 PagedView1.class,
-                PagedScene2.class,
-                PagedScene2.Presenter.class,
+                PagedStage2.class,
+                PagedStage2.Presenter.class,
                 PagedView2.class,
-                PagedScene3.class,
-                WelcomeScene.class,
-                WelcomeScene.Presenter.class,
+                PagedStage3.class,
+                WelcomeStage.class,
+                WelcomeStage.Presenter.class,
                 WelcomeView.class
         })
 public class ActivityModule {
@@ -74,7 +74,7 @@ public class ActivityModule {
     }
 
     @Provides @Singleton
-    Flow flow(WelcomeScene welcomeScene, Screenplay screenplay) {
+    Flow flow(WelcomeStage welcomeScene, Screenplay screenplay) {
         return new Flow(Backstack.single(welcomeScene), screenplay);
     }
 }

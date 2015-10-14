@@ -2,7 +2,7 @@ package com.davidstemmer.screenplay.sample.mortar.module;
 
 import android.app.Application;
 
-import com.davidstemmer.screenplay.sample.mortar.scene.transformer.HorizontalSlideTransformer;
+import com.davidstemmer.screenplay.sample.mortar.scene.transformer.HorizontalSlideRigger;
 
 import dagger.Module;
 import dagger.Provides;
@@ -11,7 +11,7 @@ import dagger.Provides;
  * Created by weefbellington on 10/2/14.
  */
 @Module(injects = {
-        HorizontalSlideTransformer.class
+        HorizontalSlideRigger.class
 })
 public class ApplicationModule {
 

@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 
 import com.davidstemmer.screenplay.MutableStage;
-import com.davidstemmer.screenplay.flow.Screenplay;
+import com.davidstemmer.screenplay.Screenplay;
 import com.davidstemmer.screenplay.sample.mortar.module.ActivityModule;
 import com.davidstemmer.screenplay.sample.mortar.presenter.DrawerPresenter;
 

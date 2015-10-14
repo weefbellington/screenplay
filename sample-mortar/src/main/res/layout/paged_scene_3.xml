@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="The previous scene had a horizontal transformer. This scene has a vertical transformer."
+        android:text="The previous stage had a horizontal rigger. This stage has a vertical rigger."
         android:textColor="@android:color/white"
         style="@style/TutorialText"/>
 

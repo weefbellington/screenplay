@@ -5,16 +5,16 @@ package com.davidstemmer.screenplay.sample.simple.scene;
  */
 public class StaticScenes {
 
-    public static final WelcomeScene WELCOME_SCENE = new WelcomeScene();
-    public static final PagedScene1 SIMPLE_PAGED_SCENE_1 = new PagedScene1();
-    public static final PagedScene2 SIMPLE_PAGED_SCENE_2 = new PagedScene2();
-    public static final PagedScene3 SIMPLE_PAGED_SCENE_3 = new PagedScene3();
-    public static final ComplexPagedScene1 COMPLEX_PAGED_SCENE_1 = new ComplexPagedScene1();
-    public static final ComplexPagedScene2 COMPLEX_PAGED_SCENE_2 = new ComplexPagedScene2();
-    public static final ComplexPagedScene3 COMPLEX_PAGED_SCENE_3 = new ComplexPagedScene3();
-    public static final NewBackstackScene1 NEW_BACKSTACK_SCENE_1 = new NewBackstackScene1();
-    public static final NewBackstackScene2 NEW_BACKSTACK_SCENE_2 = new NewBackstackScene2();
-    public static final ModalViewsScene MODAL_VIEWS_SCENE = new ModalViewsScene();
-    public static final DialogScene DIALOG_SCENE = new DialogScene();
-    public static final PostDialogScene POST_DIALOG_SCENE = new PostDialogScene();
+    public static final WelcomeStage WELCOME_SCENE = new WelcomeStage();
+    public static final PagedStage1 SIMPLE_PAGED_SCENE_1 = new PagedStage1();
+    public static final PagedStage2 SIMPLE_PAGED_SCENE_2 = new PagedStage2();
+    public static final PagedStage3 SIMPLE_PAGED_SCENE_3 = new PagedStage3();
+    public static final ComplexPagedStage1 COMPLEX_PAGED_SCENE_1 = new ComplexPagedStage1();
+    public static final ComplexPagedStage2 COMPLEX_PAGED_SCENE_2 = new ComplexPagedStage2();
+    public static final ComplexPagedStage3 COMPLEX_PAGED_SCENE_3 = new ComplexPagedStage3();
+    public static final NewBackstackStage1 NEW_BACKSTACK_SCENE_1 = new NewBackstackStage1();
+    public static final NewBackstackStage2 NEW_BACKSTACK_SCENE_2 = new NewBackstackStage2();
+    public static final ModalViewsStage MODAL_VIEWS_SCENE = new ModalViewsStage();
+    public static final DialogStage DIALOG_SCENE = new DialogStage();
+    public static final PostDialogStage POST_DIALOG_SCENE = new PostDialogStage();
 }

@@ -2,7 +2,7 @@ package com.davidstemmer.screenplay.sample.simple;
 
 import android.app.Application;
 
-import com.davidstemmer.screenplay.sample.simple.scene.WelcomeScene;
+import com.davidstemmer.screenplay.sample.simple.scene.WelcomeStage;
 
 import flow.Flow;
 import flow.History;
@@ -13,7 +13,7 @@ import flow.History;
 public class SampleApplication extends Application {
 
     private final DrawerHelper drawerHelper = new DrawerHelper();
-    public final Flow mainFlow = new Flow(History.single(new WelcomeScene(this)));
+    public final Flow mainFlow = new Flow(History.single(new WelcomeStage(this)));
 
     private static SampleApplication application;
 

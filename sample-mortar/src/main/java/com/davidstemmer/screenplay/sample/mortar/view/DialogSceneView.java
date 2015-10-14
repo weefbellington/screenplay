@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
-import com.davidstemmer.screenplay.sample.mortar.scene.DialogScene;
+import com.davidstemmer.screenplay.sample.mortar.scene.DialogStage;
 
 import javax.inject.Inject;
 
@@ -16,7 +16,7 @@ import mortar.Mortar;
 
 public class DialogSceneView extends LinearLayout {
 
-    @Inject DialogScene.Presenter presenter;
+    @Inject DialogStage.Presenter presenter;
 
     public DialogSceneView(Context context, AttributeSet attrs) {
         super(context, attrs);
