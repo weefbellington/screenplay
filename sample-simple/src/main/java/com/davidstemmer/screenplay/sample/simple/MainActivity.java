@@ -7,7 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 
-import com.davidstemmer.screenplay.flow.ScreenplayDispatcher;
+import com.davidstemmer.flow.plugin.screenplay.ScreenplayDispatcher;
 import com.davidstemmer.screenplay.sample.simple.scene.WelcomeStage;
 import com.example.weefbellington.screenplay.sample.simple.R;
 

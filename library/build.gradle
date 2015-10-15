@@ -13,11 +13,8 @@ android {
 dependencies {
     // libs folder with prebuilt jars
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.squareup.flow:flow:0.12'
     // javax.inject needed for @Inject annotations
     compile 'javax.inject:javax.inject:1'
-    // we should remove the hard dependency on Mortar in the future
-    provided 'com.squareup.mortar:mortar:0.16'
 }
 
 apply from: 'https://raw.github.com/chrisbanes/gradle-mvn-push/master/gradle-mvn-push.gradle'

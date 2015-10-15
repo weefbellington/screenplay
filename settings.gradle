@@ -1,1 +1,1 @@
-include ':library', ':sample-simple', ':sample-mortar'
+include ':library', ':sample-simple', ':sample-mortar', ':flow-plugin'
