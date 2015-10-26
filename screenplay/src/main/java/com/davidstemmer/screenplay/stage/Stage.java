@@ -21,7 +21,7 @@ public interface Stage {
      * @param isInitializing true if this is the first time setUp has been called, false otherwise
      * @return the created view
      */
-    public View setUp(Context context, ViewGroup parent, boolean isInitializing);
+    View setUp(Context context, ViewGroup parent, boolean isInitializing);
 
     /**
      * Destroy the View. After this method is called, getView() should return null. The View should
@@ -31,31 +31,31 @@ public interface Stage {
      * @param isFinishing true if this is the last time tearDown will be called, false otherwise
      * @return the destroyed view
      */
-    public View tearDown(Context context, ViewGroup parent, boolean isFinishing);
+    View tearDown(Context context, ViewGroup parent, boolean isFinishing);
 
-    public List<Component> getComponents();
+    List<Component> getComponents();
 
     /**
      * Get the View associated with the Scene
      * @return the view, or null of {@link #setUp setUp} has not yet been called
      */
-    public View getView();
+    View getView();
 
     /**
      * Flag that specifies whether the view should be reattached on configuration change
      * @return true if the view should be reattached, false if it should be destroyed
      */
-    public boolean teardownOnConfigurationChange();
+    boolean teardownOnConfigurationChange();
     /**
      * Flag that specifies whether or not the view is stacking (modal)
      * @return true if stacking, false otherwise
      */
 
     /**
-     * Flag that specifies whether or not the view is stacking (modal)
+     * Flag that specifies whether or not the view is modal (floating)
      * @return true if stacking, false otherwise
      */
-    public boolean isStacking();
+    boolean isModal();
 
     /**
      * @return a non-null {@link Rigger}
