@@ -57,7 +57,7 @@ public abstract class XmlStage implements Stage {
     }
 
     @Override
-    public boolean isStacking() {
+    public boolean isModal() {
         return false;
     }
 

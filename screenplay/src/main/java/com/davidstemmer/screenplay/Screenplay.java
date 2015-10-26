@@ -109,7 +109,7 @@ public class Screenplay {
 
     private boolean areAllStacking(Deque<Stage> difference) {
         for (Stage stage : difference) {
-            if (!stage.isStacking()) {
+            if (!stage.isModal()) {
                 return false;
             }
         }
@@ -136,7 +136,7 @@ public class Screenplay {
         while(sceneIterator.hasNext()) {
             Stage stage = sceneIterator.next();
             stageBlock.add(stage);
-            if (!stage.isStacking()) {
+            if (!stage.isModal()) {
                 break;
             }
         }
