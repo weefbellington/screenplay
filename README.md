@@ -186,9 +186,11 @@ Screenplay provides two Rigger implementations to extend from: `TweenRigger` and
 
 ###4. Working with Flow
 
-#####4.1 Bootstrapping with Flow
+If you're working with the Flow plugin, a bit of configuration is required in your main Activity.
 
-You only need a little bit of boilerplate to bootstrap a Screenplay application. If you're using the Flow plugin, you'll need to create your main Flow. To ensure that the Flow object survives configuration changes, you can put it in a singleton class, or you can parcel the history object and recreate your Flow with each configuration change. We'll take the former approach here:
+#####4.1 Bootstrapping
+
+ If you're using the Flow plugin, you'll need to create your main Flow. To ensure that the Flow object survives configuration changes, you can put it in a singleton class, or you can parcel the history object and recreate your Flow with each configuration change. We'll take the former approach here:
 
 ```java
 public class SampleApplication extends Application {
@@ -228,7 +230,7 @@ public class MainActivity extends Activity {
 }
 ```
 
-#####4.2 Handling Activity lifecycle events with Flow
+#####4.2 Handling Activity lifecycle events
 
 1. When the Activity is destroyed, you must call `ScreenplayDispatcher#tearDown`. This performs cleanup actions such as calling `Screenplay#tearDownVisibleStages`, ensuring that your components receive the correct callbacks.
 2. Override onBackPressed to route back button to the dispatcher:
