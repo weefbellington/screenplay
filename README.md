@@ -203,7 +203,7 @@ public class SampleApplication extends Application {
 }
 ```
 
-(alternatively to a static object on the Application class, you can use a dependency injection library such as [Dagger](http://square.github.io/dagger/))
+(creating a static variable on your Application has the advantage of simplicity, but for a better approach, consider using a dependency injection library such as [Dagger](http://square.github.io/dagger/) to inject your Flow into classes that require it)
 
 In the onCreate() method of your main Activity, create your `ScreenplayDispatcher` object and bind it to your container view. All Stages will be inflated into the container view:
 
