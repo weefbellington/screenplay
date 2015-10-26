@@ -5,6 +5,8 @@
 ===========================================================================================
 ```
 
+Questions or just want to say hello? Try our real-time discussion channel on Gitter: https://gitter.im/weefbellington/screenplay
+
 ###1. What is Screenplay?
 
 Screenplay is a tiny, moderately opinionated Android application framework. It is designed for building View-based apps with a particular kind of architecture: **single-activity**, with **no fragments**, **no dialogs**, and **small classes**.
