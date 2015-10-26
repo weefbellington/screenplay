@@ -5,7 +5,9 @@
 ===========================================================================================
 ```
 
-Questions or just want to say hello? Try our real-time discussion channel on Gitter: https://gitter.im/weefbellington/screenplay
+*Questions or just want to say hello? Try our real-time discussion channel on Gitter:*
+
+https://gitter.im/weefbellington/screenplay
 
 ###1. What is Screenplay?
 
