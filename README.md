@@ -17,7 +17,7 @@ Screenplay is a tiny, moderately opinionated Android application framework. It i
 
 #####Wait, what's a View-based application? What are the upsides?
 
-When people talk about View-based Android applications, they usually mean an application that doesn't use multiple Activities or Fragments. Instead, it uses few Activities -- often just one -- and creates screen transition effects by swapping views on and off the screen. Many voices have in the Android community have advocated [in favor of View-based applications](https://corner.squareup.com/2014/10/advocating-against-android-fragments.html), to some degree of controversy. The idea is that by programming directly with Views, you can avoid a lot of the complexity that is associated with the Activity/Fragment lifecycle.
+When people talk about View-based Android applications, they usually mean an application that doesn't use multiple Activities or Fragments. Instead, it uses few Activities -- often just one -- and creates screen transition effects by swapping views on and off the screen. Many voices have in the Android community have lobbied [in favor of View-based applications](https://corner.squareup.com/2014/10/advocating-against-android-fragments.html), to some degree of controversy. The idea is that by programming directly with Views, you can avoid a lot of the complexity that is associated with the Activity/Fragment lifecycle.
 
 #####What are the downsides?
 
