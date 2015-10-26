@@ -5,7 +5,7 @@
 ===========================================================================================
 ```
 
-*Questions or just want to say hello? Try our real-time discussion channel on Gitter [![Join the chat at https://gitter.im/weefbellington/screenplay](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/weefbellington/screenplay?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/weefbellington/screenplay](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/weefbellington/screenplay?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) *Questions or just want to say hello? Try our real-time discussion channel on Gitter!*
 
 ###1. What is Screenplay?
 
