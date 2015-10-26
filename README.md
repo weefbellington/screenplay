@@ -44,7 +44,7 @@ Screenplay includes optional support for [Flow](https://github.com/square/flow) 
 
 ###2. Sample Code
 
-The easiest way to get a feel for Screenplay is to dive into the code. The [simple sample project](https://github.com/weefbellington/screenplay/tree/master/sample-simple) is the recommended place to start. Here you will find a minimally complex Screenplay application which showcases some of its features.
+The easiest way to get a feel for Screenplay is to dive into the code, and the [sample project](https://github.com/weefbellington/screenplay/tree/master/sample-simple) is the recommended place to start. Here you will find a minimally complex Screenplay application which showcases some of its features.
 
 ###3. Stages, Components and Transitions
 
