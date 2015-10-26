@@ -9,11 +9,27 @@
 
 *Questions or just want to say hello? Try our real-time discussion channel on Gitter!*
 
-###1. What is Screenplay?
+###Introduction
+
+#####What is Screenplay?
 
 Screenplay is a tiny, moderately opinionated Android application framework. It is designed for building View-based apps with a particular kind of architecture: **single-activity**, with **no fragments**, **no dialogs**, and **small classes**.
 
-It is driven by a few core principles:
+#####Wait, what's a View-based application? What are the upsides?
+
+When people talk about View-based Android applications, they usually mean an application that doesn't use multiple Activities or Fragments. Instead, it uses few Activities -- often just one -- and creates screen transition effects by swapping views on and off the screen. Many voices have in the Android community have advocated [in favor of View-based applications](https://corner.squareup.com/2014/10/advocating-against-android-fragments.html), to some degree of controversy. The idea is that by programming directly with Views, you can avoid a lot of the complexity that is associated with the Activity/Fragment lifecycle.
+
+#####What are the downsides?
+
+The downside of View-based development is that there's a lot of things you no longer get "for free". A backstack is one thing that you leave behind. Other parts that you need to manage yourself include: animations, a system for attaching/detaching views from the screen, and where to put your "business logic" -- where does presentation code go once you get rid of `onCreate/onActivityCreated`?
+
+#####Hasn't somebody already figured out this stuff?
+
+Libraries like [Flow](https://github.com/square/flow) have been created to address the problem of the missing backstack. Screenplay is designed to handle the rest of in the equation. It acts as a controller for your Views, managing View creation and automatically detaching Views from the screen when they are no longer needed. Screenplay also animates between Views during screen transitions, and provides a component-oriented interface which applies behavior to screens and enables separation of View display from presentation.
+
+###2. Core principles
+
+Screenplay is driven by a few core principles:
 
 1. Low complexity: monolithic UI components with [complex lifecycles](https://github.com/xxv/android-lifecycle) are bad and should be avoided.
 2. Low friction: objects should be easy to create, and it should be easy to pass data between them.
@@ -42,17 +58,17 @@ You don't need to put any business logic in `View` subclasses in a Screenplay ap
 **Plugin support:**
 Screenplay includes optional support for [Flow](https://github.com/square/flow) which is provided as a separate module. Flow provides an interface for managing the backstack, including pushing and popping new Stages from the stack, managing the history, etc.
 
-###2. Sample Code
+###3. Sample Code
 
 The easiest way to get a feel for Screenplay is to dive into the code, and the [sample project](https://github.com/weefbellington/screenplay/tree/master/sample-simple) is the recommended place to start. Here you will find a minimally complex Screenplay application which showcases some of its features.
 
-###3. Stages, Components and Transitions
+###4. Stages, Components and Transitions
 
 The Stage is the core of the Screenplay navigation flow. Its responsibilities are very narrow: a Stage's main role is detaching and attaching view from its parent. Stages are lightweight and shouldn't include a lot of code -- it's the Components that do the heavy lifting, applying business logic when a Stage pushed or popped from the stack.
 
-#####3.1 Navigating between Stages
+#####4.1 Navigating between Stages
 
-Screenplay doesn't manage the backstack itself; instead it delegates this responsibility to tested 3rd party libraries. The [Flow plugin](https://github.com/weefbellington/screenplay/tree/flow-plugin-library/flow-plugin) is the current officially supported method. See Section (6.2) for details.
+Screenplay doesn't manage the backstack itself; instead it delegates this responsibility to tested 3rd party libraries. The [Flow plugin](https://github.com/weefbellington/screenplay/tree/flow-plugin-library/flow-plugin) is the current officially supported method. See Section (7.2) for details.
 
 The following provide a few examples of manipulating the backstack using Flow. Refer to the [Flow documentation](http://corner.squareup.com/2014/01/mortar-and-flow.html) for futher information.
 
@@ -63,11 +79,11 @@ The following provide a few examples of manipulating the backstack using Flow. R
     flow.goBack();                                           // go back one stage
 ```
 
-It is recommended that you use a single Flow instance throughout the application. See Section (4.1) for more details.
+It is recommended that you use a single Flow instance throughout the application. See Section (5.1) for more details.
 
 It's entirely possible to manage the backstack without using Flow, or to write your own navigation plugin. A call to `Screenplay#dispatch` will trigger a screenplay navigation event; see the (ScreenplayDispatcher)[https://github.com/weefbellington/screenplay/blob/flow-plugin-library/flow-plugin/src/main/java/com/davidstemmer/flow/plugin/screenplay/ScreenplayDispatcher.java] class in the flow-plugin library for an example.
 
-#####3.2 The Stage lifecycle 
+#####4.2 The Stage lifecycle 
 
 The Stage has only a few responsibilities: creating a View (`Stage#setUp`), destroying a View (`Stage#tearDown`) and getting the current view (`Stage#getView`).
 
@@ -83,7 +99,7 @@ For an outgoing Stage, teardown is the reverse of setup:
 2. Each `Stage.Component` is notified of teardown
 3. The `Stage` removes its View, which is detached from the parent ViewGroup
 
-#####3.3 An example Stage
+#####4.3 An example Stage
 
 The following is an example Stage, which extends the `XmlStage` class. It provides a layout ID, which is used to inflate the View. It also provides a `Rigger`, which is used to animate the transition between Stages.
 
@@ -106,7 +122,7 @@ public class ExampleStage extends XmlStage {
 }
 ```
 
-#####3.4 An example Stage.Component
+#####4.4 An example Stage.Component
 
 The example above includes a `DrawerLockingComponent `, which locks the navigation drawer while the dialog is active. Although this particular Stage only has a single Component, it is easy to include multiple components in a Stage. Ideally, each component should be responsible for a small, well-defined chunk of logic: for example, binding click listeners, making a network call, or creating an animation.
 
@@ -131,7 +147,7 @@ public class DrawerLockingComponent implements Stage.Component {
 }
 ```
 
-#####3.5 Regular vs. modal Stages
+#####4.5 Regular vs. modal Stages
 
 Normally, after a new Stage is pushed onto the stack, the old Stage's View is detached from its parent View to free up memory.
 
@@ -160,7 +176,7 @@ public class DialogStage extends XmlStage {
 }
 ```
 
-#####3.6 Stage animations 
+#####4.6 Stage animations 
 
 A `Rigger` is responsible for applying animations between Stages. The Rigger receives a `Stage.Transition` object, which contains the data that the Rigger needs to create animations, including the `Screenplay.Direction`, the incoming and outgoing Stages, and a `TransitionCallback` that must be called when the transition is complete.
 
@@ -184,11 +200,11 @@ public class HorizontalSlideRigger extends TweenRigger {
 
 Screenplay provides two Rigger implementations to extend from: `TweenRigger` and `AnimatorRigger`. TweenRigger uses the [Animation](http://developer.android.com/reference/android/view/animation/Animation.html) class to create a transition, while the AnimatorTransition uses the [Animator](http://developer.android.com/reference/android/animation/Animator.html) class.
 
-###4. Working with Flow
+###5. Working with Flow
 
 If you're working with the Flow plugin, a bit of configuration is required in your main Activity.
 
-#####4.1 Bootstrapping
+#####5.1 Bootstrapping
 
  If you're using the Flow plugin, you'll need to create your main Flow. To ensure that the Flow object survives configuration changes, you can put it in a singleton class, or you can parcel the history object and recreate your Flow with each configuration change. We'll take the former approach here:
 
@@ -230,7 +246,7 @@ public class MainActivity extends Activity {
 }
 ```
 
-#####4.2 Handling Activity lifecycle events
+#####5.2 Handling Activity lifecycle events
 
 1. When the Activity is destroyed, you must call `ScreenplayDispatcher#tearDown`. This performs cleanup actions such as calling `Screenplay#tearDownVisibleStages`, ensuring that your components receive the correct callbacks.
 2. Override onBackPressed to route back button to the dispatcher:
@@ -245,9 +261,9 @@ public class MainActivity extends Activity {
 }
 ```
 
-###5. Odds and ends
+###6. Odds and ends
 
-#####5.1 Checking the transition state
+#####6.1 Checking the transition state
 
 The Screenplay object also exposes a `isTransitioning` method. This is useful for preventing multiple
 button presses while two Stages are in transition:
@@ -264,15 +280,15 @@ button presses while two Stages are in transition:
     }
 ```
 
-#####5.2 Configuration changes
+#####6.2 Configuration changes
 
 By default, when a configuration change occurs, when `Screenplay#tearDownVisibleStages` is called, each Stage's view is released and a new one is created. If instead you would like a Stage and its view to be retained on configuration changes, override `Stage.teardownOnConfigurationChanges` to return `false`. Keep in mind that setting this to `false` means that the XML for the view will not be reloaded when a configuration change occurs.
 
-###6. Downloads
+###7. Downloads
 
 Screenplay is available via Maven from the jcenter repo.
 
-#####6.1 Main project download
+#####7.1 Main project download
 
 Use Maven to add Screenplay to your project:
 
@@ -290,7 +306,7 @@ or Gradle:
 compile 'com.davidstemmer.screenplay:screenplay:1.0.0'
 ```
 
-#####6.2 Flow plugin download
+#####7.2 Flow plugin download
 
 The flow-plugin provides a ScreenplayDispatcher that allows you to use Flow to manage the backstack. The version is pegged to the most recent version of Flow. Use maven to add it to your project:
 
@@ -308,10 +324,10 @@ or Gradle:
 compile 'com.davidstemmer.screenplay:flow-plugin:0.12'
 ```
 
-###7. Contributing
+###8. Contributing
 Contributions are welcome! Please open an issue in the github issue tracker to discuss bugs and new feature requests. For simple questions, try our live chat on Gitter: https://gitter.im/weefbellington/screenplay.
 
-###8. Acknowledgements
+###9. Acknowledgements
 
 Many thanks to the team at Square for their support of the open-source community, without which this
 project wouldn't be possible. Thanks especially to the team at Square for creating Flow, which was the original inspiration for this project.
