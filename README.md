@@ -34,7 +34,7 @@ Screenplay swaps Views in and out as Stages are pushed and popped from the backs
 Screenplay selects animations to play based on the direction of navigation (forward/back) and the state of the Stage (incoming/outgoing). Animations can be specified through XML or code.
 
 **Component-oriented architecture:**
-Each Stage be augmented with Components, which are notified of lifecycle events. Components provide a modular way of attaching behavior to a Stage, encouraging code reuse and separation of concerns.
+Each Stage can be augmented with Components, which are notified of lifecycle events. Components provide a modular way of attaching behavior to a Stage, encouraging code reuse and separation of concerns.
 
 **Separation of display and presentation:**
 You don't need to put any business logic in `View` subclasses in a Screenplay application. Screenplay's powerful component-oriented architecture makes it easy to separate view presentation from display.
