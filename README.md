@@ -184,7 +184,7 @@ public class HorizontalSlideRigger extends TweenRigger {
 
 Screenplay provides two Rigger implementations to extend from: `TweenRigger` and `AnimatorRigger`. TweenRigger uses the [Animation](http://developer.android.com/reference/android/view/animation/Animation.html) class to create a transition, while the AnimatorTransition uses the [Animator](http://developer.android.com/reference/android/animation/Animator.html) class.
 
-###4. Boilerplate
+###4. Working with Flow
 
 #####4.1 Bootstrapping with Flow
 
