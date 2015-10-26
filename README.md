@@ -40,10 +40,7 @@ Screenplay includes optional support for [Flow](https://github.com/square/flow) 
 
 ###2. Sample Code
 
-The easiest way to get a feel for Screenplay is to dive into the code. Two sample projects are available:
-
-1. The [simple sample project](https://github.com/weefbellington/screenplay/tree/master/sample-simple) is the recommended place to start. Here you will find a minimally complex Screenplay application which showcases some of its features.
-2. The [Dagger 2 sample project](https://github.com/weefbellington/screenplay/tree/master/sample-dagger2) is the same application with a DI-oriented structure, if dependency injecton is your cup of tea.
+The easiest way to get a feel for Screenplay is to dive into the code. The [simple sample project](https://github.com/weefbellington/screenplay/tree/master/sample-simple) is the recommended place to start. Here you will find a minimally complex Screenplay application which showcases some of its features.
 
 ###3. Stages, Components and Transitions
 
@@ -51,7 +48,9 @@ The Stage is the core of the Screenplay navigation flow. Its responsibilities ar
 
 #####3.1 Navigating between Stages
 
-Using the Flow plugin, Screenplay can react to navigation events. The following provide a few examples of manipulating the backstack; refer to the [Flow documentation](http://corner.squareup.com/2014/01/mortar-and-flow.html) for futher information.
+Screenplay doesn't manage the backstack itself; instead it delegates this responsibility to tested 3rd party libraries. The [Flow plugin](https://github.com/weefbellington/screenplay/tree/flow-plugin-library/flow-plugin) is the current officially supported method. See Section (6.2) for details.
+
+The following provide a few examples of manipulating the backstack using Flow. Refer to the [Flow documentation](http://corner.squareup.com/2014/01/mortar-and-flow.html) for futher information.
 
 ```java
     flow.set(new DetailStage(data), Flow.Direction.FORWARD); // add a stage
@@ -62,9 +61,11 @@ Using the Flow plugin, Screenplay can react to navigation events. The following 
 
 It is recommended that you use a single Flow instance throughout the application. See Section (4.1) for more details.
 
+It's entirely possible to manage the backstack without using Flow, or to write your own navigation plugin. A call to `Screenplay#dispatch` will trigger a screenplay navigation event; see the (ScreenplayDispatcher)[https://github.com/weefbellington/screenplay/blob/flow-plugin-library/flow-plugin/src/main/java/com/davidstemmer/flow/plugin/screenplay/ScreenplayDispatcher.java] class in the flow-plugin library for an example.
+
 #####3.2 The Stage lifecycle 
 
-As previously noted, the Stage has only a few responsibilities: creating a View (`Stage#setUp`), destroying a View (`Stage#tearDown`) and getting the current view (`Stage#getView`).
+The Stage has only a few responsibilities: creating a View (`Stage#setUp`), destroying a View (`Stage#tearDown`) and getting the current view (`Stage#getView`).
 
 A Stage's lifecycle is easy to understand. For an incoming Stage, setup happens in three discrete phases:
 
@@ -181,7 +182,7 @@ Screenplay provides two Rigger implementations to extend from: `TweenRigger` and
 
 ###4. Boilerplate
 
-#####4.1 Bootstrapping (Flow)
+#####4.1 Bootstrapping with Flow
 
 You only need a little bit of boilerplate to bootstrap a Screenplay application. If you're using the Flow plugin, you'll need to create your main Flow. To ensure that the Flow object survives configuration changes, you can put it in a singleton class, or you can parcel the history object and recreate your Flow with each configuration change. We'll take the former approach here:
 
@@ -223,7 +224,7 @@ public class MainActivity extends Activity {
 }
 ```
 
-#####4.2 Handling Activity lifecycle events (Flow)
+#####4.2 Handling Activity lifecycle events with Flow
 
 1. When the Activity is destroyed, you must call `ScreenplayDispatcher#tearDown`. This performs cleanup actions such as calling `Screenplay#tearDownVisibleStages`, ensuring that your components receive the correct callbacks.
 2. Override onBackPressed to route back button to the dispatcher:
@@ -238,11 +239,9 @@ public class MainActivity extends Activity {
 }
 ```
 
-#####4.3 Managing configuration changes
-
-By default, when a configuration change occurs, when `Screenplay#tearDownVisibleStages` is called, each Stage's view is released and a new one is created. If instead you would like a Stage and its view to be retained on configuration changes, override `Stage.teardownOnConfigurationChanges` to return `false`. Keep in mind that setting this to `false` means that the XML for the view will not be reloaded when a configuration change occurs.
-
 ###5. Odds and ends
+
+#####5.1 Checking the transition state
 
 The Screenplay object also exposes a `isTransitioning` method. This is useful for preventing multiple
 button presses while two Stages are in transition:
@@ -259,23 +258,46 @@ button presses while two Stages are in transition:
     }
 ```
 
-###6. Download
+#####5.2 Configuration changes
 
-Screenplay is currently available as a beta snapshot. Grab it via Maven:
+By default, when a configuration change occurs, when `Screenplay#tearDownVisibleStages` is called, each Stage's view is released and a new one is created. If instead you would like a Stage and its view to be retained on configuration changes, override `Stage.teardownOnConfigurationChanges` to return `false`. Keep in mind that setting this to `false` means that the XML for the view will not be reloaded when a configuration change occurs.
+
+###6. Downloads
+
+#####6.1 Main project download
+
+Use Maven to add Screenplay to your project:
 
 ```xml
 <dependency>
-    <groupId>com.davidstemmer</groupId>
+    <groupId>com.davidstemmer.screenplay</groupId>
     <artifactId>screenplay</artifactId>
-    <version>0.6.2-SNAPSHOT</version>
-    <type>aar</type>
+    <version>1.0.0</version>
 </dependency>
 ```
 
 or Gradle:
 
 ```groovy
-compile 'com.davidstemmer:screenplay:0.6.2-SNAPSHOT'
+compile 'com.davidstemmer.screenplay:screenplay:1.0.0'
+```
+
+#####6.2 Flow plugin download
+
+The flow-plugin provides a ScreenplayDispatcher that allows you to use Flow to manage the backstack. The version is pegged to the most recent version of Flow. Use maven to add it to your project:
+
+```xml
+<dependency>
+    <groupId>com.davidstemmer.screenplay</groupId>
+    <artifactId>flow-plugin</artifactId>
+    <version>0.12</version>
+</dependency>
+```
+
+or Gradle:
+
+```groovy
+compile 'com.davidstemmer.screenplay:flow-plugin:0.12'
 ```
 
 For Gradle, you'll have to add the Sonatype OSS snapshot repo to your build script:
@@ -289,9 +311,9 @@ repositories {
 ```
 
 ###7. Contributing
-TODO
+Contributions are welcome! Please open an issue in the github issue tracker to discuss bugs and new feature requests.
 
 ###8. Acknowledgements
 
 Many thanks to the team at Square for their support of the open-source community, without which this
-project wouldn't be possible.
+project wouldn't be possible. Thanks especially to the team at Square for creating Flow, which was the original inspiration for this project.
