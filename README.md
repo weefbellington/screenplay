@@ -268,6 +268,8 @@ By default, when a configuration change occurs, when `Screenplay#tearDownVisible
 
 ###6. Downloads
 
+Screenplay is available via Maven from the jcenter repo.
+
 #####6.1 Main project download
 
 Use Maven to add Screenplay to your project:
@@ -302,16 +304,6 @@ or Gradle:
 
 ```groovy
 compile 'com.davidstemmer.screenplay:flow-plugin:0.12'
-```
-
-For Gradle, you'll have to add the Sonatype OSS snapshot repo to your build script:
-
-```groovy
-repositories {
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots"
-    }
-}
 ```
 
 ###7. Contributing
