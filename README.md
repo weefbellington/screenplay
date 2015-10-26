@@ -1,13 +1,13 @@
 
 ```
-=======================================================================================
-+++++++++ SCREENPLAY + A minimalist application framework for Android +++++++++++++++++
-=======================================================================================
+===========================================================================================
++++++++++ SCREENPLAY + A minimalist, View-based application framework for Android +++++++++ 
+===========================================================================================
 ```
 
 ###1. What is Screenplay?
 
-Screenplay is a tiny, moderately opinionated Android application framework. It is designed for building apps with a particular kind of architecture: **single-activity**, with **no fragments**, **no dialogs**, and **small classes**.
+Screenplay is a tiny, moderately opinionated Android application framework. It is designed for building View-based apps with a particular kind of architecture: **single-activity**, with **no fragments**, **no dialogs**, and **small classes**.
 
 It is driven by a few core principles:
 
@@ -18,10 +18,10 @@ It is driven by a few core principles:
 Screenplay makes it possible to run all of the application code in a single Activity, without relying on Fragments. It provides a number of tools for building lean, simple apps:
 
 **A unifying UI abstraction:**
-Screenplay applications are built out of objects called Stages. The role of the Stage is the role is similar to an Activity, Dialog or Fragment in another application. A in your app may consist of a single full-screen Stage and multiple modal (floating) Stages. Modal Stages can be used to create effects like dialogs, drawers, panels, etc.
+The building block of a screenplay application is the Stage. Each Stage is associated with single View. Simple screens consist of a single Stage. In more complex screens, floating stages can be used to create effects like dialogs, drawers, panels, etc.
 
 **Lightweight objects:**
-Unlike Activities, Fragments or Dialogs, each Stage is a POJO (Plain Old Java Object). No factory methods required: there's no need to serialize data into a `Bundle`, or write a `Parcelable` implementation.  Just create `new Stage(...)`, pass it some arguments, and you're good to go. As a result, Screenplay is DI-friendly; [Dagger](https://github.com/square/dagger) is a fun partner.
+Unlike Activities, Fragments or Dialogs, each Stage is a POJO (Plain Old Java Object). There are no factory methods, and no need to serialize data into a `Bundle`, or write a `Parcelable` implementation just to pass data between screens.  Just create `new Stage(...)`, pass it some arguments, and you're good to go. As a result, Screenplay is DI-friendly; [Dagger](https://github.com/square/dagger) is a fun partner.
 
 **View hot swapping:**
 Screenplay swaps Views in and out as Stages are pushed and popped from the backstack. Views are removed from their parent when they are no longer needed to avoid leaking memory.
@@ -30,10 +30,10 @@ Screenplay swaps Views in and out as Stages are pushed and popped from the backs
 Screenplay selects animations to play based on the direction of navigation (forward/back) and the state of the Stage (incoming/outgoing). Animations can be specified through XML or code.
 
 **Component-oriented architecture:**
-Each Stage can have zero or more Components, which are notified of Stage lifecycle events. Components provide a modular way of attaching behavior to a Stage, encouraging code reuse and separation of concerns.
+Each Stage be augmented with Components, which are notified of lifecycle events. Components provide a modular way of attaching behavior to a Stage, encouraging code reuse and separation of concerns.
 
 **Separation of display and presentation:**
-You don't need to extend any custom `View` subclasses in a Screenplay application. Screenplay's powerful component-oriented architecture makes it easy to separate view presentation from display.
+You don't need to put any business logic in `View` subclasses in a Screenplay application. Screenplay's powerful component-oriented architecture makes it easy to separate view presentation from display.
 
 **Plugin support:**
 Screenplay includes optional support for [Flow](https://github.com/square/flow) which is provided as a separate module. Flow provides an interface for managing the backstack, including pushing and popping new Stages from the stack, managing the history, etc.
