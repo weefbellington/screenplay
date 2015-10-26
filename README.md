@@ -315,7 +315,7 @@ repositories {
 ```
 
 ###7. Contributing
-Contributions are welcome! Please open an issue in the github issue tracker to discuss bugs and new feature requests.
+Contributions are welcome! Please open an issue in the github issue tracker to discuss bugs and new feature requests. For simple questions, try our live chat on Gitter: https://gitter.im/weefbellington/screenplay.
 
 ###8. Acknowledgements
 
