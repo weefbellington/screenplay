@@ -22,7 +22,7 @@ It is driven by a few core principles:
 Screenplay makes it possible to run all of the application code in a single Activity, without relying on Fragments. It provides a number of tools for building lean, simple apps:
 
 **A unifying UI abstraction:**
-The building block of a screenplay application is the Stage. Each Stage is associated with single View. Simple screens consist of a single Stage. In more complex scenarios, floating stages can be used to create effects like dialogs, drawers, panels, etc.
+The building block of a screenplay application is the Stage. Each Stage is associated with single View. Simple screens consist of a single Stage. In more complex scenarios, modals stages can be used to create effects like dialogs, drawers, panels, etc.
 
 **Lightweight objects:**
 Unlike Activities, Fragments or Dialogs, each Stage is a POJO (Plain Old Java Object). There are no factory methods, and no need to serialize data into a `Bundle`, or write a `Parcelable` implementation just to pass data between screens.  Just create `new Stage(...)`, pass it some arguments, and you're good to go. As a result, Screenplay is DI-friendly; [Dagger](https://github.com/square/dagger) is a fun partner.
