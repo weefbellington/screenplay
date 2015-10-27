@@ -21,13 +21,13 @@ When people talk about View-based Android applications, they usually mean an app
 
 #####What's the catch?
 
-The downside of View-based development is that there's a lot of things you no longer get for "free". The backstack is one thing that you leave behind. Other parts that you need to manage yourself include: attaching and detaching views from their container, animating transitions between Views, and attaching behavior to each screen view.
+The downside of View-based development is that there's a lot of things you no longer get for "free". The backstack is one thing that you leave behind. Other parts that you need to manage yourself include attaching and detaching views from their container and animating transitions between Views. There's a surprisingly large amount of bookkeeping associated with these tasks.
 
 #####Hasn't somebody already figured out this stuff?
 
-Libraries like [Flow](https://github.com/square/flow) have been created to address the problem of the missing backstack. Screenplay is designed to handle the rest of in the equation.
+Libraries like [Flow](https://github.com/square/flow) have been created to address the problem of the missing backstack. Screenplay is designed to handle the rest of the equation.
 
-#####So what does it do?
+#####What's the rest of the equation?
 
 I'm glad you asked! The Screenplay manages a number of things for you:
 
