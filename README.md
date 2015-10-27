@@ -15,13 +15,13 @@
 
 Screenplay is a tiny, moderately opinionated Android application framework. It is designed for building View-based apps with a particular kind of architecture: **single-activity**, with **no fragments**, **no dialogs**, and **small classes**.
 
-#####Wait, what's a View-based application? What are the upsides?
+#####Wait, what's a View-based application?
 
 When people talk about View-based Android applications, they usually mean an application that doesn't use multiple Activities or Fragments. Instead, it uses few Activities -- often just one -- and creates screen transition effects by swapping views on and off the screen. Many voices have in the Android community have lobbied [in favor of View-based applications](https://corner.squareup.com/2014/10/advocating-against-android-fragments.html), to some degree of controversy. The idea is that by programming directly with Views, you can avoid a lot of the complexity that is associated with the Activity/Fragment lifecycle.
 
-#####What are the downsides?
+#####What's the catch?
 
-The downside of View-based development is that there's a lot of things you no longer get "for free". A backstack is one thing that you leave behind. Other parts that you need to manage yourself include: animations, a system for attaching/detaching views from the screen, and where to put your "business logic" -- where does presentation code go once you get rid of `onCreate/onActivityCreated`?
+The downside of View-based development is that there's a lot of things you no longer get for "free". The backstack is one thing that you leave behind. Other parts that you need to manage yourself include: attaching and detaching views from their container, animating transitions between Views, and attaching behavior to each screen view.
 
 #####Hasn't somebody already figured out this stuff?
 
