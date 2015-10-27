@@ -31,9 +31,9 @@ Libraries like [Flow](https://github.com/square/flow) have been created to addre
 
 I'm glad you asked! The Screenplay manages a number of things for you:
 
-1. It acts as a controller for your Views, managing View creation and automatically detaching Views from the screen when they are no longer needed.
-2. It also animates between Views during screen transitions
-3. It and provides a component-oriented interface which applies behavior to screens. The modular architecture encourages separation of View display from presentation.
+1. It acts as a controller for your Views, automatically creating and detaching Views from the screen when they are no longer needed.
+2. It animates between Views during screen transitions.
+3. It provides a component-oriented architecture which can be used to apply to bind behavior to screen views.
 
 ###2. Core principles
 
