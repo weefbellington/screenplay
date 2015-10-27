@@ -25,7 +25,15 @@ The downside of View-based development is that there's a lot of things you no lo
 
 #####Hasn't somebody already figured out this stuff?
 
-Libraries like [Flow](https://github.com/square/flow) have been created to address the problem of the missing backstack. Screenplay is designed to handle the rest of in the equation. It acts as a controller for your Views, managing View creation and automatically detaching Views from the screen when they are no longer needed. Screenplay also animates between Views during screen transitions, and provides a component-oriented interface which applies behavior to screens and enables separation of View display from presentation.
+Libraries like [Flow](https://github.com/square/flow) have been created to address the problem of the missing backstack. Screenplay is designed to handle the rest of in the equation.
+
+#####So what does it do?
+
+I'm glad you asked! The Screenplay manages a number of things for you:
+
+1. It acts as a controller for your Views, managing View creation and automatically detaching Views from the screen when they are no longer needed.
+2. It also animates between Views during screen transitions
+3. It and provides a component-oriented interface which applies behavior to screens. The modular architecture encourages separation of View display from presentation.
 
 ###2. Core principles
 
