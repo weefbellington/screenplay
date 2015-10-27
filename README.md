@@ -33,7 +33,7 @@ I'm glad you asked! The Screenplay manages a number of things for you:
 
 1. It acts as a controller for your Views, automatically creating and detaching Views from the screen when they are no longer needed.
 2. It animates between Views during screen transitions.
-3. It provides a component-oriented architecture which can be used to apply to bind behavior to screen views.
+3. It provides a component-oriented architecture which can be used to bind behavior to screen views.
 
 ###2. Core principles
 
