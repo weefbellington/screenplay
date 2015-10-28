@@ -39,10 +39,10 @@ public class ScreenplayDispatcher implements Flow.Dispatcher {
 
         if (isFirstDispatch) {
             Deque<Stage> empty = emptyQueue();
-            screenplay.dispatch(Screenplay.Direction.NONE, empty, destination, new TransitionCallback(callback));
+            screenplay.transition(Screenplay.Direction.NONE, empty, destination, new TransitionCallback(callback));
         }
         else if (!difference.isEmpty()) {
-            screenplay.dispatch(direction,origin, destination, new TransitionCallback(callback));
+            screenplay.transition(direction, origin, destination, new TransitionCallback(callback));
         }
         else {
             callback.onTraversalCompleted();

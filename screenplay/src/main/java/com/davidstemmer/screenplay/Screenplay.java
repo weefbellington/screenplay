@@ -32,10 +32,10 @@ public class Screenplay {
         NONE, FORWARD, BACKWARD, REPLACE
     }
 
-    public void dispatch(Direction direction,
-                         Deque<Stage> origin,
-                         Deque<Stage> destination,
-                         TransitionCallback callback) {
+    public void transition(Direction direction,
+                           Deque<Stage> origin,
+                           Deque<Stage> destination,
+                           TransitionCallback callback) {
 
         final Deque<Stage> scenesIn = extractIncomingScenes(direction, origin, destination);
         final Deque<Stage> scenesOut = extractOutgoingScenes(direction, origin, destination);
