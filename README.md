@@ -1,8 +1,8 @@
 
 ```
-===================================================================================
-+++++ SCREENPLAY + A minimalist, View-based application framework for Android +++++
-===================================================================================
+=============================================================================================
+++++++++++ SCREENPLAY + A minimalist, View-based application framework for Android ++++++++++
+=============================================================================================
 ```
 
 [![Join the chat at https://gitter.im/weefbellington/screenplay](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/weefbellington/screenplay?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
