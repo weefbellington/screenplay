@@ -41,19 +41,9 @@ Taken together, these components provide a baseline for View-based application d
 
 The easiest way to get a feel for Screenplay is to dive into the code, and the [sample project](https://github.com/weefbellington/screenplay/tree/master/sample-simple) is the recommended place to start. Here you will find a minimally complex Screenplay application which showcases some of its features.
 
-###The wiki
+###The wiki: your best friend
 
-Check out the wiki for more detailed information about Screenplay development: https://github.com/weefbellington/screenplay/wiki
-
-Quick links:
-
-1. [Core features](Core-features)
-2. [The Stage class](The-Stage-class)
-3. [The Stage.Rigger class](The-Stage.Rigger-class)
-4. [The Stage.Component class](The-Stage.Component-class)
-5. [The Flow plugin](The-Flow-plugin)
-6. Implementing your own plugins
-7. [Odds and ends](Odds-and-ends)
+The main screenplay documentation has moved to the wiki: https://github.com/weefbellington/screenplay/wiki. If reading the manual back to front it your type of thing, you can start by reading about [Core features](https://github.com/weefbellington/screenplay/wiki/Core-features)
 
 ###Downloads
 
