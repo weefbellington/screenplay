@@ -29,9 +29,9 @@ Libraries like [Flow](https://github.com/square/flow) have been created to addre
 
 Screenplay is designed to take the pain out of View-based application development. It consists of the following parts:
 
-1. A View controller (the `Rigger` class) for automatically attaching and detaching Views from the screen.
+1. A View controller (the `Screenplay` class) for automatically attaching and detaching Views from the screen.
 1. Lightweight view container objects (the `Stage` class) that can be used to create full-screen views, dialogs, drawers, and panels.
-1. A declarative approach to animated View transitions (the `Stage.Transition` class).
+1. A declarative approach to animated View transitions (the `Stage.Rigger` class).
 1. A component-oriented architecture which can be used to bind behavior to view containers (the `Stage.Component` class).
 1. Navigation, routing and backstack management, via the Flow plugin or your own custom logic.
 
