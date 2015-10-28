@@ -37,7 +37,7 @@ Screenplay is designed to take the pain out of View-based application developmen
 1. A component-oriented architecture which can be used to bind behavior to view containers (the `Stage.Component` class).
 1. Navigation, routing and backstack management, via the Flow plugin.
 
-Taken together, these components provide a baseline for View-based application development. Screenplay reduces boilerplate, providing a straightforward, modular approach to building applications that is accessible to junior and senior developers alike.
+Taken together, these components provide a baseline for View-based application development. Screenplay reduces boilerplate, providing a straightforward, modular approach to building applications. It is designed to be accessible to junior and senior developers alike, with a structure that encourages separation of view presentation from display.
 
 ###2. Core principles
 
