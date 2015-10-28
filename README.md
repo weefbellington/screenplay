@@ -9,7 +9,6 @@
 +++++++ SCREENPLAY + A minimalist, View-based application framework for Android +++++++
 =======================================================================================
 ```
----
 
 Screenplay is a tiny, moderately opinionated Android application framework. It is designed for building View-based apps with a particular kind of architecture: **single-activity**, with **no fragments**, **no dialogs**, and **small classes**. Here's a preview:
 
