@@ -4,7 +4,7 @@
 +++++++ SCREENPLAY + A minimalist, View-based application framework for Android +++++++
 =======================================================================================
 ```
-*Questions or just want to say hello? Try our Gitter chat!*   [![Join the chat at https://gitter.im/weefbellington/screenplay](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/weefbellington/screenplay?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+*Questions or just want to say hello? Try our Gitter chat!* > [![Join the chat at https://gitter.im/weefbellington/screenplay](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/weefbellington/screenplay?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 
 *Don't forget about [the wiki](https://github.com/weefbellington/screenplay/wiki/Table-of-contents). If you're coming from an older version, check out the [CHANGELOG](https://github.com/weefbellington/screenplay/blob/master/CHANGELOG.md).*
