@@ -41,7 +41,7 @@ Taken together, these components provide a baseline for View-based application d
 
 The easiest way to get a feel for Screenplay is to dive into the code, and the [sample project](https://github.com/weefbellington/screenplay/tree/master/sample-simple) is the recommended place to start. Here you will find a minimally complex Screenplay application which showcases some of its features.
 
-###The wiki: your best friend
+###Your best friend, the wiki
 
 The main screenplay documentation has moved to the wiki: https://github.com/weefbellington/screenplay/wiki. If reading the manual back to front it your type of thing, you can start by reading about [Core features](https://github.com/weefbellington/screenplay/wiki/Core-features)
 
