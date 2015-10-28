@@ -1,5 +1,4 @@
 ## 1.0.0 CHANGELOG
----
 
 **API breaks**
 
@@ -18,19 +17,16 @@
 - Move various parts of the README to a wiki
 
 ## 0.6.4 CHANGELOG
----
 
 Fix bug in which the initial scene's `tearDown` method was never being called (issue #91)
 
 ## 0.6.3 CHANGELOG
----
 
 - throw an exception when trying to add a scene to the backstack twice (issue #56)
 - add support for methods that add or remove multiple: `Flow#forward`, `Flow#backward` and `Flow#resetTo` now work correctly (issue #84)
 - add workaround for `Attempt to read from field 'int android.view.View.mViewFlags' on a null object reference` crash (issue #88)
 
 ## 0.6.2 CHANGELOG
----
 
 *Bug fixes*
 
@@ -38,7 +34,6 @@ Fix issue where not all views were being removed when `replaceTo` was called wit
 showing.
 
 ## 0.6.1 CHANGELOG
----
 
 **New features**
 
@@ -63,7 +58,6 @@ destroyed.
 triggers teardown callbacks on scenes that remain on the backstack.
 
 ## 0.6.0 CHANGELOG
----
 
 **New features**
 
@@ -105,6 +99,5 @@ instead.
 
 
 ## 0.5.3 CHANGELOG
----
 
 - Begin version tracking
