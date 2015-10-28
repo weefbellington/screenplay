@@ -1,3 +1,19 @@
+## 1.0.0 CHANGELOG
+
+**API breaks**
+- Remove `Stage.java`, `MutableStage.java` and `ImmutableStage.java`
+- `Scene.java` renamed to `Stage.java` to avoid conflicting with the Android [Scene](https://developer.android.com/intl/ko/reference/android/transition/Scene.html) class
+- `Scene.Transformer` renamed to `Stage.Rigger` to avoid conflicting with various other class names
+- `Scene.Component` moved to `Stage.Component`.
+- Various components removed
+- Mortar sample project removed
+- Package structure changed
+- Flow-specific concerns moved to a plugin
+- Removed some helper methods from the Screenplay class
+
+**Other changes
+- Move various parts of the README to a wiki
+
 ## 0.6.4 CHANGELOG
 
 Fix bug in which the initial scene's `tearDown` method was never being called (issue #91)
