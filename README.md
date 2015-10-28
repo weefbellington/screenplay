@@ -17,23 +17,27 @@ Screenplay is a tiny, moderately opinionated Android application framework. It i
 
 #####Wait, what's a View-based application?
 
-When people talk about View-based Android applications, they usually mean an application that doesn't use multiple Activities or Fragments. Instead, it uses few Activities -- often just one -- and creates screen transition effects by swapping views on and off the screen. Many in the Android community have lobbied [in favor of View-based applications](https://corner.squareup.com/2014/10/advocating-against-android-fragments.html). The idea is that by programming directly with Views, you can avoid a lot of the complexity that is associated with the Activity/Fragment lifecycle.
+When people talk about View-based Android applications, they usually mean an application that doesn't use multiple Activities or Fragments. Instead, it uses few Activities -- often just one -- and creates screen transition effects by swapping views on and off the screen. Many in the Android community have lobbied [in favor of View-based applications](https://corner.squareup.com/2014/10/advocating-against-android-fragments.html). The idea is that by programming directly with Views, you can avoid a lot of the complexity and indirection that is associated with the Android application lifecycle.
 
 #####What's the catch?
 
-The downside of View-based development is that there's a lot of things you no longer get for "free". The backstack is one thing that you leave behind. Other parts that you need to manage yourself include attaching and detaching views from their container and animating transitions between Views. There's a surprisingly large amount of bookkeeping associated with these tasks.
+The downside of View-based development is that there's a lot of things you no longer get for free. The backstack is one thing that gets left behind when you're building apps out of straight Views instead of Activities or Fragments. There's a surprisingly large amount of bookeeping associated attaching and detaching views from the screen, and playing animated transitions can get quite complicated.
 
 #####Hasn't somebody already figured out this stuff?
 
 Libraries like [Flow](https://github.com/square/flow) have been created to address the problem of the missing backstack. Screenplay is designed to handle the rest of the equation.
 
-#####What's the rest of the equation?
+#####So what the heck can this library do for me?
 
-I'm glad you asked! The Screenplay manages a number of things for you:
+Screenplay is designed to take the pain out of View-based application development. It consists of the following parts:
 
-1. It acts as a controller for your Views, automatically creating and detaching Views from the screen when they are no longer needed.
-2. It animates between Views during screen transitions.
-3. It provides a component-oriented architecture which can be used to bind behavior to screen views.
+1. A View controller (the `Rigger` class) for automatically attaching and detaching Views from the screen.
+1. Lightweight view container objects (the `Stage` class) that can be used to create full-screen views, dialogs, drawers, and panels.
+1. Animations between Views during screen transitions (the `Stage.Transition` class).
+1. A component-oriented architecture which can be used to bind behavior to view containers (the `Stage.Component` class).
+1. Navigation, routing and backstack management, via the Flow plugin.
+
+Taken together, these components provide a baseline for View-based application development. Screenplay is intended to help you reduce boilerplate, providing a straightforward, modular approach to building applications that is accessible to junior and senior developers alike.
 
 ###2. Core principles
 
