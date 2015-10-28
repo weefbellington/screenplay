@@ -1,15 +1,14 @@
 
+*Questions or just want to say hello? Try our Gitter chat!*&nbsp;&nbsp;&nbsp;[![Join the chat at https://gitter.im/weefbellington/screenplay](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/weefbellington/screenplay?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+*Don't forget about [the wiki](https://github.com/weefbellington/screenplay/wiki/Table-of-contents). If you're coming from an older version, check out the
+[CHANGELOG](https://github.com/weefbellington/screenplay/blob/master/CHANGELOG.md).*
+
 ```
 =======================================================================================
 +++++++ SCREENPLAY + A minimalist, View-based application framework for Android +++++++
 =======================================================================================
 ```
-*Questions or just want to say hello? Try our Gitter chat!*&nbsp;&nbsp;&nbsp;[![Join the chat at https://gitter.im/weefbellington/screenplay](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/weefbellington/screenplay?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-
-*Don't forget about [the wiki](https://github.com/weefbellington/screenplay/wiki/Table-of-contents). If you're coming from an older version, check out the
-[CHANGELOG](https://github.com/weefbellington/screenplay/blob/master/CHANGELOG.md).*
-
 ---
 
 Screenplay is a tiny, moderately opinionated Android application framework. It is designed for building View-based apps with a particular kind of architecture: **single-activity**, with **no fragments**, **no dialogs**, and **small classes**. Here's a preview:
