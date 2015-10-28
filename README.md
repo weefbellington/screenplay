@@ -37,38 +37,7 @@ Screenplay is designed to take the pain out of View-based application developmen
 
 Taken together, these components provide a baseline for View-based application development. Screenplay reduces boilerplate, providing a straightforward, modular approach to building applications. It is designed to be accessible to junior and senior developers alike, with a structure that encourages separation of view presentation from display.
 
-###2. Core principles
-
-Screenplay is driven by a few core principles:
-
-1. Low complexity: monolithic UI components with [complex lifecycles](https://github.com/xxv/android-lifecycle) are bad and should be avoided.
-2. Low friction: objects should be easy to create, and it should be easy to pass data between them.
-3. High modularity: applications should be built out of small, reusable parts.
-
-Screenplay makes it possible to run all of the application code in a single Activity, without relying on Fragments. It provides a number of tools for building lean, simple apps:
-
-**A unifying UI abstraction:**
-The building block of a screenplay application is the Stage. Each Stage is associated with single View. Simple screens consist of a single Stage. In more complex scenarios, modal stages can be used to create effects like dialogs, drawers, panels, etc.
-
-**Lightweight objects:**
-Unlike Activities, Fragments or Dialogs, each Stage is a POJO (Plain Old Java Object). There are no factory methods, and no need to serialize data into a `Bundle`, or write a `Parcelable` implementation just to pass data between screens.  Just create `new Stage(...)`, pass it some arguments, and you're good to go. As a result, Screenplay is DI-friendly; [Dagger](https://github.com/square/dagger) is a fun partner.
-
-**View hot swapping:**
-Screenplay swaps Views in and out as Stages are pushed and popped from the backstack. Views are removed from their parent when they are no longer needed to avoid leaking memory.
-
-**Animated transitions:**
-Screenplay selects animations to play based on the direction of navigation (forward/back) and the state of the Stage (incoming/outgoing). Animations can be specified through XML or code.
-
-**Component-oriented architecture:**
-Each Stage can be augmented with Components, which are notified of lifecycle events. Components provide a modular way of attaching behavior to a Stage, encouraging code reuse and separation of concerns.
-
-**Separation of display and presentation:**
-You don't need to put any business logic in `View` subclasses in a Screenplay application. Screenplay's powerful component-oriented architecture makes it easy to separate view presentation from display.
-
-**Plugin support:**
-Screenplay includes optional support for [Flow](https://github.com/square/flow) which is provided as a separate module. Flow provides an interface for managing the backstack, including pushing and popping new Stages from the stack, managing the history, etc.
-
-###3. Sample Code
+###Show me the code
 
 The easiest way to get a feel for Screenplay is to dive into the code, and the [sample project](https://github.com/weefbellington/screenplay/tree/master/sample-simple) is the recommended place to start. Here you will find a minimally complex Screenplay application which showcases some of its features.
 
