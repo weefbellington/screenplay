@@ -38,18 +38,18 @@ public class ExampleStage extends Stage {
         public void afterSetUp(Stage stage, boolean isInitializing) {
             View parent = stage.getView();
             View nextButton = parent.findViewById(R.id.next);
-            nextButton.setOnClickListener(showNextScene);
+            nextButton.setOnClickListener(showNextStage);
         }
 
         @Override
         public void beforeTearDown(Stage stage, boolean isFinishing) {}
 
-        private View.OnClickListener showNextScene = new View.OnClickListener() {
+        private View.OnClickListener showNextStage = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // add a new scene to the history and trigger a transition
                 Flow flow = application.getMainFlow();
-                flow.set(new NextScene(application));
+                flow.set(new NextStage(application));
             }
         };
     }
@@ -80,27 +80,20 @@ Screenplay is designed to take the pain out of View-based application developmen
 
 Taken together, these components provide a baseline for View-based application development. Screenplay reduces boilerplate, providing a straightforward, modular approach to building applications. It is designed to be accessible to junior and senior developers alike, with a structure that encourages separation of view presentation from display.
 
-```
-=======================================================================================
-+++++++ Show me the code! +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-=======================================================================================
-```
+####Show me the code!
+---
 
 The easiest way to get a feel for Screenplay is to dive into the code, and the [sample project](https://github.com/weefbellington/screenplay/tree/master/sample-simple) is the recommended place to start. Here you will find a minimally complex Screenplay application which showcases some of its features.
 
-```
-=======================================================================================
-+++++++ Your best friend, the wiki ++++++++++++++++++++++++++++++++++++++++++++++++++++
-=======================================================================================
-```
+
+####Your best friend, the wiki
+---
+
 
 The main screenplay documentation has moved to the wiki. Start with the [table of contents](https://github.com/weefbellington/screenplay/wiki/Table-of-Contents), or reading the manual back to front it your type of thing, you can start by reading about [core features](https://github.com/weefbellington/screenplay/wiki/Core-features).
 
-```
-=======================================================================================
-+++++++ Downloads +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-=======================================================================================
-```
+####Downloads
+---
 
 Screenplay is available via Maven from the jcenter repo.
 
@@ -140,19 +133,12 @@ or Gradle:
 compile 'com.davidstemmer.screenplay:flow-plugin:0.12'
 ```
 
-```
-=======================================================================================
-+++++++ Conributing +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-=======================================================================================
-````
+####Conributing
+---
 
 Contributions are welcome! Please open an issue in the github issue tracker to discuss bugs and new feature requests. For simple questions, try our live chat on Gitter: https://gitter.im/weefbellington/screenplay.
 
-```
-=======================================================================================
-+++++++ Acknowledgements ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-=======================================================================================
-```
-
+####Acknowledgements
+---
 Many thanks to the team at Square for their support of the open-source community, without which this
 project wouldn't be possible. Thanks especially to the team at Square for creating Flow, which was the original inspiration for this project.
