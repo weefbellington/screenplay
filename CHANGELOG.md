@@ -11,7 +11,7 @@
 - Flow-specific concerns moved to a plugin
 - Removed some helper methods from the Screenplay class
 
-**Other changes
+**Other changes**
 - Move various parts of the README to a wiki
 
 ## 0.6.4 CHANGELOG
