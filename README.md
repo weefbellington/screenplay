@@ -43,7 +43,7 @@ The easiest way to get a feel for Screenplay is to dive into the code, and the [
 
 ###Your best friend, the wiki
 
-The main screenplay documentation has moved to the wiki: https://github.com/weefbellington/screenplay/wiki. If reading the manual back to front it your type of thing, you can start by reading about [Core features](https://github.com/weefbellington/screenplay/wiki/Core-features).
+The main screenplay documentation has moved to the wiki: https://github.com/weefbellington/screenplay/wiki. If reading the manual back to front it your type of thing, you can start by reading about [core features](https://github.com/weefbellington/screenplay/wiki/Core-features).
 
 ###Downloads
 
