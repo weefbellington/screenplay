@@ -21,7 +21,7 @@ When people talk about View-based Android applications, they usually mean an app
 
 #####What's the catch?
 
-The downside of View-based development is that there's a lot of things you no longer get for free. The backstack is one thing that gets left behind when you're building apps out of straight Views instead of Activities or Fragments. There's a surprisingly large amount of bookeeping associated attaching and detaching views from the screen, and playing animated transitions can get quite complicated.
+The downside of View-based development is that there's a lot of things you no longer get for free. The backstack is one thing that gets left behind when you're building apps out of straight Views instead of Activities or Fragments. There's a surprisingly large amount of bookeeping associated attaching and detaching views from the screen, and when you factor in things like animated transitions, stuff gets complicated in a hurry.
 
 #####Hasn't somebody already figured out this stuff?
 
