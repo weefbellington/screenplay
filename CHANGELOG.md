@@ -2,10 +2,11 @@
 
 **API breaks**
 
-- Change `Screenplay#go` -> `Screenplay#transition`
+- Change `Screenplay#go` to `Screenplay#transition`
 - Change `Screenplay#isTransitioning` to return a boolean
 - Remove `Stage.java`, `MutableStage.java` and `ImmutableStage.java`
 - Rename `Scene.java` to `Stage.java` to avoid conflicting with the Android [Scene](https://developer.android.com/intl/ko/reference/android/transition/Scene.html) class
+- Rename `Scene#isStacking` to `Stage#isModal`
 - Rename `Scene.Transformer` to `Stage.Rigger` to avoid conflicting with various other class names
 - Rename `Scene.Component` to `Stage.Component`
 - Various components removed from the library project, such as the `MortarPresenterComponent`
