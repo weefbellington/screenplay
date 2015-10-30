@@ -31,7 +31,7 @@ public class DialogStage extends XmlStage {
     }
 
     @Override
-    public boolean isStacking() {
+    public boolean isModal() {
         return true;
     }
 

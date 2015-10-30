@@ -40,7 +40,7 @@ public class ActionDrawerStage extends XmlStage {
     }
 
     @Override
-    public boolean isStacking() {
+    public boolean isModal() {
         return true;
     }
 
