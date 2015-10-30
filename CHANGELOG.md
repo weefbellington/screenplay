@@ -1,3 +1,22 @@
+## 1.0.0 CHANGELOG
+
+**API breaks**
+
+- Change `Screenplay#go` to `Screenplay#transition`
+- Change `Screenplay#isTransitioning` to return a boolean
+- Remove `Stage.java`, `MutableStage.java` and `ImmutableStage.java`
+- Rename `Scene.java` to `Stage.java` to avoid conflicting with the Android [Scene](https://developer.android.com/intl/ko/reference/android/transition/Scene.html) class
+- Rename `Scene#isStacking` to `Stage#isModal`
+- Rename `Scene.Transformer` to `Stage.Rigger` to avoid conflicting with various other class names
+- Rename `Scene.Component` to `Stage.Component`
+- Various components removed from the library project, such as the `MortarPresenterComponent`
+- Mortar sample project removed
+- Package structure changed
+- Flow-specific concerns moved to a plugin
+
+**Other changes**
+- Move various parts of the README to a wiki
+
 ## 0.6.4 CHANGELOG
 
 Fix bug in which the initial scene's `tearDown` method was never being called (issue #91)
