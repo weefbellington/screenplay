@@ -90,7 +90,7 @@ The easiest way to get a feel for Screenplay is to dive into the code, and the [
 ---
 
 
-The main screenplay documentation has moved to the wiki. View the [table of contents](https://github.com/weefbellington/screenplay/wiki/Table-of-Contents), or reading the manual back to front it your type of thing, you can start by reading about [core features](https://github.com/weefbellington/screenplay/wiki/Core-features).
+The main screenplay documentation has moved to the wiki. View the [table of contents](https://github.com/weefbellington/screenplay/wiki/Home), or reading the manual back to front it your type of thing, you can start by reading about [core features](https://github.com/weefbellington/screenplay/wiki/Core-features).
 
 ####Downloads
 ---
