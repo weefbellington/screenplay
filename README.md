@@ -18,7 +18,7 @@ public class ExampleStage extends Stage {
     private final ExampleApplication application;
     private final Rigger animationRigger;
 
-    public PagedStage1(ExampleApplication application) {
+    public ExampleStage(ExampleApplication application) {
         animationRigger = new CrossfadeRigger(application);
         addComponents(new ClickBindingComponent());
     }
