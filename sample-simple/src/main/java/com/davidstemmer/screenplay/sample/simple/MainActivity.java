@@ -7,20 +7,20 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 
-import com.davidstemmer.screenplay.MutableStage;
-import com.davidstemmer.screenplay.flow.Screenplay;
+import com.davidstemmer.flow.plugin.screenplay.ScreenplayDispatcher;
+import com.davidstemmer.screenplay.sample.simple.scene.WelcomeStage;
 import com.example.weefbellington.screenplay.sample.simple.R;
 
 import flow.Flow;
+import flow.History;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    private MutableStage stage;
     private Flow flow;
-    private Screenplay screenplay;
     private DrawerLayout drawerLayout;
     private DrawerHelper drawerHelper;
+    private ScreenplayDispatcher dispatcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +31,14 @@ public class MainActivity extends ActionBarActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_parent);
         RelativeLayout container = (RelativeLayout) findViewById(R.id.main);
 
-        stage = SampleApplication.getStage();
-        flow = SampleApplication.getMainFlow();
-        screenplay = SampleApplication.getScreenplay();
         drawerHelper = SampleApplication.getDrawerHelper();
+        drawerHelper.bind(this, drawerLayout);
 
-        stage.bind(this, container, flow);
-        drawerHelper.bind(drawerLayout);
-        screenplay.enter();
+        flow = SampleApplication.getMainFlow();
+
+        dispatcher = new ScreenplayDispatcher(this, container);
+        dispatcher.setUp(flow);
+
     }
 
     @Override
@@ -55,6 +55,8 @@ public class MainActivity extends ActionBarActivity {
 
     @Override public void onBackPressed() {
         if (!flow.goBack()) {
+            flow.removeDispatcher(dispatcher);
+            flow.setHistory(History.single(new WelcomeStage(getApplication())), Flow.Direction.REPLACE);
             super.onBackPressed();
         }
     }
@@ -77,8 +79,9 @@ public class MainActivity extends ActionBarActivity {
 
     @Override public void onDestroy() {
         super.onDestroy();
-        screenplay.exit();
-        stage.unbind();
+
+        dispatcher.tearDown(flow);
         drawerHelper.unbind();
     }
+
 }

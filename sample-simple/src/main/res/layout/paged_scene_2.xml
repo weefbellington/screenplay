@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<com.davidstemmer.screenplay.sample.simple.view.PagedView2
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -10,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Each scene also has a Transformer, which animates transitions."
+        android:text="@string/paged_scene_2_text"
         android:textColor="@android:color/white"
         style="@style/TutorialText"/>
     <Button
@@ -22,5 +21,4 @@
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:text="More"/>
-
-</com.davidstemmer.screenplay.sample.simple.view.PagedView2>
+</RelativeLayout>

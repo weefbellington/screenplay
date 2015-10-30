@@ -10,8 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="The previous scene had a horizontal transformer. This scene has a vertical transformer."
+        android:text="@string/paged_scene_3_text"
         android:textColor="@android:color/white"
         style="@style/TutorialText"/>
-
 </RelativeLayout>
