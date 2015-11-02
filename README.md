@@ -142,3 +142,7 @@ Contributions are welcome! Please open an issue in the github issue tracker to d
 ---
 Many thanks to the team at Square for their support of the open-source community, without which this
 project wouldn't be possible. Thanks especially to the team at Square for creating Flow, which was the original inspiration for this project.
+
+Thanks to the Android Arsenal to adding Screenplay to their tool library. If you like Screenplay, please feel free to the badge to your site.
+
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Screenplay-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/2709)
