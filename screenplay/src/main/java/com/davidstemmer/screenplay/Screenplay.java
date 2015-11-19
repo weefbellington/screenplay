@@ -176,6 +176,7 @@ public class Screenplay {
         switch (direction) {
             case NONE:
             case FORWARD:
+            case REPLACE:
                 return true;
             default:
                 return false;

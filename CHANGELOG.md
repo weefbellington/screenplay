@@ -1,3 +1,9 @@
+## 1.0.2 CHANGELOG
+
+**Bug fixes**
+
+Fix issue #104: `isInitializing` returns wrong value when used with REPLACE
+
 ## 1.0.1 CHANGELOG
 
 Maintenance release, removes some outdated class files that were accidentally included in the aar

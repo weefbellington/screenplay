@@ -104,14 +104,14 @@ Use Maven to add Screenplay to your project:
 <dependency>
     <groupId>com.davidstemmer.screenplay</groupId>
     <artifactId>screenplay</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 </dependency>
 ```
 
 or Gradle:
 
 ```groovy
-compile 'com.davidstemmer.screenplay:screenplay:1.0.1'
+compile 'com.davidstemmer.screenplay:screenplay:1.0.2'
 ```
 
 #####Flow plugin download
