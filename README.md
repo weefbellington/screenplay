@@ -58,7 +58,9 @@ public class ExampleStage extends Stage {
 
 #####Hold on, what's a View-based application?
 
-A View-based application is built primarily out of Views, instead of Activities or Fragments. In fact, it's common for view-based applications to have a single Activity. Screen transitions are created by animating views on and off the screen, and removing the views when they're no longer visible. Many in the Android community have lobbied [in favor of View-based applications](https://corner.squareup.com/2014/10/advocating-against-android-fragments.html). The idea is that by programming directly with Views, you can avoid a lot of the complexity and indirection that is associated with the Android application lifecycle.
+A View-based application is built primarily out of Views, instead of Activities or Fragments. It's common for view-based applications to have a single Activity. Screen transitions are created by animating views on and off the screen. Views are removed when they're no longer visible.
+
+Many in the Android community have lobbied [in favor of View-based applications](https://corner.squareup.com/2014/10/advocating-against-android-fragments.html). The idea is that by programming directly with Views, you can avoid a lot of the complexity and indirection that is associated with the Android application lifecycle.
 
 #####What's the catch?
 
