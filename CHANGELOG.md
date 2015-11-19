@@ -1,3 +1,7 @@
+## 1.0.1 CHANGELOG
+
+Maintenance release, removes some outdated class files that were accidentally included in the aar
+
 ## 1.0.0 CHANGELOG
 
 **API breaks**
