@@ -132,7 +132,7 @@ or Gradle:
 compile 'com.davidstemmer.screenplay:flow-plugin:0.12'
 ```
 
-####Conributing
+####Contributing
 ---
 
 Contributions are welcome! Please open an issue in the github issue tracker to discuss bugs and new feature requests. For simple questions, try our live chat on Gitter: https://gitter.im/weefbellington/screenplay.
