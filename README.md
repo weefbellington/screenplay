@@ -17,8 +17,8 @@ Screenplay is a lightweight Android framework for building applications without 
 
 Screenplay provides the following toolkit:
 
-- the **Screenplay** object: a controller that automatically attaches and detaches Views from the screen in response to navigation events.
-- the **Stage** interface: defines a screen. Stages can be configured to be full-screen or display above other screens (like a dialog).
+- the **Screenplay** object: a controller that automatically attaches and detaches Views from the screen in response to navigation events
+- the **Stage** interface: defines a screen. Stages can be configured to be full-screen or display above other screens (like a dialog)
 - the **Stage.Rigger** interface: applies animated transitions to a screen
 - the **Stage.Component** interface: used to apply behavior to screen on attach/detach events
 
@@ -27,7 +27,7 @@ Several implementations for the `Stage`, `Stage.Rigger` and `Stage.Component` ar
 - **XMLStage**: a stage that inflates views from an XML layout file
 - **TweenRigger**: animates screen transitions from an XML animation files
 - **AnimatorRigger**: animates screen transitions with an `android.animation.Animator`
-- **InstanceStateComponent**: saves view state when a screen is detached and restores it on reattach.
+- **InstanceStateComponent**: saves view state when a screen is detached and restores it on reattach
 
 
 Additionally, Screenplay provides plugin support. The current plugins are:
