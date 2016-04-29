@@ -10,16 +10,56 @@
 =====================================================================================
 ```
 
-Screenplay is a tiny Android application framework for View-based applications. Screenplay uses lightweight objects, called Stages, to define the screen flow. Here's an example of a Stage class:
+####What is it?
+---
+
+Screenplay is a lightweight Android framework for building applications without the need for Fragments or multiple Activities. Its feature set is small by design: Screenplay is only concerned with swapping views on the screen and playing animations between them.
+
+Screenplay provides the following toolkit:
+
+- the **Screenplay** object: a controller that automatically attaches and detaches Views from the screen in response to navigation events.
+- the **Stage** interface: defines a screen. Stages can be configured to be full-screen or display above other screens (like a dialog).
+- the **Stage.Rigger** interface: applies animated transitions to a screen
+- the **Stage.Component** interface: used to apply behavior to screen on attach/detach events
+
+Several implementations for the `Stage`, `Stage.Rigger` and `Stage.Component` are also provided out-of-the-box:
+
+- **XMLStage**: a stage that inflates views from an XML layout file
+- **TweenRigger**: animates screen transitions from an XML animation files
+- **AnimatorRigger**: animates screen transitions with an `android.animation.Animator`
+- **InstanceStateComponent**: saves view state when a screen is detached and restores it on reattach.
+
+
+Additionally, Screenplay provides plugin support. The current plugins are:
+
+- **Flow plugin**: provides a `Flow.Dispatcher` that allows screenplay to respond to `Flow` navigation events. See the [wiki page](https://github.com/weefbellington/screenplay/wiki/The-Flow-Plugin) for more info.
+
+
+####Your best friend, the wiki
+---
+
+The main screenplay documentation has moved to the wiki. Start with the [table of contents](https://github.com/weefbellington/screenplay/wiki/Home) or [core features](https://github.com/weefbellington/screenplay/wiki/Core-features).
+
+####Show me the code!
+---
+
+**Want to dive in?**
+
+The [sample project](https://github.com/weefbellington/screenplay/tree/master/sample-simple) is probably the easiest place to start. Here you will find a minimally complex Screenplay application which showcases some of its features.
+
+
+**Clicking too hard?**
+
+Good news! Here is some sample code you can just scroll through.
 
 ```java
 public class ExampleStage extends Stage {
 
     private final ExampleApplication application;
-    private final Rigger animationRigger;
+    private final Rigger rigger;
 
     public ExampleStage(ExampleApplication application) {
-        animationRigger = new CrossfadeRigger(application);
+        rigger = new CrossfadeRigger(application);
         addComponents(new ClickBindingComponent());
     }
 
@@ -30,7 +70,7 @@ public class ExampleStage extends Stage {
 
     @Override
     public Rigger getRigger() {
-        return animationRigger;
+        return rigger;
     }
 
     private class ClickBindingComponent implements Component {
@@ -55,41 +95,6 @@ public class ExampleStage extends Stage {
     }
 }
 ```
-
-#####Hold on, what's a View-based application?
-
-A View-based application is built primarily out of Views, instead of Activities or Fragments. It's common for view-based applications to have a single Activity. Screen transitions are created by animating views on and off the screen. Views are removed when they're no longer visible.
-
-Many in the Android community have lobbied [in favor of View-based applications](https://corner.squareup.com/2014/10/advocating-against-android-fragments.html). The idea is that by programming directly with Views, you can avoid a lot of the complexity and indirection that is associated with the Android application lifecycle.
-
-#####What's the catch?
-
-The downside of View-based development is that there's a lot of things you no longer get for free. The backstack is one thing that gets left behind when you're building apps out of straight Views instead of Activities or Fragments. There's also a surprisingly large amount of bookeeping associated attaching and detaching views from the screen, and when you factor in things like animated transitions, stuff gets complicated in a hurry.
-
-#####This sounds familiar. Hasn't somebody already figured out this stuff?
-
-Libraries like [Flow](https://github.com/square/flow) have been created to address the problem of creating a generic navigation history. That's the first part of the equation: creating a backstack that is indepenedent from the Activity and Fragment lifecycle.
-
-#####What does Screenplay bring to the table?
-
-Screenplay is designed to handle the second part of the equation: taking a specific set of actions when a navigation event occurs. It provides the following components:
-
-1. A View controller (the `Screenplay` class) for automatically attaching and detaching Views from the screen.
-1. Lightweight view container objects (the `Stage` class) that can be used to create full-screen views, dialogs, drawers, and panels.
-1. A declarative approach to animated View transitions (the `Stage.Rigger` class).
-1. A component-oriented architecture which can be used to attach behavior to navigation events (the `Stage.Component` class).
-1. Management of application history (pushing and popping views, inspecting the backstack, etc.) by way of pluggable modules. An "officially" supported module exists for Square's flow.
-
-####Show me the code!
----
-
-The easiest way to get a feel for Screenplay is to dive into the code, and the [sample project](https://github.com/weefbellington/screenplay/tree/master/sample-simple) is the recommended place to start. Here you will find a minimally complex Screenplay application which showcases some of its features.
-
-####Your best friend, the wiki
----
-
-
-The main screenplay documentation has moved to the wiki. View the [table of contents](https://github.com/weefbellington/screenplay/wiki/Home), or reading the manual back to front it your type of thing, you can start by reading about [core features](https://github.com/weefbellington/screenplay/wiki/Core-features).
 
 ####Downloads
 ---
@@ -142,6 +147,6 @@ Contributions are welcome! Please open an issue in the github issue tracker to d
 Many thanks to the team at Square for their support of the open-source community, without which this
 project wouldn't be possible. Thanks especially to the team at Square for creating Flow, which was the original inspiration for this project.
 
-Thanks to the Android Arsenal to adding Screenplay to their tool library. If you like Screenplay, please feel free to the badge to your site.
+Thanks to the Android Arsenal to adding Screenplay to their tool library. If you like Screenplay, please feel free to the badge to your site. Ignore this directive if you hate badges.
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Screenplay-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/2709)
