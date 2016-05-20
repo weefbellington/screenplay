@@ -7,6 +7,9 @@ import com.davidstemmer.screenplay.Screenplay;
 import com.davidstemmer.screenplay.stage.Stage;
 import com.davidstemmer.screenplay.util.CollectionUtils;
 
+import flow.Dispatcher;
+import flow.Traversal;
+import flow.TraversalCallback;
 import java.util.Deque;
 
 import flow.Flow;
@@ -16,7 +19,7 @@ import flow.History;
 /**
  * Created by weefbellington on 10/11/15.
  */
-public class ScreenplayDispatcher implements Flow.Dispatcher {
+public class ScreenplayDispatcher implements Dispatcher {
 
     private final Screenplay screenplay;
 
@@ -27,7 +30,7 @@ public class ScreenplayDispatcher implements Flow.Dispatcher {
     }
 
     @Override
-    public void dispatch(Flow.Traversal traversal, Flow.TraversalCallback callback) {
+    public void dispatch(Traversal traversal, TraversalCallback callback) {
 
         Deque<Stage> origin = toDeque(traversal.origin);
         Deque<Stage> destination = toDeque(traversal.destination);
@@ -67,7 +70,7 @@ public class ScreenplayDispatcher implements Flow.Dispatcher {
         return CollectionUtils.emptyQueue(Stage.class);
     }
 
-    private Screenplay.Direction getDirection(Flow.Traversal traversal) {
+    private Screenplay.Direction getDirection(Traversal traversal) {
         switch (traversal.direction) {
             case FORWARD:
                 return Screenplay.Direction.FORWARD;
@@ -82,9 +85,9 @@ public class ScreenplayDispatcher implements Flow.Dispatcher {
 
     private class TransitionCallback implements Screenplay.TransitionCallback {
 
-        private final Flow.TraversalCallback wrappedCallback;
+        private final TraversalCallback wrappedCallback;
 
-        public TransitionCallback(Flow.TraversalCallback wrappedCallback) {
+        public TransitionCallback(TraversalCallback wrappedCallback) {
             this.wrappedCallback = wrappedCallback;
         }
 

@@ -1,9 +1,11 @@
 package com.davidstemmer.screenplay;
 
 import android.app.Activity;
+import android.transition.Scene;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.davidstemmer.screenplay.internal.StageGroup;
 import com.davidstemmer.screenplay.stage.Stage;
 import com.davidstemmer.screenplay.util.CollectionUtils;
 
@@ -11,7 +13,7 @@ import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.Iterator;
-
+import java.util.Set;
 
 /**
  * The Screenplay object handles the navigation logic for a Screenplay application.
@@ -33,13 +35,13 @@ public class Screenplay {
     }
 
     public void transition(Direction direction,
-                           Deque<Stage> origin,
-                           Deque<Stage> destination,
+                           StageGroup origin,
+                           StageGroup destination,
                            TransitionCallback callback) {
 
-        final Deque<Stage> scenesIn = extractIncomingScenes(direction, origin, destination);
-        final Deque<Stage> scenesOut = extractOutgoingScenes(direction, origin, destination);
-        final Stage.Rigger delegatedRigger = getDelegatedTransformer(direction, scenesIn, scenesOut);
+        final Deque<Stage> scenesIn = extractIncomingScenes(origin, destination);
+        final Deque<Stage> scenesOut = extractOutgoingScenes(origin, destination);
+        final Stage.Rigger delegatedRigger = getDelegatedRigger(direction, scenesIn, scenesOut);
 
         final Transition.Builder transition = new Transition.Builder()
                 .setScreenplay(this)
@@ -52,75 +54,57 @@ public class Screenplay {
         beginStageTransition(transition.build(), delegatedRigger);
     }
 
-    private Deque<Stage> extractDifference(Direction direction,
-                                           Deque<Stage> origin,
-                                           Deque<Stage> destination) {
-        return direction == Direction.BACKWARD ?
-                CollectionUtils.difference(origin, destination, emptyStageQueue()) :
-                CollectionUtils.difference(destination, origin, emptyStageQueue());
+    private Deque<Stage> symmetricDifference(
+            StageGroup origin,
+            StageGroup destination) {
+        return CollectionUtils.symmetricDifference(destination, origin, emptyStageQueue());
     }
 
-    private Deque<Stage> extractOutgoingScenes(Direction direction,
-                                               Deque<Stage> origin,
-                                               Deque<Stage> destination) {
-        Deque<Stage> changedStages = extractDifference(direction, origin, destination);
-        return direction == Direction.BACKWARD ?
-                outgoingScenesBack(changedStages) :
-                outgoingScenesForward(changedStages, origin);
-    }
-
-
-    private Deque<Stage> extractIncomingScenes(Direction direction,
-                                               Deque<Stage> origin,
-                                               Deque<Stage> destination) {
-        Deque<Stage> changedStages = extractDifference(direction, origin, destination);
-        return direction == Direction.BACKWARD ?
-                incomingScenesBack(changedStages, destination) :
-                incomingScenesForward(changedStages);
-    }
-
-    private Stage.Rigger getDelegatedTransformer(Direction direction,
-                                                      Deque<Stage> incomingStages,
-                                                      Deque<Stage> outgoingStages) {
-        return direction == Direction.BACKWARD ?
-                outgoingStages.getFirst().getRigger():
-                incomingStages.getFirst().getRigger();
-    }
-
-    private Deque<Stage> incomingScenesForward(Deque<Stage> addedStages) {
-        return takeUntilNonStackingFound(addedStages);
-    }
-
-    private Deque<Stage> outgoingScenesForward(Deque<Stage> addedStages, Deque<Stage> origin) {
-        return areAllStacking(addedStages) ?
-                new ArrayDeque<Stage>() :
-                takeUntilNonStackingFound(origin);
-    }
-
-    private Deque<Stage> incomingScenesBack(Deque<Stage> removedStages, Deque<Stage> destination) {
-        return areAllStacking(removedStages) ?
-                new ArrayDeque<Stage>() :
-                takeUntilNonStackingFound(destination);
-    }
-
-    private Deque<Stage> outgoingScenesBack(Deque<Stage> removedStages) {
-        return takeUntilNonStackingFound(removedStages);
-    }
-
-    private boolean areAllStacking(Deque<Stage> difference) {
-        for (Stage stage : difference) {
-            if (!stage.isModal()) {
-                return false;
+    private Deque<Stage> extractOutgoingScenes(
+            StageGroup origin,
+            StageGroup destination) {
+        if (origin.getRoot().equals(destination.getRoot())) {
+            if (destination.getStages().size() < origin.getStages().size()) {
+                return symmetricDifference(origin, destination);
+            }
+            else {
+                return emptyStageQueue();
             }
         }
-        return true;
+        else {
+            return origin.getStages();
+        }
+
     }
 
-    private Deque<Stage> validateDifference(Deque<Stage> difference) {
-        if (difference.size() == 0) {
-            //throw new IllegalStateException("Backstack validation error -- is the same Scene instance being added to the backstack more than once?");
+
+    private Deque<Stage> extractIncomingScenes(StageGroup origin,
+                                               StageGroup destination) {
+
+        if (origin.getRoot().equals(destination.getRoot())) {
+            if (destination.getStages().size() > origin.getStages().size()) {
+                return symmetricDifference(origin, destination);
+            }
+            else {
+                return emptyStageQueue();
+            }
+        } else {
+            return destination.getStages();
         }
-        return difference;
+    }
+
+    private Map<Scene, Stage.Rigger getDelegatedRigger(Direction direction,
+            StageGroup origin,
+            StageGroup destination
+            Deque<Stage> incomingStages,
+            Deque<Stage> outgoingStages) {
+        if (isInterGroupTransition(origin, destination)) {
+            return direction == Direction.BACKWARD ?
+                    origin.getRoot().getRigger():
+                    destination.getRoot().getRigger();
+        } else {
+
+        }
     }
 
     /**

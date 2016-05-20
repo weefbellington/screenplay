@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
-apply from: 'https://raw.githubusercontent.com/PrashamTrivedi/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/PrashamTrivedi/JCenter/master/bintrayv1.gradle'
+//apply from: 'https://raw.githubusercontent.com/PrashamTrivedi/JCenter/master/installv1.gradle'
+//apply from: 'https://raw.githubusercontent.com/PrashamTrivedi/JCenter/master/bintrayv1.gradle'
 
 repositories {
     mavenCentral()
