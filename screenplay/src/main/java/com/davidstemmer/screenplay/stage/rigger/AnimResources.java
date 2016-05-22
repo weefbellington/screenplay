@@ -1,11 +1,14 @@
 package com.davidstemmer.screenplay.stage.rigger;
 
+import android.support.annotation.AnimRes;
+import android.support.annotation.AnimatorRes;
 import com.davidstemmer.screenplay.Screenplay;
 
 /**
  * Created by weefbellington on 10/11/15.
  */
 public class AnimResources {
+
     public int forwardIn = -1;
     public int forwardOut = -1;
     public int backIn = -1;
@@ -13,7 +16,7 @@ public class AnimResources {
     public int replaceIn = -1;
     public int replaceOut = -1;
 
-    public int getAnimationIn(Screenplay.Direction direction) {
+    public @AnimatorRes int getAnimationIn(Screenplay.Direction direction) {
         switch (direction) {
             case FORWARD:
                 return forwardIn;
@@ -26,7 +29,7 @@ public class AnimResources {
         }
     }
 
-    public int getAnimationOut(Screenplay.Direction direction) {
+    public @AnimatorRes int getAnimationOut(Screenplay.Direction direction) {
         switch (direction) {
             case FORWARD:
                 return forwardOut;

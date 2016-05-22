@@ -1,5 +1,6 @@
 package com.davidstemmer.screenplay.stage.rigger;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.view.animation.Animation;
 
@@ -11,7 +12,7 @@ import static android.view.animation.AnimationUtils.loadAnimation;
 /**
  * Created by weefbellington on 10/2/14.
  */
-public class TweenRigger implements Stage.Rigger {
+public class TweenRigger implements Stage.Rigger<Animation> {
 
     private final AnimResources params;
     private final Context context;
@@ -20,6 +21,20 @@ public class TweenRigger implements Stage.Rigger {
     public TweenRigger(Context context, AnimResources params) {
         this.context = context;
         this.params = params;
+    }
+
+    @Override
+    public Animation animation(Screenplay.Transition transition) {
+        int resource = transition.lifecycleEvent == Screenplay.LifecycleEvent.TEARDOWN?
+                params.getAnimationOut(transition.direction) :
+                params.getAnimationIn(transition.direction);
+        View.get
+        return loadAnimation(context, resource).set;
+    }
+
+    @Override
+    public Animator animator(Screenplay.Transition transition) {
+        return null;
     }
 
     @Override

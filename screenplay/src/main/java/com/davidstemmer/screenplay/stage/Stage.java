@@ -1,9 +1,11 @@
 package com.davidstemmer.screenplay.stage;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.animation.Animation;
 import com.davidstemmer.screenplay.Screenplay;
 
 import java.util.List;
@@ -77,13 +79,9 @@ public interface Stage {
         public void beforeTearDown(Stage stage, boolean isFinishing);
     }
 
-    public static interface Rigger {
-        /**
-         * Apply the animation based on the Flow.Direction. When the animation completes, it is the
-         * responsibility of the Transformer to call {@link Screenplay#endStageTransition}
-         * @param cut contains information about the current transition
-         */
-        public void applyAnimations(Screenplay.Transition cut);
+    interface Rigger {
+        Animator animator(Stage stage, Screenplay.Direction direction, Screenplay.LifecycleEvent event);
+        Animation animation(Stage stage, Screenplay.Direction direction, Screenplay.LifecycleEvent event);
     }
 
 }

@@ -26,4 +26,5 @@ dependencies {
     // javax.inject needed for @Inject annotations
     compile 'javax.inject:javax.inject:1'
 
+    compile 'com.android.support:support-annotations:23.1.0'
 }
